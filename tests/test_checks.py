@@ -51,11 +51,11 @@ def test_belt_encounter_turns_into_a_hit_chance():
 
 
 @pytest.mark.slow
-def test_b9_real_earth_axial_tilt_cycle():
-    """B9: our tilt model on the real solar system gives back Earth's known 41,000-year tilt cycle,
+def test_x9_real_earth_axial_tilt_cycle():
+    """X9: our tilt model on the real solar system gives back Earth's known 41,000-year tilt cycle,
     which over the last million years stayed between about 22.1 and 24.5 degrees."""
     from sim.scenarios.longterm import baseline_state, run_one
     r = run_one(baseline_state(CFG), 50000, CFG, "real", progress=False)
     lo, hi = r["axial_tilt_deg"]
-    print(f"B9 tilt {lo:.2f}-{hi:.2f} deg over 50,000 years")
+    print(f"X9 tilt {lo:.2f}-{hi:.2f} deg over 50,000 years")
     assert 21.9 < lo < 23.0 and 23.9 < hi < 24.7
