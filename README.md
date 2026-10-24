@@ -29,7 +29,8 @@ and [docs/risk-register.md](docs/risk-register.md) for every way it could fail a
 | Most beam power | 9.27e+25 W (E1 limit 1e26) |
 | Ledger (the guide's form) | bodies' momentum change matches the applied impulse to 5.5e-22 of it; applied impulse plus its partners: 5.6e-16 (limit 1e-9); beam work matches energy gained to 0.007% |
 | Flags during the journey | 0 unresolved; 6 covered by E1, E2, E3 |
-| Climate, computed along the journey | temperature 287.8 to 288.7 K (limit 288 +/- 2); sunlight 0.995 to 1.010 of today's; mirrors up to 8.5e+08 km2 (E3 limit 1e9); magnetopause 10.0 to 13.9 Earth radii; the Moon at 0.26 to 0.095 of Earth's Hill radius |
+| Earth safety: the ten thresholds of the company's reference demo, worst over the journey | temperature 287.8 to 288.8 K (263 to 308); liquid-water area at least 82% (30%); absorbed sunlight at most 241 W/m2 (282); surface pressure 101.3 kPa (50); N2 Jeans lambda at least 194 (30); magnetopause at least 10.0 Earth radii (3); day length changed by under 1e-6 s (1 s); the Moon at most 0.26 of the Hill radius (0.49); thrust at most 0.0020 of Earth's pull on the Moon (0.01) |
+| Sunlight mirrors (E3) | sunlight 0.995 to 1.010 of today's; mirrors up to 8.5e+08 km2 (limit 1e9) |
 | Asteroid impacts (1 km and up), without E1's nudges | one per 127 years crossing the belt, one per 87 years parked; natural: one per 500,000 |
 | A million years after arrival: Earth | orbit 2.698 to 2.702 AU; eccentricity up to 0.060 (real Earth: up to 0.051) |
 | A million years after arrival: Mars | orbit 3.614 to 3.655 AU; smallest gap to Earth's orbit 0.362 AU |

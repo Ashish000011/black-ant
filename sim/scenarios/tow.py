@@ -366,7 +366,7 @@ def run(cfg: dict | None = None, years: float | None = None, dt_days: float | No
         "arrival_trim": {name: {"beta_mean": t.beta_sum / max(t.updates, 1), "free_eccentricity_end": t.free_e,
                                 "free_tilt_end_deg": t.free_tilt} for name, t in trims.items()},
         "axial_tilt_journey_deg": [round(min(tilts), 3), round(max(tilts), 3)] if tilts else None,
-        "climate": {k: [round(v[0], 6), round(v[1], 6)] for k, v in climate.items() if not k.startswith("_")},
+        "climate": {k: [float(f"{v[0]:.7g}"), float(f"{v[1]:.7g}")] for k, v in climate.items() if not k.startswith("_")},
         "total_beam_max_w": total_beam_max,
         "station_recoil_max_n": total_beam_max / C_LIGHT,
         "mars_closest": {"au": round(mars_min / AU, 5), "year": round(mars_min_year, 1)},
