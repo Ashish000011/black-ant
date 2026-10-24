@@ -9,7 +9,7 @@ the last pull request is merged, so every link shows the final version.
 | --- | --- | --- |
 | Source code, README with setup, run, test | [github.com/Ashish000011/black-ant](https://github.com/Ashish000011/black-ant) (public) | Yes |
 | Runnable simulation | The same repository, and the 3D test bench: [ashish000011.github.io/black-ant](https://ashish000011.github.io/black-ant/) | Yes |
-| Technical report, at most 8 pages | [docs/report.pdf](report.pdf): 7 pages, A4, made from [report.md](report.md) | Yes |
+| Technical report, at most 8 pages | [docs/report.pdf](report.pdf): A4, 6 to 7 pages (the limit is 8), made from [report.md](report.md) | Yes |
 | Conservation and momentum record | [docs/momentum-record.md](momentum-record.md) | Yes |
 | Demo video, at most 3 minutes | [media/black-ant-demo.mp4](../media/black-ant-demo.mp4), 2 min 20 s; captions in [media/black-ant-demo.srt](../media/black-ant-demo.srt) | After the voiceover |
 | Pitch deck, 7 minutes | The shared deck, exported to PDF; the talk track is [pitch.md](pitch.md) | After three timed rehearsals |

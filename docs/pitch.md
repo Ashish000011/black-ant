@@ -56,7 +56,7 @@ pitch starts. If the network fails, play [media/black-ant-demo.mp4](../media/bla
 > temperature stays between 287.8 and 288.8 K, with liquid water on at least 82% of the surface. Without the
 > mirrors our model gives 150 K, as the company's demo does.
 > The Moon stays: it sits at most 0.256 of the way to the edge of Earth's Hill sphere, and the tow's pull is
-> at most 0.0020 of Earth's pull on the Moon. The day lengthens by about 2.5 × 10^-7 s.
+> at most 0.0020 of Earth's pull on the Moon. The day lengthens by about 2.1 × 10^-7 s.
 > Then we switched the tows off and ran the new solar system for a million years. Earth stays between 2.698 and
 > 2.702 AU and no planet is thrown out. Two hazards remain, and we say so: a 1 km asteroid about once every
 > 127 years crossing the belt, which E1 nudges aside, and a wider swing of the seasons, which the mirrors correct

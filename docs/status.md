@@ -11,7 +11,7 @@ official benchmarks pass; the momentum ledger closes to 5.6 × 10^-16 (limit 10^
 | --- | --- | --- |
 | Source code with README: setup, run, test | Done | this repository; [README](../README.md) |
 | Runnable simulation | Done | the Python model; the 3D test bench in `viewer/` ([ashish000011.github.io/black-ant](https://ashish000011.github.io/black-ant/) once on `main`) |
-| Technical report, at most 8 pages | Done | [report.pdf](report.pdf) (7 pages), made from [report.md](report.md); every number checked against `results/` by `tests/test_report.py` |
+| Technical report, at most 8 pages | Done | [report.pdf](report.pdf) (6 to 7 pages, depending on the fonts of the machine that builds it), made from [report.md](report.md); every number checked against `results/` by `tests/test_report.py` |
 | Conservation and momentum record | Done | [momentum-record.md](momentum-record.md) |
 | Demo video, at most 3 minutes | Done, needs the voiceover recorded | [media/black-ant-demo.mp4](../media/black-ant-demo.mp4) (2 min 20 s); script in [video-script.md](video-script.md), every line fits its shot; captions in [media/black-ant-demo.srt](../media/black-ant-demo.srt); how to add the voice: [submission.md](submission.md) |
 | Pitch deck, 7 minutes | Drafted (13 slides, timed notes); needs three timed rehearsals | shared deck (ask Ashish for the link); talk track in [pitch.md](pitch.md); 22 questions, with who answers each, in [qa.md](qa.md) |
@@ -35,7 +35,7 @@ official benchmarks pass; the momentum ledger closes to 5.6 × 10^-16 (limit 10^
 | #12 Octo-Earth scenario (now test X8) | Done |
 | #13 Re-run with the organisers' rules | Waiting: the guide's rules are in; the rulebook's safety appendix is still not published |
 | #14 Mid-point check-in: baseline and enablers | Ready to present |
-| #15 Technical report | Done: [report.pdf](report.pdf), 7 pages; every number matches `results/` |
+| #15 Technical report | Done: [report.pdf](report.pdf), under 8 pages; every number matches `results/` |
 | #16 Conservation and momentum record | Done |
 | #17 Contribution log | Started: [contributions.md](contributions.md) has Member 5's lines; each member adds their own |
 

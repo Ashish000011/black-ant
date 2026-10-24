@@ -25,10 +25,17 @@ in [#18](https://github.com/Ashish000011/black-ant/pull/18) and [#19](https://gi
 
 ## Member 5 (validation and pitch)
 
+The commits behind the lines below, as git and GitHub record them: `8f4b483` (the report PDF and the number checks)
+and `4a6d880` (the pitch, the Q&A, the voiceover and the submission checklist) are authored by Prabhanshu
+(`prabhanshuk47`); `000991f` (this log, and the status page and README pointers) by Sushmit (`sushmitnitt`). The
+branch was pushed by Madhukar (`madhukarverma`). Each of you: put your name on your own lines, and correct anything
+here that is not how it happened.
+
 | Date | What I built or decided | Pull request |
 | --- | --- | --- |
 | 24 Oct 2026 | The technical report as a PDF for submission: `sim/report_pdf.py` prints `docs/report.md` to `docs/report.pdf` (7 pages, under the guide's 8), equations as MathML, and stamps the PDF with the report it was made from | branch `m5/report-pitch-submission` |
 | 24 Oct 2026 | Checked every number in the report against `results/`: `tests/test_report.py`, 86 checks of the text plus the benchmark table and the chaos copies, and 74 more for the Q&A sheet, the pitch and the voiceover. It found and I fixed: the day-length change (2.5 × 10^-7 s, not 2), Greenhill's buckling length (1,444 km), two benchmark values that are round-off and differ by machine, the journey's run time (an hour and a half), and the report saying the chaos copies agree when one throws Ceres out | branch `m5/report-pitch-submission` |
+| 25 Oct 2026 | Review fix (Ashish): the day-length change is 2.1 × 10^-7 s, added up as the run moved the asteroid. 2.5 × 10^-7 s held it at 637,100 km all the way, but it sat out at up to 850,000 km for about 1,860 years | review of `m5/report-pitch-submission` |
 | 24 Oct 2026 | Q&A sheet rebuilt to 22 questions, each with a one-line answer, more if asked, and who answers; numbers checked against `results/` | branch `m5/report-pitch-submission` |
 | 24 Oct 2026 | The pitch's talk track (`docs/pitch.md`): the guide's five parts in 7 minutes, our back-of-envelope estimate (about 8,000 years against the run's 8,758), the found-and-fixed slide, who presents each part, and a test that each part fits its time | branch `m5/report-pitch-submission` |
 | 24 Oct 2026 | Demo video voiceover: `sim/voiceover.py` checks each line fits its shot (one did not, so I shortened it), writes timed captions, and adds a recorded voice in one command | branch `m5/report-pitch-submission` |

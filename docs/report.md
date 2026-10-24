@@ -152,7 +152,7 @@ All ten thresholds hold at every 100-day check of the journey. Mirrors in space 
 | Surface pressure | 101.3 kPa | at least 50 kPa |
 | Nitrogen kept (Jeans λ) | at least 194 | over 30 |
 | Magnetopause distance | at least 10.0 Earth radii | at least 3 |
-| Change in length of day | about 2.5 × 10^-7 s | at most 1 s |
+| Change in length of day | about 2.1 × 10^-7 s | at most 1 s |
 | Moon's distance over Earth's Hill radius | at most 0.256 | under 0.49 |
 | Tow thrust over Earth's pull on the Moon | at most 0.0020 | under 0.01 |
 

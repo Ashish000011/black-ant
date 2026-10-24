@@ -69,7 +69,7 @@ More: the Hill sphere grows as Earth moves out. The tow's pull is at most 0.0020
 (limit 0.01). The Moon test (`sim/scenarios/moon.py`) follows the Moon itself at the start, middle and end.
 
 **11. Does the asteroid's tide slow Earth's spin?** *(Member 2)*
-Barely: it lengthens the day by about 2.5 × 10^-7 s over the whole journey (limit 1 s).
+Barely: it lengthens the day by about 2.1 × 10^-7 s over the whole journey (limit 1 s).
 More: tide goes as mass over distance cubed, so the asteroid's is 0.12% of the Moon's.
 
 **12. What happens to the seasons?** *(Member 2)*

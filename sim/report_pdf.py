@@ -10,13 +10,11 @@ docs/report.md, so a PDF older than the report fails the tests.
 
 import argparse
 import base64
-import fcntl
 import hashlib
 import html
 import json
 import os
 import re
-import select
 import shutil
 import subprocess
 import tempfile
@@ -32,7 +30,11 @@ REPORT = ROOT / "docs" / "report.md"
 PDF = ROOT / "docs" / "report.pdf"
 MAX_PAGES = 8
 MINUS, NBSP = "\u2212", "\u00a0"  # minus sign, no-break space
-BROWSERS = ("chromium", "chromium-browser", "google-chrome", "google-chrome-stable", "brave-browser", "microsoft-edge")
+BROWSERS = ("chromium", "chromium-browser", "google-chrome", "google-chrome-stable", "brave-browser", "microsoft-edge",
+            "chrome", "msedge")
+# Windows keeps its browsers off PATH, in the usual install folders.
+WINDOWS_BROWSERS = ("Google/Chrome/Application/chrome.exe", "Microsoft/Edge/Application/msedge.exe",
+                    "BraveSoftware/Brave-Browser/Application/brave.exe")
 
 CSS = """
 @page { size: A4; margin: 14mm 15mm 15mm 15mm;
@@ -105,6 +107,10 @@ def find_browser() -> str:
     for name in BROWSERS:
         if path := shutil.which(name):
             return path
+    for root in filter(None, (os.environ.get(v) for v in ("PROGRAMFILES", "PROGRAMFILES(X86)", "LOCALAPPDATA"))):
+        for rel in WINDOWS_BROWSERS:
+            if (path := Path(root) / rel).exists():
+                return str(path)
     raise SystemExit("No Chromium-based browser found; pass one with --browser")
 
 
@@ -113,6 +119,7 @@ class DevTools:
     Brave among them, ignore --print-to-pdf in headless mode, but all of them answer Page.printToPDF."""
 
     def __init__(self, browser: str, profile: str):
+        import fcntl  # POSIX only: on Windows print_pdf uses --print-to-pdf instead
         to_browser, self._in = os.pipe()
         self._out, from_browser = os.pipe()
         # Lift the browser's ends above 4, so placing them on fds 3 and 4 never overwrites one with the other.
@@ -135,6 +142,7 @@ class DevTools:
         self._buffer, self._next = b"", 0
 
     def _read(self, timeout: float) -> dict:
+        import select
         while b"\0" not in self._buffer:
             if not select.select([self._out], [], [], timeout)[0]:
                 raise TimeoutError("the browser did not answer")
@@ -171,6 +179,14 @@ class DevTools:
 
 
 def print_pdf(page: Path, pdf: Path, browser: str) -> None:
+    if os.name == "nt":  # Windows has no fds 3 and 4 for the DevTools pipe; Chrome and Edge honour --print-to-pdf
+        with tempfile.TemporaryDirectory() as profile:
+            subprocess.run([browser, "--headless=new", "--disable-gpu", "--no-first-run", "--no-pdf-header-footer",
+                            f"--user-data-dir={profile}", f"--print-to-pdf={pdf}", page.as_uri()],
+                           check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=180)
+        if not pdf.exists():
+            raise SystemExit(f"{browser} wrote no PDF")
+        return
     with tempfile.TemporaryDirectory() as profile:
         tools = DevTools(browser, profile)
         try:

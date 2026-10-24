@@ -61,6 +61,20 @@ def structures(tow: str, power: float) -> dict:
     return {r["check"].split(": ", 1)[1]: r["value"] for r in out}
 
 
+def day_length_change() -> float:
+    """The tow asteroid's tide on Earth's spin, added up frame by frame (every 10 years) as the run moved it. The
+    tide goes as 1/d^6, and Earth's asteroid sat out at up to 850,000 km while Mars's tow sprinted, so this is less
+    than with the asteroid at 637,100 km all the way (2.5e-7 s, an upper bound)."""
+    frames = json.loads((RESULTS / "run.json").read_text(encoding="utf-8"))["frames"]
+    total, before = 0.0, 0.0
+    for f in frames:
+        if f["earth_tow_active"]:
+            d = math.dist(f["pos"]["asteroid"], f["pos"]["earth"]) * AU
+            total += day_length_rate(TOW["earth-tow"]["asteroid_mass_kg"], d) * (f["t"] - before) * YEAR
+        before = f["t"]
+    return total
+
+
 def report_facts() -> list[tuple[str, str]]:
     """(what, the text the report must contain), every number from results/ or the model."""
     ea, ma, led, cl, belt = EARTH["arrival"], MARS["arrival"], S["ledger"], S["climate"], S["belt"]
@@ -70,7 +84,7 @@ def report_facts() -> list[tuple[str, str]]:
     d = et["distance_km"] * 1e3
     m_earth = CFG["habitability"]["earth_mass_with_moon_kg"]
     radius = (3 * et["asteroid_mass_kg"] / (4 * math.pi * CFG["structures"]["earth-tow"]["asteroid_density_kg_m3"])) ** (1 / 3)
-    lod = day_length_rate(et["asteroid_mass_kg"], d) * ea["year"] * YEAR  # tow at its closest the whole way
+    lod = day_length_change()
     cap = {tow: structures(tow, TOW[tow]["max_beam_w"]) for tow in TOW}
     used = structures("earth-tow", EARTH["beam_max_w"])
     sf_min = min(v for c in cap.values() for k, v in c.items() if "safety factor" in k)
@@ -307,7 +321,7 @@ def pitch_numbers() -> dict[str, str]:
         "Moon start and end": f"{hi['moon_hill_share']:.3f} of Earth's Hill radius at the start and {lo['moon_hill_share']:.3f}",
         "Moon at most": f"at most {hi['moon_hill_share']:.3f}",
         "thrust on the Moon": f"at most {hi['thrust_over_moon_pull']:.4f}",
-        "day length": f"about {sci(day_length_rate(m, d) * ea['year'] * YEAR)} s",
+        "day length": f"about {sci(day_length_change())} s",
         "tide": f"{tide:.2%} of the Moon's",
         "tilt": f"{lt['axial_tilt_deg'][0]:.1f} to {lt['axial_tilt_deg'][1]:.1f} degrees",
         "real tilt": f"(today {LT['baseline']['axial_tilt_deg'][0]:.1f} to {LT['baseline']['axial_tilt_deg'][1]:.1f})",
