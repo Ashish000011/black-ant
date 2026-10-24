@@ -24,8 +24,8 @@ Earth onto the orbit shape and plane Jupiter forces at 2.7 AU (the "arrival trim
 12,000 km arm buckles past 471 km (steel) or 1,444 km (nanotube). Audited in `sim/scenarios/octo.py`, test X8.
 
 - Repo: `github.com/Ashish000011/black-ant`. Nobody pushes to `main`: branch, PR, Ashish reviews and merges.
-- Team roles (GitHub issue labels): member-1 physics, member-2 safety, member-3 structures and enablers,
-  member-4 3D viewer, member-5 validation and pitch.
+- Team: Ashish Bharti (lead), Madhukar Verma, Akhil Semwal, Sushmit Sukla, Prabhanshu Kerketa. Who did what is in
+  `docs/contributions.md`, by the work each actually did.
 
 ## 2. The six winning conditions and where we stand (final run, 24 Oct)
 
@@ -64,7 +64,7 @@ Anything new (e.g. Moon reflectors) must fit inside an existing bound. Moon refl
 | `results/` | The final run's outputs. `run.json` has one frame per 10 years with positions of **only Earth, Mars, Jupiter and the Earth tow asteroid** |
 | `viewer/` | 3D test bench (Vite 6, Three.js 0.170, plain JS). **Replays saved runs; the official numbers are not computed in the browser.** Published to GitHub Pages from `main` (`.github/workflows/pages.yml`). `src/main.js` wiring and keys; `src/scene.js` 3D views incl. top view and close-ups, `noStage` fallback without WebGL; `src/studio.js` Blender-style panels (Scene tab, Model, Data, the million-years explainer); `src/estimates.js` values derived from the run (year length, Sun size, tides, light time) and the Moon reflectors (port of `night.py`); `src/bodies.js` positions of every body (run or Kepler); `src/panels.js` the nine results tabs; `src/data.js` loading and interpolation |
 | `viewer/scripts/video.mjs` | Renders the demo video through `?capture` mode and `window.bench` (run, view, tab, time, scale, orbit, caption, frame). **Keep that API working.** |
-| `docs/` | problem, approach, enablers, report (technical report), status, risk register, qa, rules, video script, momentum record, contributions |
+| `docs/` | problem, approach, enablers, report (technical report), status, risk register, qa, rules, momentum record, contributions |
 | `tests/` | Official benchmarks, extra checks, safety and structure checks, Moon, night |
 
 Commands:
@@ -87,10 +87,10 @@ cd viewer && npm ci && npm run dev        # test bench locally
 | Runnable simulation + 3D test bench | Done; Blender-style test bench in PR #23 |
 | Technical report (8 pages max) | Drafted (`docs/report.md`); needs PDF export |
 | Conservation and momentum record | Done (`docs/momentum-record.md`) |
-| Demo video (3 min max) | Done, needs voiceover (`media/black-ant-demo.mp4`); shows the old layout, re-render after PR #23 |
+| Demo video (3 min max) | Done, captions on screen (`media/black-ant-demo.mp4`); shows the old layout, re-render after PR #23 |
 | Pitch deck (7 min) | Drafted, 13 slides (shared deck, ask Ashish) |
 | Half-step convergence check | Done (numbers in section 2) |
-| Still open | Contribution log (#17); questions to organisers (`docs/rules.md`) |
+| Still open | Each member checks their section of `docs/contributions.md` (#17) |
 
 ## 6. Known limits and gotchas
 
@@ -234,3 +234,8 @@ Ideas, not started:
   done, `swap.py` reads its 0.05 AU limit from `config.yaml` and its docstring names `--longterm`, README lists
   `swap.py`, the top bar wraps at phone width, `night.py` says its reflector area is conservative, CLAUDE.md asks
   for updates on notable changes only. Next PRs (section 10) started in their own sessions.
+- 25 Oct: Team by name. `docs/contributions.md` rewritten by name and by the work each member actually did
+  (Claude Code noted as a tool, not a member); "Member N" labels replaced by names in the risk register and
+  enablers, and dropped from code comments. Organiser questions and `docs/video-script.md` removed from the public
+  docs; the six winning conditions vs ten thresholds/benchmarks made explicit in `docs/problem.md`; report figures
+  re-taken from the new test bench. Akhil assigned the Octo-Earth reference view (#27).

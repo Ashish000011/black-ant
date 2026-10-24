@@ -136,7 +136,7 @@ Our own checks add what the benchmarks leave out: Kepler's third law (X1), energ
 
 Earth arrives in year 8,758 at 2.7006 AU, with an eccentricity of 0.033 and a tilt of 1.29° to today's ecliptic, moving at 17.6 km/s. Mars is parked at 3.641 AU in year 5,168, so it is out of Earth's way 3,600 years before Earth gets there.
 
-![The journey at year 5,200 in the test bench: Mars parked at 3.64 AU, Earth at 1.74 AU, and the orbit-size chart](img/journey.png)
+![The journey at year 5,200 in the test bench: Mars parked at 3.64 AU, Earth at 1.74 AU, every body in the Scene panel and Earth now against year 0 in the Data panel](img/journey.png)
 
 Earth's orbit grows slowly at first and faster later: the same pull adds more to a wider orbit. Mars's climb steepens near 3.3 AU, where its tow sprints across Jupiter's 2:1 resonance. The two planets come closest at the very start (0.373 AU, an ordinary Mars opposition), never later. The beams of both tows together peaked at 9.27 × 10^25 W. Two hundred years after arrival, with the tows gone, Earth sits at 2.699 AU with an eccentricity of 0.034.
 

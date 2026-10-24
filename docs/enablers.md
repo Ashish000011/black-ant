@@ -46,4 +46,4 @@ on an enabler is recorded as a flag that names it (`results/summary.json`, `flag
   computed along the journey (`sim/habitability.py`).
 - No load is ignored: every structure carries a safety factor of at least 1.5.
 
-Owner: Member 3 (structures and enablers). Changes after the mid-point check-in are not allowed.
+Owner: Ashish Bharti. Changes after the mid-point check-in are not allowed.

@@ -1,4 +1,4 @@
-"""Structural checks for each tow, run at every check step. Member 3 owns and extends these.
+"""Structural checks for each tow, run at every check step.
 
 Safety factor = strength / stress, and the brief requires at least 1.5 for every structure.
 Design sizes come from config.yaml (structures section); material limits from the enablers section.

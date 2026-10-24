@@ -1,4 +1,4 @@
-"""Earth-safety checks, run at every check step. Member 2 owns and extends these.
+"""Earth-safety checks, run at every check step.
 
 Each returns a check() result; limits come from config.yaml (safety and enablers sections).
 """

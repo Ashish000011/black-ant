@@ -107,8 +107,7 @@ checks are X1 to X9 in `tests/test_extra_checks.py` and `tests/test_checks.py`.
 
 - **Nobody pushes to `main`.** Make a branch for your issue (`m2/safety-report`), push it, and open a
   pull request. Ashish reviews and merges; the quick tests must pass first.
-- **Your tasks are GitHub issues**, labelled by role: `member-1` physics core, `member-2` safety and
-  environment, `member-3` structures and enablers, `member-4` 3D viewer, `member-5` validation and pitch.
+- **Your tasks are GitHub issues.** Who did what is in [docs/contributions.md](docs/contributions.md).
 - **Rules live in `config.yaml`.** Every limit has its source next to it. If the organisers change a rule,
   change the number there and ask for a re-run; don't hard-code numbers anywhere else.
 - **Numbers on slides come from `results/`**, never from memory.
@@ -123,7 +122,7 @@ checks are X1 to X9 in `tests/test_extra_checks.py` and `tests/test_checks.py`.
 | `docs/approach.md` | Our plan, the physics, the machine, what we found and fixed |
 | `docs/status.md` | Where we are: every deliverable and issue, and what is left |
 | `docs/report.md` | The technical report (a copy of the shared document), with figures in `docs/img/` |
-| `docs/qa.md`, `docs/rules.md`, `docs/video-script.md` | Answers for the questions, the guide's rules and where each is met, the video's shots and voiceover |
+| `docs/qa.md`, `docs/rules.md` | Answers for the judges' questions; the guide's rules and where each is met |
 | `docs/contributions.md` | Who built what: each member's own lines, for the careers offers |
 | `docs/risk-register.md` | Every risk: why it matters, how we check it, the counter, its status, its owner |
 | `media/` | The demo video |
@@ -138,7 +137,7 @@ checks are X1 to X9 in `tests/test_extra_checks.py` and `tests/test_checks.py`.
 | `sim/habitability.py` | Sunlight, the sunlight mirrors' build schedule, temperature, shielding, the Moon's Hill sphere |
 | `sim/night.py` | Night light after the move: moonlight, and Moon reflectors (light and heat), for the test bench's estimates |
 | `sim/em.py` | Lorentz force and Biot-Savart fields (benchmarks 1 to 3, and the Octo-Earth audit) |
-| `sim/checks/` | Safety (Member 2) and structure (Member 3) checks, run every 100 days |
+| `sim/checks/` | Earth-safety and structure checks, run every 100 days |
 | `sim/belt.py` | 1,000 test asteroids on real orbits: close passes and the impact estimate |
 | `sim/secular.py` | The arrival trim: steering Earth's orbit shape and plane |
 | `sim/spin.py` | Earth's spin axis, axial tilt and seasons |

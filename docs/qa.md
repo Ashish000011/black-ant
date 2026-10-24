@@ -94,4 +94,5 @@ margin), and 1 km asteroids in the belt (one every 127 years without E1's nudges
 
 **Can we run it?**
 `uv sync`, then `uv run python -m sim.benchmarks` (12 s) and `uv run pytest -m "not slow"` (about a minute).
-The full journey takes about an hour; the test bench (`viewer/`) replays the saved runs in the browser.
+The full journey takes about an hour and a half. The test bench, [ashish000011.github.io/black-ant](https://ashish000011.github.io/black-ant/),
+replays the saved runs: the experiments on the left, the 3D view in the middle, every check on the right.
