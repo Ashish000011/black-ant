@@ -14,6 +14,11 @@ from .config import ROOT
 START, END = "<!-- results:start -->", "<!-- results:end -->"
 
 
+def day_length(seconds: float) -> str:
+    # Runs before 24 October rounded the summary to 6 decimals, so a change under 5e-7 s was saved as 0.
+    return f"{seconds:.1e} s" if seconds else "under 1e-6 s"
+
+
 def table(folder=ROOT / "results") -> str:
     s = json.loads((folder / "summary.json").read_text(encoding="utf-8"))
     lt = json.loads((folder / "longterm.json").read_text(encoding="utf-8"))
@@ -45,7 +50,7 @@ def table(folder=ROOT / "results") -> str:
                      f"at least {lo['liquid_water_share']:.0%} (30%); absorbed sunlight at most {hi['absorbed_w_m2']:.0f} W/m2 "
                      f"(282); surface pressure {lo['surface_pressure_kpa']:.1f} kPa (50); N2 Jeans lambda at least "
                      f"{lo['jeans_lambda_n2']:.0f} (30); magnetopause at least {lo['magnetopause_re']:.1f} Earth radii (3); "
-                     f"day length changed by {hi['day_length_change_s']:.1e} s (1 s); the Moon at most "
+                     f"day length changed by {day_length(hi['day_length_change_s'])} (1 s); the Moon at most "
                      f"{hi['moon_hill_share']:.2f} of the Hill radius (0.49); thrust at most {hi['thrust_over_moon_pull']:.4f} "
                      f"of Earth's pull on the Moon (0.01)"))
         rows.append(("Sunlight mirrors (E3)", f"sunlight {lo['sunlight_share']:.3f} to {hi['sunlight_share']:.3f} of today's; "
