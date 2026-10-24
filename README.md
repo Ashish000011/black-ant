@@ -5,7 +5,7 @@ from 1 AU to about 2.7 AU, near the asteroid belt, without harming the planet or
 winning conditions (target within 10,000 years, Earth safe, structures at safety factor 1.5 or more,
 benchmarks passing, every force booked, no unresolved flags) are in [docs/problem.md](docs/problem.md).
 
-**Start here:** [where we are](docs/status.md) · [technical report](docs/report.md) ([PDF](docs/report.pdf)) · [demo video](media/black-ant-demo.mp4) · [3D test bench](https://ashish000011.github.io/black-ant/)
+**Start here:** [where we are](docs/status.md) · [technical report](docs/report.md) · [demo video](media/black-ant-demo.mp4) · [3D test bench](https://ashish000011.github.io/black-ant/)
 
 ## Our approach in short
 
@@ -80,7 +80,6 @@ uv run python -m sim.scenarios.longterm --only moved --state results/end_state.j
 uv run python -m sim.scenarios.parking              # where Earth and Mars can park, a million years each
 uv run python -m sim.scenarios.outage               # how long a beam can fail before its asteroid is lost
 uv run python -m sim.scenarios.octo                 # the Octo-Earth audit: net force, arm stress and buckling, 10 seconds
-uv run python -m sim.report_pdf                     # the report as a PDF, docs/report.pdf (needs Chrome, Chromium, Brave or Edge)
 ```
 
 Add `--no-mars-tow` to the journey to see why Mars must move first, or `--orbits circular` for flat
@@ -96,9 +95,7 @@ uv run pytest -v -s                # everything, a few minutes
 ```
 
 The official benchmarks (participant guide, section 6) are `tests/test_official_benchmarks.py`; our own extra
-checks are X1 to X9 in `tests/test_extra_checks.py` and `tests/test_checks.py`. `tests/test_report.py` checks every
-number in the report, the Q&A sheet, the pitch and the video's voiceover against `results/`, and that `docs/report.pdf`
-is made from the current report and has at most 8 pages.
+checks are X1 to X9 in `tests/test_extra_checks.py` and `tests/test_checks.py`.
 
 ## How we work
 
@@ -118,11 +115,11 @@ is made from the current report and has at most 8 pages.
 | `docs/enablers.md` | Our three hypothetical enablers, as declared at the mid-point check-in |
 | `docs/approach.md` | Our plan, the physics, the machine, what we found and fixed |
 | `docs/status.md` | Where we are: every deliverable and issue, and what is left |
-| `docs/report.md` | The technical report (a copy of the shared document), with figures in `docs/img/`; `docs/report.pdf` is what we submit |
+| `docs/report.md` | The technical report (a copy of the shared document), with figures in `docs/img/` |
 | `docs/qa.md`, `docs/rules.md`, `docs/video-script.md` | Answers for the questions, the guide's rules and where each is met, the video's shots and voiceover |
-| `docs/pitch.md`, `docs/submission.md`, `docs/contributions.md` | The pitch's talk track and timings, what we submit and how, and who built what |
+| `docs/contributions.md` | Who built what: each member's own lines, for the careers offers |
 | `docs/risk-register.md` | Every risk: why it matters, how we check it, the counter, its status, its owner |
-| `media/` | The demo video and its captions |
+| `media/` | The demo video |
 | `config.yaml` | Every setting and working rule, with sources; change a number and re-run |
 | `results/` | The final run: `summary.json` (every number and flag), `run.json` (one frame per 10 years, what the viewer plays), `end_state.json`, `longterm.json`, `outage.json`, `parking*.json` |
 | `sim/bodies.py` | Bodies and their real starting orbits |
@@ -140,8 +137,7 @@ is made from the current report and has at most 8 pages.
 | `sim/scenarios/` | The journey, the Moon test, the million-year run, the parking scan, the outage test |
 | `sim/viewer_data.py` | Turns `results/` into the 3D test bench's data files |
 | `viewer/` | The 3D test bench (Vite and Three.js), published on GitHub Pages |
-| `sim/report_pdf.py`, `sim/voiceover.py` | The report as a PDF; the video's voiceover timing, captions, and adding the recorded voice |
-| `tests/` | The ten official benchmarks, our extra checks X1 to X9, the safety and structure checks, and every number in the report and pitch documents against `results/` |
+| `tests/` | The ten official benchmarks, our extra checks X1 to X9 and the safety and structure checks |
 | `data/` | Raw JPL data: Horizons vectors and Small-Body Database orbits |
 | `sim-proto/` | The first JavaScript prototype, kept for quick experiments |
 
