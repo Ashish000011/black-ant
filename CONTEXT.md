@@ -102,7 +102,8 @@ cd viewer && npm ci && npm run dev        # test bench locally
 
 **Branch `claude/contextualization-blender-gui-1e303d` (pipelin-two worktree). Built and checked 25 Oct;
 committed one feature per commit as madhukarverma. PR #22 (opened from sushmitnitt) was closed unmerged by
-Ashish on 25 Oct 01:25 IST with the label `invalid` and no comment; no new PR is open yet.** The branch starts from `b101f2f`;
+Ashish on 25 Oct 01:25 IST with the label `invalid` and no comment. PR #23
+(github.com/Ashish000011/black-ant/pull/23), opened from madhukarverma, replaces it and awaits Ashish's review.** The branch starts from `b101f2f`;
 `main` has since gained only a contribution log, a status update and README lines that do not overlap, so it
 merges cleanly.
 
@@ -148,6 +149,7 @@ The built-in browser pane has no WebGL, so 3D checks need headless Chromium (Pla
 - **25 Oct, P2:** Before committing, open a server and check the current state of the test bench.
 - **25 Oct, P3:** Keep a git timeline of each feature, with commit messages that use the prompt's own context, and
   commit to the branch for Ashish.
+- **25 Oct, P5:** Open a new PR to main from madhukarverma with the same description, saying it replaces #22.
 - **25 Oct, P4:** Redo the commits from the user's own account, madhukarverma.
 
 ## 10. What can be delivered next (ideas, not started)
@@ -158,8 +160,7 @@ The built-in browser pane has no WebGL, so 3D checks need headless Chromium (Pla
 - A day/night (two-box) climate model so night temperature is computed rather than estimated.
 - Mention Moon reflectors in `docs/approach.md`, `docs/report.md` and the risk register if the team adopts them.
 - Re-render the demo video (`viewer/scripts/video.mjs`) so it shows the new layout.
-- Find out from Ashish why PR #22 was marked invalid, then, if wanted, open a new PR from madhukarverma
-  (#22 was closed before its branch was force-pushed, so it likely cannot be reopened).
+- Ashish reviews PR #23 (it replaces #22); find out why #22 was marked invalid in case the same applies.
 - Decide whether hidden panels (T / N) should be remembered between visits (they are now, in localStorage), so a
   returning viewer never sees an empty page.
 - Add this work to `docs/contributions.md` (on `main` since PR #21) if the team wants it credited.
@@ -180,3 +181,4 @@ The built-in browser pane has no WebGL, so 3D checks need headless Chromium (Pla
 - 25 Oct: Rewrote the branch's 8 commits as madhukarverma (author and committer; messages, contents and times
   unchanged) and force-pushed them to PR #22. PR #22 itself was opened by sushmitnitt.
 - 25 Oct: Found PR #22 closed by Ashish (label `invalid`, no comment) a minute before the force-push.
+- 25 Oct: Opened PR #23 from madhukarverma (ready for review, same description, "Replaces #22").
