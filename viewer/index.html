@@ -9,16 +9,22 @@
   <link rel="stylesheet" href="./src/style.css">
 </head>
 <body>
-  <!-- Top bar, as Blender's: the name, the views as workspace tabs, the scale and theme on the right. -->
+  <!-- Top bar, as Blender's: the name, the views as workspace tabs, the mission line in the middle, then text size,
+       scale and theme on the right. -->
   <header class="topbar">
-    <div class="brand"><b>Black Ant</b><span>Earth tow test bench</span></div>
+    <div class="brand"><b>Black Ant</b></div>
     <nav class="workspaces" id="views" role="tablist" aria-label="View">
       <button data-view="system" class="on">Solar system</button>
       <button data-view="earth">Earth tow</button>
       <button data-view="mars">Mars tow</button>
       <button data-view="octo">Octo-Earth</button>
     </nav>
+    <div class="mission" id="mission" aria-live="off"></div>
     <div class="topbar-right">
+      <div class="seg" id="font-size" role="group" aria-label="Text size">
+        <button id="font-down" aria-label="Smaller text">A−</button>
+        <button id="font-up" aria-label="Larger text">A+</button>
+      </div>
       <div class="seg" id="scales" role="tablist" aria-label="Scale">
         <button data-scale="vis" class="on">Visualisation</button>
         <button data-scale="true">True scale</button>
@@ -57,6 +63,7 @@
     <!-- Right: constants, Earth at the start, the comparison, and every result. -->
     <div class="dock dock-right" id="dock-right">
       <section class="fp" id="data" aria-label="Data and results"></section>
+      <div class="explainer" id="explainer" hidden></div>
     </div>
   </main>
 
@@ -77,7 +84,7 @@
   <div class="statusbar">
     <span><kbd>Space</kbd> play</span><span><kbd>T</kbd> model panel</span><span><kbd>N</kbd> data panel</span>
     <span><kbd>7</kbd> top view</span><span><kbd>Home</kbd> reset camera</span>
-    <span class="status-right">Saved run: final journey of 24 Oct · numbers marked ≈ are live estimates</span>
+    <span class="status-right">Saved run: final journey of 24 Oct · ≈ marks the Moon reflectors, which are not in the run</span>
   </div>
   <div id="tooltip" class="tooltip" hidden></div>
   <script type="module" src="./src/main.js"></script>

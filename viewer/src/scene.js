@@ -173,7 +173,7 @@ function trailLine(color, n = 400) {
 export function noStage(data, noteEl) {
   noteEl.textContent = "This browser could not start WebGL, so the 3D view is off. Every panel, estimate and result still works.";
   const s = { view: "system", scale: "vis", t: 0, bodyList: allBodies(data) };
-  for (const m of ["setScale", "update", "render", "setWhatIf", "setReflectors", "setTopZoom", "focus", "resetCamera", "orbit"]) s[m] = () => {};
+  for (const m of ["setScale", "update", "render", "setReflectors", "setTopZoom", "focus", "focusClose", "resetCamera", "orbit"]) s[m] = () => {};
   s.setView = (v) => { s.view = v; };
   s.setScale = (v) => { s.scale = v; };
   return s;
@@ -201,7 +201,7 @@ export class Stage {
     this.topControls.touches = { ONE: THREE.TOUCH.PAN, TWO: THREE.TOUCH.DOLLY_PAN };
     this.bodyList = allBodies(data);
     this.reflect = { sunKm2: 0, moonKm2: 0, sunSats: 0, moonPanels: 0 };
-    this.whatIfAu = null;
+    this.follow = null;  // a close-up the camera keeps centred on (the Moon or a tow asteroid move)
     this.labels = { system: [], earth: [], mars: [], octo: [], top: [] };
     this.scenes = { system: this.buildSystem(), earth: this.buildTowView("earth"), mars: this.buildTowView("mars"), octo: this.buildOcto(),
       top: this.buildTop() };
@@ -292,10 +292,6 @@ export class Stage {
       this.label("system", b.name, () => this.rockPos[b.id], "dim");
     }
     for (const b of this.bodyList) if (b.kind === "planet" && !["earth", "mars", "jupiter"].includes(b.id)) this.label("system", b.name, () => this.bodies[b.id].position);
-    this.whatIf = { system: circle(1, 0x7fd4ff, { dashed: true, dash: 0.05, opacity: 0.95 }) };
-    this.whatIf.system.visible = false;
-    scene.add(this.whatIf.system);
-    this.label("system", () => (this.whatIfAu ? `What-if target: ${this.whatIfAu.toFixed(2)} AU` : ""), () => new THREE.Vector3(this.whatIfAu * 0.5, 0, -this.whatIfAu * 0.866), "whatif");
     this.nowOrbit = { earth: circle(1, 0x3987e5, { opacity: 0.55 }), mars: circle(1, 0xd95926, { opacity: 0.55 }) };
     scene.add(this.nowOrbit.earth, this.nowOrbit.mars);
     this.trails = { earth: trailLine(0x7fb3ff), mars: trailLine(0xff9a6b) };
@@ -467,9 +463,6 @@ export class Stage {
     scene.add(circle(park, 0xd95926, { dashed: true, dash: 0.05, opacity: 0.85 }));
     this.topResonance = circle(3.278, 0xd03b3b, { dashed: true, dash: 0.02, opacity: 0.6 });
     scene.add(this.topResonance);
-    this.whatIf.top = circle(1, 0x7fd4ff, { dashed: true, dash: 0.05, opacity: 0.95 });
-    this.whatIf.top.visible = false;
-    scene.add(this.whatIf.top);
     const dotTex = glowTexture("rgba(255,255,255,1)");
     this.top = { sun, rings: {}, dots: {} };
     for (const b of this.bodyList) {
@@ -489,7 +482,6 @@ export class Stage {
     this.label("top", `Mars parks: ${park} AU`, () => at(park, -50), "dim");
     this.label("top", "Jupiter's 2:1 resonance: 3.28 AU", () => (this.topResonance.visible ? at(3.278, -38) : null), "dim");
     this.label("top", "Asteroid belt", () => at((belt.inner_au + belt.outer_au) / 2, 215), "dim");
-    this.label("top", () => (this.whatIfAu ? `What-if target: ${this.whatIfAu.toFixed(2)} AU` : ""), () => at(this.whatIfAu, 118), "whatif");
     return scene;
   }
 
@@ -519,20 +511,26 @@ export class Stage {
     }
   }
 
+  // Centre the Earth or Mars tow view on the Moon, a tow asteroid or the planet, and keep following it as it moves.
+  focusClose(id) {
+    const v = id === "mars-tow" || id === "mars" ? this.marsView : this.earthView;
+    const at = { moon: () => v.moon.position, "earth-tow": () => (v.state.active ? v.rock.position : null),
+      "mars-tow": () => (v.state.active ? v.rock.position : null), earth: () => v.planet.position, mars: () => v.planet.position }[id];
+    const p = at?.();
+    this.follow = p ? at : null;
+    if (!p) return;
+    this.controls.target.copy(p);
+    this.camera.position.copy(p).add(new THREE.Vector3(0, 230, 330));
+    this.controls.update();
+  }
+
   resetCamera() {
+    this.follow = null;
     if (this.view === "top") return this.setTopZoom("inner");
     const p = this.homePoses[this.view];
     this.camera.position.copy(p.pos);
     this.controls.target.copy(p.target);
     this.controls.update();
-  }
-
-  setWhatIf(a) {
-    this.whatIfAu = a != null && Math.abs(a - this.d.config.arrival.target_au) > 0.004 ? a : null;
-    for (const c of Object.values(this.whatIf)) {
-      c.visible = this.whatIfAu != null;
-      if (c.visible) c.scale.setScalar(this.whatIfAu);
-    }
   }
 
   // Areas (km2) and counts of the sunlight mirrors and the Moon reflectors now, for the Earth tow view.
@@ -546,6 +544,7 @@ export class Stage {
   setView(view, initial = false) {
     if (!initial && this.view !== "top") this.poses[this.view] = { pos: this.camera.position.clone(), target: this.controls.target.clone() };
     this.view = view;
+    this.follow = null;
     const top = view === "top";
     this.controls.enabled = !top;
     this.topControls.enabled = top;
@@ -758,6 +757,12 @@ export class Stage {
       ev.moonBeam.material.opacity = 0.35 * level;
     }
     const top = this.view === "top";
+    const p = this.follow?.();
+    if (p && !top) {  // move the camera with what it is following
+      const shift = p.clone().sub(this.controls.target);
+      this.controls.target.add(shift);
+      this.camera.position.add(shift);
+    }
     (top ? this.topControls : this.controls).update();
     if (top) {
       // Sprites in an orthographic view scale with the zoom: keep each dot a fixed number of pixels.

@@ -52,10 +52,10 @@ relies on one of our declared enablers, which the brief allows.
 the Earth tow and the Mars tow up close, and a top-down view with every orbit as a circle), ten experiments from the
 baseline to a million years later, and every check beside it: forces and momentum, orbit, structures, the ten
 Earth-safety thresholds, benchmarks, plots and the comparison with the real solar system. Laid out like Blender: a
-Scene tab with where every body is, a Model panel with sliders and time meters, and a Data panel with the constants,
-Earth at the start and Earth now. It replays the model's saved runs; the sliders (target orbit, tow, sunlight
-satellites, Moon reflectors) add live estimates marked ≈, with the same formulas as `sim/habitability.py` and
-`sim/night.py`, and never change the run. Keys: Space plays, T and N hide the panels, 7 toggles the top view.
+Scene tab with where every body is (click the Moon or a tow asteroid to see it up close), a Model panel with the
+experiments, time meters and the concept and enablers, and a Data panel with the constants, Earth at the start and
+Earth now. It replays the model's saved runs; only the Moon reflectors (marked ≈, `sim/night.py`) are not in the run.
+Keys: Space plays, T and N hide the panels, 7 toggles the top view; A− and A+ in the top bar change the text size.
 
 ```bash
 uv run python -m sim.viewer_data   # turn results/ into viewer/public/data/

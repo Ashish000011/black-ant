@@ -5,12 +5,13 @@ import { makeModel } from "./estimates.js";
 import {
   compareTab, experiments, forcesTab, notesTab, orbitTab, plotsTab, safetyTab, structureTab, summaryTab, validationTab, validity,
 } from "./panels.js";
-import { dataPanel, modelPanel, outliner, store } from "./studio.js";
+import { dataPanel, millionYears, modelPanel, outliner, store } from "./studio.js";
 
 const SPEEDS = [10, 50, 100, 250, 500];   // simulated years per second
 const TABS = ["Summary", "Forces & momentum", "Orbit", "Structure", "Earth safety", "Plots", "Validation", "Model notes", "Compare & export"];
 const VIEW_NAMES = { system: "Solar system", earth: "Earth tow", mars: "Mars tow", octo: "Octo-Earth", top: "Top view" };
 const $ = (id) => document.getElementById(id);
+const yr = (v) => Math.round(v).toLocaleString("en");
 
 async function main() {
   document.documentElement.dataset.theme = store.get("theme", "dark");
@@ -23,16 +24,7 @@ async function main() {
   }
   const end = d.milestones.end;
   const model = makeModel(d);
-  const night = d.config.night;
-  const earthTow = d.config.tows.find((t) => t.target === "earth");
   const state = { t: 0, playing: false, speed: 3, tab: "Summary", exp: null, plot: "earth_a", lastView: "system" };
-  // The what-if settings behind the left panel's sliders. The run itself never changes.
-  const whatIf = {
-    target: d.config.arrival.target_au, massKg: earthTow.asteroid_mass_kg, distKm: earthTow.distance_km,
-    sunMode: "run", sunSats: Math.round(model.sunAreaNeeded(d.config.arrival.target_au) / night.sunlight_satellite_unit_km2 / 100) * 100,
-    moonMode: "auto", moonPanels: Math.round(model.moonAreaFor(night.full_moon_lux_today, d.config.arrival.target_au) / night.moon_reflector_unit_km2),
-    phaseDeg: 0,
-  };
   let stage;
   try {
     stage = new Stage($("scene"), $("labels"), $("scale-note"), d);
@@ -41,17 +33,23 @@ async function main() {
   }
   const ctx = { live: [], charts: [], t: () => state.t, goto: (t) => setTime(t) };
   const exps = experiments(d);
+  const capture = new URLSearchParams(location.search).has("capture");
 
   // Panels
-  const left = modelPanel(d, model, {
-    whatIf, exps, speeds: SPEEDS, state, runExperiment: (exp) => runExperiment(exp),
-    setSpeed: (i) => { state.speed = i; }, onChange: () => { stage.setWhatIf(whatIf.target); refreshPanel(true); },
+  const left = modelPanel(d, {
+    exps, speeds: SPEEDS, state, runExperiment: (exp) => runExperiment(exp), setSpeed: (i) => { state.speed = i; },
   });
   $("model").replaceChildren(left.el);
   const scene = outliner(d, stage.bodyList, {
     focus: (id) => {
       if (stage.view !== "system" && stage.view !== "top") setView("system");
       stage.focus(id);
+    },
+    // The Moon, the tow asteroids and the reflectors are too close to their planet for the solar-system view:
+    // open the Earth or Mars tow view, centred on them.
+    closeUp: (id) => {
+      setView(id === "mars-tow" ? "mars" : "earth");
+      stage.focusClose({ "sun-mirrors": "earth", "moon-reflectors": "moon" }[id] ?? id);
     },
   });
   $("outliner").replaceChildren(scene.el);
@@ -68,7 +66,16 @@ async function main() {
     setPlaying(exp.play && exp.t < end);
     setTab(exp.tab);
     if (scroll && window.matchMedia("(max-width: 900px)").matches) $("viewport").scrollIntoView({ behavior: "smooth" });
+    showExplainer(exp.id === "I" && !capture);
   }
+
+  // Experiment I's explainer: a large card over the Data panel on what the million-year run proves, and what not.
+  function showExplainer(on) {
+    $("explainer").hidden = !on;
+    if (on) toggleDock("right", true);
+  }
+  $("explainer").replaceChildren(millionYears(d));
+  $("explainer").addEventListener("click", (e) => { if (e.target.closest("[data-close]")) showExplainer(false); });
 
   // Results tabs, inside the right panel
   const tabBox = $("tabs");
@@ -127,6 +134,21 @@ async function main() {
     refreshPanel(true);
   }));
 
+  // Text size (A- / A+ in the top bar), 80% to 150%, remembered
+  const ZOOMS = [0.8, 0.9, 1, 1.1, 1.2, 1.35, 1.5];
+  let zoom = Math.max(0, ZOOMS.indexOf(Number(store.get("ui-zoom", "1"))));
+  function setZoom(i) {
+    zoom = Math.max(0, Math.min(ZOOMS.length - 1, i));
+    document.documentElement.style.setProperty("--ui-zoom", ZOOMS[zoom]);
+    $("font-down").disabled = zoom === 0;
+    $("font-up").disabled = zoom === ZOOMS.length - 1;
+    $("font-size").title = `Text size ${Math.round(ZOOMS[zoom] * 100)}%`;
+    store.set("ui-zoom", String(ZOOMS[zoom]));
+  }
+  $("font-down").onclick = () => setZoom(zoom - 1);
+  $("font-up").onclick = () => setZoom(zoom + 1);
+  setZoom(zoom);
+
   // Floating panels: T and N, as in Blender
   function toggleDock(side, show) {
     const dock = $(`dock-${side}`);
@@ -154,7 +176,7 @@ async function main() {
   ].filter(([t]) => t != null);
   $("marks").innerHTML = marks.map(([t, text, short], i) => {
     const x = (t / end) * 100;
-    return `<span class="mark${x > 85 ? " right" : ""}" style="left:${x}%;top:${(i % 2) * 12}px" data-t="${t}" title="year ${Math.round(t).toLocaleString("en")}"><span class="long">${text}</span><span class="short">${short}</span></span>`;
+    return `<span class="mark${x > 85 ? " right" : ""}" style="left:${x}%;top:calc(${(i % 2) * 12}px * var(--ui-zoom, 1))" data-t="${t}" title="year ${Math.round(t).toLocaleString("en")}"><span class="long">${text}</span><span class="short">${short}</span></span>`;
   }).join("");
   $("marks").querySelectorAll(".mark").forEach((m) => (m.onclick = () => { setPlaying(false); setTime(Number(m.dataset.t)); }));
 
@@ -209,7 +231,7 @@ async function main() {
     }
     lastPanel = now;
     const t = state.t;
-    const s = model.state(t, whatIf);
+    const s = model.state(t);
     stage.setReflectors({ sunKm2: s.sunArea, moonKm2: s.moonArea, sunSats: s.sunSats, moonPanels: s.moonPanels });
     left.update(t, s);
     scene.update(t, s);
@@ -218,9 +240,13 @@ async function main() {
     for (const c of ctx.charts) c.setCursor?.(t);
     $("hud").innerHTML = [
       `<b>${VIEW_NAMES[stage.view]}</b>`, stage.scale === "vis" ? "Visualisation" : "True scale",
-      `Earth ${s.a.toFixed(3)} AU`, `beam ${fmt(valueAt(d, "beam_w", t), 2)} W`,
-      `${s.sunEst ? "≈" : ""}${s.temp.toFixed(1)} K`, `${s.sunEst ? "≈" : ""}${(s.share * 100).toFixed(1)}% sunlight`,
+      `beam ${fmt(valueAt(d, "beam_w", t), 2)} W`, `${s.temp.toFixed(1)} K`, `${(s.share * 100).toFixed(1)}% sunlight`,
     ].map((x) => `<span>${x}</span>`).join("");
+    // The mission line in the middle of the top bar
+    const target = d.config.arrival.target_au, toGo = d.milestones.earthArrives - t;
+    $("mission").innerHTML = toGo > 0
+      ? `<b>Year ${yr(t)}</b><span>Earth ${s.a.toFixed(3)} → ${target} AU</span><span>${yr(toGo)} years to go</span>`
+      : `<b>Year ${yr(t)}</b><span>Earth has arrived at ${s.a.toFixed(3)} AU</span><span>${yr(t - d.milestones.earthArrives)} years settled</span>`;
   }
 
   let last = performance.now();
@@ -239,7 +265,7 @@ async function main() {
   runExperiment(first, false);
   setPlaying(false);
   // ?capture: no clock of its own; a script steps it frame by frame (scripts/video.mjs makes the demo video).
-  if (new URLSearchParams(location.search).has("capture")) {
+  if (capture) {
     window.bench = {
       run: (id) => { runExperiment(exps.find((e) => e.id === id), false); setPlaying(false); },
       view: setView, time: setTime, tab: setTab,
