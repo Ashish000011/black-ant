@@ -5,7 +5,7 @@
 A 4 x 10^20 kg asteroid (about 670 km across) is parked 637,100 km from Earth, ahead of it and out
 from the Sun. Its gravity pulls Earth very gently: 6.5 x 10^-8 m/s^2. Left alone it would fall onto
 Earth, so a mirror tethered to it is pushed by a focused beam of light that holds it exactly in place.
-Earth keeps being pulled, its orbit widens a little on every lap, and after about 8,700 years it reaches
+Earth keeps being pulled, its orbit widens a little on every lap, and after about 8,760 years it reaches
 2.7 AU. Mars sits across that path, so a second, smaller tow moves Mars out of the way first. Sunlight
 mirrors keep Earth's sunlight and temperature at today's level the whole way.
 
@@ -28,7 +28,7 @@ nothing touches Earth.
 | Earth's orbital speed | 29.8 km/s at 1 AU, 18.1 km/s at 2.7 AU |
 | Energy Earth's orbit must gain | about 1.7 x 10^33 J |
 | Pull on Earth | about 3.9 x 10^17 N (2.8 x 10^17 N of it along the orbit) |
-| Time | about 8,700 of the 10,000 years allowed |
+| Time | about 8,760 of the 10,000 years allowed |
 
 ## The physics we use
 
@@ -145,8 +145,8 @@ Three hazards remain that today's Earth does not have. Each has a counter with a
 
 | Hazard | Size | Counter |
 | --- | --- | --- |
-| Asteroid impacts: 2.7 AU is inside the main belt | One 1 km impact per about 130 years while crossing and 70 once parked, against Earth's natural one per 500,000 (`results/summary.json`, belt) | E1 nudges any asteroid found heading for Earth: 5 cm/s ten years ahead moves it about 47,000 km, about 10^14 W for a day |
-| Big asteroids (Ceres, Pallas, Vesta, Hygiea) passing within 0.01 AU | Never in the real solar system; 7 to 48 times per million years after the move | E1 nudges each pass 50 years ahead: at most about an hour of a 10^25 W beam |
+| Asteroid impacts: 2.7 AU is inside the main belt | One 1 km impact per about 127 years while crossing and 87 once parked, against Earth's natural one per 500,000 (`results/summary.json`, belt) | E1 nudges any asteroid found heading for Earth: 5 cm/s ten years ahead moves it about 47,000 km, about 10^14 W for a day |
+| Big asteroids (Ceres, Pallas, Vesta, Hygiea) passing within 0.01 AU | Never in the real solar system; 23 to 45 times per million years after the move | E1 nudges each pass 50 years ahead: under an hour of a 10^25 W beam |
 | Seasons: the remaining tilt swing, 21.7 to 26.1 degrees (today 22.2 to 24.4) | About 1.4% of yearly sunlight lands at a different latitude or season than with today's tilt (the real Earth's own swing: 0.7%) | The sunlight mirrors (E3), which already supply 86% of the light, re-aim that share |
 
 The tilt swing cannot be removed by orbit choice alone: at 2.7 AU Earth's axis turns at about 35

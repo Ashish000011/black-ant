@@ -10,7 +10,7 @@ benchmarks passing, every force booked, no unresolved flags) are in [docs/proble
 A **gravity tractor held in place by light**. A 4 x 10^20 kg asteroid sits 637,100 km from Earth and
 pulls it gently with its own gravity; a focused light beam pushing on a mirror tethered to the asteroid
 keeps it from falling onto Earth. Earth's orbit widens a little on every lap and reaches 2.7 AU in about
-8,700 years. Mars is towed out of the way first (to 3.64 AU), sunlight mirrors keep Earth at today's
+8,760 years. Mars is towed out of the way first (to 3.64 AU), sunlight mirrors keep Earth at today's
 sunlight and temperature, and on the last stretch the tow steers Earth onto the orbit Jupiter lets it
 keep. Every push is booked with its reaction, so energy and momentum are checked all the way.
 
@@ -20,6 +20,24 @@ and [docs/risk-register.md](docs/risk-register.md) for every way it could fail a
 ## Results
 
 <!-- results:start -->
+| | |
+| --- | --- |
+| Earth arrives | year 8,758 at 2.7006 AU (limit: year 10,000); eccentricity 0.0331, orbit tilt 1.294 deg |
+| Mars parks | year 5,168 at 3.6408 AU |
+| Closest Earth-Mars pass | 0.37283 AU (limit 0.05) |
+| Closest big asteroid during the journey | ceres 0.0455 AU, pallas 0.0681 AU, vesta 0.0183 AU, hygiea 0.1633 AU (limit 0.02) |
+| Most beam power | 9.27e+25 W (E1 limit 1e26) |
+| Ledger (the guide's form) | bodies' momentum change matches the applied impulse to 5.5e-22 of it; applied impulse plus its partners: 5.6e-16 (limit 1e-9); beam work matches energy gained to 0.007% |
+| Flags during the journey | 0 unresolved; 6 covered by E1, E2, E3 |
+| Climate, computed along the journey | temperature 287.8 to 288.7 K (limit 288 +/- 2); sunlight 0.995 to 1.010 of today's; mirrors up to 8.5e+08 km2 (E3 limit 1e9); magnetopause 10.0 to 13.9 Earth radii; the Moon at 0.26 to 0.095 of Earth's Hill radius |
+| Asteroid impacts (1 km and up), without E1's nudges | one per 127 years crossing the belt, one per 87 years parked; natural: one per 500,000 |
+| A million years after arrival: Earth | orbit 2.698 to 2.702 AU; eccentricity up to 0.060 (real Earth: up to 0.051) |
+| A million years after arrival: Mars | orbit 3.614 to 3.655 AU; smallest gap to Earth's orbit 0.362 AU |
+| Earth's axial tilt | 21.7 to 26.1 deg (real Earth: 22.2 to 24.4) |
+| Sunlight the mirrors re-aim to keep today's seasons | 1.4% of Earth's sunlight (mirrors supply 86%) |
+| Big-asteroid passes near Earth | 45 in a million years; each nudged with at most 0.6 hours of a 1e+25 W beam, 50 years ahead |
+| Flags after a million years | 0 unresolved; 2 covered by enablers |
+| Bodies thrown out in a million years | none |
 <!-- results:end -->
 
 Every number above comes from `results/`. The run prints any flag at the end; a flag naming E1, E2 or E3
