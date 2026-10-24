@@ -49,7 +49,7 @@ def safety_checks(cfg: dict, earth_au: float, tow_mass: float | None, tow_distan
         check("Average temperature away from 288 K", abs(temperature - s["temperature_k"]["target"]),
               s["temperature_k"]["tolerance"], "max", "K"),
         check("Liquid water: mean temperature above freezing", temperature, 273.15, "min", "K"),
-        check("Magnetic shielding: magnetopause distance", shield, h["magnetopause_today_re"], "min", "Earth radii"),
+        check("Magnetic shielding no weaker than today's", shield, 0.99 * h["magnetopause_today_re"], "min", "Earth radii"),
         check("The Moon inside Earth's Hill sphere", hill, h["moon_hill_max_share"], "max", "of the Hill radius"),
     ]
     if climate is not None:

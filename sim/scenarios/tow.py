@@ -21,7 +21,7 @@ from ..bodies import System, add_state_bodies, move_to_barycentre, orbit_element
 from ..checks.safety import nudge_hours, safety_checks
 from ..checks.structure import structure_checks
 from ..config import load_config
-from ..constants import AU, C_LIGHT, DAY, YEAR
+from ..constants import AU, C_LIGHT, DAY, G, YEAR
 from ..export import write_outputs
 from ..flags import Flags, check
 from ..forces import Beam, Tow, beam_for, ray_distance, spot
@@ -235,6 +235,13 @@ def run(cfg: dict | None = None, years: float | None = None, dt_days: float | No
                     results.append(check(f"{tow.name}: beam passes near Earth", clear / 1e3,
                                          cfg["beam"]["earth_clearance_km"], "min", "km"))
                 results += structure_checks(cfg, tow.name, f_len, b.power, tow.mass, tow.distance, float(m[tow.target]))
+                # A hovering asteroid sits at an unstable balance: the target's pull changes across its spot at
+                # 2 G M / d^3. The controller must beat that gradient, and the step must resolve its timescale.
+                gradient = 2 * G * float(m[tow.target]) / tow.distance ** 3
+                results.append(check(f"{tow.name}: controller stronger than the pull's gradient", kp / gradient,
+                                     cfg["controller"]["min_strength_over_gradient"], "min", "times"))
+                results.append(check(f"{tow.name}: step resolves the spot's timescale", 1 / math.sqrt(gradient) / dt,
+                                     cfg["controller"]["min_steps_per_timescale"], "min", "steps"))
                 orb = orbit_elements(system, tow.target, sun)
                 if orb["a"] >= tow.stop_au:
                     st["arrival"] = {"year": round(yr, 1), "a_au": round(orb["a"], 4), "eccentricity": round(orb["e"], 4),

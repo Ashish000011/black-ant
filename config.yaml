@@ -62,11 +62,16 @@ tows:
 # Crossing Jupiter's 2:1 at the normal pull, Mars was caught in 6 of 8 trials; so Mars's tow sprints across it
 # (asteroid at 50,000 km, 4x the pull: caught in 0 of 8 at 3.3x and at 4.9x), while Earth's tow eases off
 # (asteroid at 850,000 km) to keep E1's total under 1e26 W. Both moves are ramped gently.
-  - {name: mars-tow,  target: mars,  asteroid_mass_kg: 9.7808e18, distance_km: 100000, stop_au: 3.64, max_beam_w: 4.0e25,
-     sprint: {from_au: 3.0, to_au: 3.5, distance_km: 50000, ramp_km_per_check: 300}}
+  # Mars's asteroid sits 400,000 km out (16 times heavier than the first design, same pull): close in, Mars's pull
+  # changes too fast across the asteroid's spot for the controller and the 1-day step (100,000 km: a 1.8-day
+  # timescale; 400,000 km: 14 days). Its sprint moves it to 200,000 km (4x the pull, a 5-day timescale).
+  - {name: mars-tow,  target: mars,  asteroid_mass_kg: 1.56493e20, distance_km: 400000, stop_au: 3.64, max_beam_w: 4.0e25,
+     sprint: {from_au: 3.0, to_au: 3.5, distance_km: 200000, ramp_km_per_check: 2000}}
 
 controller:
   correction_period_days: 10   # how fast drift off the spot is corrected
+  min_strength_over_gradient: 3   # the controller's pull-back must beat the target's pull gradient by this much
+  min_steps_per_timescale: 3      # the step must be this much shorter than the spot's timescale, 1/sqrt(gradient)
 
 arrival_trim:                  # sim/secular.py: Earth arrives with the orbit shape and plane Jupiter forces at 2.7 AU
   enabled: true
@@ -202,6 +207,9 @@ outage:                        # sim/scenarios/outage.py: the Earth tow's beam s
     - {name: "Mars tow, all beams off", tow: mars-tow}
     - {name: "Mars tow, half the stations off", tow: mars-tow, power_left: 0.5}
     - {name: "Mars tow, a quarter off", tow: mars-tow, power_left: 0.75}
+    - {name: "Mars tow in its 4x sprint (200,000 km), all off", tow: mars-tow, mars_distance_km: 200000, earth_distance_km: 850000}
+    - {name: "Mars tow in its 4x sprint, half off", tow: mars-tow, mars_distance_km: 200000, earth_distance_km: 850000, power_left: 0.5}
+    - {name: "Earth tow during Mars's sprint (850,000 km), all off", mars_distance_km: 200000, earth_distance_km: 850000}
   mars_floor_km: 20000         # Mars's tow asteroid counts as lost once it is this close to Mars
 
 benchmarks:                    # the official ten (participant guide, section 6): uv run python -m sim.benchmarks
@@ -216,4 +224,4 @@ crossing:                      # sim/scenarios/crossing.py: Mars across Jupiter'
   workers: 12
   variants:                    # results of 24 Oct: normal pull caught 6/8, 1.56x 2/8, 3.3x 0/8, 4.9x 0/8
     normal pull: null
-    sprint 4x (as designed): {from_au: 3.0, to_au: 3.5, distance_km: 50000, ramp_km_per_check: 300}
+    sprint 4x (as designed): {from_au: 3.0, to_au: 3.5, distance_km: 200000, ramp_km_per_check: 2000}
