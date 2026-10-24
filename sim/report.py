@@ -38,11 +38,18 @@ def table(folder=ROOT / "results") -> str:
     ]
     c = s.get("climate")
     if c:
-        rows.append(("Climate, computed along the journey", f"temperature {c['temperature_k'][0]:.1f} to "
-                     f"{c['temperature_k'][1]:.1f} K (limit 288 +/- 2); sunlight {c['sunlight_share'][0]:.3f} to "
-                     f"{c['sunlight_share'][1]:.3f} of today's; mirrors up to {c['mirror_area_km2'][1]:.3g} km2 (E3 limit 1e9); "
-                     f"magnetopause {c['magnetopause_re'][0]:.1f} to {c['magnetopause_re'][1]:.1f} Earth radii; the Moon at "
-                     f"{c['moon_hill_share'][1]:.2f} to {c['moon_hill_share'][0]:.3f} of Earth's Hill radius"))
+        lo = {k: v[0] for k, v in c.items()}
+        hi = {k: v[1] for k, v in c.items()}
+        rows.append(("Earth safety: the ten thresholds of the company's reference demo, worst over the journey",
+                     f"temperature {lo['temperature_k']:.1f} to {hi['temperature_k']:.1f} K (263 to 308); liquid-water area "
+                     f"at least {lo['liquid_water_share']:.0%} (30%); absorbed sunlight at most {hi['absorbed_w_m2']:.0f} W/m2 "
+                     f"(282); surface pressure {lo['surface_pressure_kpa']:.1f} kPa (50); N2 Jeans lambda at least "
+                     f"{lo['jeans_lambda_n2']:.0f} (30); magnetopause at least {lo['magnetopause_re']:.1f} Earth radii (3); "
+                     f"day length changed by {hi['day_length_change_s']:.1e} s (1 s); the Moon at most "
+                     f"{hi['moon_hill_share']:.2f} of the Hill radius (0.49); thrust at most {hi['thrust_over_moon_pull']:.4f} "
+                     f"of Earth's pull on the Moon (0.01)"))
+        rows.append(("Sunlight mirrors (E3)", f"sunlight {lo['sunlight_share']:.3f} to {hi['sunlight_share']:.3f} of today's; "
+                     f"mirrors up to {hi['mirror_area_km2']:.3g} km2 (limit 1e9)"))
     if b:
         rows.append(("Asteroid impacts (1 km and up), without E1's nudges",
                      f"one per {b['crossing']['years_per_impact']:,.0f} years crossing the belt, one per "

@@ -112,9 +112,20 @@ times heavier would be needed to disturb it.
 
 ## Keeping Earth livable
 
-At 2.7 AU Earth would get 1/7.3 of today's sunlight and freeze (about 188 K). Sunlight mirrors (E3)
-make up the difference: about 8 x 10^8 km^2 of thin film at 2.7 AU, supplying 86% of Earth's light by
-then. The tow mirror's waste heat reaching Earth is at most about 0.24% of sunlight.
+At 2.7 AU Earth would get 1/7.3 of today's sunlight. Our climate model (zero-dimensional energy balance with
+ice-albedo feedback, as in the company's reference demo) then gives 150.4 K and no liquid water anywhere, the
+same as the demo. Sunlight mirrors (E3) make up the difference: built in 25-year batches, each sized for where
+Earth's orbit will be when the batch ends, up to about 8.5 x 10^8 km^2 at 2.7 AU (supplying 86% of Earth's
+light by then). What they deliver is computed from their area, not assumed. The tow mirror's waste heat
+reaching Earth is at most about 0.24% of sunlight.
+
+Every 100 days the journey checks the ten Earth-safety thresholds of the company's reference demo
+(`sim/habitability.py`, `sim/checks/safety.py`): global mean temperature (263 to 308 K), the share of the
+surface warm enough for liquid water (at least 30%; today 82%), absorbed sunlight under the runaway-greenhouse
+limit, surface pressure, N2 kept (Jeans escape), the magnetopause distance, the change in day length, the Moon's
+place in Earth's Hill sphere and the tow's pull against Earth's pull on the Moon. Nothing in our machine touches
+Earth, so the day changes only through the tow asteroid's tide: about 3 x 10^-7 s over the whole journey
+(limit 1 s). Results: `results/summary.json` (climate) and the README table.
 
 ## Arriving settled: the arrival trim
 
