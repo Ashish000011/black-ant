@@ -8,12 +8,14 @@ Run: uv run pytest tests/test_report.py
 import json
 import math
 import re
+import shutil
+import subprocess
 
 import pytest
 
 from sim.checks.structure import structure_checks
 from sim.config import ROOT, load_config
-from sim.constants import C_LIGHT, G, YEAR
+from sim.constants import AU, C_LIGHT, G, GM_SUN, YEAR
 from sim.habitability import day_length_rate
 
 CFG = load_config()
@@ -254,3 +256,154 @@ def test_report_pdf_is_current_and_within_the_page_limit():
     assert made_from == report_hash(DOCS / "report.md"), \
         "docs/report.pdf is older than docs/report.md: run uv run python -m sim.report_pdf"
 
+
+# The pitch documents (issue #11): the Q&A sheet, the pitch's talk track and the demo video's voiceover.
+
+def pitch_numbers() -> dict[str, str]:
+    """Numbers the Q&A sheet, the pitch and the voiceover quote, written as they write them."""
+    ea, led, cl, belt, lt = EARTH["arrival"], S["ledger"], S["climate"], S["belt"], LT["moved"]
+    lo = {k: v[0] for k, v in cl.items()}
+    hi = {k: v[1] for k, v in cl.items()}
+    et = TOW["earth-tow"]
+    d, m = et["distance_km"] * 1e3, et["asteroid_mass_kg"]
+    m_earth = CFG["habitability"]["earth_mass_with_moon_kg"]
+    pull = G * m_earth * m / d ** 2
+    accel = G * m / d ** 2
+    v_start, v_end = math.sqrt(GM_SUN / AU), math.sqrt(GM_SUN / (ea["a_au"] * AU))
+    spiral_years = (v_start - v_end) / (accel * math.cos(math.radians(45))) / YEAR
+    tide = (m / d ** 3) / (CFG["moon"]["mass_kg"] / (CFG["moon"]["a_km"] * 1e3) ** 3)
+    old_outage = OUTAGE["old: own cap 8.5e25 W, all beams off"]["longest_safe_outage_days"]
+    return {
+        "pull": f"{sci(pull, 3)} N",
+        "acceleration": f"{sci(accel, 3)} m/s²",
+        "along the orbit": f"{sci(accel * math.cos(math.radians(45)))} of it along the orbit",
+        "Earth's energy": f"{sci(GM_SUN * m_earth / 2 * (1 / AU - 1 / (ea['a_au'] * AU)))} J of orbital energy",
+        "spiral": f"{(v_start - v_end) / 1e3:.1f} km/s",
+        "spiral years": f"about {round(spiral_years, -3):,.0f} years. The run takes {ea['year']:,.0f}",
+        "power to hold": f"about {sci(pull * C_LIGHT / math.sqrt(2))} W",
+        "planets' energy": f"{sci(led['bodies_energy_gain_j'])} J of orbital energy over {ea['year']:,.0f} years "
+                           f"({sci(led['bodies_energy_gain_j'] / (ea['year'] * YEAR))} W on average)",
+        "asteroid": f"{sci(m, 3)} kg",
+        "distance": f"{et['distance_km']:,} km",
+        "E3 bound": f"{sci(CFG['enablers']['e3_asteroid_limit_kg'], 1)} kg per asteroid",
+        "Mars parks": f"{MARS['arrival']['a_au']:.2f} AU in year {MARS['arrival']['year']:,.0f}",
+        "arrival": f"{ea['a_au']} AU in year {ea['year']:,.0f}",
+        "closest Mars": f"{S['mars_closest']['au']:.2f} AU",
+        "beam peak": f"{sci(S['total_beam_max_w'], 3)} W",
+        "clearance": f"{CFG['beam']['earth_clearance_km']:,} km",
+        "closest beam": f"{EARTH['beam_clearance_min_km']:,.0f} km",
+        "spot": f"{EARTH['spot_error_max_km']:,.0f} km ({EARTH['spot_error_max_km'] / et['distance_km']:.1%})",
+        "blackout": days(OUTAGE["shared E1 budget, all beams off"]["longest_safe_outage_days"]),
+        "half stations": days(OUTAGE["shared E1 budget, half the stations off"]["longest_safe_outage_days"]),
+        "old outage": f"{old_outage * 24:.0f}-hour beam outage",
+        "new blackout": f"{OUTAGE['shared E1 budget, all beams off']['longest_safe_outage_days'] * 24:.0f}-hour blackout",
+        "normal pull caught": f"caught in {CROSSING['normal pull']['caught']} of {CROSSING['normal pull']['of']}",
+        "sprint caught": f"caught in {CROSSING['chosen: sprint 4x with the asteroid at 400,000 km (to 200,000 km)']['caught']} of 8",
+        "mirror temperature": f"{structures('earth-tow', et['max_beam_w'])['tow mirror temperature']:,.0f} K",
+        "temperature": f"{lo['temperature_k']:.1f} and {hi['temperature_k']:.1f} K",
+        "sunlight": f"{lo['sunlight_share']:.3f} and {hi['sunlight_share']:.3f}",
+        "mirror area": f"{sci(hi['mirror_area_km2'])} km²",
+        "liquid water": f"at least {lo['liquid_water_share']:.0%}",
+        "Moon start and end": f"{hi['moon_hill_share']:.3f} of Earth's Hill radius at the start and {lo['moon_hill_share']:.3f}",
+        "Moon at most": f"at most {hi['moon_hill_share']:.3f}",
+        "thrust on the Moon": f"at most {hi['thrust_over_moon_pull']:.4f}",
+        "day length": f"about {sci(day_length_rate(m, d) * ea['year'] * YEAR)} s",
+        "tide": f"{tide:.2%} of the Moon's",
+        "tilt": f"{lt['axial_tilt_deg'][0]:.1f} to {lt['axial_tilt_deg'][1]:.1f} degrees",
+        "real tilt": f"(today {LT['baseline']['axial_tilt_deg'][0]:.1f} to {LT['baseline']['axial_tilt_deg'][1]:.1f})",
+        "re-aim": f"{LT['verdict']['seasons']['sunlight_to_reaim']:.1%} of Earth's sunlight",
+        "crossing impacts": f"once every {belt['crossing']['years_per_impact']:,.0f} years",
+        "parked impacts": f"once every {belt['parked_at_target']['years_per_impact']:,.0f} years",
+        "nudge": f"{belt['deflection']['speed_change_m_s'] * 100:.0f} cm/s",
+        "nudge beam": f"{sci(belt['deflection']['beam_power_w'])} W beam for a day",
+        "belt sample": f"{belt['sample_size']:,} real belt orbits",
+        "Vesta": f"Vesta comes closest ({S['big_asteroids_closest_au']['vesta']:.3f} AU)",
+        "Vesta's nudge": f"{max(n['beam_hours'] for n in S['big_asteroid_nudges']) * 60:.0f} minutes of beam",
+        "lowest safety factor": f"at least {min(v for t in TOW for k, v in structures(t, TOW[t]['max_beam_w']).items() if 'safety factor' in k):.2f}",
+        "asteroid body": f"safety factor of {structures('earth-tow', et['max_beam_w'])['asteroid body safety factor']:.0f}",
+        "ledger checks": f"{sci(led['integrator_honest_max'])} and {sci(led['nothing_from_nothing_max'])}",
+        "ledger": sci(led["nothing_from_nothing_max"]),
+        "work against energy": f"{led['work_mismatch_share']:.3%}",
+        "Octo-Earth cancels": f"cancel to {sci(OCTO['net_force_all_arms']['sum_over_force'])}",
+        "Octo-Earth arms": f"{OCTO['materials'][0]['buckling_length_km']:,.0f} km in steel and "
+                           f"{next(x for x in OCTO['materials'] if x['name'].startswith('Carbon'))['buckling_length_km']:,.0f} km in ideal nanotube",
+        "long run Earth": f"{lt['ranges']['earth']['a'][0]:.3f} and {lt['ranges']['earth']['a'][1]:.3f} AU",
+        "journey run time": "about an hour and a half" if 1.25 < S["run_seconds"] / 3600 < 1.75 else "(re-time the run)",
+    }
+
+
+QA = ["pull", "spot", "blackout", "half stations", "asteroid", "E3 bound", "Mars parks", "normal pull caught",
+      "sprint caught", "closest Mars", "distance", "beam peak", "power to hold", "planets' energy", "mirror temperature",
+      "clearance", "closest beam", "temperature", "mirror area", "sunlight", "Moon start and end", "thrust on the Moon",
+      "day length", "tide", "tilt", "real tilt", "re-aim", "crossing impacts", "parked impacts", "nudge", "belt sample",
+      "nudge beam", "Vesta", "Vesta's nudge", "lowest safety factor", "asteroid body", "ledger checks",
+      "work against energy", "Octo-Earth cancels", "Octo-Earth arms", "journey run time"]
+PITCH = ["asteroid", "distance", "Earth's energy", "spiral", "pull", "acceleration", "along the orbit", "spiral years",
+         "power to hold", "beam peak", "clearance", "ledger", "Mars parks", "arrival", "sunlight", "temperature",
+         "liquid water", "Moon at most", "thrust on the Moon", "day length", "long run Earth", "crossing impacts",
+         "re-aim", "Octo-Earth cancels", "normal pull caught", "sprint caught", "old outage", "new blackout"]
+VIDEO = ["distance", "clearance", "Mars parks", "arrival", "long run Earth"]
+NUMBERS = pitch_numbers()
+
+
+@pytest.mark.parametrize("doc, what", [("qa.md", w) for w in QA] + [("pitch.md", w) for w in PITCH]
+                         + [("video-script.md", w) for w in VIDEO])
+def test_pitch_document_number_matches_results(doc, what):
+    assert NUMBERS[what] in text(doc), f"docs/{doc} should say: {NUMBERS[what]}"
+
+
+def test_qa_sheet_has_twenty_questions_each_with_a_one_line_answer_and_who_answers():
+    """Issue #11: 20 likely questions, one-line answers, who answers each; every member answers some."""
+    lines = (DOCS / "qa.md").read_text(encoding="utf-8").splitlines()
+    heads = [(i, m) for i, line in enumerate(lines)
+             if (m := re.fullmatch(r"\*\*(\d+)\. (.+\?)\*\* \*\((Ashish|Member [2-5])\)\*", line))]
+    assert len(heads) >= 20
+    assert [int(m.group(1)) for _, m in heads] == list(range(1, len(heads) + 1))
+    assert {m.group(3) for _, m in heads} == {"Ashish", "Member 2", "Member 3", "Member 4", "Member 5"}
+    for (i, m), (j, _) in zip(heads, heads[1:] + [(len(lines), None)]):
+        block = lines[i + 1:j]
+        more = next(k for k, line in enumerate(block) if line.startswith("More: "))
+        answer = " ".join(block[:more])
+        assert answer and len(answer) <= 200 and answer.count(". ") == 0, f"question {m.group(1)}: {answer}"
+
+
+def test_pitch_parts_fill_seven_minutes_and_fit_their_time():
+    """The guide's five parts, 7 minutes in all; each part's words fit at 150 a minute, leaving room to click."""
+    from sim.voiceover import spoken_words
+
+    doc = (DOCS / "pitch.md").read_text(encoding="utf-8")
+    parts = re.split(r"^## (\d)\. .+ \((\d+):(\d\d), (Ashish|Member [2-5])\)$", doc, flags=re.M)[1:]
+    seconds = []
+    for number, minutes, secs, who, body in zip(*[iter(parts)] * 5):
+        said = " ".join(re.findall(r"^> (.*)$", body, flags=re.M) + re.findall(r"^\| [^|]+ \| ([^|]+) \|$", body, flags=re.M)[1:])
+        seconds.append(60 * int(minutes) + int(secs))
+        assert said, f"part {number} has nothing to say"
+        assert spoken_words(said) <= 150 * seconds[-1] / 60, f"part {number}: {spoken_words(said)} words"
+    assert len(seconds) == 5 and sum(seconds) == 7 * 60
+
+
+def test_voiceover_fits_each_shot_and_the_captions_are_current():
+    from sim.voiceover import CAPTIONS, MAX_SECONDS, WORDS_PER_MINUTE, captions, shots, video_seconds
+
+    measured = video_seconds()
+    all_shots = shots(video_seconds=measured)
+    assert all_shots[0]["start"] == 0 and all_shots[-1]["end"] <= MAX_SECONDS
+    if measured is not None:  # the script's stated length is the video's
+        assert shots()[-1]["end"] == pytest.approx(measured, abs=0.5)
+    slow = [(s["shot"], round(s["words_per_minute"])) for s in all_shots if s["words_per_minute"] > WORDS_PER_MINUTE]
+    assert not slow, f"voiceover too long for its shot: {slow}"
+    assert CAPTIONS.read_text(encoding="utf-8") == captions(all_shots), "run: uv run python -m sim.voiceover"
+
+
+@pytest.mark.skipif(not shutil.which("ffmpeg"), reason="needs ffmpeg")
+def test_adding_a_voice_keeps_the_video_and_adds_sound_and_captions(tmp_path):
+    from sim.voiceover import VIDEO, add_voice, video_seconds
+
+    voice = tmp_path / "voice.wav"
+    subprocess.run(["ffmpeg", "-loglevel", "error", "-f", "lavfi", "-i", "sine=frequency=220:duration=3", str(voice)],
+                   check=True)
+    out = add_voice(voice, out=tmp_path / "voiced.mp4")
+    probe = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "stream=codec_type", "-of", "csv=p=0", str(out)],
+                           check=True, capture_output=True, text=True).stdout.split()
+    assert probe == ["video", "audio", "subtitle"]
+    assert video_seconds(out) == pytest.approx(video_seconds(VIDEO), abs=0.1)
