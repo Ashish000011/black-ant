@@ -72,7 +72,7 @@ uv sync
 ## Run
 
 ```bash
-uv run python -m sim.scenarios.tow --out results    # the full journey with every check, about 35 minutes
+uv run python -m sim.scenarios.tow --out results    # the full journey with every check, about an hour and a half
 uv run python -m sim.scenarios.tow --no-belt --years 500   # a quick look
 uv run python -m sim.scenarios.moon                 # the Moon test at the start, middle and end, about 20 seconds
 uv run python -m sim.scenarios.longterm --only moved --state results/end_state.json --out results/longterm.json
@@ -117,6 +117,7 @@ checks are X1 to X9 in `tests/test_extra_checks.py` and `tests/test_checks.py`.
 | `docs/status.md` | Where we are: every deliverable and issue, and what is left |
 | `docs/report.md` | The technical report (a copy of the shared document), with figures in `docs/img/` |
 | `docs/qa.md`, `docs/rules.md`, `docs/video-script.md` | Answers for the questions, the guide's rules and where each is met, the video's shots and voiceover |
+| `docs/contributions.md` | Who built what: each member's own lines, for the careers offers |
 | `docs/risk-register.md` | Every risk: why it matters, how we check it, the counter, its status, its owner |
 | `media/` | The demo video |
 | `config.yaml` | Every setting and working rule, with sources; change a number and re-run |

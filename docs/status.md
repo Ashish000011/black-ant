@@ -37,7 +37,7 @@ official benchmarks pass; the momentum ledger closes to 5.6 × 10^-16 (limit 10^
 | #14 Mid-point check-in: baseline and enablers | Ready to present |
 | #15 Technical report | Drafted: [report.md](report.md) |
 | #16 Conservation and momentum record | Done |
-| #17 Contribution log | Open: each member writes their own part |
+| #17 Contribution log | Started: [contributions.md](contributions.md) has a section for each member; each adds their own lines |
 
 ## Still to do before the final
 
@@ -45,7 +45,8 @@ official benchmarks pass; the momentum ledger closes to 5.6 × 10^-16 (limit 10^
    not change"). Running; up to year 8,556 the half-step run reaches each orbit size within 3 to 10 years of the
    1-day run (29 years at 2.5 AU, within the logs' sampling).
 2. **Report to PDF**, deck rehearsal, **voiceover** on the video.
-3. **Contribution log** (#17): careers offers go by individual contribution, so each member writes what they did.
+3. **Contribution log** (#17): careers offers go by individual contribution, so each member adds what they did to
+   [contributions.md](contributions.md).
 4. **Ask the organisers** the questions in [rules.md](rules.md): the rulebook's safety thresholds, moving Mars,
    asteroid defence within E1.
 
