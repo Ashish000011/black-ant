@@ -1,0 +1,19 @@
+{
+  "name": "black-ant-viewer",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Black Ant test bench: replays the Python model's saved runs in 3D, with every check beside it.",
+  "type": "module",
+  "scripts": {
+    "data": "cd .. && uv run python -m sim.viewer_data",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "three": "0.170.0"
+  },
+  "devDependencies": {
+    "vite": "6.0.7"
+  }
+}

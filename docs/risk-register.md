@@ -17,7 +17,9 @@ Rules: the participant guide (Planetary Propulsion Hackathon); see `docs/problem
 | The 10,000-year deadline | A winning condition | Arrival year is a flag | Earth arrives in year 8,758 | Holds | Ashish |
 | "About 2.7 AU" | Exact target and tolerance | Million-year runs | Earth's orbit stays 2.698 to 2.702 AU | Holds | Ashish |
 | Moving Mars may be questioned | The brief protects Earth and life | Journey without Mars's tow | Without it Earth passes Mars at about 33,000 km; Mars has no known life | Ask organisers | Ashish |
-| Deliverables | Report (8 pages at most), momentum record, video (3 minutes), deck (7 minutes) | Issues #11, #15, #16 | - | Open | Member 5, Ashish |
+| Deliverables | Report (8 pages at most), momentum record, video (3 minutes), deck (7 minutes) | Issues #11, #15, #16 | Report drafted (14 sections, two figures), `docs/momentum-record.md`, demo video (2 min 20 s), 13-slide deck, `docs/qa.md`, test bench (`viewer/`) | Drafted; review before submitting | Ashish |
+| The reference concept left unexamined | Judges expect Octo-Earth judged with numbers, not dismissed | `sim/scenarios/octo.py`, test X8 | Core field on the arms and arms on the core cancel to 3.7e-12; closed circuits in a 0.5 nT field feel nothing; a 12,000 km arm buckles past 471 km (steel), 1,444 km (nanotube) | Holds | Ashish (#6, #12) |
+| Visualisation and usability (10 marks) | Judges must see real against enlarged sizes, and every check | `viewer/`: 3D views, scale labels, ten experiments, nine results tabs | Built; published on GitHub Pages from `main` | Holds once merged | Ashish (#7, #8) |
 
 ## The tow machine
 
@@ -38,10 +40,10 @@ Rules: the participant guide (Planetary Propulsion Hackathon); see `docs/problem
 | Risk | Why it matters | How we check | Counter | Status | Owner |
 | --- | --- | --- | --- | --- | --- |
 | The tow pulls the Moon away | The guide: "simulate the Moon and check it stays bound" | 50-year Earth-Moon-asteroid-Sun runs at start, middle, end; the Moon's share of Earth's Hill sphere every check | Distance changes under 0.05%; the Moon sits at 0.26 of the Hill radius today and 0.095 at 2.7 AU (more tightly held) | Holds | Member 2 |
-| **Climate: the guide forbids assuming it** | Without help Earth would reach 150 K with no liquid water (our model and the demo's agree) | `sim/habitability.py`: mirrors built in 25-year batches; energy balance with ice-albedo feedback; the demo's ten thresholds every 100 days | Sunlight 0.995 to 1.010 of today's; temperature 287.8 to 288.7 K over the whole journey. Mirrors up to 8.5e8 km2 (E3 limit 1e9) | Covered (E3) | Member 2 (#1) |
+| **Climate: the guide forbids assuming it** | Without help Earth would reach 150 K with no liquid water (our model and the demo's agree) | `sim/habitability.py`: mirrors built in 25-year batches; energy balance with ice-albedo feedback; the demo's ten thresholds every 100 days | Sunlight 0.995 to 1.010 of today's; temperature 287.8 to 288.8 K over the whole journey. Mirrors up to 8.5e8 km2 (E3 limit 1e9) | Covered (E3) | Member 2 (#1) |
 | Liquid water | At least 30% of the surface (the demo's threshold) | Share of the surface above 273 K from a latitude profile calibrated to today's 82% | Stays at about 81 to 83% | Holds | Member 2 |
 | Air | Surface pressure at least 50 kPa; N2 kept (Jeans lambda over 30) | Jeans parameter every check, exosphere temperature scaling with sunlight | Nothing removes air; lambda stays near 195 (limit 30) | Holds | Member 2 (#1) |
-| Day length | Changed by at most 1 s (the demo's threshold) | The tow asteroid's tidal torque on Earth, added up every check | About 3e-7 s over the whole journey: nothing touches Earth | Holds | Member 2 |
+| Day length | Changed by at most 1 s (the demo's threshold) | The tow asteroid's tidal torque on Earth, added up every check | About 2e-7 s over the whole journey: nothing touches Earth | Holds | Member 2 |
 | Runaway greenhouse | Absorbed sunlight under 282 W/m2 | Every check | About 238 to 241 W/m2 | Holds | Member 2 |
 | The tow outpulls the Moon's hold | Thrust under 0.01 of Earth's pull on the Moon | Every check | 0.0020 | Holds | Member 2 |
 | Magnetic shielding | At least 3 Earth radii (the demo's threshold) | Magnetopause distance every check | Grows from 10 to 13.9 Earth radii as the solar wind weakens | Holds | Member 2 |
@@ -65,12 +67,12 @@ Rules: the participant guide (Planetary Propulsion Hackathon); see `docs/problem
 
 | Risk | Why it matters | How we check | Counter | Status | Owner |
 | --- | --- | --- | --- | --- | --- |
-| Official benchmarks fail with changed inputs | Judges may change them | `sim/benchmarks.py` takes inputs from the command line | All ten pass; Member 5 tries changed inputs | Open (to try) | Member 5 (#10) |
-| Step size | "Halve the time step and show the answer does not change" | Journey at 1 day and 0.5 day | Earth arrives in year 8,542.6 against 8,549.3, orbit 2.7005 against 2.7004 AU. Mars's crossing is chaotic at either step, which is why it now sprints | Holds | Ashish |
+| Official benchmarks fail with changed inputs | Judges may change them | `sim/benchmarks.py` takes inputs from the command line; `tests/test_official_benchmarks.py` reruns 1-4 and 8-10 with changed inputs | Benchmark 4 failed at e = 0.7 (3e-6 a against 1e-6): its steps now scale with the pericentre's timescale, and it passes from e = 0 to 0.9. Benchmark 5 at coarser steps (0.5 days) misses 1e-9 (1.4e-9): the step is a method choice; at 0.25 days it passes for 5 and 20 years | Fixed | Ashish (#10) |
+| Step size | "Halve the time step and show the answer does not change" | Journey at 1 day and 0.5 day | Earth arrives in year 8,542.6 against 8,549.3, orbit 2.7005 against 2.7004 AU (earlier design); the final design at 0.5 days is running. Mars's crossing is chaotic at either step, which is why it now sprints | Holds | Ashish |
 | Integrator wrong | Everything rests on it | Official benchmarks 4 to 8; X6 against REBOUND | Pass | Holds | Member 5 |
 | Tilt model wrong | The seasons finding rests on it | X9: real solar system, 50,000 years | 22.5 to 24.0 degrees (known 22.1 to 24.5) | Holds | Member 5 |
 | Belt sample unlike the real belt | Our first sample was too cold | Compared with 20,000 real orbits | Sample drawn from real orbits | Fixed | Member 2 |
-| A climate bug | The mirror schedule's 100-day growth estimate overbuilt mirrors (sunlight up to 11% high) | Final-run flags | Growth estimated over whole 25-year batches; final run: sunlight 0.995 to 1.010 of today's, temperature 287.8 to 288.7 K | Fixed | Ashish |
+| A climate bug | The mirror schedule's 100-day growth estimate overbuilt mirrors (sunlight up to 11% high) | Final-run flags | Growth estimated over whole 25-year batches; final run: sunlight 0.995 to 1.010 of today's, temperature 287.8 to 288.8 K | Fixed | Ashish |
 | Runs are slow | Journey about 70 minutes with the exact ledger and the belt | Timings in logs | Start long runs early; `--no-belt` saves about 15 minutes | Open | Ashish |
 
 ## Decisions and questions

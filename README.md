@@ -44,6 +44,20 @@ and [docs/risk-register.md](docs/risk-register.md) for every way it could fail a
 Every number above comes from `results/`. The run prints any flag at the end; a flag naming E1, E2 or E3
 relies on one of our declared enablers, which the brief allows.
 
+## The 3D test bench
+
+**[ashish000011.github.io/black-ant](https://ashish000011.github.io/black-ant/)**: the journey in 3D (the solar system,
+the Earth tow and the Mars tow up close), nine experiments from the baseline to a million years later, and every
+check beside it: forces and momentum, orbit, structures, the ten Earth-safety thresholds, benchmarks, plots and
+the comparison with the real solar system. It replays the model's saved runs; it computes nothing itself.
+
+```bash
+uv run python -m sim.viewer_data   # turn results/ into viewer/public/data/
+cd viewer && npm ci && npm run dev # open the address it prints
+```
+
+It is published from `main` by `.github/workflows/pages.yml`.
+
 ## Setup
 
 Needs [uv](https://docs.astral.sh/uv/). From this folder:
@@ -63,6 +77,7 @@ uv run python -m sim.scenarios.longterm --only moved --state results/end_state.j
                                                     # a million years after arrival, about 15 minutes
 uv run python -m sim.scenarios.parking              # where Earth and Mars can park, a million years each
 uv run python -m sim.scenarios.outage               # how long a beam can fail before its asteroid is lost
+uv run python -m sim.scenarios.octo                 # the Octo-Earth audit: net force, arm stress and buckling, 10 seconds
 ```
 
 Add `--no-mars-tow` to the journey to see why Mars must move first, or `--orbits circular` for flat
@@ -113,7 +128,9 @@ checks are X1 to X9 in `tests/test_extra_checks.py` and `tests/test_checks.py`.
 | `sim/secular.py` | The arrival trim: steering Earth's orbit shape and plane |
 | `sim/spin.py` | Earth's spin axis, axial tilt and seasons |
 | `sim/scenarios/` | The journey, the Moon test, the million-year run, the parking scan, the outage test |
-| `tests/` | Benchmarks B1 to B9 and the checks |
+| `sim/viewer_data.py` | Turns `results/` into the 3D test bench's data files |
+| `viewer/` | The 3D test bench (Vite and Three.js), published on GitHub Pages |
+| `tests/` | The ten official benchmarks, our extra checks X1 to X9 and the safety and structure checks |
 | `data/` | Raw JPL data: Horizons vectors and Small-Body Database orbits |
 | `sim-proto/` | The first JavaScript prototype, kept for quick experiments |
 
@@ -122,5 +139,6 @@ checks are X1 to X9 in `tests/test_extra_checks.py` and `tests/test_checks.py`.
 Planets Venus to Neptune start on their real tilted, oval orbits at J2000.0 (1 January 2000, noon),
 from JPL's [orbital elements](https://ssd.jpl.nasa.gov/planets/approx_pos.html); Ceres, Pallas, Vesta
 and Hygiea from JPL Horizons. No Mercury (its pull on Earth is tiny and it would need much shorter steps).
-Earth carries the Moon's mass in the long runs; the Moon test follows the Moon itself. Our safety limits,
-structural rules and enabler limits are stand-ins until the organisers publish theirs.
+Earth carries the Moon's mass in the long runs; the Moon test follows the Moon itself. The benchmarks,
+enabler rules and the 1.5 safety factor come from the participant guide; the ten Earth-safety thresholds
+from the company's reference demo, until the rulebook appendix says otherwise.

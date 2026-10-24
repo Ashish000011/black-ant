@@ -57,8 +57,11 @@ def b3(current=1000.0, distance=1.0, half_length=1e6):
                   abs(np.linalg.norm(b) / expected - 1) <= 1e-6, "T")
 
 
-def b4(a_au=1.0, e=0.3, periods=10, steps_per_period=2000):
+def b4(a_au=1.0, e=0.3, periods=10, steps_per_period=None):
     """Kepler orbit, a = 1 AU, e = 0.3, 10 periods: back to the start within 1e-6 a; energy within 1e-9."""
+    # The step that matters is the one at pericentre, where the orbit turns fastest: its timescale goes as
+    # (1 - e)^1.5, so a more eccentric orbit gets proportionally more steps (2,000 per orbit at e = 0.3).
+    steps_per_period = int(steps_per_period or max(2000, math.ceil(2000 * (0.7 / (1 - e)) ** 1.5)))
     a = a_au * AU
     rp = a * (1 - e)
     vp = math.sqrt(GM_SUN * (1 + e) / rp)

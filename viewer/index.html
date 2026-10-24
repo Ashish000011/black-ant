@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Black Ant Test Bench</title>
+  <meta name="description" content="Team Black Ant, TransfiNITTe 2026: Earth moved from 1 AU to 2.7 AU by a light-held gravity tractor. Replays the model's saved runs with every check beside them.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='11' cy='16' r='7' fill='%233987e5'/%3E%3Ccircle cx='25' cy='12' r='3' fill='%23c3c2b7'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="./src/style.css">
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <b>Black Ant</b>
+      <span>Earth tow test bench</span>
+    </div>
+    <div class="clock">
+      <span class="muted">Sim time</span> <b id="year">year 0</b>
+      <span class="muted" id="clock-note"></span>
+    </div>
+    <div class="controls">
+      <button id="play" class="primary">Play</button>
+      <button id="reset">Reset</button>
+      <label class="speed">Speed
+        <input type="range" id="speed" min="0" max="4" step="1" value="3" aria-label="Playback speed">
+        <span id="speed-label"></span>
+      </label>
+      <button id="results-toggle" class="only-narrow">Results</button>
+      <button id="theme" aria-label="Switch light and dark theme">Theme</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <aside class="left" aria-label="Experiments">
+      <h2>Experiments R, A–I</h2>
+      <div id="experiments"></div>
+      <details class="concept">
+        <summary>The concept in one minute</summary>
+        <p>A 3.97×10<sup>20</sup> kg asteroid sits 637,100 km from Earth, 45° between "ahead" and "away from the Sun".
+          Its gravity pulls Earth outward along its orbit; Earth's gravity pulls back on it with the same force, and
+          sunlight-like beams from stations far sunward push on a mirror tied to the asteroid to hold it in place.
+          Nothing touches Earth. Mars is moved first, by a second tow, to 3.64 AU so the two never meet.</p>
+        <p>The beams never come within 420,000 km of Earth, beyond the Moon. Mirrors in space top up Earth's
+          sunlight as it moves out, so the climate stays as it is today.</p>
+      </details>
+      <details class="concept">
+        <summary>Declared enablers (3 allowed)</summary>
+        <ul id="enablers"></ul>
+      </details>
+    </aside>
+
+    <section class="stage" aria-label="3D view">
+      <div class="stage-bar">
+        <div class="seg" id="views" role="tablist" aria-label="View">
+          <button data-view="system" class="on">Solar system</button>
+          <button data-view="earth">Earth tow</button>
+          <button data-view="mars">Mars tow</button>
+          <button data-view="octo">Octo-Earth</button>
+        </div>
+        <div class="seg" id="scales" role="tablist" aria-label="Scale">
+          <button data-scale="vis" class="on">Visualisation</button>
+          <button data-scale="true">True scale</button>
+        </div>
+      </div>
+      <div class="canvas-wrap">
+        <canvas id="scene"></canvas>
+        <div id="labels" class="labels"></div>
+        <div id="scale-note" class="scale-note"></div>
+        <div id="live" class="live"></div>
+        <div id="caption" class="caption" hidden></div>
+      </div>
+      <div class="timeline">
+        <input type="range" id="time" min="0" max="1000" step="1" value="0" aria-label="Simulated year">
+        <div id="marks" class="marks"></div>
+      </div>
+    </section>
+
+    <aside class="right" aria-label="Results">
+      <div id="validity" class="validity"></div>
+      <nav class="tabs" id="tabs" role="tablist"></nav>
+      <div id="panel" class="panel"></div>
+    </aside>
+  </main>
+  <div id="tooltip" class="tooltip" hidden></div>
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>

@@ -182,6 +182,15 @@ def test_x7_asteroid_pull_and_hold():
     assert held < 0.001 * d / 1e3
 
 
-@pytest.mark.skip(reason="Octo-Earth scenario not written yet (Physics Core Plan, hours 16 to 20)")
 def test_x8_octo_earth_net_push_is_zero():
-    """X8: Octo-Earth's arms pushing on Earth give zero net outside force on Earth plus machine."""
+    """X8: Octo-Earth's arms, energised in Earth's own field, push on Earth's core exactly as hard as the core's field
+    pushes on them, so Earth plus machine gets no net force; in a uniform outside field closed circuits feel none."""
+    from sim.scenarios.octo import net_force, outside_field
+    o = dict(CFG["octo_earth"], segment_km=200)
+    for arms in ([0], list(range(o["arms"]))):
+        n = net_force(o, arms)
+        print(f"X8 arms {n['arms']}: on the arms {np.linalg.norm(n['on_arms_n']):.3e} N, sum {n['sum_over_force']:.1e} of it")
+        assert np.linalg.norm(n["on_arms_n"]) > 1e5          # a real force on the arms...
+        assert n["sum_over_force"] < 1e-9                     # ...and its exact partner on Earth's core
+    f = outside_field(o)
+    assert f["closed_circuits_n"] < 1e-9 * f["scale_i_l_b_n"]

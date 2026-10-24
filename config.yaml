@@ -236,3 +236,31 @@ crossing:                      # sim/scenarios/crossing.py: Mars across Jupiter'
   variants:                    # results of 24 Oct: normal pull caught 6/8, 1.56x 2/8, 3.3x 0/8, 4.9x 0/8
     normal pull: null
     sprint 4x (as designed): {from_au: 3.0, to_au: 3.5, distance_km: 200000, ramp_km_per_check: 2000}
+
+octo_earth:                    # sim/scenarios/octo.py: the brief's reference concept, audited with the same physics
+  # The arm as the company's demo sets it by default: 8 arms rooted 45 deg apart on a ring round the globe,
+  # 12,000 km long, a 200 km tube with 2 km walls, 1 MA in each arm with its return conductor 50 km away.
+  arms: 8
+  length_km: 12000
+  outer_diameter_km: 200
+  wall_km: 2
+  elevation_deg: 36.1          # deployed elevation above the local horizon (the demo's default)
+  current_a: 1.0e6
+  go_return_spacing_km: 50
+  segment_km: 100              # conductor pieces for the force sums
+  # Earth's field from its core: a current loop at the centre with Earth's dipole moment (8.0e22 A m^2, IGRF)
+  core_loop_radius_km: 1000
+  earth_dipole_a_m2: 8.0e22
+  interplanetary_field_t: [0.0, 5.0e-10, 0.0]   # the demo's 0.5 nT external field
+  lengths_km: [100, 300, 1000, 3000, 6000, 12000]
+  # Strength (yield, or tensile for fibres) and stiffness at room temperature. The last two are single-tube and
+  # single-sheet records, taken as if a whole arm could be made of them: "ideal macroscale", hypothetical.
+  materials:
+    - {name: "Structural steel S355", density: 7850, strength_pa: 3.55e8, e_pa: 2.10e11, source: "EN 10025-2"}
+    - {name: "Maraging steel 300", density: 8000, strength_pa: 2.0e9, e_pa: 1.90e11, source: "ASM Handbook vol. 1"}
+    - {name: "Titanium Ti-6Al-4V", density: 4430, strength_pa: 8.8e8, e_pa: 1.14e11, source: "ASM Handbook vol. 2"}
+    - {name: "Aluminium 7075-T6", density: 2810, strength_pa: 5.03e8, e_pa: 7.2e10, source: "ASM Handbook vol. 2"}
+    - {name: "CFRP, unidirectional (axial)", density: 1600, strength_pa: 2.0e9, e_pa: 1.35e11, source: "typical T300/epoxy"}
+    - {name: "Aramid (Kevlar 49) composite", density: 1380, strength_pa: 1.4e9, e_pa: 7.6e10, source: "DuPont data sheet"}
+    - {name: "Carbon nanotube, ideal macroscale (hypothetical)", density: 1300, strength_pa: 6.3e10, e_pa: 1.0e12, source: "Yu et al. 2000, Science 287, 637: 63 GPa, one tube"}
+    - {name: "Graphene, ideal macroscale (hypothetical)", density: 2267, strength_pa: 1.3e11, e_pa: 1.0e12, source: "Lee et al. 2008, Science 321, 385: 130 GPa, one sheet"}
