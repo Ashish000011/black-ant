@@ -76,6 +76,7 @@ uv run python -m sim.scenarios.longterm --only moved --state results/end_state.j
                                                     # a million years after arrival, about 15 minutes
 uv run python -m sim.scenarios.parking              # where Earth and Mars can park, a million years each
 uv run python -m sim.scenarios.outage               # how long a beam can fail before its asteroid is lost
+uv run python -m sim.scenarios.octo                 # the Octo-Earth audit: net force, arm stress and buckling, 10 seconds
 ```
 
 Add `--no-mars-tow` to the journey to see why Mars must move first, or `--orbits circular` for flat

@@ -140,6 +140,7 @@ def main() -> None:
         "outage.json": load("outage.json"),
         "parking.json": load("parking_scan3.json"),
         "structures.json": structures(cfg, s),
+        "octo.json": load("octo_earth.json"),
         "config.json": {"safety": cfg["safety"], "enablers": cfg["enablers"], "structures": cfg["structures"],
                         "tows": cfg["tows"], "beam": cfg["beam"]},
     }

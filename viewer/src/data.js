@@ -1,7 +1,7 @@
 // Loads the files sim/viewer_data.py writes and derives what the page plays: time series, milestones and
 // smooth positions between the saved frames (one every 10 years).
 
-const FILES = ["journey", "summary", "longterm", "benchmarks", "crossing", "outage", "parking", "structures", "config"];
+const FILES = ["journey", "summary", "longterm", "benchmarks", "crossing", "outage", "parking", "structures", "config", "octo"];
 
 export const AU_KM = 1.495978707e8;
 export const G = 6.674e-11;

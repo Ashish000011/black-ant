@@ -173,12 +173,13 @@ export class Stage {
     this.camera = new THREE.PerspectiveCamera(45, 1, 0.0005, 1e5);
     this.controls = new OrbitControls(this.camera, canvas);
     this.controls.enableDamping = true;
-    this.labels = { system: [], earth: [], mars: [] };
-    this.scenes = { system: this.buildSystem(), earth: this.buildTowView("earth"), mars: this.buildTowView("mars") };
+    this.labels = { system: [], earth: [], mars: [], octo: [] };
+    this.scenes = { system: this.buildSystem(), earth: this.buildTowView("earth"), mars: this.buildTowView("mars"), octo: this.buildOcto() };
     this.poses = {
       system: { pos: new THREE.Vector3(0.8, 9.6, 8.2), target: new THREE.Vector3(0, 0, 0.4) },
       earth: { pos: new THREE.Vector3(200, 1000, 1260), target: new THREE.Vector3(200, 0, 160) },
       mars: { pos: new THREE.Vector3(120, 660, 820), target: new THREE.Vector3(120, 0, 110) },
+      octo: { pos: new THREE.Vector3(4, 21, 44), target: new THREE.Vector3(0, 3, 0) },
     };
     this.view = "system";
     this.scale = "vis";
@@ -333,6 +334,52 @@ export class Stage {
     return scene;
   }
 
+  // The brief's reference concept as our audit models it (sim/scenarios/octo.py): a ring round the equator and
+  // eight straight arms rooted 45 degrees apart, at the demo's default length, width and elevation.
+  buildOcto() {
+    const o = this.d.octo?.arm;
+    const scene = new THREE.Scene();
+    scene.add(stars());
+    scene.add(new THREE.AmbientLight(0xffffff, 0.25));
+    const sunLight = new THREE.DirectionalLight(0xfff2d8, 2.2);
+    sunLight.position.set(-1, 0.4, -0.6);
+    scene.add(sunLight);
+    if (!o) return scene;
+    const earth = sphere(0x3987e5, planetTexture("earth"));
+    earth.scale.setScalar(RADIUS_KM.earth / 1e3);
+    scene.add(earth);
+    this.octoEarth = earth;
+    const ring = new THREE.Mesh(new THREE.TorusGeometry(RADIUS_KM.earth / 1e3 * 1.01, 0.12, 8, 160),
+      new THREE.MeshStandardMaterial({ color: 0xc3c2b7, metalness: 0.7, roughness: 0.35 }));
+    ring.rotation.x = Math.PI / 2;
+    scene.add(ring);
+    this.octoArms = [];
+    const el = THREE.MathUtils.degToRad(o.elevation_deg), len = o.length_km / 1e3;
+    for (let k = 0; k < o.arms; k++) {
+      const phi = (2 * Math.PI * k) / o.arms;
+      const out = new THREE.Vector3(Math.cos(phi), 0, -Math.sin(phi));
+      const dir = out.clone().multiplyScalar(Math.cos(el)).add(new THREE.Vector3(0, Math.sin(el), 0));
+      const root = out.clone().multiplyScalar(RADIUS_KM.earth / 1e3);
+      const arm = new THREE.Mesh(new THREE.CylinderGeometry(1, 1, 1, 12),
+        new THREE.MeshStandardMaterial({ color: 0x9a978f, metalness: 0.6, roughness: 0.4, emissive: 0x3a1010 }));
+      arm.position.copy(root.clone().add(dir.clone().multiplyScalar(len / 2)));
+      arm.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir);
+      arm.userData = { len, tip: root.clone().add(dir.clone().multiplyScalar(len)) };
+      scene.add(arm);
+      this.octoArms.push(arm);
+    }
+    const r = this.d.octo;
+    const steel = r.materials[0], cnt = r.materials.find((m) => m.name.startsWith("Carbon"));
+    this.label("octo", "Earth", () => new THREE.Vector3(0, 0, 0));
+    this.label("octo", "Ring round the equator", () => new THREE.Vector3(-RADIUS_KM.earth / 1e3, 0, 0), "dim");
+    this.label("octo", `Arm: ${o.length_km.toLocaleString("en")} km long, ${o.outer_diameter_km} km across, ${o.current_a.toExponential(0).replace("e+", "e")} A`,
+      () => this.octoArms[0].userData.tip, "to-left");
+    this.label("octo", `Standing, it buckles past ${Math.round(steel.buckling_length_km)} km (steel), ${Math.round(cnt.buckling_length_km).toLocaleString("en")} km (nanotube)`,
+      () => this.octoArms[2].userData.tip, "force");
+    this.label("octo", "Its push lands on Earth's own core: net force 0", () => this.octoArms[5].userData.tip, "force");
+    return scene;
+  }
+
   setView(view, initial = false) {
     if (!initial) this.poses[this.view] = { pos: this.camera.position.clone(), target: this.controls.target.clone() };
     this.view = view;
@@ -357,6 +404,10 @@ export class Stage {
       this.bodies[k].scale.setScalar(au(k));
       this.markers[k].visible = !vis;
     }
+    for (const arm of this.octoArms || []) {
+      const w = (this.d.octo.arm.outer_diameter_km / 2 / 1e3) * (vis ? 3 : 1);
+      arm.scale.set(w, arm.userData.len, w);
+    }
     for (const v of [this.earthView, this.marsView]) {
       const pr = (v.kind === "earth" ? RADIUS_KM.earth : RADIUS_KM.mars) / 1e3;
       v.planet.scale.setScalar(pr * (vis ? CLOSE_VIS.planet : 1));
@@ -376,7 +427,11 @@ export class Stage {
   updateNote() {
     const vis = this.scale === "vis";
     let text;
-    if (this.view === "system") {
+    if (this.view === "octo") {
+      text = vis
+        ? "Visualisation: the arms drawn 3× as thick as the demo's 200 km tube; lengths and Earth true. This is the brief's reference concept as our audit models it: straight arms at the demo's 36° elevation."
+        : "True scale: Earth, the ring and 200 km-wide arms 12,000 km long, as the demo sets them by default.";
+    } else if (this.view === "system") {
       text = vis
         ? "Visualisation: the Sun is drawn 19× and the planets 260–1,800× their true size so they can be seen. Every distance and orbit is true. Between saved frames (10 years apart) each planet follows its orbit by Kepler's third law."
         : "True scale: every body at its real size. The planets are far smaller than a pixel here; the rings only mark where they are.";

@@ -71,7 +71,7 @@ async function main() {
     });
     ctx.live = [];
     ctx.charts = [];
-    const exp = state.exp || exps[1];
+    const exp = state.exp || exps.find((e) => e.id === "B");
     const view = {
       "Summary": () => summaryTab(d, ctx, exp),
       "Forces & momentum": () => forcesTab(d, ctx),
@@ -91,6 +91,7 @@ async function main() {
   // Views and scale
   function setView(view) {
     stage.setView(view);
+    $("live").style.display = view === "octo" ? "none" : "";
     $("views").querySelectorAll("button").forEach((b) => b.classList.toggle("on", b.dataset.view === view));
   }
   $("views").querySelectorAll("button").forEach((b) => (b.onclick = () => setView(b.dataset.view)));
@@ -174,7 +175,7 @@ async function main() {
     requestAnimationFrame(frame);
   }
 
-  const first = exps.find((e) => e.id === (new URLSearchParams(location.search).get("exp") || "B")) || exps[1];
+  const first = exps.find((e) => e.id === (new URLSearchParams(location.search).get("exp") || "B")) || exps.find((e) => e.id === "B");
   runExperiment(first, false);
   setPlaying(false);
   requestAnimationFrame(frame);

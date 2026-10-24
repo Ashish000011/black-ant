@@ -78,6 +78,8 @@ export function validity(d) {
 export function experiments(d) {
   const m = d.milestones;
   return [
+    { id: "R", title: "Reference concept: Octo-Earth", view: "octo", t: 0, play: false, tab: "Summary",
+      q: "A ring round the globe with eight 12,000 km arms, pushed by currents in magnetic fields. What does established physics say about it?" },
     { id: "A", title: "Baseline", view: "system", t: 0, play: false, tab: "Validation",
       q: "Sun and planets with no push. Do the integrators and the ten official benchmarks hold?" },
     { id: "B", title: "The journey", view: "system", t: 0, play: true, tab: "Summary",
@@ -100,6 +102,30 @@ export function experiments(d) {
 }
 
 const answers = {
+  R(d) {
+    const r = d.octo, all = r.net_force_all_arms, one = r.net_force_one_arm, f = r.outside_field;
+    const steel = r.materials[0], cnt = r.materials.find((m) => m.name.startsWith("Carbon"));
+    const n = (v) => Math.hypot(...v);
+    const km = (v) => (v == null ? "no limit" : `${Math.round(v).toLocaleString("en")} km`);
+    return div(`<div class="verdict"><b>It cannot move Earth, and its arms cannot stand.</b>
+      Earth's field comes from currents in Earth's own core, so whatever the field does to the arms, the arms do back to the
+      core: worked out separately, the two forces cancel to ${fmt(all.sum_over_force, 2)} of each other. A force inside
+      Earth plus machine cannot move them. And a ${r.arm.length_km.toLocaleString("en")} km arm crushes or buckles under its own
+      weight in every material, even ones that do not exist yet. That is why we tow Earth with an asteroid's gravity instead.</div>`
+      + tiles([["Force on the arms from Earth's field", `${fmt(n(all.on_arms_n), 3)} N`, `on Earth's core from the arms: ${fmt(n(all.on_core_n), 3)} N`],
+        ["Net force on Earth plus machine", `${fmt(all.sum_over_force, 2)} of it`, `one arm alone: ${fmt(one.sum_over_force, 2)} (test X8)`],
+        ["Arms with no return path (impossible)", `${fmt(f.open_arms_in_earth_field_n, 2)} N at best`, `Earth would take ${fmt(f.years_needed_at_that_push, 2)} years`],
+        ["12,000 km standing, steel", `safety factor ${fmt(steel.lengths.at(-1).standing_sf, 2)}`, `nanotube ${cnt.lengths.at(-1).standing_sf.toFixed(2)}; 1.5 required`]])
+      + `<h3>Each material at the demo's tube (${r.arm.outer_diameter_km} km across, ${r.arm.wall_km} km walls), safety factor ${r.safety_factor_min}</h3>`
+      + table(["Material", "Longest standing", "Buckles past", "Longest level"], r.materials.map((m) => [
+        `${m.name}<br><span class="note">${m.source}</span>`, km(m.standing_longest_km), km(m.buckling_length_km),
+        km(m.level_longest_km)]), [1, 2, 3])
+      + `<p class="note">Standing: the arm's weight on its base, with gravity falling off with height and Earth's spin. Buckling:
+        Greenhill's limit for a column under its own weight, with surface gravity (with the weakest gravity along the arm,
+        nanotube still buckles past ${Math.round(cnt.buckling_length_weakest_gravity_km).toLocaleString("en")} km). Level: the arm held out
+        sideways near the ground, bending at its root. Closed arm circuits in the demo's 0.5 nT outside field feel ${fmt(f.closed_circuits_n, 2)} N
+        (I L B is ${fmt(f.scale_i_l_b_n, 2)} N). Code: sim/scenarios/octo.py.</p>`);
+  },
   A(d, ctx) {
     const b5 = d.benchmarks.find((b) => b.number === 5);
     const ok = d.benchmarks.filter((b) => b.ok).length;
@@ -398,7 +424,7 @@ export function validationTab(d) {
       ["X1", "An orbit's period matches Kepler's third law"], ["X2", "Energy holds steady for 1,000 years"],
       ["X3", "Momentum ledger in the guide's form, with a push on"], ["X4", "A Hohmann transfer reaches its target orbit"],
       ["X5", "A steady push arrives when theory says"], ["X6", "Our integrator matches REBOUND, an independent code"],
-      ["X7", "An asteroid's pull and the hold on it"], ["X8", "Octo-Earth's arms give no net push on the system (being added)"]])
+      ["X7", "An asteroid's pull and the hold on it"], ["X8", "Octo-Earth's arms and Earth's core push on each other equally: no net force on Earth plus machine"]])
     + `<h3>Flags in the journey: all caused by declared enablers</h3>`
     + table(["Check", "Worst", "Limit", "Covered by"], flags.map((f) => [f.check, fmt(f.worst, 3), `${f.kind === "min" ? "≥" : "≤"} ${fmt(f.limit, 3)}`, chip(f.covered_by ? "cover" : "fail", f.covered_by || "none")]), [1, 2])
     + `<h3>Flags after a million years</h3>`
