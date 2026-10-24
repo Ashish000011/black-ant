@@ -457,7 +457,10 @@ export function notesTab(d) {
       <li>How the beam stations, mirrors and asteroids are built and placed: that is what E1 and E3 declare.</li>
       <li>Climate in one dimension (plus a latitude profile for liquid water); no weather, oceans or biology.</li>
       <li>The Moon's orbit and Earth's spin are checked in separate runs (sim/scenarios/moon.py, sim/spin.py), not inside the journey.</li>
-      <li>The page replays saved runs: it computes nothing itself. Change config.yaml and re-run the Python model to change them.</li>
+      <li>The page replays saved runs. The Model panel's sliders add live estimates (marked ≈) with the same formulas as
+        sim/habitability.py and sim/night.py; they never change the run. Change config.yaml and re-run the Python model for official numbers.</li>
+      <li>Moon reflectors (sim/night.py) are not in the saved journey: their light and heat are estimates, counted against E3's mirror bound.</li>
+      <li>Venus, Saturn, Uranus, Neptune and the big asteroids are in the run but not saved per frame: the page places them on Kepler orbits from J2000.</li>
     </ul>
     <h3>Read more</h3>
     <ul>

@@ -4,83 +4,81 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Black Ant Test Bench</title>
-  <meta name="description" content="Team Black Ant, TransfiNITTe 2026: Earth moved from 1 AU to 2.7 AU by a light-held gravity tractor. Replays the model's saved runs with every check beside them.">
+  <meta name="description" content="Team Black Ant, TransfiNITTe 2026: Earth moved from 1 AU to 2.7 AU by a light-held gravity tractor. Replays the model's saved runs with every check beside them, and live what-if estimates.">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='11' cy='16' r='7' fill='%233987e5'/%3E%3Ccircle cx='25' cy='12' r='3' fill='%23c3c2b7'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="./src/style.css">
 </head>
 <body>
-  <header class="top">
-    <div class="brand">
-      <b>Black Ant</b>
-      <span>Earth tow test bench</span>
-    </div>
-    <div class="clock">
-      <span class="muted">Sim time</span> <b id="year">year 0</b>
-      <span class="muted" id="clock-note"></span>
-    </div>
-    <div class="controls">
-      <button id="play" class="primary">Play</button>
-      <button id="reset">Reset</button>
-      <label class="speed">Speed
-        <input type="range" id="speed" min="0" max="4" step="1" value="3" aria-label="Playback speed">
-        <span id="speed-label"></span>
-      </label>
-      <button id="results-toggle" class="only-narrow">Results</button>
+  <!-- Top bar, as Blender's: the name, the views as workspace tabs, the scale and theme on the right. -->
+  <header class="topbar">
+    <div class="brand"><b>Black Ant</b><span>Earth tow test bench</span></div>
+    <nav class="workspaces" id="views" role="tablist" aria-label="View">
+      <button data-view="system" class="on">Solar system</button>
+      <button data-view="earth">Earth tow</button>
+      <button data-view="mars">Mars tow</button>
+      <button data-view="octo">Octo-Earth</button>
+    </nav>
+    <div class="topbar-right">
+      <div class="seg" id="scales" role="tablist" aria-label="Scale">
+        <button data-scale="vis" class="on">Visualisation</button>
+        <button data-scale="true">True scale</button>
+      </div>
+      <button id="toggle-left" title="Model panel (T)">Model</button>
+      <button id="toggle-right" title="Data panel (N)">Data</button>
       <button id="theme" aria-label="Switch light and dark theme">Theme</button>
     </div>
   </header>
 
-  <main class="layout">
-    <aside class="left" aria-label="Experiments">
-      <h2>Experiments R, A–I</h2>
-      <div id="experiments"></div>
-      <details class="concept">
-        <summary>The concept in one minute</summary>
-        <p>A 3.97×10<sup>20</sup> kg asteroid sits 637,100 km from Earth, 45° between "ahead" and "away from the Sun".
-          Its gravity pulls Earth outward along its orbit; Earth's gravity pulls back on it with the same force, and
-          sunlight-like beams from stations far sunward push on a mirror tied to the asteroid to hold it in place.
-          Nothing touches Earth. Mars is moved first, by a second tow, to 3.64 AU so the two never meet.</p>
-        <p>The beams never come within 420,000 km of Earth, beyond the Moon. Mirrors in space top up Earth's
-          sunlight as it moves out, so the climate stays as it is today.</p>
-      </details>
-      <details class="concept">
-        <summary>Declared enablers (3 allowed)</summary>
-        <ul id="enablers"></ul>
-      </details>
-    </aside>
-
-    <section class="stage" aria-label="3D view">
-      <div class="stage-bar">
-        <div class="seg" id="views" role="tablist" aria-label="View">
-          <button data-view="system" class="on">Solar system</button>
-          <button data-view="earth">Earth tow</button>
-          <button data-view="mars">Mars tow</button>
-          <button data-view="octo">Octo-Earth</button>
+  <main class="viewport" id="viewport">
+    <div class="canvas-wrap" id="canvas-wrap">
+      <canvas id="scene"></canvas>
+      <div id="labels" class="labels"></div>
+      <div id="hud" class="hud" aria-live="off"></div>
+      <div id="scale-note" class="scale-note"></div>
+      <div id="caption" class="caption" hidden></div>
+      <div class="corner-br">
+        <div class="seg" id="top-zoom" hidden>
+          <button data-z="inner" class="on">Inner</button>
+          <button data-z="all">All orbits</button>
         </div>
-        <div class="seg" id="scales" role="tablist" aria-label="Scale">
-          <button data-scale="vis" class="on">Visualisation</button>
-          <button data-scale="true">True scale</button>
-        </div>
+        <button id="top-view" class="topview-btn" title="Top-down view, every orbit a circle (7)" aria-pressed="false">
+          <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><circle cx="12" cy="12" r="2.2" fill="currentColor"/><circle cx="12" cy="12" r="6" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>
+          Top view
+        </button>
       </div>
-      <div class="canvas-wrap">
-        <canvas id="scene"></canvas>
-        <div id="labels" class="labels"></div>
-        <div id="scale-note" class="scale-note"></div>
-        <div id="live" class="live"></div>
-        <div id="caption" class="caption" hidden></div>
-      </div>
-      <div class="timeline">
-        <input type="range" id="time" min="0" max="1000" step="1" value="0" aria-label="Simulated year">
-        <div id="marks" class="marks"></div>
-      </div>
-    </section>
+    </div>
 
-    <aside class="right" aria-label="Results">
-      <div id="validity" class="validity"></div>
-      <nav class="tabs" id="tabs" role="tablist"></nav>
-      <div id="panel" class="panel"></div>
-    </aside>
+    <!-- Left: the Scene tab (where every body is) above the Model panel (sliders, meters, experiments). -->
+    <div class="dock dock-left" id="dock-left">
+      <section class="fp outliner" id="outliner" aria-label="Scene"></section>
+      <section class="fp" id="model" aria-label="Model"></section>
+    </div>
+
+    <!-- Right: constants, Earth at the start, the comparison, and every result. -->
+    <div class="dock dock-right" id="dock-right">
+      <section class="fp" id="data" aria-label="Data and results"></section>
+    </div>
   </main>
+
+  <!-- Timeline, as Blender's: transport, the current year (editable), the scrubber with markers. -->
+  <footer class="timeline">
+    <div class="transport">
+      <button id="reset" title="Back to year 0 (Home)" aria-label="Back to year 0">&#x23EE;</button>
+      <button id="play" class="primary" title="Play or pause (Space)">Play</button>
+      <button id="to-end" title="Jump to the end" aria-label="Jump to the end">&#x23ED;</button>
+      <label class="yearbox">Year <input id="year-input" type="number" min="0" step="1" value="0"></label>
+    </div>
+    <div class="scrub">
+      <input type="range" id="time" min="0" max="1000" step="1" value="0" aria-label="Simulated year">
+      <div id="marks" class="marks"></div>
+    </div>
+    <div class="clock"><b id="year">year 0</b><span class="muted" id="clock-note"></span></div>
+  </footer>
+  <div class="statusbar">
+    <span><kbd>Space</kbd> play</span><span><kbd>T</kbd> model panel</span><span><kbd>N</kbd> data panel</span>
+    <span><kbd>7</kbd> top view</span><span><kbd>Home</kbd> reset camera</span>
+    <span class="status-right">Saved run: final journey of 24 Oct · numbers marked ≈ are live estimates</span>
+  </div>
   <div id="tooltip" class="tooltip" hidden></div>
   <script type="module" src="./src/main.js"></script>
 </body>
