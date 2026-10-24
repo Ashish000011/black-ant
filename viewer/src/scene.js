@@ -533,6 +533,14 @@ export class Stage {
     v.state.tipPush = mirrorPos.clone().add(f.clone().multiplyScalar(len));
   }
 
+  // Turns the camera about the view's target, around the vertical (the video script uses it).
+  orbit(deg) {
+    const off = this.camera.position.clone().sub(this.controls.target);
+    off.applyAxisAngle(new THREE.Vector3(0, 1, 0), THREE.MathUtils.degToRad(deg));
+    this.camera.position.copy(this.controls.target).add(off);
+    this.camera.lookAt(this.controls.target);
+  }
+
   resize() {
     const el = this.canvas.parentElement;
     const w = el.clientWidth, h = el.clientHeight;

@@ -178,7 +178,17 @@ async function main() {
   const first = exps.find((e) => e.id === (new URLSearchParams(location.search).get("exp") || "B")) || exps.find((e) => e.id === "B");
   runExperiment(first, false);
   setPlaying(false);
-  requestAnimationFrame(frame);
+  // ?capture: no clock of its own; a script steps it frame by frame (out/pw/video.mjs makes the demo video).
+  if (new URLSearchParams(location.search).has("capture")) {
+    window.bench = {
+      run: (id) => { runExperiment(exps.find((e) => e.id === id), false); setPlaying(false); },
+      view: setView, time: setTime, tab: setTab,
+      scale: (s) => $("scales").querySelector(`[data-scale="${s}"]`).click(),
+      orbit: (deg) => stage.orbit(deg),
+      caption: (text) => { $("caption").hidden = !text; $("caption").textContent = text || ""; },
+      frame: (ms) => { stage.render(ms); refreshPanel(true); },
+    };
+  } else requestAnimationFrame(frame);
 }
 
 main();
