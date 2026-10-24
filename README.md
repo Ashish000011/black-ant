@@ -5,6 +5,8 @@ from 1 AU to about 2.7 AU, near the asteroid belt, without harming the planet or
 winning conditions (target within 10,000 years, Earth safe, structures at safety factor 1.5 or more,
 benchmarks passing, every force booked, no unresolved flags) are in [docs/problem.md](docs/problem.md).
 
+**Start here:** [where we are](docs/status.md) · [technical report](docs/report.md) · [demo video](media/black-ant-demo.mp4) · [3D test bench](https://ashish000011.github.io/black-ant/)
+
 ## Our approach in short
 
 A **gravity tractor held in place by light**. A 4 x 10^20 kg asteroid sits 637,100 km from Earth and
@@ -112,7 +114,11 @@ checks are X1 to X9 in `tests/test_extra_checks.py` and `tests/test_checks.py`.
 | `docs/problem.md` | The brief and the winning conditions |
 | `docs/enablers.md` | Our three hypothetical enablers, as declared at the mid-point check-in |
 | `docs/approach.md` | Our plan, the physics, the machine, what we found and fixed |
+| `docs/status.md` | Where we are: every deliverable and issue, and what is left |
+| `docs/report.md` | The technical report (a copy of the shared document), with figures in `docs/img/` |
+| `docs/qa.md`, `docs/rules.md`, `docs/video-script.md` | Answers for the questions, the guide's rules and where each is met, the video's shots and voiceover |
 | `docs/risk-register.md` | Every risk: why it matters, how we check it, the counter, its status, its owner |
+| `media/` | The demo video |
 | `config.yaml` | Every setting and working rule, with sources; change a number and re-run |
 | `results/` | The final run: `summary.json` (every number and flag), `run.json` (one frame per 10 years, what the viewer plays), `end_state.json`, `longterm.json`, `outage.json`, `parking*.json` |
 | `sim/bodies.py` | Bodies and their real starting orbits |
