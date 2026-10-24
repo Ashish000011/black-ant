@@ -14,8 +14,11 @@ night side. Three limits follow from geometry:
   6.6 W/m^2 over the night side against the ~240 W/m^2 Earth absorbs from the Sun. Moon reflectors can light the
   night; they cannot carry the climate. The sunlight mirrors do that.
 
-The test bench (viewer/src/estimates.js) uses the same formulas for its live sliders. None of this is in the saved
-journey run.
+The reflector area is conservative: today's 0.25 lux is a full Moon high overhead, while the reflectors' light is
+averaged over the whole night hemisphere, where much of it falls at a slant. Comparing the two makes the area up to
+about 2x bigger than needed to match today's moonlight where the Moon is overhead.
+
+The test bench (viewer/src/estimates.js) uses the same formulas. None of this is in the saved journey run.
 """
 
 import math
@@ -52,7 +55,8 @@ def reflector_lux(cfg: dict, area_km2: float, a_au: float, e: float = 0.0, refle
 
 def area_for_full_moon_lux(cfg: dict, target_lux: float, a_au: float, e: float = 0.0,
                            reflectivity: float = 0.95) -> float:
-    """Reflector area (km^2) that brings full-Moon light on the night side up to `target_lux`."""
+    """Reflector area (km^2) that brings full-Moon light on the night side up to `target_lux`. Conservative: the
+    target is an overhead full Moon, the reflectors' light a night-hemisphere average (see the module docstring)."""
     missing = max(0.0, target_lux - natural_full_moon_lux(cfg, a_au, e))
     per_km2 = reflector_lux(cfg, 1.0, a_au, e, reflectivity)
     return missing / per_km2
