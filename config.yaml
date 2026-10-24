@@ -54,11 +54,16 @@ belt_sample:
 tows:
 # max_beam_w: the most a tow may use. Mars's tow is served first; the Earth tow may use the rest of E1's
 # 1e26 W, so it has spare power to catch its asteroid after an outage (sim/scenarios/outage.py).
-  - {name: earth-tow, target: earth, asteroid_mass_kg: 3.97e20,   distance_km: 637100, stop_au: 2.7, max_beam_w: 1.0e26}
+  - {name: earth-tow, target: earth, asteroid_mass_kg: 3.97e20,   distance_km: 637100, stop_au: 2.7, max_beam_w: 1.0e26,
+     sprint: {while_tow: mars-tow, from_au: 2.9, to_au: 3.6, distance_km: 850000, ramp_km_per_check: 3000}}
 # Mars parks at 3.64 AU, past Jupiter's 2:1 resonance (3.28 AU) and between the resonances with Earth and
 # Jupiter (sim/scenarios/parking.py). At 3.0-3.1 AU a million-year run throws Mars onto an Earth-crossing orbit;
 # at 3.4 an untrimmed Mars, next to Earth's 7:5 resonance (3.379 AU), drifts until the orbits cross.
-  - {name: mars-tow,  target: mars,  asteroid_mass_kg: 9.7808e18, distance_km: 100000, stop_au: 3.64, max_beam_w: 1.5e25}
+# Crossing Jupiter's 2:1 at the normal pull, Mars was caught in 6 of 8 trials; so Mars's tow sprints across it
+# (asteroid at 50,000 km, 4x the pull: caught in 0 of 8 at 3.3x and at 4.9x), while Earth's tow eases off
+# (asteroid at 850,000 km) to keep E1's total under 1e26 W. Both moves are ramped gently.
+  - {name: mars-tow,  target: mars,  asteroid_mass_kg: 9.7808e18, distance_km: 100000, stop_au: 3.64, max_beam_w: 4.0e25,
+     sprint: {from_au: 3.0, to_au: 3.5, distance_km: 50000, ramp_km_per_check: 300}}
 
 controller:
   correction_period_days: 10   # how fast drift off the spot is corrected
@@ -74,9 +79,7 @@ arrival_trim:                  # sim/secular.py: Earth arrives with the orbit sh
   lift_step_deg: 0.15
   invariable_plane_deg: [1.5787, 107.5822]   # tilt and node to the J2000 ecliptic (Souami & Souchay 2012)
   s6_arcsec_per_year: -26.3302               # Jupiter-Saturn plane mode (Laskar 1990)
-  # Mars's tow trims the shape only, between 1.8 and 3.1 AU. Steering on past 3.1 AU weakened its push just as
-  # it reached Jupiter's 2:1 resonance (3.28 AU), and the resonance caught it there (run of 24 Oct).
-  mars-tow: {from_au: 1.8, to_au: 3.1, lift_max_deg: 0}
+  # Mars's tow does not trim: any weakening of its pull near Jupiter's 2:1 resonance lets the resonance catch it.
 
 moon:                          # Member 1 runs these; Member 2 owns the verdict
   earth_mass_kg: 5.9722e24     # Earth alone (the long run gives Earth the Moon's mass too)
@@ -109,7 +112,7 @@ enablers:                      # Member 3 (structures and enablers)
 structures:                    # Member 3; design sizes the checks test against
   # Sized for the most the beam can ever push (2P/c at 1e26 W) with a 1.5 safety factor, so recovery is covered too.
   earth-tow: {cable_cross_section_km2: 10.5, anchor_area_km2: 10500, mirror_radius_km: 2600, asteroid_density_kg_m3: 2500}
-  mars-tow:  {cable_cross_section_km2: 1.6,  anchor_area_km2: 1600,  mirror_radius_km: 1000, asteroid_density_kg_m3: 2500}
+  mars-tow:  {cable_cross_section_km2: 4.2,  anchor_area_km2: 4200,  mirror_radius_km: 1650, asteroid_density_kg_m3: 2500}
   rock_strength_pa: 1.0e8
 
 safety:                        # Member 2 (safety and environment)

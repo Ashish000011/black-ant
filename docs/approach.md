@@ -59,11 +59,13 @@ may pass within 420,000 km of Earth (beyond the Moon's farthest point), so when 
 light arrives up to 30 degrees off the Sun line instead. About 8.4 x 10^25 W is needed.
 
 **Power.** Mars's tow is served first; the Earth tow may use the rest of E1's 10^26 W. That leaves spare
-power to catch the asteroid after a fault (see below).
+power to catch the asteroid after a fault (see below). For a few decades while Mars crosses Jupiter's 2:1
+resonance, the budget is shared differently (next section), and the total never goes above 10^26 W.
 
 **Structures.** Cables and anchors are sized for the most the beam can ever push (2P/c) with a 1.5
 safety factor; the mirror is sized so it stays under 1,500 K. Earth tow: cables 10.5 km^2, anchor
-10,500 km^2, mirror radius 2,600 km. Mars tow: 1.6 km^2, 1,600 km^2, 1,000 km.
+10,500 km^2, mirror radius 2,600 km. Mars tow (sized for its sprint, 4 x 10^25 W): 4.2 km^2, 4,200 km^2,
+1,650 km.
 
 ## Mars goes first
 
@@ -80,10 +82,18 @@ Where Mars parks matters, because once Earth sits at 2.7 AU, Earth's own resonan
 | 11:6, 9:5, 7:4, 5:3 | 3.473, 3.516, 3.583, 3.701 AU | |
 | 3:2, 8:5 | | 3.538, 3.694 AU |
 
-3.64 AU sits between them all, with the widest gap from Earth's orbit (about 0.55 AU). Mars's tow also
-steers Mars's orbit shape onto the value Jupiter forces (the same arrival trim as Earth's, below), but only
-up to 3.1 AU: past that it must push at full strength, because a weakened push lets the 2:1 resonance catch
-Mars, which happened in one of our runs.
+3.64 AU sits between them all, with the widest gap from Earth's orbit (about 0.55 AU).
+
+**Crossing Jupiter's 2:1 resonance.** To get there Mars must cross 3.28 AU while moving toward Jupiter, and a
+resonance crossed slowly can catch a planet and pump up its eccentricity. We tested it: Mars started at 2.95 AU
+from eight different points on its orbit and was pulled across at the normal strength. **Jupiter caught it in 6
+of the 8.** So Mars's tow **sprints**: between 3.0 and 3.5 AU its asteroid moves in from 100,000 km to 50,000 km,
+pulling four times as hard (about 3.6 x 10^25 W), and Mars crosses the resonance in decades instead of
+centuries. In the same test, sprints of 3.3 and 4.9 times were caught **0 times out of 8**. To keep E1's total
+under 10^26 W, Earth's tow eases off over the same stretch: its asteroid drifts out from 637,100 km to
+850,000 km, so it needs about 4.7 x 10^25 W, still with about a third spare. Both moves are ramped over decades
+so neither asteroid is left behind. Mars's orbit shape is not trimmed: any weakening of its pull near the
+resonance raises the chance of capture.
 
 ## The Moon comes along
 
@@ -151,7 +161,7 @@ None creates energy or momentum from nothing: every push is booked with its reac
 | --- | --- | --- |
 | Mars parked at 3.1 AU is thrown onto an Earth-crossing orbit within a million years (at 3.0 AU, out to 20 AU) | Park Mars past Jupiter's 2:1 resonance | |
 | Mars parked at 3.4 AU, next to Earth's 7:5 resonance, drifts until its orbit crosses Earth's | Park Mars at 3.64 AU, between all the resonances, and trim its orbit shape | Parking scan: ten arrangements stable for a million years, orbits at least 0.26 AU apart |
-| Steering Mars past 3.1 AU slowed it at the 2:1 resonance, which caught it | Steer Mars only up to 3.1 AU | In the final run |
+| Crossing Jupiter's 2:1 resonance at the normal pull, Mars was caught in 6 of 8 trials (and every time its shape was being trimmed) | Mars's tow sprints across 3.0-3.5 AU at 4 times the pull while Earth's tow eases off | Caught 0 of 8 at 3.3 and 4.9 times; then the final run |
 | A beam outage of 3 hours lost the Earth tow's asteroid, which then fell through the Moon's orbit | Shared E1 budget, structures sized for full power, E1 built from independent stations | Earth tow survives a 15-hour blackout, half the stations down for 1.25 days, a quarter for 2.8 days; Mars tow 13 hours, 1.8 days, and indefinitely |
 | Vesta passes Earth at about 0.012 AU during the journey (our limit 0.02) | E1 nudges it fifty years ahead | About 0.3 hours of a 10^25 W beam |
 | Mars tow's cables and mirror too weak at its own power cap | Resized | Test at full power for both tows |

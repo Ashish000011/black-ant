@@ -31,6 +31,7 @@ class Tow:
     stop_au: float       # the tow stops when the target's orbit reaches this size
     max_beam_w: float    # most this tow may ever use (its mirror and cables are sized for it)
     lift: float = 0.0    # radians above the target's orbit plane (the arrival trim tips the plane with it)
+    home: float = 0.0    # resting distance, m: the trim swings around it; a sprint moves it (0 means `distance`)
     shape: object = None # arrival trim: longitude -> spot offsets and their rates (sim/secular.py), or None
     active: bool = True
     beam: Beam = field(default_factory=Beam)

@@ -91,6 +91,14 @@ def run(cfg: dict | None = None, years: float | None = None, dt_days: float | No
                 base = {k: v for k, v in at.items() if not isinstance(v, dict)}
                 trims[tow.name] = Trim({**base, **own}, tow.distance)
     outage_end = outage[0] + outage[1] * DAY / YEAR if outage else 0.0
+    # A sprint moves a tow's asteroid closer (a harder pull) while a planet crosses a resonance, so the crossing
+    # is too quick for the resonance to catch it. The other tow can make room in E1's budget by easing off
+    # (its asteroid farther out) during the same window: `while_tow` names the tow whose planet sets the window.
+    sprints = {t["name"]: t["sprint"] for t in cfg["tows"] if "sprint" in t}
+    by_name = {tow.name: tow for tow in tows}
+    rest = {tow.name: tow.distance for tow in tows}
+    for tow in tows:
+        tow.home = tow.distance
 
     def set_beams(acc):
         # Plain Python lists make the many small calculations below much faster than NumPy scalars.
@@ -184,6 +192,16 @@ def run(cfg: dict | None = None, years: float | None = None, dt_days: float | No
             for tow in tows:
                 if tow.name in trims and tow.active:
                     trims[tow.name].update(m, pos, vel, sun, tow.target, jupiter, saturn)
+                if tow.name in sprints and tow.active:
+                    sc = sprints[tow.name]
+                    watch = by_name.get(sc.get("while_tow", tow.name))
+                    a_now = orbit_elements(system, watch.target, sun)["a"] if watch is not None else 0.0
+                    inside = watch is not None and watch.active and sc["from_au"] <= a_now <= sc["to_au"]
+                    want = sc["distance_km"] * 1e3 if inside else rest[tow.name]
+                    step = sc["ramp_km_per_check"] * 1e3  # moved gently, so the asteroid is never left behind
+                    tow.home += max(-step, min(step, want - tow.home))
+                    if tow.name not in trims:
+                        tow.distance = tow.home
             earth_orbit = orbit_elements(system, earth, sun)
             for tow in tows:
                 if not tow.active:
@@ -265,7 +283,7 @@ def run(cfg: dict | None = None, years: float | None = None, dt_days: float | No
             if not earth_tow.active and yr > stats[earth_tow.name]["arrival"]["year"] + after_arrival_years:
                 break
             if progress and n % (check_every * 500) == 0:
-                print(f"  year {yr:7.0f}  Earth at {earth_orbit['a']:.3f} AU  ({time.time() - started:.0f} s)")
+                print(f"  year {yr:7.0f}  Earth at {earth_orbit['a']:.3f} AU, Mars at {orbit_elements(system, mars, sun)['a']:.3f} AU  ({time.time() - started:.0f} s)")
         d_mars = dist(earth, mars)
         mars_window = min(mars_window, d_mars)
         if d_mars < mars_min:

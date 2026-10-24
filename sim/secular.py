@@ -133,7 +133,8 @@ class Trim:
 
     def apply(self, tow, pos, sun: int, earth: int) -> None:
         # "earth" is the towed planet, as in update()
-        """Hand the Earth tow its spot shape, and set its distance and lift for this step's checks."""
+        """Hand the tow its spot shape, and set its distance and lift for this step's checks."""
+        self.base = tow.home or self.base  # a sprint may move the resting distance; the trim swings around it
         tow.shape = self.shape
         lon = math.atan2(float(pos[earth][1] - pos[sun][1]), float(pos[earth][0] - pos[sun][0]))
         f = 1 - self.beta / 2 + (self.beta / 2) * math.cos(lon - self.phi)

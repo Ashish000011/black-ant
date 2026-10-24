@@ -12,7 +12,7 @@ on an enabler is recorded as a flag that names it (`results/summary.json`, `flag
 | --- | --- |
 | Allowed kind | "A power source up to a stated wattage, waste heat still radiated" |
 | Bound | At most 1.0 x 10^26 W of beam power in total, at every moment (checked every 100 days; most used: 9.27 x 10^25 W) |
-| What it does | Lights the tow mirrors on both tow asteroids, from the Sun's side. Mars's tow is served first; Earth's tow uses the rest. The same budget nudges asteroids found heading for Earth (about 10^14 W for a day each) and big asteroids off close passes (under an hour at 10^25 W each) |
+| What it does | Lights the tow mirrors on both tow asteroids, from the Sun's side. Mars's tow is served first; Earth's tow uses the rest. For a few decades while Mars crosses Jupiter's 2:1 resonance, Mars's tow takes up to 4 x 10^25 W and Earth's tow eases off to about 4.7 x 10^25 W; the total stays under the bound. The same budget nudges asteroids found heading for Earth (about 10^14 W for a day each) and big asteroids off close passes (under an hour at 10^25 W each) |
 | How it is built | Many independent stations: no single fault takes out more than a quarter of the power, and a fault is answered within 12 hours. The outage tests (`sim/scenarios/outage.py`) show both tow asteroids survive that |
 | Its reaction partner | The stations recoil as they fire (ledger account `station`), and the light carries momentum away after it bounces (account `light`). Beam push plus both partners add to zero, to 4 parts in 10^15 |
 | What it does not do | It makes no force on Earth. It does not cancel its own recoil: the recoil is booked. It is not a real energy source, so we do not claim the energy bonus |
@@ -24,7 +24,7 @@ on an enabler is recorded as a flag that names it (`results/summary.json`, `flag
 | Allowed kind | "Ideal nanotube or graphene arms (50-130 GPa)", applied to mirrors and cables |
 | Bound | Tensile strength 100 GPa; density 2,000 kg/m^3; reflects all but 10^-7 of the light that hits it; works up to 1,500 K |
 | What it does | The tow mirrors and the cables that tie them to the asteroids |
-| How it is checked | Every 100 days: cable and anchor safety factors of at least 1.5 at the beam's actual force, and also at each tow's full power cap; mirror temperature from the absorbed share radiated from both faces (`sim/checks/structure.py`) |
+| How it is checked | Every 100 days: cable and anchor safety factors of at least 1.5 at the beam's actual force, and also at each tow's full power cap (Earth's tow 10^26 W, Mars's tow 4 x 10^25 W for its sprint); mirror temperature from the absorbed share radiated from both faces (`sim/checks/structure.py`) |
 | What it does not do | It carries no load beyond 100 GPa / 1.5, and its absorbed heat is radiated, not ignored |
 
 ## E3: asteroids and mirrors in place at the start
