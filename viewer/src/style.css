@@ -367,7 +367,7 @@ code { font-size: calc(10.5px * var(--ui-zoom, 1)); background: var(--field); pa
   .topbar { flex-wrap: wrap; height: auto; padding: 6px 8px; gap: 6px; }
   .workspaces { order: 3; width: 100%; overflow-x: auto; }
   .workspaces button { padding: 5px 9px; white-space: nowrap; }
-  .topbar-right { margin-left: auto; }
+  .topbar-right { margin-left: auto; flex-wrap: wrap; justify-content: flex-end; max-width: 100%; }
   .mission { order: 4; width: 100%; flex: none; justify-content: flex-start; font-size: calc(11px * var(--ui-zoom, 1)); }
   .viewport { display: contents; }
   .canvas-wrap { position: relative; height: 62vh; min-height: 300px; order: 1; background: #000; overflow: hidden; }
