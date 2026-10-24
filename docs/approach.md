@@ -123,8 +123,9 @@ So from 2.0 AU the Earth tow steers Earth's orbit as it pulls, using Gauss's equ
   there), which turns Earth's eccentricity toward the forced value, 0.03 at 2.7 AU. Result in a
   million-year test: eccentricity stays under 0.056 (the real Earth's own maximum: 0.051).
 - **Plane:** the asteroid rides up to 20 degrees above or below Earth's orbit plane around each lap,
-  tipping the plane onto the forced one (computed from Jupiter's and Saturn's planes). Result: the tilt
-  swing drops from about 12 degrees to about 4.
+  tipping the plane onto the forced one (computed from Jupiter's and Saturn's planes). Result, following the
+  real spin axis from today through the journey and a million years after: tilt 21.7 to 26.1 degrees, against
+  15 to 28 untrimmed (today: 22.2 to 24.4).
 
 The pull only ever weakens, so the beam never needs more power, and the asteroid never comes closer.
 
@@ -137,9 +138,9 @@ Three hazards remain that today's Earth does not have. Each has a counter with a
 
 | Hazard | Size | Counter |
 | --- | --- | --- |
-| Asteroid impacts: 2.7 AU is inside the main belt | Many times Earth's natural rate of one 1 km impact per 500,000 years (`results/summary.json`, belt) | E1 nudges any asteroid found heading for Earth: 5 cm/s ten years ahead moves it about 47,000 km, about 10^14 W for a day |
-| Big asteroids (Ceres, Pallas, Vesta, Hygiea) passing within 0.01 AU | Never in the real solar system; tens of times per million years after the move | E1 nudges each pass decades ahead: under an hour of a 10^25 W beam |
-| Seasons: the remaining tilt swing of about 4 degrees | About 1% of yearly sunlight lands at a different latitude or season than today | The sunlight mirrors (E3), which already supply 86% of the light, re-aim that share |
+| Asteroid impacts: 2.7 AU is inside the main belt | One 1 km impact per about 130 years while crossing and 70 once parked, against Earth's natural one per 500,000 (`results/summary.json`, belt) | E1 nudges any asteroid found heading for Earth: 5 cm/s ten years ahead moves it about 47,000 km, about 10^14 W for a day |
+| Big asteroids (Ceres, Pallas, Vesta, Hygiea) passing within 0.01 AU | Never in the real solar system; 7 to 48 times per million years after the move | E1 nudges each pass 50 years ahead: at most about an hour of a 10^25 W beam |
+| Seasons: the remaining tilt swing, 21.7 to 26.1 degrees (today 22.2 to 24.4) | About 1.4% of yearly sunlight lands at a different latitude or season than with today's tilt (the real Earth's own swing: 0.7%) | The sunlight mirrors (E3), which already supply 86% of the light, re-aim that share |
 
 The tilt swing cannot be removed by orbit choice alone: at 2.7 AU Earth's axis turns at about 35
 arcseconds a year, close to a rate (26 arcseconds a year) at which Jupiter and Saturn tip every orbit's
@@ -166,7 +167,7 @@ None creates energy or momentum from nothing: every push is booked with its reac
 | Vesta passes Earth at about 0.012 AU during the journey (our limit 0.02) | E1 nudges it fifty years ahead | About 0.3 hours of a 10^25 W beam |
 | Mars tow's cables and mirror too weak at its own power cap | Resized | Test at full power for both tows |
 | Earth's eccentricity drifts to 0.09 after arrival | Shape trim | Under 0.056 |
-| Earth's axial tilt swings 15 to 28 degrees | Plane trim onto the forced plane; mirrors for the rest | Swing about 4 degrees; about 1% of sunlight re-aimed |
+| Earth's axial tilt swings 15 to 28 degrees | Plane trim onto the forced plane; mirrors for the rest | 21.7 to 26.1 degrees over a million years; about 1.4% of sunlight re-aimed |
 | Our first belt sample was too cold (made-up orbits) | Real orbits from the JPL Small-Body Database | In the final run |
 
 Every risk, how we check it and its status: [risk-register.md](risk-register.md).
