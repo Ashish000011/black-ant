@@ -6,7 +6,12 @@ requires-python = ">=3.12,<3.13"
 dependencies = ["numpy", "rebound", "pyyaml"]
 
 [dependency-groups]
-dev = ["pytest"]
+dev = [
+    "latex2mathml>=3.81.1",
+    "markdown>=3.11.2",
+    "pypdf>=6.21.2",
+    "pytest",
+]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

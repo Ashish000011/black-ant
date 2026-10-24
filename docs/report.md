@@ -11,7 +11,7 @@ Earth reaches 2.7006 AU in year 8,758 of the 10,000 allowed, pulled by the gravi
 
 Every winning condition holds in our simulation. There are 0 unresolved flags; the 6 flags left are all caused by our three declared enablers. All ten official benchmarks pass, the lowest structural safety factor is 1.57, and the ten Earth-safety thresholds hold at every 100-day check. The momentum ledger closes to 5.6 × 10^-16 of the applied impulse (limit 10^-9).
 
-Mars is moved first, to 3.64 AU, so the two planets never meet: their closest pass is 0.37 AU. A million years after arrival, run on with no tows, the new orbits stay put and nothing is thrown out.
+Mars is moved first, to 3.64 AU, so the two planets never meet: their closest pass is 0.37 AU. A million years after arrival, run on with no tows, the new orbits stay put and no planet is thrown out.
 
 ## The problem and how it is judged
 
@@ -49,7 +49,7 @@ Octo-Earth cannot move Earth, and its arms cannot hold themselves up. We audited
 | Carbon nanotube, ideal (hypothetical) | 6,964 km | 1,444 km | 568 km |
 | Graphene, ideal (hypothetical) | 10,454 km | 1,200 km | 618 km |
 
-A standing 12,000 km arm puts 315 GPa on its base in steel, which yields at 0.355 GPa. Even in ideal nanotube (63 GPa, the strongest single tube ever measured) it reaches only a safety factor of 1.2, and the column buckles (Greenhill's limit) past 1,450 km. Titanium, aluminium and aramid fall between steel and CFRP. This is why we move Earth with an asteroid's gravity instead: the asteroid is outside Earth, and nothing touches the planet.
+A standing 12,000 km arm puts 315 GPa on its base in steel, which yields at 0.355 GPa. Even in ideal nanotube (63 GPa, the strongest single tube ever measured) it reaches only a safety factor of 1.2, and the column buckles (Greenhill's limit) past 1,444 km. Titanium, aluminium and aramid fall between steel and CFRP. This is why we move Earth with an asteroid's gravity instead: the asteroid is outside Earth, and nothing touches the planet.
 
 ## The machine: a gravity tractor held by light
 
@@ -120,9 +120,9 @@ All ten official benchmarks (participant guide, section 6) pass. A test reruns t
 | # | Benchmark | Measured | Expected (tolerance) |
 | --- | --- | --- | --- |
 | 1 | Wire in a field, I L × B summed over 1,000 pieces | (0, 0, 10) N | (0, 0, 10) N (10^-9) |
-| 2 | Closed loop in a uniform field | 4.3 × 10^-16 of I L B | 0 (10^-9 of I L B) |
+| 2 | Closed loop in a uniform field | 4 × 10^-16 of I L B | 0 (10^-9 of I L B) |
 | 3 | Long straight wire, field at 1 m (Biot–Savart) | 2.00000 × 10^-4 T | μ₀I/2πr (10^-6) |
-| 4 | Kepler orbit, e = 0.3, 10 periods | back within 1.8 × 10^-8 a; energy 1.1 × 10^-10 | 10^-6 a; 10^-9 |
+| 4 | Kepler orbit, e = 0.3, 10 periods | back within 1.8 × 10^-8 a; energy 1.05 × 10^-10 | 10^-6 a; 10^-9 |
 | 5 | Sun, Mercury to Neptune, 5 years, no push | energy error 8.9 × 10^-11 | 10^-9 |
 | 6 | Earth–Moon barycentre's year | 365.260 days | 365.256 (0.1 day) |
 | 7 | Hohmann transfer, Earth to Mars | 2.946 and 2.650 km/s; 258.9 days | 2.94, 2.65 km/s; 259 days (0.02 km/s; 2 days) |
@@ -152,7 +152,7 @@ All ten thresholds hold at every 100-day check of the journey. Mirrors in space 
 | Surface pressure | 101.3 kPa | at least 50 kPa |
 | Nitrogen kept (Jeans λ) | at least 194 | over 30 |
 | Magnetopause distance | at least 10.0 Earth radii | at least 3 |
-| Change in length of day | about 2 × 10^-7 s | at most 1 s |
+| Change in length of day | about 2.5 × 10^-7 s | at most 1 s |
 | Moon's distance over Earth's Hill radius | at most 0.256 | under 0.49 |
 | Tow thrust over Earth's pull on the Moon | at most 0.0020 | under 0.01 |
 
@@ -198,7 +198,7 @@ The applied impulse over the journey is 8.78 × 10^26 kg m/s. The beams did 1.79
 | Mars tow during its sprint, all off | 10.5 hours |
 | Earth tow during Mars's sprint, all off | 3.4 days |
 
-**A million years after arrival.** With the tows gone, we ran the moved solar system for a million years (REBOUND, MERCURIUS) beside the real one. Nothing was thrown out, there were 0 unresolved flags, and two chaos copies, started with tiny changes, agree.
+**A million years after arrival.** With the tows gone, we ran the moved solar system for a million years (REBOUND, MERCURIUS) beside the real one. Nothing was thrown out and there were 0 unresolved flags. Two chaos copies, started with Earth moved 1 km, give the same ranges for Earth and Mars to 0.001 AU; in one of them Ceres is thrown out of the solar system after 262,000 years, far from Earth.
 
 | | Moved solar system | Real solar system |
 | --- | --- | --- |
@@ -229,7 +229,7 @@ Everything in this report comes from the code and results in this repository. Ev
 uv sync
 uv run python -m sim.benchmarks                  # the ten official benchmarks, about 12 seconds
 uv run pytest -m "not slow"                      # quick tests, about a minute
-uv run python -m sim.scenarios.tow --out results # the full journey with every check, about an hour
+uv run python -m sim.scenarios.tow --out results # the full journey with every check, about an hour and a half
 uv run python -m sim.scenarios.longterm --only moved --state results/end_state.json
 uv run python -m sim.scenarios.octo              # the Octo-Earth audit, 10 seconds
 ```
