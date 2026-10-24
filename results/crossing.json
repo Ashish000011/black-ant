@@ -30,7 +30,21 @@
    "of": 8
   },
   "chosen: sprint 4x (50,000 km)": {
-   "final_run": "crossed 3.28 AU around year 4,900; parked at 3.6405 AU in year 5,147"
+   "superseded": "Mars's asteroid moved to 400,000 km; see the next entry"
+  },
+  "chosen: sprint 4x with the asteroid at 400,000 km (to 200,000 km)": {
+   "caught": 0,
+   "of": 8,
+   "eccentricity_on_arrival": [
+    0.0691,
+    0.0197,
+    0.0393,
+    0.0011,
+    0.1005,
+    0.1149,
+    0.1133,
+    0.0966
+   ]
   }
  }
 }

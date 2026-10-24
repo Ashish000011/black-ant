@@ -32,7 +32,7 @@ on an enabler is recorded as a flag that names it (`results/summary.json`, `flag
 | | |
 | --- | --- |
 | Allowed kind | "Access to an asteroid of stated mass", "already built at the start", "free raw material delivered where needed" |
-| Bound | Two asteroids: 3.97 x 10^20 kg (Earth's tow, 637,100 km from Earth) and 9.78 x 10^18 kg (Mars's tow, 100,000 km from Mars), both at most 4 x 10^20 kg. Tow mirrors, cables and anchors built. Sunlight mirrors up to 10^9 km^2 (most needed: about 8 x 10^8 km^2 at 2.7 AU) |
+| Bound | Two asteroids: 3.97 x 10^20 kg (Earth's tow, 637,100 km from Earth) and 1.56 x 10^20 kg (Mars's tow, 400,000 km from Mars), both at most 4 x 10^20 kg. Tow mirrors, cables and anchors built. Sunlight mirrors up to 10^9 km^2 (most needed: about 8 x 10^8 km^2 at 2.7 AU) |
 | What it does | Puts the tow asteroids on their starting spots and the structures in place; the sunlight mirrors reflect extra sunlight onto Earth as it moves out |
 | How it is checked | Asteroid masses and mirror area against the bounds, every 100 days. The sunlight mirrors' light is computed from their area and their distance from the Sun, and Earth's temperature follows from the energy balance (`sim/habitability.py`): the climate is calculated, not assumed |
 | What it does not do | It does not move Earth, hold the asteroids or supply energy; it only places matter that the simulation then has to move and hold with E1's light |

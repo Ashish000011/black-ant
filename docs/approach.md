@@ -70,8 +70,14 @@ safety factor; the mirror is sized so it stays under 1,500 K. Earth tow: cables 
 ## Mars goes first
 
 Earth's path crosses Mars's orbit. Without help, Earth passes Mars at about 33,000 km
-(`--no-mars-tow`). A smaller tow (9.8 x 10^18 kg asteroid, 100,000 km from Mars, giving Mars the same
-pull) moves Mars from 1.52 AU out to **3.64 AU**, past Jupiter's 2:1 resonance at 3.28 AU.
+(`--no-mars-tow`). A second tow (a 1.6 x 10^20 kg asteroid 400,000 km from Mars, giving Mars the same pull
+as Earth gets) moves Mars from 1.52 AU out to **3.64 AU**, past Jupiter's 2:1 resonance at 3.28 AU.
+
+Why so far out: a hovering asteroid sits at an unstable balance, and the planet's pull changes across its spot
+at 2GM/d^3. At 100,000 km from Mars (our first design) that gradient acts on a 1.25-day timescale, faster than
+both the 10-day controller and the 1-day step, so the asteroid held only because the controller's model was
+exact; any disturbance ran away. At 400,000 km the timescale is 10 days and the controller is 39 times stronger
+than the gradient. Both are checked every 100 days for both tows.
 
 Where Mars parks matters, because once Earth sits at 2.7 AU, Earth's own resonances join Jupiter's:
 
@@ -87,9 +93,10 @@ Where Mars parks matters, because once Earth sits at 2.7 AU, Earth's own resonan
 **Crossing Jupiter's 2:1 resonance.** To get there Mars must cross 3.28 AU while moving toward Jupiter, and a
 resonance crossed slowly can catch a planet and pump up its eccentricity. We tested it: Mars started at 2.95 AU
 from eight different points on its orbit and was pulled across at the normal strength. **Jupiter caught it in 6
-of the 8.** So Mars's tow **sprints**: between 3.0 and 3.5 AU its asteroid moves in from 100,000 km to 50,000 km,
+of the 8.** So Mars's tow **sprints**: between 3.0 and 3.5 AU its asteroid moves in to half its distance,
 pulling four times as hard (about 3.6 x 10^25 W), and Mars crosses the resonance in decades instead of
-centuries. In the same test, sprints of 3.3 and 4.9 times were caught **0 times out of 8**. To keep E1's total
+centuries. (With the asteroid at 400,000 km, the sprint takes it to 200,000 km; the controller stays five times
+stronger than the gradient there.) In the same test, sprints of 3.3 and 4.9 times were caught **0 times out of 8**. To keep E1's total
 under 10^26 W, Earth's tow eases off over the same stretch: its asteroid drifts out from 637,100 km to
 850,000 km, so it needs about 4.7 x 10^25 W, still with about a third spare. Both moves are ramped over decades
 so neither asteroid is left behind. Mars's orbit shape is not trimmed: any weakening of its pull near the
