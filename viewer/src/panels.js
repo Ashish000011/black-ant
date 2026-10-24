@@ -49,7 +49,11 @@ export function thresholds(d) {
   ];
 }
 
+// The worst value over the journey: from the run's own checks every 100 days (summary.json) where it kept one,
+// else from the frames this page replays (every 10 years).
 function worst(d, th) {
+  const range = d.summary.climate?.[th.key];
+  if (range && (range[0] || range[1])) return th.kind === "min" ? range[0] : range[1];
   const v = d.series[th.key].filter((x) => x != null);
   return th.kind === "min" ? Math.min(...v) : Math.max(...v);
 }
