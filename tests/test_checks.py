@@ -59,3 +59,25 @@ def test_x9_real_earth_axial_tilt_cycle():
     lo, hi = r["axial_tilt_deg"]
     print(f"X9 tilt {lo:.2f}-{hi:.2f} deg over 50,000 years")
     assert 21.9 < lo < 23.0 and 23.9 < hi < 24.7
+
+
+def test_climate_matches_the_reference_demo():
+    """Our Earth-safety model against the company's reference demo (octo-earth-simulator.vercel.app, Earth safety
+    tab): today 288 K with 82% of the surface above freezing and N2 Jeans lambda 195; at 2.7 AU with no mirrors,
+    150.4 K and no liquid water."""
+    from sim.habitability import SOLAR_CONSTANT, jeans_lambda, liquid_water_share, mean_temperature
+    assert abs(mean_temperature(SOLAR_CONSTANT) - 288.0) < 0.01
+    assert abs(liquid_water_share(288.0) - 0.82) < 0.005
+    assert abs(jeans_lambda(1.0) - 195) < 1
+    cold = mean_temperature(SOLAR_CONSTANT / 2.7 ** 2)
+    assert abs(cold - 150.4) < 0.5 and liquid_water_share(cold) == 0.0
+
+
+def test_tow_leaves_day_length_and_the_moon_alone():
+    """The tow's tide changes Earth's day by far less than the 1 s limit over the whole journey, and its pull on
+    Earth stays well under 1% of Earth's pull on the Moon."""
+    from sim.habitability import day_length_rate, thrust_over_moon_pull
+    tow = next(t for t in CFG["tows"] if t["name"] == "earth-tow")
+    m, d = tow["asteroid_mass_kg"], tow["distance_km"] * 1e3
+    assert day_length_rate(m, d) * 10000 * 3.15576e7 < 1e-3
+    assert thrust_over_moon_pull(m, d) < 0.01

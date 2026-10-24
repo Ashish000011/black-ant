@@ -1,8 +1,10 @@
-"""Keeping Earth habitable: sunlight, temperature, liquid water, air and magnetic shielding along the journey.
+"""Keeping Earth habitable: sunlight, temperature, liquid water, air, magnetic shielding, day length and the Moon.
 
-The guide asks us to show, not assume, what happens to each. Sunlight falls as 1/r^2; the sunlight mirrors
-(enabler E3) add what they reflect onto Earth. Temperature follows from the energy balance, with Earth's
-greenhouse effect held at today's value (an assumption we state, not a result).
+The guide asks us to show, not assume, what happens to each, and the company's reference demo
+(octo-earth-simulator.vercel.app) checks ten indicators, which we adopt (config.yaml, safety). Sunlight falls as
+1/r^2; the sunlight mirrors (enabler E3) add what they reflect onto Earth. Temperature comes from a
+zero-dimensional energy balance with ice-albedo feedback (Budyko 1969, Sellers 1969), its effective emissivity
+set so that today's sunlight gives today's 288 K (an assumption we state: the greenhouse effect stays as it is).
 """
 
 import math
@@ -24,13 +26,74 @@ def equilibrium_temperature(flux: float, albedo: float = ALBEDO) -> float:
     return (flux * (1 - albedo) / (4 * SIGMA)) ** 0.25
 
 
-# Today's greenhouse warming: the mean surface temperature minus the equilibrium temperature (about 34 K).
-GREENHOUSE_K = TODAY_MEAN_K - equilibrium_temperature(SOLAR_CONSTANT)
+# Ice-albedo feedback: albedo 0.30 when warm, rising to 0.62 as ice spreads (as in the reference demo).
+WARM_ALBEDO, ICE_ALBEDO = 0.30, 0.62
+WARM_K, ICE_K = 280.0, 250.0
+# Effective emissivity: what makes today's sunlight give today's 288 K (greenhouse effect held as it is).
+EMISSIVITY = SOLAR_CONSTANT * (1 - WARM_ALBEDO) / (4 * SIGMA * TODAY_MEAN_K ** 4)
+RUNAWAY_W_M2 = 282.0          # absorbed sunlight that would trigger a runaway greenhouse (Goldblatt et al. 2013)
 
 
-def mean_temperature(flux: float, albedo: float = ALBEDO) -> float:
-    """Global mean surface temperature (K): equilibrium plus today's greenhouse warming, held fixed (stated)."""
-    return equilibrium_temperature(flux, albedo) + GREENHOUSE_K
+def albedo_at(t_k: float) -> float:
+    """Earth's albedo at global mean temperature t: more ice, brighter Earth."""
+    if t_k >= WARM_K:
+        return WARM_ALBEDO
+    if t_k <= ICE_K:
+        return ICE_ALBEDO
+    return ICE_ALBEDO + (WARM_ALBEDO - ICE_ALBEDO) * (t_k - ICE_K) / (WARM_K - ICE_K)
+
+
+def mean_temperature(flux: float, start_k: float = TODAY_MEAN_K) -> float:
+    """Steady global mean surface temperature (K): sunlight absorbed, (S/4)(1 - A(T)), equals what Earth radiates,
+    eps sigma T^4. With ice-albedo feedback there can be a warm and a frozen answer; this follows the one the
+    climate reaches from `start_k` (its previous state)."""
+    t = start_k
+    for _ in range(500):
+        new = (flux * (1 - albedo_at(t)) / (4 * EMISSIVITY * SIGMA)) ** 0.25
+        if abs(new - t) < 1e-9:
+            break
+        t = 0.5 * (t + new)
+    return t
+
+
+def absorbed_flux(flux: float, t_k: float) -> float:
+    """Sunlight Earth absorbs, averaged over its surface (W/m^2): (S/4)(1 - A)."""
+    return flux / 4 * (1 - albedo_at(t_k))
+
+
+# Surface temperature by latitude follows T(x) = T_mean + T2 P2(x), x = sin(latitude), P2 = (3x^2 - 1)/2
+# (North 1975). T2 is set so that today's 288 K leaves 82% of the surface above freezing, as the demo has it.
+_P2_TODAY = (3 * 0.82 ** 2 - 1) / 2
+LATITUDE_T2_K = (273.15 - TODAY_MEAN_K) / _P2_TODAY
+
+
+def liquid_water_share(t_mean_k: float) -> float:
+    """Share of Earth's surface warm enough for liquid water (above 273.15 K), from the latitude profile."""
+    p2 = (273.15 - t_mean_k) / LATITUDE_T2_K
+    x2 = (2 * p2 + 1) / 3
+    return min(1.0, max(0.0, math.sqrt(max(x2, 0.0))))
+
+
+def jeans_lambda(sunlight_share: float, molecule_amu: float = 28.0) -> float:
+    """Jeans escape parameter for a gas at the exobase (500 km up): lambda = G M m / (k T_exo r). The exosphere
+    runs at about 1,000 K today and scales as the square root of sunlight. Above about 30, escape is negligible."""
+    t_exo = 1000.0 * math.sqrt(max(sunlight_share, 1e-9))
+    m = molecule_amu * 1.66053907e-27
+    return 3.986004e14 * m / (1.380649e-23 * t_exo * (6.371e6 + 5.0e5))
+
+
+def day_length_rate(mass_kg: float, distance_m: float, k2_over_q: float = 0.025) -> float:
+    """How fast a body's tide lengthens Earth's day (seconds per second): torque (3/2)(k2/Q) G m^2 R^5 / d^6 on
+    Earth's moment of inertia C = 8.04e37 kg m^2; d(LOD)/dt = LOD^2 torque / (2 pi C)."""
+    torque = 1.5 * k2_over_q * 6.674e-11 * mass_kg ** 2 * 6.371e6 ** 5 / distance_m ** 6
+    return 86164.0 ** 2 * torque / (2 * math.pi * 8.04e37)
+
+
+def thrust_over_moon_pull(tow_mass_kg: float, tow_distance_m: float, moon_mass_kg: float = 7.342e22,
+                          moon_distance_m: float = 3.844e8) -> float:
+    """The tow's pull on Earth against Earth's pull on the Moon: if it stays small, Earth does not leave the Moon
+    behind. Both share Earth's mass, so it is (m / d^2) over (M_moon / r_moon^2)."""
+    return (tow_mass_kg / tow_distance_m ** 2) / (moon_mass_kg / moon_distance_m ** 2)
 
 
 def mirror_share_needed(r_au: float) -> float:

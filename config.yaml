@@ -121,8 +121,19 @@ structures:                    # Member 3; design sizes the checks test against
   rock_strength_pa: 1.0e8
 
 safety:                        # Member 2 (safety and environment)
-  temperature_k: {target: 288, tolerance: 2}
-  sunlight_fraction: {target: 1.0, tolerance: 0.02}
+  # The ten Earth-safety thresholds of the company's reference demo (octo-earth-simulator.vercel.app, Safety
+  # thresholds panel and Earth safety tab), adopted until the rulebook appendix says otherwise:
+  temperature_min_k: 263
+  temperature_max_k: 308
+  liquid_water_min_share: 0.30
+  runaway_absorbed_max_w_m2: 282
+  surface_pressure_min_kpa: 50
+  jeans_lambda_min: 30           # N2 retained
+  magnetopause_min_re: 3
+  day_length_change_max_s: 1
+  moon_hill_max_share: 0.49
+  thrust_over_moon_pull_max: 0.01
+  # Our own, beyond the ten:
   mirror_heat_max_fraction_of_sunlight: 0.005
   asteroid_tide_max_fraction_of_moon: 0.01
   tow_acceleration_max_m_s2: 1.0e-6
@@ -140,7 +151,7 @@ habitability:                  # Member 2; sim/habitability.py. Computed along t
   mirror_reflectivity: 0.95
   magnetopause_today_re: 10.0  # the magnetopause sits about 10 Earth radii sunward today
   earth_mass_with_moon_kg: 6.04562e24
-  moon_hill_max_share: 0.5     # prograde moons stay bound out to about half the Hill radius
+  surface_pressure_kpa: 101.325   # nothing in our design removes air; Jeans escape is checked separately
 
 arrival:                       # from the brief, plus our eccentricity limit
   target_au: 2.7

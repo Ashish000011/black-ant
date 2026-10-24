@@ -254,7 +254,7 @@ def run(cfg: dict | None = None, years: float | None = None, dt_days: float | No
             mirrors.update(yr, earth_orbit["a"], earth_orbit["e"])
             results += safety_checks(cfg, earth_orbit["a"], earth_tow.mass if earth_tow.active else None,
                                      earth_tow.distance, earth_tow.beam.power if earth_tow.active else 0.0,
-                                     earth_orbit["e"], mirrors, climate)
+                                     earth_orbit["e"], mirrors, climate, yr)
             total_beam_max = max(total_beam_max, total)
             results.append(check("Total beam power within E1's limit", total, limit, "max", "W"))
             results.append(check("Closest Earth to Mars", mars_window / AU, s_cfg["mars_min_distance_au"], "min", "AU"))
@@ -366,7 +366,7 @@ def run(cfg: dict | None = None, years: float | None = None, dt_days: float | No
         "arrival_trim": {name: {"beta_mean": t.beta_sum / max(t.updates, 1), "free_eccentricity_end": t.free_e,
                                 "free_tilt_end_deg": t.free_tilt} for name, t in trims.items()},
         "axial_tilt_journey_deg": [round(min(tilts), 3), round(max(tilts), 3)] if tilts else None,
-        "climate": {k: [round(v[0], 4), round(v[1], 4)] for k, v in climate.items()},
+        "climate": {k: [round(v[0], 6), round(v[1], 6)] for k, v in climate.items() if not k.startswith("_")},
         "total_beam_max_w": total_beam_max,
         "station_recoil_max_n": total_beam_max / C_LIGHT,
         "mars_closest": {"au": round(mars_min / AU, 5), "year": round(mars_min_year, 1)},
