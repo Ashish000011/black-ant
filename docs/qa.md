@@ -72,8 +72,10 @@ record are generated from those files. The ten benchmarks run as tests on every 
 can be changed live: `uv run python -m sim.benchmarks 4 --set e=0.5`.
 
 **Does the answer change with the step size?**
-Halving the step (1 day to 0.5 days) moves Earth's arrival year by a few years in 8,758. [Final number from
-`out/half_final`, once that run finishes.]
+Hardly. Halving the step (1 day to 0.5 days) moves Earth's arrival from year 8,758 to 8,730 (0.3%), with the same
+orbit (2.70 AU, eccentricity 0.0333 against 0.0331), Mars parked in 5,170 against 5,168, temperatures 287.8 to
+288.9 K and 0 unresolved flags; the ledger closes to 2.3 x 10^-16. The big asteroids' closest passes do change
+(Vesta 0.037 AU against 0.018) because they depend on timing, which is why E1 nudges them.
 
 **How is momentum conserved so exactly?**
 Each pair's gravity forces are computed once and applied as exact negatives, and every push is added with an

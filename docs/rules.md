@@ -36,7 +36,7 @@ thresholds come from the company's reference demo (see the last section).
 | Ignoring the Moon | `sim/scenarios/moon.py` follows the Moon itself; its Hill-sphere share is checked along the journey |
 | Unlabelled visual scaling | The test bench labels visualisation and true scale on screen, with the factors |
 | Hard-coded or tuned results | Every number comes from the running model, written to `results/`; tables are generated |
-| No convergence check | The journey run at half the step (0.5 days) |
+| No convergence check | The journey run at half the step (0.5 days): arrival moves 28 years in 8,758 (0.3%), same orbit, 0 unresolved flags |
 
 ## Deliverables (guide section 9)
 
