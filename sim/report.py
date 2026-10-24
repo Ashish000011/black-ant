@@ -36,6 +36,13 @@ def table(folder=ROOT / "results") -> str:
         ("Flags during the journey", f"{fl['unresolved']} unresolved; {fl['covered_by_enablers']} covered by "
                                      f"{', '.join(covered) or 'none'}"),
     ]
+    c = s.get("climate")
+    if c:
+        rows.append(("Climate, computed along the journey", f"temperature {c['temperature_k'][0]:.1f} to "
+                     f"{c['temperature_k'][1]:.1f} K (limit 288 +/- 2); sunlight {c['sunlight_share'][0]:.3f} to "
+                     f"{c['sunlight_share'][1]:.3f} of today's; mirrors up to {c['mirror_area_km2'][1]:.3g} km2 (E3 limit 1e9); "
+                     f"magnetopause {c['magnetopause_re'][0]:.1f} to {c['magnetopause_re'][1]:.1f} Earth radii; the Moon at "
+                     f"{c['moon_hill_share'][1]:.2f} to {c['moon_hill_share'][0]:.3f} of Earth's Hill radius"))
     if b:
         rows.append(("Asteroid impacts (1 km and up), without E1's nudges",
                      f"one per {b['crossing']['years_per_impact']:,.0f} years crossing the belt, one per "
@@ -125,8 +132,7 @@ def momentum_record(folder=ROOT / "results") -> str:
         f"between the two during the run was {lg['energy_error_max_of_total']:.1e} of the system's total energy (limit 1e-5).",
         "",
     ]
-    return "
-".join(lines)
+    return "\n".join(lines)
 
 
 def main() -> None:

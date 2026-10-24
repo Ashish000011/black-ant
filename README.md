@@ -10,7 +10,7 @@ benchmarks passing, every force booked, no unresolved flags) are in [docs/proble
 A **gravity tractor held in place by light**. A 4 x 10^20 kg asteroid sits 637,100 km from Earth and
 pulls it gently with its own gravity; a focused light beam pushing on a mirror tethered to the asteroid
 keeps it from falling onto Earth. Earth's orbit widens a little on every lap and reaches 2.7 AU in about
-8,500 years. Mars is towed out of the way first (to 3.64 AU), sunlight mirrors keep Earth at today's
+8,700 years. Mars is towed out of the way first (to 3.64 AU), sunlight mirrors keep Earth at today's
 sunlight and temperature, and on the last stretch the tow steers Earth onto the orbit Jupiter lets it
 keep. Every push is booked with its reaction, so energy and momentum are checked all the way.
 
@@ -19,11 +19,8 @@ and [docs/risk-register.md](docs/risk-register.md) for every way it could fail a
 
 ## Results
 
-**Status (24 Oct, latest run):** the journey passes every check (0 unresolved flags; Earth arrives in year
-8,542 on the orbit Jupiter lets it keep). One problem is being fixed now: with its new shape trim, Mars's tow
-slows down right at Jupiter's 2:1 resonance (3.28 AU), gets caught there and never reaches its 3.64 AU parking
-orbit. Fix in progress: trim Mars only before 3.1 AU and cross the resonance at full push, as earlier runs did.
-The million-year results and the full table follow in the next commit. Journey numbers: `results/summary.json`.
+<!-- results:start -->
+<!-- results:end -->
 
 Every number above comes from `results/`. The run prints any flag at the end; a flag naming E1, E2 or E3
 relies on one of our declared enablers, which the brief allows.

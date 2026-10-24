@@ -5,7 +5,7 @@
 A 4 x 10^20 kg asteroid (about 670 km across) is parked 637,100 km from Earth, ahead of it and out
 from the Sun. Its gravity pulls Earth very gently: 6.5 x 10^-8 m/s^2. Left alone it would fall onto
 Earth, so a mirror tethered to it is pushed by a focused beam of light that holds it exactly in place.
-Earth keeps being pulled, its orbit widens a little on every lap, and after about 8,000 years it reaches
+Earth keeps being pulled, its orbit widens a little on every lap, and after about 8,700 years it reaches
 2.7 AU. Mars sits across that path, so a second, smaller tow moves Mars out of the way first. Sunlight
 mirrors keep Earth's sunlight and temperature at today's level the whole way.
 
@@ -28,7 +28,7 @@ nothing touches Earth.
 | Earth's orbital speed | 29.8 km/s at 1 AU, 18.1 km/s at 2.7 AU |
 | Energy Earth's orbit must gain | about 1.7 x 10^33 J |
 | Pull on Earth | about 3.9 x 10^17 N (2.8 x 10^17 N of it along the orbit) |
-| Time | about 8,500 of the 10,000 years allowed |
+| Time | about 8,700 of the 10,000 years allowed |
 
 ## The physics we use
 
