@@ -15,4 +15,6 @@ number on screen comes from `results/`. Each shot carries an on-screen caption; 
 | 2:10 | Validation | All ten official benchmarks pass. The code, the report and this test bench are on GitHub. |
 
 Re-render: start the viewer (`cd viewer && npm run dev`), then in `viewer/` run `npm i --no-save playwright-core@1.49.1` and
-`node scripts/video.mjs http://localhost:5173/ frames`, and join the frames at 25 per second with ffmpeg.
+`node scripts/video.mjs http://localhost:5173/ frames` (without Chrome, first `npx playwright-core install chromium-headless-shell`;
+about 15 minutes with software WebGL), and join the frames at 25 per second with ffmpeg:
+`ffmpeg -framerate 25 -i frames/%05d.jpg -vf scale=1600:900:flags=lanczos -c:v libx264 -preset slow -crf 29 -pix_fmt yuv420p -movflags +faststart ../media/black-ant-demo.mp4`.
