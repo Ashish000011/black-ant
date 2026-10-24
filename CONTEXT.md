@@ -100,8 +100,10 @@ cd viewer && npm ci && npm run dev        # test bench locally
 
 ## 7. Active work
 
-**Branch `claude/contextualization-blender-gui-1e303d` (pipelin-two worktree). Built and checked 25 Oct; not yet
-committed or reviewed by the team.**
+**Branch `claude/contextualization-blender-gui-1e303d` (pipelin-two worktree). Built and checked 25 Oct;
+committed one feature per commit and pushed for Ashish to review and merge.** The branch starts from `b101f2f`;
+`main` has since gained only a contribution log, a status update and README lines that do not overlap, so it
+merges cleanly.
 
 1. CONTEXT.md (this file) + `CLAUDE.md` pointer. Done.
 2. Blender-style GUI replacing `viewer/index.html`. Done:
@@ -141,6 +143,9 @@ The built-in browser pane has no WebGL, so 3D checks need headless Chromium (Pla
 - **25 Oct, P1:** Make a contextualization file for the whole project; always read it instead of the full chat and
   keep adding to it. Build a Blender-like GUI (panels as in 7.2). Fix the night "lumens" issue with scalable Moon
   reflectors. Ask questions before implementing and explain what else could be an issue.
+- **25 Oct, P2:** Before committing, open a server and check the current state of the test bench.
+- **25 Oct, P3:** Keep a git timeline of each feature, with commit messages that use the prompt's own context, and
+  commit to the branch for Ashish.
 
 ## 10. What can be delivered next (ideas, not started)
 
@@ -150,7 +155,10 @@ The built-in browser pane has no WebGL, so 3D checks need headless Chromium (Pla
 - A day/night (two-box) climate model so night temperature is computed rather than estimated.
 - Mention Moon reflectors in `docs/approach.md`, `docs/report.md` and the risk register if the team adopts them.
 - Re-render the demo video (`viewer/scripts/video.mjs`) so it shows the new layout.
-- Commit, push and open a PR from the branch (Ashish reviews; Pages deploys from `main`).
+- Open a PR from the branch (Ashish reviews and merges; Pages deploys from `main`).
+- Decide whether hidden panels (T / N) should be remembered between visits (they are now, in localStorage), so a
+  returning viewer never sees an empty page.
+- Add this work to `docs/contributions.md` (on `main` since PR #21) if the team wants it credited.
 
 ## Log
 
@@ -159,4 +167,8 @@ The built-in browser pane has no WebGL, so 3D checks need headless Chromium (Pla
 - 25 Oct: Added `sim/night.py` + tests + `config.yaml` `night`; `viewer_data.py` exports constants, planets, small
   bodies, night settings into `config.json`. Rebuilt the viewer as a Blender-style GUI (index.html, style.css,
   main.js, new studio.js, estimates.js, bodies.js; scene.js gains top view, all bodies, reflector visuals, WebGL
-  fallback). README updated. Verified (see 7). Nothing committed yet.
+  fallback). README updated. Verified (see 7).
+- 25 Oct: Checked the running test bench (the pane has no WebGL; panels had been remembered as hidden). Corrected
+  the journey's run time to about 1.5 hours (as `main` now says). Committed one feature per commit, messages
+  quoting the request: CONTEXT.md; Moon reflectors (sim/night.py); 3D bodies and top view; live estimates;
+  Blender-style layout; README; this log. Pushed the branch for Ashish.
