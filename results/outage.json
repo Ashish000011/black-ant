@@ -1,0 +1,991 @@
+[
+ {
+  "name": "old: own cap 8.5e25 W, all beams off",
+  "steady_beam_w": 8.372317538428403e+25,
+  "spare_share": 0.015250551712299831,
+  "longest_safe_outage_days": 0.125,
+  "first_unsafe_days": 0.157,
+  "longest_clean_outage_days": 0.125,
+  "trials": [
+   {
+    "days": 0.0,
+    "closest_km": 637068,
+    "beam_max_w": 8.372317538428403e+25,
+    "mars_beam_max_w": 8.877806926238031e+24,
+    "days_power_capped": 0.0,
+    "unresolved_flags": [],
+    "safe": true,
+    "clean": true
+   },
+   {
+    "days": 0.125,
+    "closest_km": 634519,
+    "beam_max_w": 8.5e+25,
+    "mars_beam_max_w": 8.877806926238031e+24,
+    "days_power_capped": 7.0,
+    "unresolved_flags": [],
+    "safe": true,
+    "clean": true
+   },
+   {
+    "days": 0.157,
+    "closest_km": 15689,
+    "beam_max_w": 8.5e+25,
+    "mars_beam_max_w": 8.877806926238031e+24,
+    "days_power_capped": 15.2,
+    "unresolved_flags": [
+     "earth-tow: asteroid off its spot",
+     "earth-tow: no allowed beam could hold the asteroid"
+    ],
+    "safe": false,
+    "clean": false
+   },
+   {
+    "days": 0.188,
+    "closest_km": 15689,
+    "beam_max_w": 8.5e+25,
+    "mars_beam_max_w": 8.877806926238031e+24,
+    "days_power_capped": 15.2,
+    "unresolved_flags": [
+     "earth-tow: asteroid off its spot",
+     "earth-tow: no allowed beam could hold the asteroid"
+    ],
+    "safe": false,
+    "clean": false
+   },
+   {
+    "days": 0.25,
+    "closest_km": 15689,
+    "beam_max_w": 8.5e+25,
+    "mars_beam_max_w": 8.877806926238031e+24,
+    "days_power_capped": 15.2,
+    "unresolved_flags": [
+     "earth-tow: asteroid off its spot",
+     "earth-tow: no allowed beam could hold the asteroid"
+    ],
+    "safe": false,
+    "clean": false
+   },
+   {
+    "days": 0.5,
+    "closest_km": 18376,
+    "beam_max_w": 8.5e+25,
+    "mars_beam_max_w": 8.877806926238031e+24,
+    "days_power_capped": 113.7,
+    "unresolved_flags": [
+     "earth-tow: asteroid off its spot",
+     "earth-tow: no allowed beam could hold the asteroid"
+    ],
+    "safe": false,
+    "clean": false
+   },
+   {
+    "days": 1.0,
+    "closest_km": 17111,
+    "beam_max_w": 8.5e+25,
+    "mars_beam_max_w": 8.877806926238031e+24,
+    "days_power_capped": 115.4,
+    "unresolved_flags": [
+     "earth-tow: asteroid off its spot",
+     "earth-tow: no allowed beam could hold the asteroid"
+    ],
+    "safe": false,
+    "clean": false
+   },
+   {
+    "days": 2.0,
+    "closest_km": 12968,
+    "beam_max_w": 8.5e+25,
+    "mars_beam_max_w": 8.877806926238031e+24,
+    "days_power_capped": 102.0,
+    "unresolved_flags": [
+     "earth-tow: asteroid off its spot",
+     "earth-tow: no allowed beam could hold the asteroid"
+    ],
+    "safe": false,
+    "clean": false
+   },
+   {
+    "days": 4.0,
+    "closest_km": 18681,
+    "beam_max_w": 8.5e+25,
+    "mars_beam_max_w": 8.877806926238031e+24,
+    "days_power_capped": 129.3,
+    "unresolved_flags": [
+     "earth-tow: asteroid off its spot",
+     "earth-tow: no allowed beam could hold the asteroid"
+    ],
+    "safe": false,
+    "clean": false
+   },
+   {
+    "days": 8,
+    "closest_km": 18391,
+    "beam_max_w": 8.5e+25,
+    "mars_beam_max_w": 8.877806926238031e+24,
+    "days_power_capped": 61.5,
+    "unresolved_flags": [
+     "earth-tow: asteroid off its spot",
+     "earth-tow: no allowed beam could hold the asteroid"
+    ],
+    "safe": false,
+    "clean": false
+   }
+  ],
+  "asteroid_mass_kg": 3.97e+20,
+  "max_beam_w": 8.5e+25
+ },
+ {
+  "name": "shared E1 budget, all beams off",
+  "steady_beam_w": 8.372317538428403e+25,
+  "spare_share": 0.08837478578084168,
+  "longest_safe_outage_days": 0.625,
+  "first_unsafe_days": 0.656,
+  "longest_clean_outage_days": 0.0,
+  "trials": [
+   {
+    "days": 0.0,
+    "closest_km": 637068,
+    "beam_max_w": 8.372317538428403e+25,
+    "mars_beam_max_w": 8.877806926238031e+24,
+    "days_power_capped": 0.0,
+    "unresolved_flags": [],
+    "safe": true,
+    "clean": true
+   },
+   {
+    "days": 0.5,
+    "closest_km": 624658,
+    "beam_max_w": 9.112220265867533e+25,
+    "mars_beam_max_w": 8.877806926238031e+24,
+    "days_power_capped": 6.2,
+    "unresolved_flags": [
+     "earth-tow: asteroid off its spot"
+    ],
+    "safe": true,
+    "clean": false
+   },
+   {
+    "days": 0.625,
+    "closest_km": 615761,
+    "beam_max_w": 9.112221175924738e+25,
+    "mars_beam_max_w": 8.877806926238031e+24,
+    "days_power_capped": 12.4,
+    "unresolved_flags": [
+     "earth-tow: asteroid off its spot"
+    ],
+    "safe": true,
+    "clean": false
+   },
+   {
+    "days": 0.656,
+    "closest_km": 15118,
+    "beam_max_w": 9.11230311614005e+25,
+    "mars_beam_max_w": 8.877806926238031e+24,
+    "days_power_capped": 79.7,
+    "unresolved_flags": [
+     "earth-tow: asteroid off its spot",
+     "earth-tow: no allowed beam could hold the asteroid"
+    ],
+    "safe": false,
+    "clean": false
+   },
+   {
+    "days": 0.688,
+    "closest_km": 15118,
+    "beam_max_w": 9.11230311614005e+25,
+    "mars_beam_max_w": 8.877806926238031e+24,
+    "days_power_capped": 79.7,
+    "unresolved_flags": [
+     "earth-tow: asteroid off its spot",
+     "earth-tow: no allowed beam could hold the asteroid"
+    ],
+    "safe": false,
+    "clean": false
+   },
+   {
+    "days": 0.75,
+    "closest_km": 15118,
+    "beam_max_w": 9.11230311614005e+25,
+    "mars_beam_max_w": 8.877806926238031e+24,
+    "days_power_capped": 79.7,
+    "unresolved_flags": [
+     "earth-tow: asteroid off its spot",
+     "earth-tow: no allowed beam could hold the asteroid"
+    ],
+    "safe": false,
+    "clean": false
+   },
+   {
+    "days": 1.0,
+    "closest_km": 24932,
+    "beam_max_w": 9.112302227851716e+25,
+    "mars_beam_max_w": 8.877806926238031e+24,
+    "days_power_capped": 97.8,
+    "unresolved_flags": [
+     "earth-tow: asteroid off its spot",
+     "earth-tow: no allowed beam could hold the asteroid"
+    ],
+    "safe": false,
+    "clean": false
+   },
+   {
+    "days": 2.0,
+    "closest_km": 12711,
+    "beam_max_w": 9.11230408676247e+25,
+    "mars_beam_max_w": 8.877806926238031e+24,
+    "days_power_capped": 102.2,
+    "unresolved_flags": [
+     "earth-tow: asteroid off its spot",
+     "earth-tow: no allowed beam could hold the asteroid"
+    ],
+    "safe": false,
+    "clean": false
+   },
+   {
+    "days": 4.0,
+    "closest_km": 25231,
+    "beam_max_w": 9.112230369317859e+25,
+    "mars_beam_max_w": 8.877806926238031e+24,
+    "days_power_capped": 38.2,
+    "unresolved_flags": [
+     "earth-tow: asteroid off its spot",
+     "earth-tow: no allowed beam could hold the asteroid"
+    ],
+    "safe": false,
+    "clean": false
+   },
+   {
+    "days": 8,
+    "closest_km": 18391,
+    "beam_max_w": 9.112244621211523e+25,
+    "mars_beam_max_w": 8.877806926238031e+24,
+    "days_power_capped": 63.0,
+    "unresolved_flags": [
+     "earth-tow: asteroid off its spot",
+     "earth-tow: no allowed beam could hold the asteroid"
+    ],
+    "safe": false,
+    "clean": false
+   }
+  ],
+  "asteroid_mass_kg": 3.97e+20,
+  "max_beam_w": 1e+26
+ },
+ {
+  "name": "shared E1 budget, half the stations off",
+  "power_left": 0.5,
+  "steady_beam_w": 8.372317538428403e+25,
+  "spare_share": 0.08837478578084168,
+  "longest_safe_outage_days": 1.25,
+  "first_unsafe_days": 1.281,
+  "longest_clean_outage_days": 0.0,
+  "trials": [
+   {
+    "days": 0.0,
+    "closest_km": 637068,
+    "beam_max_w": 8.372317538428403e+25,
+    "mars_beam_max_w": 8.877806926238031e+24,
+    "days_power_capped": 0.0,
+    "unresolved_flags": [],
+    "safe": true,
+    "clean": true
+   },
+   {
+    "days": 1.0,
+    "closest_km": 625990,
+    "beam_max_w": 9.112220207279668e+25,
+    "mars_beam_max_w": 8.877806926238031e+24,
+    "days_power_capped": 5.9,
+    "unresolved_flags": [
+     "earth-tow: asteroid off its spot"
+    ],
+    "safe": true,
+    "clean": false
+   },
+   {
+    "days": 1.25,
+    "closest_km": 619010,
+    "beam_max_w": 9.11222073644688e+25,
+    "mars_beam_max_w": 8.877806926238031e+24,
+    "days_power_capped": 9.9,
+    "unresolved_flags": [
+     "earth-tow: asteroid off its spot"
+    ],
+    "safe": true,
+    "clean": false
+   },
+   {
+    "days": 1.281,
+    "closest_km": 27425,
+    "beam_max_w": 9.112297461708634e+25,
+    "mars_beam_max_w": 8.877806926238031e+24,
+    "days_power_capped": 131.5,
+    "unresolved_flags": [
+     "earth-tow: asteroid off its spot",
+     "earth-tow: no allowed beam could hold the asteroid"
+    ],
+    "safe": false,
+    "clean": false
+   },
+   {
+    "days": 1.312,
+    "closest_km": 27425,
+    "beam_max_w": 9.112297461708634e+25,
+    "mars_beam_max_w": 8.877806926238031e+24,
+    "days_power_capped": 131.5,
+    "unresolved_flags": [
+     "earth-tow: asteroid off its spot",
+     "earth-tow: no allowed beam could hold the asteroid"
+    ],
+    "safe": false,
+    "clean": false
+   },
+   {
+    "days": 1.375,
+    "closest_km": 18167,
+    "beam_max_w": 9.112232934589028e+25,
+    "mars_beam_max_w": 8.877806926238031e+24,
+    "days_power_capped": 46.1,
+    "unresolved_flags": [
+     "earth-tow: asteroid off its spot",
+     "earth-tow: no allowed beam could hold the asteroid"
+    ],
+    "safe": false,
+    "clean": false
+   },
+   {
+    "days": 1.5,
+    "closest_km": 27478,
+    "beam_max_w": 9.1122855540322e+25,
+    "mars_beam_max_w": 8.877806926238031e+24,
+    "days_power_capped": 115.0,
+    "unresolved_flags": [
+     "earth-tow: asteroid off its spot",
+     "earth-tow: no allowed beam could hold the asteroid"
+    ],
+    "safe": false,
+    "clean": false
+   },
+   {
+    "days": 2.0,
+    "closest_km": 11419,
+    "beam_max_w": 9.112303803721803e+25,
+    "mars_beam_max_w": 8.877806926238031e+24,
+    "days_power_capped": 40.8,
+    "unresolved_flags": [
+     "earth-tow: asteroid off its spot",
+     "earth-tow: no allowed beam could hold the asteroid"
+    ],
+    "safe": false,
+    "clean": false
+   },
+   {
+    "days": 4.0,
+    "closest_km": 28921,
+    "beam_max_w": 9.112298465642313e+25,
+    "mars_beam_max_w": 8.877806926238031e+24,
+    "days_power_capped": 133.2,
+    "unresolved_flags": [
+     "earth-tow: asteroid off its spot",
+     "earth-tow: no allowed beam could hold the asteroid"
+    ],
+    "safe": false,
+    "clean": false
+   },
+   {
+    "days": 8,
+    "closest_km": 20642,
+    "beam_max_w": 9.11223298356101e+25,
+    "mars_beam_max_w": 8.877806926238031e+24,
+    "days_power_capped": 46.3,
+    "unresolved_flags": [
+     "earth-tow: asteroid off its spot",
+     "earth-tow: no allowed beam could hold the asteroid"
+    ],
+    "safe": false,
+    "clean": false
+   }
+  ],
+  "asteroid_mass_kg": 3.97e+20,
+  "max_beam_w": 1e+26
+ },
+ {
+  "name": "shared E1 budget, a quarter off",
+  "power_left": 0.75,
+  "steady_beam_w": 8.372317538428403e+25,
+  "spare_share": 0.08837478578084168,
+  "longest_safe_outage_days": 2.843,
+  "first_unsafe_days": 2.875,
+  "longest_clean_outage_days": 0.0,
+  "trials": [
+   {
+    "days": 0.0,
+    "closest_km": 637068,
+    "beam_max_w": 8.372317538428403e+25,
+    "mars_beam_max_w": 8.877806926238031e+24,
+    "days_power_capped": 0.0,
+    "unresolved_flags": [],
+    "safe": true,
+    "clean": true
+   },
+   {
+    "days": 2.0,
+    "closest_km": 628444,
+    "beam_max_w": 9.112220112005379e+25,
+    "mars_beam_max_w": 8.877806926238031e+24,
+    "days_power_capped": 5.0,
+    "unresolved_flags": [
+     "earth-tow: asteroid off its spot"
+    ],
+    "safe": true,
+    "clean": false
+   },
+   {
+    "days": 2.5,
+    "closest_km": 622157,
+    "beam_max_w": 9.112220505772946e+25,
+    "mars_beam_max_w": 8.877806926238031e+24,
+    "days_power_capped": 8.3,
+    "unresolved_flags": [
+     "earth-tow: asteroid off its spot"
+    ],
+    "safe": true,
+    "clean": false
+   },
+   {
+    "days": 2.75,
+    "closest_km": 618269,
+    "beam_max_w": 9.112220886430836e+25,
+    "mars_beam_max_w": 8.877806926238031e+24,
+    "days_power_capped": 10.9,
+    "unresolved_flags": [
+     "earth-tow: asteroid off its spot"
+    ],
+    "safe": true,
+    "clean": false
+   },
+   {
+    "days": 2.812,
+    "closest_km": 615490,
+    "beam_max_w": 9.112221338900078e+25,
+    "mars_beam_max_w": 8.877806926238031e+24,
+    "days_power_capped": 13.7,
+    "unresolved_flags": [
+     "earth-tow: asteroid off its spot"
+    ],
+    "safe": true,
+    "clean": false
+   },
+   {
+    "days": 2.843,
+    "closest_km": 615490,
+    "beam_max_w": 9.112221338900078e+25,
+    "mars_beam_max_w": 8.877806926238031e+24,
+    "days_power_capped": 13.7,
+    "unresolved_flags": [
+     "earth-tow: asteroid off its spot"
+    ],
+    "safe": true,
+    "clean": false
+   },
+   {
+    "days": 2.875,
+    "closest_km": 23474,
+    "beam_max_w": 9.11223252229608e+25,
+    "mars_beam_max_w": 8.877806926238031e+24,
+    "days_power_capped": 45.8,
+    "unresolved_flags": [
+     "earth-tow: asteroid off its spot",
+     "earth-tow: no allowed beam could hold the asteroid"
+    ],
+    "safe": false,
+    "clean": false
+   },
+   {
+    "days": 3.0,
+    "closest_km": 12941,
+    "beam_max_w": 9.112240014405282e+25,
+    "mars_beam_max_w": 8.877806926238031e+24,
+    "days_power_capped": 58.2,
+    "unresolved_flags": [
+     "earth-tow: asteroid off its spot",
+     "earth-tow: no allowed beam could hold the asteroid"
+    ],
+    "safe": false,
+    "clean": false
+   },
+   {
+    "days": 4.0,
+    "closest_km": 16002,
+    "beam_max_w": 9.112303745013004e+25,
+    "mars_beam_max_w": 8.877806926238031e+24,
+    "days_power_capped": 84.7,
+    "unresolved_flags": [
+     "earth-tow: asteroid off its spot",
+     "earth-tow: no allowed beam could hold the asteroid"
+    ],
+    "safe": false,
+    "clean": false
+   },
+   {
+    "days": 8,
+    "closest_km": 25912,
+    "beam_max_w": 9.112299250791188e+25,
+    "mars_beam_max_w": 8.877806926238031e+24,
+    "days_power_capped": 118.3,
+    "unresolved_flags": [
+     "earth-tow: asteroid off its spot",
+     "earth-tow: no allowed beam could hold the asteroid"
+    ],
+    "safe": false,
+    "clean": false
+   }
+  ],
+  "asteroid_mass_kg": 3.97e+20,
+  "max_beam_w": 1e+26
+ },
+ {
+  "name": "lighter 3.4e20 kg + shared, all off",
+  "steady_beam_w": 7.170181176602062e+25,
+  "spare_share": 0.27084924117538955,
+  "longest_safe_outage_days": 1.438,
+  "first_unsafe_days": 1.469,
+  "longest_clean_outage_days": 0.0,
+  "trials": [
+   {
+    "days": 0.0,
+    "closest_km": 637068,
+    "beam_max_w": 7.170181176602062e+25,
+    "mars_beam_max_w": 8.877806926252076e+24,
+    "days_power_capped": 0.0,
+    "unresolved_flags": [],
+    "safe": true,
+    "clean": true
+   },
+   {
+    "days": 1.0,
+    "closest_km": 619423,
+    "beam_max_w": 9.112219957099063e+25,
+    "mars_beam_max_w": 8.877806926252076e+24,
+    "days_power_capped": 3.0,
+    "unresolved_flags": [
+     "earth-tow: asteroid off its spot"
+    ],
+    "safe": true,
+    "clean": false
+   },
+   {
+    "days": 1.25,
+    "closest_km": 610506,
+    "beam_max_w": 9.11222009575564e+25,
+    "mars_beam_max_w": 8.877806926252076e+24,
+    "days_power_capped": 4.3,
+    "unresolved_flags": [
+     "earth-tow: asteroid off its spot"
+    ],
+    "safe": true,
+    "clean": false
+   },
+   {
+    "days": 1.375,
+    "closest_km": 598168,
+    "beam_max_w": 9.112220332496189e+25,
+    "mars_beam_max_w": 8.877806926252076e+24,
+    "days_power_capped": 6.2,
+    "unresolved_flags": [
+     "earth-tow: asteroid off its spot"
+    ],
+    "safe": true,
+    "clean": false
+   },
+   {
+    "days": 1.438,
+    "closest_km": 598168,
+    "beam_max_w": 9.112220332496189e+25,
+    "mars_beam_max_w": 8.877806926252076e+24,
+    "days_power_capped": 6.2,
+    "unresolved_flags": [
+     "earth-tow: asteroid off its spot"
+    ],
+    "safe": true,
+    "clean": false
+   },
+   {
+    "days": 1.469,
+    "closest_km": 17061,
+    "beam_max_w": 9.112295252301174e+25,
+    "mars_beam_max_w": 8.877806926252076e+24,
+    "days_power_capped": 11.5,
+    "unresolved_flags": [
+     "earth-tow: asteroid off its spot",
+     "earth-tow: no allowed beam could hold the asteroid"
+    ],
+    "safe": false,
+    "clean": false
+   },
+   {
+    "days": 1.5,
+    "closest_km": 17061,
+    "beam_max_w": 9.112295252301174e+25,
+    "mars_beam_max_w": 8.877806926252076e+24,
+    "days_power_capped": 11.5,
+    "unresolved_flags": [
+     "earth-tow: asteroid off its spot",
+     "earth-tow: no allowed beam could hold the asteroid"
+    ],
+    "safe": false,
+    "clean": false
+   },
+   {
+    "days": 2.0,
+    "closest_km": 28223,
+    "beam_max_w": 9.112298572682275e+25,
+    "mars_beam_max_w": 8.877806926252076e+24,
+    "days_power_capped": 132.4,
+    "unresolved_flags": [
+     "earth-tow: asteroid off its spot",
+     "earth-tow: no allowed beam could hold the asteroid"
+    ],
+    "safe": false,
+    "clean": false
+   },
+   {
+    "days": 4.0,
+    "closest_km": 14277,
+    "beam_max_w": 9.112304086757525e+25,
+    "mars_beam_max_w": 8.877806926252076e+24,
+    "days_power_capped": 109.7,
+    "unresolved_flags": [
+     "earth-tow: asteroid off its spot",
+     "earth-tow: no allowed beam could hold the asteroid"
+    ],
+    "safe": false,
+    "clean": false
+   },
+   {
+    "days": 8,
+    "closest_km": 16900,
+    "beam_max_w": 9.112304086747712e+25,
+    "mars_beam_max_w": 8.877806926252076e+24,
+    "days_power_capped": 103.0,
+    "unresolved_flags": [
+     "earth-tow: asteroid off its spot",
+     "earth-tow: no allowed beam could hold the asteroid"
+    ],
+    "safe": false,
+    "clean": false
+   }
+  ],
+  "asteroid_mass_kg": 3.4e+20,
+  "max_beam_w": 1e+26
+ },
+ {
+  "name": "Mars tow, all beams off",
+  "tow": "mars-tow",
+  "asteroid_mass_kg": 9.7808e+18,
+  "max_beam_w": 1.5e+25,
+  "steady_beam_w": 8.877806926238031e+24,
+  "spare_share": 0.6896064675238716,
+  "longest_safe_outage_days": 0.531,
+  "first_unsafe_days": 0.562,
+  "longest_clean_outage_days": 0.0,
+  "trials": [
+   {
+    "days": 0.0,
+    "closest_km": 99998,
+    "beam_max_w": 8.877806926238031e+24,
+    "mars_beam_max_w": 8.877806926238031e+24,
+    "days_power_capped": 0.0,
+    "unresolved_flags": [],
+    "safe": true,
+    "clean": true
+   },
+   {
+    "days": 0.5,
+    "closest_km": 87099,
+    "beam_max_w": 1.5e+25,
+    "mars_beam_max_w": 1.5e+25,
+    "days_power_capped": 0.3,
+    "unresolved_flags": [
+     "mars-tow: asteroid off its spot"
+    ],
+    "safe": true,
+    "clean": false
+   },
+   {
+    "days": 0.531,
+    "closest_km": 87099,
+    "beam_max_w": 1.5e+25,
+    "mars_beam_max_w": 1.5e+25,
+    "days_power_capped": 0.3,
+    "unresolved_flags": [
+     "mars-tow: asteroid off its spot"
+    ],
+    "safe": true,
+    "clean": false
+   },
+   {
+    "days": 0.562,
+    "closest_km": 4565,
+    "beam_max_w": 1.5e+25,
+    "mars_beam_max_w": 1.5e+25,
+    "days_power_capped": 1.9,
+    "unresolved_flags": [
+     "mars-tow: asteroid off its spot",
+     "mars-tow: no allowed beam could hold the asteroid"
+    ],
+    "safe": false,
+    "clean": false
+   },
+   {
+    "days": 0.625,
+    "closest_km": 4565,
+    "beam_max_w": 1.5e+25,
+    "mars_beam_max_w": 1.5e+25,
+    "days_power_capped": 1.9,
+    "unresolved_flags": [
+     "mars-tow: asteroid off its spot",
+     "mars-tow: no allowed beam could hold the asteroid"
+    ],
+    "safe": false,
+    "clean": false
+   },
+   {
+    "days": 0.75,
+    "closest_km": 4612,
+    "beam_max_w": 1.5e+25,
+    "mars_beam_max_w": 1.5e+25,
+    "days_power_capped": 1.2,
+    "unresolved_flags": [
+     "mars-tow: asteroid off its spot",
+     "mars-tow: no allowed beam could hold the asteroid"
+    ],
+    "safe": false,
+    "clean": false
+   },
+   {
+    "days": 1.0,
+    "closest_km": 1819,
+    "beam_max_w": 1.5e+25,
+    "mars_beam_max_w": 1.5e+25,
+    "days_power_capped": 1.6,
+    "unresolved_flags": [
+     "mars-tow: asteroid off its spot",
+     "mars-tow: no allowed beam could hold the asteroid"
+    ],
+    "safe": false,
+    "clean": false
+   },
+   {
+    "days": 2.0,
+    "closest_km": 9342,
+    "beam_max_w": 1.5e+25,
+    "mars_beam_max_w": 1.5e+25,
+    "days_power_capped": 7.9,
+    "unresolved_flags": [
+     "mars-tow: asteroid off its spot",
+     "mars-tow: no allowed beam could hold the asteroid"
+    ],
+    "safe": false,
+    "clean": false
+   },
+   {
+    "days": 4.0,
+    "closest_km": 9342,
+    "beam_max_w": 1.5e+25,
+    "mars_beam_max_w": 1.5e+25,
+    "days_power_capped": 8.7,
+    "unresolved_flags": [
+     "mars-tow: asteroid off its spot",
+     "mars-tow: no allowed beam could hold the asteroid"
+    ],
+    "safe": false,
+    "clean": false
+   },
+   {
+    "days": 8,
+    "closest_km": 9342,
+    "beam_max_w": 1.5e+25,
+    "mars_beam_max_w": 1.5e+25,
+    "days_power_capped": 9.8,
+    "unresolved_flags": [
+     "mars-tow: asteroid off its spot",
+     "mars-tow: no allowed beam could hold the asteroid"
+    ],
+    "safe": false,
+    "clean": false
+   }
+  ]
+ },
+ {
+  "name": "Mars tow, half the stations off",
+  "tow": "mars-tow",
+  "power_left": 0.5,
+  "asteroid_mass_kg": 9.7808e+18,
+  "max_beam_w": 1.5e+25,
+  "steady_beam_w": 8.877806926238031e+24,
+  "spare_share": 0.6896064675238716,
+  "longest_safe_outage_days": 1.844,
+  "first_unsafe_days": 1.875,
+  "longest_clean_outage_days": 0.0,
+  "trials": [
+   {
+    "days": 0.0,
+    "closest_km": 99998,
+    "beam_max_w": 8.877806926238031e+24,
+    "mars_beam_max_w": 8.877806926238031e+24,
+    "days_power_capped": 0.0,
+    "unresolved_flags": [],
+    "safe": true,
+    "clean": true
+   },
+   {
+    "days": 1.0,
+    "closest_km": 94878,
+    "beam_max_w": 1.1647334168189283e+25,
+    "mars_beam_max_w": 1.1647334168189283e+25,
+    "days_power_capped": 0.5,
+    "unresolved_flags": [
+     "mars-tow: asteroid off its spot"
+    ],
+    "safe": true,
+    "clean": false
+   },
+   {
+    "days": 1.5,
+    "closest_km": 89692,
+    "beam_max_w": 1.4242222474257934e+25,
+    "mars_beam_max_w": 1.4242222474257934e+25,
+    "days_power_capped": 0.8,
+    "unresolved_flags": [
+     "mars-tow: asteroid off its spot"
+    ],
+    "safe": true,
+    "clean": false
+   },
+   {
+    "days": 1.75,
+    "closest_km": 86558,
+    "beam_max_w": 1.5e+25,
+    "mars_beam_max_w": 1.5e+25,
+    "days_power_capped": 1.1,
+    "unresolved_flags": [
+     "mars-tow: asteroid off its spot"
+    ],
+    "safe": true,
+    "clean": false
+   },
+   {
+    "days": 1.812,
+    "closest_km": 83588,
+    "beam_max_w": 1.5e+25,
+    "mars_beam_max_w": 1.5e+25,
+    "days_power_capped": 1.4,
+    "unresolved_flags": [
+     "mars-tow: asteroid off its spot"
+    ],
+    "safe": true,
+    "clean": false
+   },
+   {
+    "days": 1.844,
+    "closest_km": 83588,
+    "beam_max_w": 1.5e+25,
+    "mars_beam_max_w": 1.5e+25,
+    "days_power_capped": 1.4,
+    "unresolved_flags": [
+     "mars-tow: asteroid off its spot"
+    ],
+    "safe": true,
+    "clean": false
+   },
+   {
+    "days": 1.875,
+    "closest_km": 4289,
+    "beam_max_w": 1.5e+25,
+    "mars_beam_max_w": 1.5e+25,
+    "days_power_capped": 3.2,
+    "unresolved_flags": [
+     "mars-tow: asteroid off its spot",
+     "mars-tow: no allowed beam could hold the asteroid"
+    ],
+    "safe": false,
+    "clean": false
+   },
+   {
+    "days": 2.0,
+    "closest_km": 10163,
+    "beam_max_w": 1.5e+25,
+    "mars_beam_max_w": 1.5e+25,
+    "days_power_capped": 8.7,
+    "unresolved_flags": [
+     "mars-tow: asteroid off its spot",
+     "mars-tow: no allowed beam could hold the asteroid"
+    ],
+    "safe": false,
+    "clean": false
+   },
+   {
+    "days": 4.0,
+    "closest_km": 1924,
+    "beam_max_w": 1.5e+25,
+    "mars_beam_max_w": 1.5e+25,
+    "days_power_capped": 18.4,
+    "unresolved_flags": [
+     "mars-tow: asteroid off its spot",
+     "mars-tow: no allowed beam could hold the asteroid"
+    ],
+    "safe": false,
+    "clean": false
+   },
+   {
+    "days": 8,
+    "closest_km": 1924,
+    "beam_max_w": 1.5e+25,
+    "mars_beam_max_w": 1.5e+25,
+    "days_power_capped": 18.2,
+    "unresolved_flags": [
+     "mars-tow: asteroid off its spot",
+     "mars-tow: no allowed beam could hold the asteroid"
+    ],
+    "safe": false,
+    "clean": false
+   }
+  ]
+ },
+ {
+  "name": "Mars tow, a quarter off",
+  "tow": "mars-tow",
+  "power_left": 0.75,
+  "asteroid_mass_kg": 9.7808e+18,
+  "max_beam_w": 1.5e+25,
+  "steady_beam_w": 8.877806926238031e+24,
+  "spare_share": 0.6896064675238716,
+  "longest_safe_outage_days": 8,
+  "first_unsafe_days": null,
+  "longest_clean_outage_days": 8,
+  "trials": [
+   {
+    "days": 0.0,
+    "closest_km": 99998,
+    "beam_max_w": 8.877806926238031e+24,
+    "mars_beam_max_w": 8.877806926238031e+24,
+    "days_power_capped": 0.0,
+    "unresolved_flags": [],
+    "safe": true,
+    "clean": true
+   },
+   {
+    "days": 8,
+    "closest_km": 99998,
+    "beam_max_w": 8.877806926238031e+24,
+    "mars_beam_max_w": 8.877806926238031e+24,
+    "days_power_capped": 0.0,
+    "unresolved_flags": [],
+    "safe": true,
+    "clean": true
+   }
+  ]
+ }
+]

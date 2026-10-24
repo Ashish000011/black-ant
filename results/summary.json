@@ -1,0 +1,252 @@
+{
+  "settings": {
+    "years": 10000,
+    "dt_days": 1.0,
+    "mars_tow": true,
+    "start_orbits": "real",
+    "bodies": [
+      "sun",
+      "venus",
+      "earth",
+      "mars",
+      "jupiter",
+      "saturn",
+      "uranus",
+      "neptune",
+      "ceres",
+      "pallas",
+      "vesta",
+      "hygiea",
+      "earth-tow",
+      "mars-tow"
+    ],
+    "frame_every_years": 10,
+    "beam_limit_w": 1e+26,
+    "belt_sample": true,
+    "model": "real tilted, oval orbits from J2000.0 positions; Earth carries the Moon's mass",
+    "tows": [
+      {
+        "name": "earth-tow",
+        "asteroid_mass_kg": 3.97e+20,
+        "distance_km": 709259.3983669631,
+        "stop_au": 2.7
+      },
+      {
+        "name": "mars-tow",
+        "asteroid_mass_kg": 9.7808e+18,
+        "distance_km": 116349.82236334303,
+        "stop_au": 3.64
+      }
+    ]
+  },
+  "flags": {
+    "unresolved": 0,
+    "covered_by_enablers": 6,
+    "flags": [
+      {
+        "check": "Tow mirrors and cables. Super-mirror material: absorbs 1e-7 of light, 100 GPa strength, up to 1,500 K",
+        "limit": 0.0,
+        "kind": "max",
+        "unit": "absorbed share",
+        "covered_by": "E2",
+        "first_year": 0.0,
+        "times": 1,
+        "worst": 1e-07,
+        "last_year": 0.0
+      },
+      {
+        "check": "Asteroids and mirrors in place. Planet-scale space manufacturing: places the asteroids and builds the tow and sunlight mirrors",
+        "limit": 0.0,
+        "kind": "max",
+        "unit": "kg of asteroids",
+        "covered_by": "E3",
+        "first_year": 0.0,
+        "times": 1,
+        "worst": 4.067808e+20,
+        "last_year": 0.0
+      },
+      {
+        "check": "Beam power far above all of humanity's (2e+13 W). Beamed-power station: up to 1e26 W of focused light; cancels its own recoil; can also nudge dangerous asteroids aside",
+        "limit": 0.0,
+        "kind": "max",
+        "unit": "W",
+        "covered_by": "E1",
+        "first_year": 0.0,
+        "times": 1,
+        "worst": 9.783303383240151e+25,
+        "last_year": 0.0
+      },
+      {
+        "check": "Closest Earth to a big asteroid",
+        "limit": 0.02,
+        "kind": "min",
+        "unit": "AU",
+        "covered_by": "E1",
+        "first_year": 7803.7,
+        "times": 2,
+        "worst": 0.013729212378866517,
+        "last_year": 8508.4
+      },
+      {
+        "check": "Expected 1 km impacts crossing the belt, against Earth's natural rate",
+        "limit": 1.0,
+        "kind": "max",
+        "unit": "times natural",
+        "covered_by": "E1",
+        "first_year": 8742.2,
+        "times": 1,
+        "worst": 3919.190502255806,
+        "last_year": 8742.2
+      },
+      {
+        "check": "Expected 1 km impacts parked at the target, against Earth's natural rate",
+        "limit": 1.0,
+        "kind": "max",
+        "unit": "times natural",
+        "covered_by": "E1",
+        "first_year": 8742.2,
+        "times": 1,
+        "worst": 4545.048498278306,
+        "last_year": 8742.2
+      }
+    ]
+  },
+  "tows": {
+    "earth-tow": {
+      "beam_min_w": 5.010314424181994e+25,
+      "beam_max_w": 8.89744835747049e+25,
+      "mirror_angle_min_deg": 45.056629079928285,
+      "mirror_angle_max_deg": 48.70055603726027,
+      "spot_error_max_km": 2626.470073634738,
+      "beam_clearance_min_km": 448908.64765705384,
+      "target_distance_km": [
+        636780.3619842561,
+        822464.9970734968
+      ],
+      "arrival": {
+        "year": 8542.1,
+        "a_au": 2.7008,
+        "eccentricity": 0.0315,
+        "tilt_deg": 1.279,
+        "speed_km_s": 17.9,
+        "free_eccentricity": 0.0051,
+        "free_tilt_deg": 0.02
+      },
+      "days_without_allowed_beam": 0.0,
+      "days_rerouted": 0.0,
+      "days_power_capped": 0.0
+    },
+    "mars-tow": {
+      "beam_min_w": 5.325601704819846e+24,
+      "beam_max_w": 8.880269220428042e+24,
+      "mirror_angle_min_deg": 44.98777692087564,
+      "mirror_angle_max_deg": 45.03293509949847,
+      "spot_error_max_km": 325.33964743977066,
+      "beam_clearance_min_km": 641326.9888380448,
+      "target_distance_km": [
+        99980.55972790474,
+        129096.62332368971
+      ],
+      "arrival": null,
+      "days_without_allowed_beam": 0.0,
+      "days_rerouted": 26.5,
+      "days_power_capped": 0.0
+    }
+  },
+  "arrival_trim": {
+    "earth-tow": {
+      "beta_mean": 0.11435227837148741,
+      "free_eccentricity_end": 0.005093020799799249,
+      "free_tilt_end_deg": 0.020017556807569666
+    },
+    "mars-tow": {
+      "beta_mean": 0.2955620335187059,
+      "free_eccentricity_end": 0.5625482122428974,
+      "free_tilt_end_deg": 2.2046092843828062
+    }
+  },
+  "axial_tilt_journey_deg": [
+    21.866,
+    23.439
+  ],
+  "total_beam_max_w": 9.783303383240151e+25,
+  "station_recoil_max_n": 3.2633587410795206e+17,
+  "mars_closest": {
+    "au": 0.0594,
+    "year": 7129.5
+  },
+  "jupiter_closest_au": 2.308,
+  "big_asteroids_closest_au": {
+    "ceres": 0.1201,
+    "pallas": 0.0137,
+    "vesta": 0.019,
+    "hygiea": 0.1253
+  },
+  "big_asteroid_nudges": [
+    {
+      "year": 7803.7,
+      "body": "vesta",
+      "au": 0.019,
+      "beam_hours": 0.033
+    },
+    {
+      "year": 8508.4,
+      "body": "pallas",
+      "au": 0.0137,
+      "beam_hours": 0.169
+    }
+  ],
+  "belt": {
+    "sample_size": 1000,
+    "years_tracked": 2742,
+    "close_pass_au": 0.05,
+    "sample_encounters": 1228,
+    "sample_closest_au": 0.0002,
+    "sample_direct_hits": 0,
+    "encounter_speed_median_km_s": 3.08,
+    "expected_real_impacts_over_1km": 21.74318391277984,
+    "natural_impacts_same_years": 0.005484462696783026,
+    "times_natural_rate": 3964.5057528668312,
+    "crossing": {
+      "years": 2542,
+      "sample_encounters": 1154,
+      "expected_impacts": 19.92516451346852,
+      "years_per_impact": 127.58238449081082
+    },
+    "parked_at_target": {
+      "years": 200,
+      "sample_encounters": 74,
+      "expected_impacts": 1.8180193993113223,
+      "years_per_impact": 110.08207528881368,
+      "times_natural_rate": 4542.065533268604
+    },
+    "deflection": {
+      "asteroid_kg": 1308996938995.747,
+      "speed_change_m_s": 0.05,
+      "beam_days": 1,
+      "beam_power_w": 113549597759262.45,
+      "warning_years": 10
+    }
+  },
+  "end": {
+    "year": 8742.2,
+    "earth": {
+      "a_au": 2.6983,
+      "eccentricity": 0.034,
+      "tilt_deg": 1.29
+    },
+    "mars": {
+      "a_au": 3.2806,
+      "eccentricity": 0.5249,
+      "tilt_deg": 0.977
+    }
+  },
+  "ledger": {
+    "energy_error_max_of_total": 6.914641190601381e-07,
+    "beam_work_j": 1.820013226044121e+33,
+    "bodies_energy_gain_j": 1.8201351158319542e+33,
+    "work_mismatch_share": 6.697192420853131e-05,
+    "momentum_error_max": 5.333781863322269e-10
+  },
+  "run_seconds": 2450.9
+}

@@ -1,0 +1,3168 @@
+{
+ "years": 1000000.0,
+ "resonances_au": {
+  "3:1": 2.5,
+  "8:3": 2.71,
+  "5:2": 2.82,
+  "7:3": 2.96,
+  "9:4": 3.03,
+  "2:1": 3.28
+ },
+ "results": [
+  {
+   "name": "Mars 3.4, Earth as arrived",
+   "earth_a": 2.7,
+   "mars_a": 3.4,
+   "years": 1000000,
+   "stopped": null,
+   "thrown_out": [],
+   "axial_tilt_deg": [
+    14.962,
+    27.783
+   ],
+   "energy_error": 6.148287936013011e-09,
+   "earth_a_range": [
+    2.69921,
+    2.70405
+   ],
+   "earth_e_max": 0.09276,
+   "mars_a_range": [
+    3.38519,
+    3.418
+   ],
+   "mars_e_max": 0.11174,
+   "earth_mars_gap_min_au": 0.07752,
+   "jupiter_mars_period_ratio": [
+    1.87718,
+    1.90481
+   ],
+   "encounters": [
+    {
+     "year": 5496.4,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00837
+    },
+    {
+     "year": 17244.7,
+     "bodies": [
+      "mars",
+      "hygiea"
+     ],
+     "au": 0.0078
+    },
+    {
+     "year": 24290.8,
+     "bodies": [
+      "earth",
+      "ceres"
+     ],
+     "au": 0.0089
+    },
+    {
+     "year": 33947.2,
+     "bodies": [
+      "earth",
+      "ceres"
+     ],
+     "au": 0.00958
+    },
+    {
+     "year": 52048.9,
+     "bodies": [
+      "earth",
+      "pallas"
+     ],
+     "au": 0.00583
+    },
+    {
+     "year": 58946.0,
+     "bodies": [
+      "mars",
+      "hygiea"
+     ],
+     "au": 0.00778
+    },
+    {
+     "year": 79027.4,
+     "bodies": [
+      "earth",
+      "ceres"
+     ],
+     "au": 0.00932
+    },
+    {
+     "year": 82777.9,
+     "bodies": [
+      "earth",
+      "pallas"
+     ],
+     "au": 0.00554
+    },
+    {
+     "year": 109267.2,
+     "bodies": [
+      "earth",
+      "vesta"
+     ],
+     "au": 0.00798
+    },
+    {
+     "year": 125211.6,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00608
+    },
+    {
+     "year": 131074.5,
+     "bodies": [
+      "ceres",
+      "vesta"
+     ],
+     "au": 0.0097
+    },
+    {
+     "year": 157385.3,
+     "bodies": [
+      "earth",
+      "ceres"
+     ],
+     "au": 0.00431
+    },
+    {
+     "year": 158918.9,
+     "bodies": [
+      "earth",
+      "ceres"
+     ],
+     "au": 0.00979
+    },
+    {
+     "year": 172820.1,
+     "bodies": [
+      "earth",
+      "pallas"
+     ],
+     "au": 0.00409
+    },
+    {
+     "year": 174324.5,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00881
+    },
+    {
+     "year": 195020.6,
+     "bodies": [
+      "ceres",
+      "hygiea"
+     ],
+     "au": 0.00836
+    },
+    {
+     "year": 201632.0,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00938
+    },
+    {
+     "year": 210521.5,
+     "bodies": [
+      "earth",
+      "ceres"
+     ],
+     "au": 0.00322
+    },
+    {
+     "year": 254982.0,
+     "bodies": [
+      "earth",
+      "vesta"
+     ],
+     "au": 0.00931
+    },
+    {
+     "year": 298538.2,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00988
+    },
+    {
+     "year": 310355.6,
+     "bodies": [
+      "ceres",
+      "hygiea"
+     ],
+     "au": 0.0097
+    },
+    {
+     "year": 315465.0,
+     "bodies": [
+      "earth",
+      "ceres"
+     ],
+     "au": 0.0085
+    },
+    {
+     "year": 320683.0,
+     "bodies": [
+      "earth",
+      "vesta"
+     ],
+     "au": 0.00884
+    },
+    {
+     "year": 407979.8,
+     "bodies": [
+      "mars",
+      "hygiea"
+     ],
+     "au": 0.00688
+    },
+    {
+     "year": 411461.0,
+     "bodies": [
+      "pallas",
+      "hygiea"
+     ],
+     "au": 0.00587
+    },
+    {
+     "year": 461331.6,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.0097
+    },
+    {
+     "year": 470127.6,
+     "bodies": [
+      "mars",
+      "ceres"
+     ],
+     "au": 0.00968
+    },
+    {
+     "year": 470416.2,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00962
+    },
+    {
+     "year": 486492.4,
+     "bodies": [
+      "vesta",
+      "hygiea"
+     ],
+     "au": 0.00348
+    },
+    {
+     "year": 486775.1,
+     "bodies": [
+      "earth",
+      "vesta"
+     ],
+     "au": 0.00884
+    },
+    {
+     "year": 486963.7,
+     "bodies": [
+      "vesta",
+      "hygiea"
+     ],
+     "au": 0.00683
+    },
+    {
+     "year": 495323.3,
+     "bodies": [
+      "earth",
+      "vesta"
+     ],
+     "au": 0.00995
+    },
+    {
+     "year": 533664.3,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.009
+    },
+    {
+     "year": 539962.9,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00846
+    },
+    {
+     "year": 543635.3,
+     "bodies": [
+      "vesta",
+      "hygiea"
+     ],
+     "au": 0.00582
+    },
+    {
+     "year": 552476.7,
+     "bodies": [
+      "ceres",
+      "hygiea"
+     ],
+     "au": 0.00829
+    },
+    {
+     "year": 554376.2,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00904
+    },
+    {
+     "year": 599261.7,
+     "bodies": [
+      "earth",
+      "vesta"
+     ],
+     "au": 0.00941
+    },
+    {
+     "year": 619229.2,
+     "bodies": [
+      "mars",
+      "ceres"
+     ],
+     "au": 0.00963
+    },
+    {
+     "year": 621860.4,
+     "bodies": [
+      "earth",
+      "ceres"
+     ],
+     "au": 0.00424
+    },
+    {
+     "year": 649660.6,
+     "bodies": [
+      "earth",
+      "vesta"
+     ],
+     "au": 0.00696
+    },
+    {
+     "year": 649824.1,
+     "bodies": [
+      "earth",
+      "ceres"
+     ],
+     "au": 0.00679
+    },
+    {
+     "year": 663379.1,
+     "bodies": [
+      "mars",
+      "hygiea"
+     ],
+     "au": 0.00727
+    },
+    {
+     "year": 664325.5,
+     "bodies": [
+      "mars",
+      "vesta"
+     ],
+     "au": 0.00417
+    },
+    {
+     "year": 665399.0,
+     "bodies": [
+      "vesta",
+      "hygiea"
+     ],
+     "au": 0.00843
+    },
+    {
+     "year": 665741.7,
+     "bodies": [
+      "mars",
+      "hygiea"
+     ],
+     "au": 0.00952
+    },
+    {
+     "year": 666820.0,
+     "bodies": [
+      "mars",
+      "vesta"
+     ],
+     "au": 0.00758
+    },
+    {
+     "year": 673888.0,
+     "bodies": [
+      "mars",
+      "vesta"
+     ],
+     "au": 0.00893
+    },
+    {
+     "year": 674577.0,
+     "bodies": [
+      "mars",
+      "vesta"
+     ],
+     "au": 0.00406
+    },
+    {
+     "year": 683662.6,
+     "bodies": [
+      "ceres",
+      "pallas"
+     ],
+     "au": 0.0078
+    },
+    {
+     "year": 683940.8,
+     "bodies": [
+      "mars",
+      "ceres"
+     ],
+     "au": 0.00625
+    },
+    {
+     "year": 698067.3,
+     "bodies": [
+      "vesta",
+      "hygiea"
+     ],
+     "au": 0.00841
+    },
+    {
+     "year": 698473.6,
+     "bodies": [
+      "mars",
+      "vesta"
+     ],
+     "au": 0.00968
+    },
+    {
+     "year": 708514.4,
+     "bodies": [
+      "earth",
+      "vesta"
+     ],
+     "au": 0.00862
+    },
+    {
+     "year": 722073.6,
+     "bodies": [
+      "mars",
+      "vesta"
+     ],
+     "au": 0.00696
+    },
+    {
+     "year": 723646.4,
+     "bodies": [
+      "earth",
+      "vesta"
+     ],
+     "au": 0.00771
+    },
+    {
+     "year": 732252.1,
+     "bodies": [
+      "vesta",
+      "hygiea"
+     ],
+     "au": 0.00815
+    },
+    {
+     "year": 734150.3,
+     "bodies": [
+      "vesta",
+      "hygiea"
+     ],
+     "au": 0.00789
+    },
+    {
+     "year": 745268.9,
+     "bodies": [
+      "mars",
+      "hygiea"
+     ],
+     "au": 0.00953
+    },
+    {
+     "year": 763502.9,
+     "bodies": [
+      "mars",
+      "hygiea"
+     ],
+     "au": 0.00968
+    },
+    {
+     "year": 765702.2,
+     "bodies": [
+      "earth",
+      "vesta"
+     ],
+     "au": 0.0071
+    },
+    {
+     "year": 767805.8,
+     "bodies": [
+      "mars",
+      "vesta"
+     ],
+     "au": 0.00691
+    },
+    {
+     "year": 771342.4,
+     "bodies": [
+      "pallas",
+      "vesta"
+     ],
+     "au": 0.00704
+    },
+    {
+     "year": 779277.7,
+     "bodies": [
+      "vesta",
+      "hygiea"
+     ],
+     "au": 0.00377
+    },
+    {
+     "year": 787253.5,
+     "bodies": [
+      "earth",
+      "vesta"
+     ],
+     "au": 0.00776
+    },
+    {
+     "year": 834729.5,
+     "bodies": [
+      "mars",
+      "hygiea"
+     ],
+     "au": 0.00809
+    },
+    {
+     "year": 840518.9,
+     "bodies": [
+      "mars",
+      "vesta"
+     ],
+     "au": 0.00396
+    },
+    {
+     "year": 854960.4,
+     "bodies": [
+      "earth",
+      "vesta"
+     ],
+     "au": 0.00911
+    },
+    {
+     "year": 857123.9,
+     "bodies": [
+      "earth",
+      "vesta"
+     ],
+     "au": 0.00997
+    },
+    {
+     "year": 890113.9,
+     "bodies": [
+      "mars",
+      "ceres"
+     ],
+     "au": 0.00704
+    },
+    {
+     "year": 891360.1,
+     "bodies": [
+      "pallas",
+      "vesta"
+     ],
+     "au": 0.00769
+    },
+    {
+     "year": 934650.8,
+     "bodies": [
+      "earth",
+      "vesta"
+     ],
+     "au": 0.00798
+    },
+    {
+     "year": 944984.5,
+     "bodies": [
+      "mars",
+      "vesta"
+     ],
+     "au": 0.00856
+    },
+    {
+     "year": 953748.6,
+     "bodies": [
+      "earth",
+      "vesta"
+     ],
+     "au": 0.00955
+    },
+    {
+     "year": 962813.0,
+     "bodies": [
+      "mars",
+      "ceres"
+     ],
+     "au": 0.00904
+    }
+   ],
+   "run_seconds": 864.0
+  },
+  {
+   "name": "Mars 3.4, Earth e 0.03 on Jupiter",
+   "earth_a": 2.7,
+   "mars_a": 3.4,
+   "earth_e": 0.03,
+   "earth_peri": "jupiter",
+   "years": 1000000,
+   "stopped": null,
+   "thrown_out": [],
+   "axial_tilt_deg": [
+    14.798,
+    27.736
+   ],
+   "energy_error": 5.4040280456785874e-09,
+   "earth_a_range": [
+    2.69785,
+    2.7015
+   ],
+   "earth_e_max": 0.05624,
+   "mars_a_range": [
+    3.39126,
+    3.41763
+   ],
+   "mars_e_max": 0.09987,
+   "earth_mars_gap_min_au": 0.21609,
+   "jupiter_mars_period_ratio": [
+    1.87728,
+    1.90006
+   ],
+   "encounters": [
+    {
+     "year": 57749.9,
+     "bodies": [
+      "ceres",
+      "pallas"
+     ],
+     "au": 0.00946
+    },
+    {
+     "year": 63243.1,
+     "bodies": [
+      "earth",
+      "ceres"
+     ],
+     "au": 0.00636
+    },
+    {
+     "year": 74900.3,
+     "bodies": [
+      "ceres",
+      "pallas"
+     ],
+     "au": 0.00726
+    },
+    {
+     "year": 101778.7,
+     "bodies": [
+      "ceres",
+      "hygiea"
+     ],
+     "au": 0.0097
+    },
+    {
+     "year": 105085.6,
+     "bodies": [
+      "earth",
+      "ceres"
+     ],
+     "au": 0.0083
+    },
+    {
+     "year": 119019.3,
+     "bodies": [
+      "earth",
+      "ceres"
+     ],
+     "au": 0.00851
+    },
+    {
+     "year": 144831.1,
+     "bodies": [
+      "earth",
+      "ceres"
+     ],
+     "au": 0.00963
+    },
+    {
+     "year": 178615.7,
+     "bodies": [
+      "earth",
+      "pallas"
+     ],
+     "au": 0.00978
+    },
+    {
+     "year": 194099.5,
+     "bodies": [
+      "vesta",
+      "hygiea"
+     ],
+     "au": 0.00928
+    },
+    {
+     "year": 194244.4,
+     "bodies": [
+      "vesta",
+      "hygiea"
+     ],
+     "au": 0.00993
+    },
+    {
+     "year": 194773.9,
+     "bodies": [
+      "vesta",
+      "hygiea"
+     ],
+     "au": 0.00867
+    },
+    {
+     "year": 200658.7,
+     "bodies": [
+      "ceres",
+      "hygiea"
+     ],
+     "au": 0.00276
+    },
+    {
+     "year": 233405.7,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00479
+    },
+    {
+     "year": 245182.5,
+     "bodies": [
+      "earth",
+      "ceres"
+     ],
+     "au": 0.0096
+    },
+    {
+     "year": 245249.0,
+     "bodies": [
+      "earth",
+      "ceres"
+     ],
+     "au": 0.00979
+    },
+    {
+     "year": 262811.5,
+     "bodies": [
+      "earth",
+      "ceres"
+     ],
+     "au": 0.00825
+    },
+    {
+     "year": 264623.3,
+     "bodies": [
+      "mars",
+      "hygiea"
+     ],
+     "au": 0.0079
+    },
+    {
+     "year": 265822.8,
+     "bodies": [
+      "vesta",
+      "hygiea"
+     ],
+     "au": 0.00997
+    },
+    {
+     "year": 267924.0,
+     "bodies": [
+      "mars",
+      "hygiea"
+     ],
+     "au": 0.0051
+    },
+    {
+     "year": 282068.2,
+     "bodies": [
+      "ceres",
+      "hygiea"
+     ],
+     "au": 0.00815
+    },
+    {
+     "year": 336512.8,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00649
+    },
+    {
+     "year": 349924.0,
+     "bodies": [
+      "ceres",
+      "vesta"
+     ],
+     "au": 0.00208
+    },
+    {
+     "year": 355463.3,
+     "bodies": [
+      "ceres",
+      "hygiea"
+     ],
+     "au": 0.00831
+    },
+    {
+     "year": 358780.8,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00609
+    },
+    {
+     "year": 361216.5,
+     "bodies": [
+      "earth",
+      "ceres"
+     ],
+     "au": 0.00839
+    },
+    {
+     "year": 366007.7,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00831
+    },
+    {
+     "year": 470595.1,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00995
+    },
+    {
+     "year": 471035.1,
+     "bodies": [
+      "earth",
+      "ceres"
+     ],
+     "au": 0.00977
+    },
+    {
+     "year": 478475.7,
+     "bodies": [
+      "ceres",
+      "pallas"
+     ],
+     "au": 0.00759
+    },
+    {
+     "year": 527377.9,
+     "bodies": [
+      "vesta",
+      "hygiea"
+     ],
+     "au": 0.00984
+    },
+    {
+     "year": 534890.1,
+     "bodies": [
+      "ceres",
+      "vesta"
+     ],
+     "au": 0.00839
+    },
+    {
+     "year": 542221.0,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00628
+    },
+    {
+     "year": 604516.8,
+     "bodies": [
+      "vesta",
+      "hygiea"
+     ],
+     "au": 0.0074
+    },
+    {
+     "year": 616058.8,
+     "bodies": [
+      "ceres",
+      "hygiea"
+     ],
+     "au": 0.00662
+    },
+    {
+     "year": 627269.4,
+     "bodies": [
+      "earth",
+      "ceres"
+     ],
+     "au": 0.00335
+    },
+    {
+     "year": 642472.7,
+     "bodies": [
+      "ceres",
+      "pallas"
+     ],
+     "au": 0.00935
+    },
+    {
+     "year": 675089.9,
+     "bodies": [
+      "mars",
+      "pallas"
+     ],
+     "au": 0.00799
+    },
+    {
+     "year": 676445.5,
+     "bodies": [
+      "mars",
+      "ceres"
+     ],
+     "au": 0.00876
+    },
+    {
+     "year": 679055.8,
+     "bodies": [
+      "vesta",
+      "hygiea"
+     ],
+     "au": 0.00792
+    },
+    {
+     "year": 680712.2,
+     "bodies": [
+      "ceres",
+      "vesta"
+     ],
+     "au": 0.00958
+    },
+    {
+     "year": 700998.6,
+     "bodies": [
+      "vesta",
+      "hygiea"
+     ],
+     "au": 0.00997
+    },
+    {
+     "year": 703679.1,
+     "bodies": [
+      "ceres",
+      "hygiea"
+     ],
+     "au": 0.00997
+    },
+    {
+     "year": 712900.6,
+     "bodies": [
+      "earth",
+      "ceres"
+     ],
+     "au": 0.00987
+    },
+    {
+     "year": 718248.0,
+     "bodies": [
+      "ceres",
+      "vesta"
+     ],
+     "au": 0.00798
+    },
+    {
+     "year": 726932.0,
+     "bodies": [
+      "ceres",
+      "vesta"
+     ],
+     "au": 0.00885
+    },
+    {
+     "year": 744179.8,
+     "bodies": [
+      "vesta",
+      "hygiea"
+     ],
+     "au": 0.00737
+    },
+    {
+     "year": 745256.6,
+     "bodies": [
+      "ceres",
+      "hygiea"
+     ],
+     "au": 0.00987
+    },
+    {
+     "year": 761269.6,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00638
+    },
+    {
+     "year": 770225.5,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00908
+    },
+    {
+     "year": 821750.3,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00901
+    },
+    {
+     "year": 843162.3,
+     "bodies": [
+      "ceres",
+      "vesta"
+     ],
+     "au": 0.00674
+    },
+    {
+     "year": 874640.4,
+     "bodies": [
+      "earth",
+      "pallas"
+     ],
+     "au": 0.00823
+    },
+    {
+     "year": 885898.2,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00706
+    },
+    {
+     "year": 893902.6,
+     "bodies": [
+      "ceres",
+      "pallas"
+     ],
+     "au": 0.00974
+    },
+    {
+     "year": 897317.2,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00826
+    },
+    {
+     "year": 914992.0,
+     "bodies": [
+      "earth",
+      "ceres"
+     ],
+     "au": 0.00846
+    },
+    {
+     "year": 918007.4,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00919
+    },
+    {
+     "year": 924181.7,
+     "bodies": [
+      "vesta",
+      "hygiea"
+     ],
+     "au": 0.00676
+    },
+    {
+     "year": 929432.9,
+     "bodies": [
+      "mars",
+      "hygiea"
+     ],
+     "au": 0.00527
+    },
+    {
+     "year": 935167.5,
+     "bodies": [
+      "mars",
+      "hygiea"
+     ],
+     "au": 0.00851
+    },
+    {
+     "year": 938236.0,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00715
+    },
+    {
+     "year": 948743.4,
+     "bodies": [
+      "ceres",
+      "hygiea"
+     ],
+     "au": 0.00865
+    },
+    {
+     "year": 953845.4,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00976
+    },
+    {
+     "year": 956861.8,
+     "bodies": [
+      "earth",
+      "ceres"
+     ],
+     "au": 0.0064
+    },
+    {
+     "year": 957307.4,
+     "bodies": [
+      "earth",
+      "ceres"
+     ],
+     "au": 0.00757
+    },
+    {
+     "year": 974764.8,
+     "bodies": [
+      "earth",
+      "ceres"
+     ],
+     "au": 0.00866
+    },
+    {
+     "year": 987245.1,
+     "bodies": [
+      "earth",
+      "ceres"
+     ],
+     "au": 0.00846
+    }
+   ],
+   "run_seconds": 846.6
+  },
+  {
+   "name": "Mars 3.4, Earth e 0.045 on Jupiter",
+   "earth_a": 2.7,
+   "mars_a": 3.4,
+   "earth_e": 0.045,
+   "earth_peri": "jupiter",
+   "years": 1000000,
+   "stopped": null,
+   "thrown_out": [],
+   "axial_tilt_deg": [
+    14.797,
+    27.711
+   ],
+   "energy_error": 4.591235903720313e-09,
+   "earth_a_range": [
+    2.69793,
+    2.70155
+   ],
+   "earth_e_max": 0.05748,
+   "mars_a_range": [
+    3.39153,
+    3.41818
+   ],
+   "mars_e_max": 0.09995,
+   "earth_mars_gap_min_au": 0.2147,
+   "jupiter_mars_period_ratio": [
+    1.87711,
+    1.89948
+   ],
+   "encounters": [
+    {
+     "year": 3366.1,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00918
+    },
+    {
+     "year": 5942.0,
+     "bodies": [
+      "mars",
+      "hygiea"
+     ],
+     "au": 0.00916
+    },
+    {
+     "year": 13454.9,
+     "bodies": [
+      "earth",
+      "ceres"
+     ],
+     "au": 0.00699
+    },
+    {
+     "year": 60738.9,
+     "bodies": [
+      "pallas",
+      "hygiea"
+     ],
+     "au": 0.00828
+    },
+    {
+     "year": 92760.7,
+     "bodies": [
+      "ceres",
+      "vesta"
+     ],
+     "au": 0.00753
+    },
+    {
+     "year": 132049.0,
+     "bodies": [
+      "pallas",
+      "hygiea"
+     ],
+     "au": 0.00789
+    },
+    {
+     "year": 151113.8,
+     "bodies": [
+      "ceres",
+      "hygiea"
+     ],
+     "au": 0.00994
+    },
+    {
+     "year": 180223.3,
+     "bodies": [
+      "pallas",
+      "hygiea"
+     ],
+     "au": 0.00793
+    },
+    {
+     "year": 205234.5,
+     "bodies": [
+      "earth",
+      "ceres"
+     ],
+     "au": 0.00754
+    },
+    {
+     "year": 222245.2,
+     "bodies": [
+      "ceres",
+      "vesta"
+     ],
+     "au": 0.00913
+    },
+    {
+     "year": 240672.3,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00819
+    },
+    {
+     "year": 252323.5,
+     "bodies": [
+      "ceres",
+      "hygiea"
+     ],
+     "au": 0.00354
+    },
+    {
+     "year": 276833.3,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00798
+    },
+    {
+     "year": 283366.8,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00769
+    },
+    {
+     "year": 297179.9,
+     "bodies": [
+      "ceres",
+      "pallas"
+     ],
+     "au": 0.0094
+    },
+    {
+     "year": 298292.6,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00783
+    },
+    {
+     "year": 319965.1,
+     "bodies": [
+      "ceres",
+      "hygiea"
+     ],
+     "au": 0.00314
+    },
+    {
+     "year": 334711.5,
+     "bodies": [
+      "earth",
+      "ceres"
+     ],
+     "au": 0.00722
+    },
+    {
+     "year": 345871.9,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00775
+    },
+    {
+     "year": 372464.4,
+     "bodies": [
+      "earth",
+      "ceres"
+     ],
+     "au": 0.00838
+    },
+    {
+     "year": 384614.4,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00894
+    },
+    {
+     "year": 389099.8,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00877
+    },
+    {
+     "year": 402988.6,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00851
+    },
+    {
+     "year": 421154.3,
+     "bodies": [
+      "earth",
+      "ceres"
+     ],
+     "au": 0.00667
+    },
+    {
+     "year": 440544.0,
+     "bodies": [
+      "earth",
+      "ceres"
+     ],
+     "au": 0.00818
+    },
+    {
+     "year": 441070.7,
+     "bodies": [
+      "vesta",
+      "hygiea"
+     ],
+     "au": 0.00957
+    },
+    {
+     "year": 456423.4,
+     "bodies": [
+      "ceres",
+      "vesta"
+     ],
+     "au": 0.00855
+    },
+    {
+     "year": 458419.1,
+     "bodies": [
+      "earth",
+      "ceres"
+     ],
+     "au": 0.00884
+    },
+    {
+     "year": 484142.8,
+     "bodies": [
+      "vesta",
+      "hygiea"
+     ],
+     "au": 0.0055
+    },
+    {
+     "year": 491035.2,
+     "bodies": [
+      "vesta",
+      "hygiea"
+     ],
+     "au": 0.00835
+    },
+    {
+     "year": 511727.8,
+     "bodies": [
+      "pallas",
+      "vesta"
+     ],
+     "au": 0.0093
+    },
+    {
+     "year": 531033.6,
+     "bodies": [
+      "pallas",
+      "hygiea"
+     ],
+     "au": 0.00905
+    },
+    {
+     "year": 531245.6,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00742
+    },
+    {
+     "year": 547151.5,
+     "bodies": [
+      "vesta",
+      "hygiea"
+     ],
+     "au": 0.0054
+    },
+    {
+     "year": 549614.4,
+     "bodies": [
+      "earth",
+      "ceres"
+     ],
+     "au": 0.00973
+    },
+    {
+     "year": 558570.1,
+     "bodies": [
+      "mars",
+      "ceres"
+     ],
+     "au": 0.00994
+    },
+    {
+     "year": 579744.6,
+     "bodies": [
+      "ceres",
+      "pallas"
+     ],
+     "au": 0.00692
+    },
+    {
+     "year": 583040.5,
+     "bodies": [
+      "earth",
+      "ceres"
+     ],
+     "au": 0.00868
+    },
+    {
+     "year": 584023.2,
+     "bodies": [
+      "ceres",
+      "hygiea"
+     ],
+     "au": 0.00497
+    },
+    {
+     "year": 591626.1,
+     "bodies": [
+      "mars",
+      "ceres"
+     ],
+     "au": 0.00728
+    },
+    {
+     "year": 605662.2,
+     "bodies": [
+      "vesta",
+      "hygiea"
+     ],
+     "au": 0.00971
+    },
+    {
+     "year": 605742.0,
+     "bodies": [
+      "vesta",
+      "hygiea"
+     ],
+     "au": 0.00477
+    },
+    {
+     "year": 611890.5,
+     "bodies": [
+      "vesta",
+      "hygiea"
+     ],
+     "au": 0.00765
+    },
+    {
+     "year": 613169.4,
+     "bodies": [
+      "mars",
+      "ceres"
+     ],
+     "au": 0.00578
+    },
+    {
+     "year": 622529.5,
+     "bodies": [
+      "mars",
+      "ceres"
+     ],
+     "au": 0.00721
+    },
+    {
+     "year": 663845.4,
+     "bodies": [
+      "ceres",
+      "hygiea"
+     ],
+     "au": 0.00662
+    },
+    {
+     "year": 672720.6,
+     "bodies": [
+      "ceres",
+      "vesta"
+     ],
+     "au": 0.00965
+    },
+    {
+     "year": 683392.9,
+     "bodies": [
+      "vesta",
+      "hygiea"
+     ],
+     "au": 0.00311
+    },
+    {
+     "year": 703753.9,
+     "bodies": [
+      "earth",
+      "pallas"
+     ],
+     "au": 0.00973
+    },
+    {
+     "year": 711879.6,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00562
+    },
+    {
+     "year": 723710.7,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00822
+    },
+    {
+     "year": 724878.0,
+     "bodies": [
+      "vesta",
+      "hygiea"
+     ],
+     "au": 0.00822
+    },
+    {
+     "year": 725429.5,
+     "bodies": [
+      "vesta",
+      "hygiea"
+     ],
+     "au": 0.00789
+    },
+    {
+     "year": 734895.9,
+     "bodies": [
+      "earth",
+      "pallas"
+     ],
+     "au": 0.00662
+    },
+    {
+     "year": 738162.9,
+     "bodies": [
+      "ceres",
+      "pallas"
+     ],
+     "au": 0.00792
+    },
+    {
+     "year": 789088.7,
+     "bodies": [
+      "pallas",
+      "hygiea"
+     ],
+     "au": 0.00479
+    },
+    {
+     "year": 795497.0,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00715
+    },
+    {
+     "year": 806492.6,
+     "bodies": [
+      "ceres",
+      "hygiea"
+     ],
+     "au": 0.00968
+    },
+    {
+     "year": 808780.7,
+     "bodies": [
+      "pallas",
+      "hygiea"
+     ],
+     "au": 0.00888
+    },
+    {
+     "year": 814659.5,
+     "bodies": [
+      "vesta",
+      "hygiea"
+     ],
+     "au": 0.00463
+    },
+    {
+     "year": 816285.0,
+     "bodies": [
+      "vesta",
+      "hygiea"
+     ],
+     "au": 0.00775
+    },
+    {
+     "year": 829317.7,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00883
+    },
+    {
+     "year": 831363.3,
+     "bodies": [
+      "ceres",
+      "vesta"
+     ],
+     "au": 0.00864
+    },
+    {
+     "year": 834812.8,
+     "bodies": [
+      "earth",
+      "ceres"
+     ],
+     "au": 0.00976
+    },
+    {
+     "year": 836615.6,
+     "bodies": [
+      "ceres",
+      "vesta"
+     ],
+     "au": 0.00715
+    },
+    {
+     "year": 858359.3,
+     "bodies": [
+      "vesta",
+      "hygiea"
+     ],
+     "au": 0.00883
+    },
+    {
+     "year": 876638.6,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00765
+    },
+    {
+     "year": 895706.7,
+     "bodies": [
+      "mars",
+      "pallas"
+     ],
+     "au": 0.00956
+    },
+    {
+     "year": 905007.7,
+     "bodies": [
+      "ceres",
+      "hygiea"
+     ],
+     "au": 0.00679
+    },
+    {
+     "year": 915357.3,
+     "bodies": [
+      "ceres",
+      "hygiea"
+     ],
+     "au": 0.00833
+    },
+    {
+     "year": 942446.0,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00566
+    },
+    {
+     "year": 950827.5,
+     "bodies": [
+      "ceres",
+      "hygiea"
+     ],
+     "au": 0.00678
+    },
+    {
+     "year": 952883.8,
+     "bodies": [
+      "vesta",
+      "hygiea"
+     ],
+     "au": 0.00594
+    },
+    {
+     "year": 963453.1,
+     "bodies": [
+      "pallas",
+      "hygiea"
+     ],
+     "au": 0.0082
+    },
+    {
+     "year": 997486.1,
+     "bodies": [
+      "vesta",
+      "hygiea"
+     ],
+     "au": 0.00828
+    }
+   ],
+   "run_seconds": 836.4
+  },
+  {
+   "name": "Mars 3.4 e 0.04, both on Jupiter",
+   "earth_a": 2.7,
+   "mars_a": 3.4,
+   "earth_e": 0.03,
+   "earth_peri": "jupiter",
+   "mars_e": 0.04,
+   "mars_peri": "jupiter",
+   "years": 1000000,
+   "stopped": null,
+   "thrown_out": [
+    {
+     "year": 991561.6,
+     "body": "hygiea"
+    }
+   ],
+   "axial_tilt_deg": [
+    14.797,
+    27.746
+   ],
+   "energy_error": 1.1953392185247032e-08,
+   "earth_a_range": [
+    2.69786,
+    2.70148
+   ],
+   "earth_e_max": 0.05616,
+   "mars_a_range": [
+    3.37641,
+    3.40047
+   ],
+   "mars_e_max": 0.081,
+   "earth_mars_gap_min_au": 0.26085,
+   "jupiter_mars_period_ratio": [
+    1.8918,
+    1.91227
+   ],
+   "encounters": [
+    {
+     "year": 58134.1,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00913
+    },
+    {
+     "year": 63731.7,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.0094
+    },
+    {
+     "year": 79652.3,
+     "bodies": [
+      "ceres",
+      "vesta"
+     ],
+     "au": 0.0027
+    },
+    {
+     "year": 157512.8,
+     "bodies": [
+      "pallas",
+      "vesta"
+     ],
+     "au": 0.00782
+    },
+    {
+     "year": 201016.9,
+     "bodies": [
+      "ceres",
+      "pallas"
+     ],
+     "au": 0.00736
+    },
+    {
+     "year": 216354.1,
+     "bodies": [
+      "ceres",
+      "vesta"
+     ],
+     "au": 0.00824
+    },
+    {
+     "year": 254143.8,
+     "bodies": [
+      "ceres",
+      "pallas"
+     ],
+     "au": 0.00457
+    },
+    {
+     "year": 257212.1,
+     "bodies": [
+      "vesta",
+      "hygiea"
+     ],
+     "au": 0.00713
+    },
+    {
+     "year": 261229.7,
+     "bodies": [
+      "ceres",
+      "vesta"
+     ],
+     "au": 0.00382
+    },
+    {
+     "year": 352540.0,
+     "bodies": [
+      "earth",
+      "pallas"
+     ],
+     "au": 0.00965
+    },
+    {
+     "year": 365929.5,
+     "bodies": [
+      "pallas",
+      "hygiea"
+     ],
+     "au": 0.00759
+    },
+    {
+     "year": 393982.8,
+     "bodies": [
+      "ceres",
+      "hygiea"
+     ],
+     "au": 0.00892
+    },
+    {
+     "year": 412891.4,
+     "bodies": [
+      "ceres",
+      "vesta"
+     ],
+     "au": 0.00708
+    },
+    {
+     "year": 436243.0,
+     "bodies": [
+      "vesta",
+      "hygiea"
+     ],
+     "au": 0.00897
+    },
+    {
+     "year": 450675.8,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00681
+    },
+    {
+     "year": 480362.5,
+     "bodies": [
+      "earth",
+      "ceres"
+     ],
+     "au": 0.00664
+    },
+    {
+     "year": 553499.8,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00906
+    },
+    {
+     "year": 558768.6,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00668
+    },
+    {
+     "year": 597139.3,
+     "bodies": [
+      "ceres",
+      "vesta"
+     ],
+     "au": 0.00792
+    },
+    {
+     "year": 661270.8,
+     "bodies": [
+      "mars",
+      "pallas"
+     ],
+     "au": 0.00509
+    },
+    {
+     "year": 672922.8,
+     "bodies": [
+      "earth",
+      "ceres"
+     ],
+     "au": 0.00785
+    },
+    {
+     "year": 734444.4,
+     "bodies": [
+      "earth",
+      "ceres"
+     ],
+     "au": 0.00315
+    },
+    {
+     "year": 737452.8,
+     "bodies": [
+      "jupiter",
+      "hygiea"
+     ],
+     "au": 0.00796
+    },
+    {
+     "year": 793721.5,
+     "bodies": [
+      "earth",
+      "ceres"
+     ],
+     "au": 0.00616
+    },
+    {
+     "year": 859455.6,
+     "bodies": [
+      "ceres",
+      "vesta"
+     ],
+     "au": 0.00843
+    },
+    {
+     "year": 890306.9,
+     "bodies": [
+      "ceres",
+      "vesta"
+     ],
+     "au": 0.00677
+    },
+    {
+     "year": 922199.6,
+     "bodies": [
+      "earth",
+      "ceres"
+     ],
+     "au": 0.00824
+    },
+    {
+     "year": 997760.6,
+     "bodies": [
+      "earth",
+      "ceres"
+     ],
+     "au": 0.00907
+    }
+   ],
+   "run_seconds": 925.2
+  },
+  {
+   "name": "Mars 3.5, Earth e 0.03 on Jupiter",
+   "earth_a": 2.7,
+   "mars_a": 3.5,
+   "earth_e": 0.03,
+   "earth_peri": "jupiter",
+   "years": 1000000,
+   "stopped": null,
+   "thrown_out": [],
+   "axial_tilt_deg": [
+    14.795,
+    27.74
+   ],
+   "energy_error": 4.754396488114713e-09,
+   "earth_a_range": [
+    2.69784,
+    2.70148
+   ],
+   "earth_e_max": 0.05636,
+   "mars_a_range": [
+    3.49054,
+    3.51967
+   ],
+   "mars_e_max": 0.10434,
+   "earth_mars_gap_min_au": 0.28953,
+   "jupiter_mars_period_ratio": [
+    1.7963,
+    1.81979
+   ],
+   "encounters": [
+    {
+     "year": 5966.3,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00908
+    },
+    {
+     "year": 46419.0,
+     "bodies": [
+      "mars",
+      "hygiea"
+     ],
+     "au": 0.00639
+    },
+    {
+     "year": 58684.3,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.0083
+    },
+    {
+     "year": 82165.4,
+     "bodies": [
+      "earth",
+      "ceres"
+     ],
+     "au": 0.00826
+    },
+    {
+     "year": 116704.9,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00735
+    },
+    {
+     "year": 121493.0,
+     "bodies": [
+      "earth",
+      "ceres"
+     ],
+     "au": 0.0074
+    },
+    {
+     "year": 149123.4,
+     "bodies": [
+      "earth",
+      "ceres"
+     ],
+     "au": 0.00801
+    },
+    {
+     "year": 178521.9,
+     "bodies": [
+      "pallas",
+      "vesta"
+     ],
+     "au": 0.00936
+    },
+    {
+     "year": 183378.1,
+     "bodies": [
+      "ceres",
+      "hygiea"
+     ],
+     "au": 0.009
+    },
+    {
+     "year": 187364.9,
+     "bodies": [
+      "earth",
+      "ceres"
+     ],
+     "au": 0.00733
+    },
+    {
+     "year": 189235.0,
+     "bodies": [
+      "vesta",
+      "hygiea"
+     ],
+     "au": 0.00929
+    },
+    {
+     "year": 195266.6,
+     "bodies": [
+      "ceres",
+      "vesta"
+     ],
+     "au": 0.00846
+    },
+    {
+     "year": 231865.6,
+     "bodies": [
+      "ceres",
+      "pallas"
+     ],
+     "au": 0.00947
+    },
+    {
+     "year": 235791.3,
+     "bodies": [
+      "ceres",
+      "hygiea"
+     ],
+     "au": 0.00713
+    },
+    {
+     "year": 267295.9,
+     "bodies": [
+      "ceres",
+      "hygiea"
+     ],
+     "au": 0.00971
+    },
+    {
+     "year": 270517.1,
+     "bodies": [
+      "ceres",
+      "hygiea"
+     ],
+     "au": 0.00905
+    },
+    {
+     "year": 283469.4,
+     "bodies": [
+      "earth",
+      "ceres"
+     ],
+     "au": 0.00969
+    },
+    {
+     "year": 292788.5,
+     "bodies": [
+      "vesta",
+      "hygiea"
+     ],
+     "au": 0.0082
+    },
+    {
+     "year": 336250.6,
+     "bodies": [
+      "ceres",
+      "hygiea"
+     ],
+     "au": 0.00942
+    },
+    {
+     "year": 336389.7,
+     "bodies": [
+      "ceres",
+      "hygiea"
+     ],
+     "au": 0.00676
+    },
+    {
+     "year": 345535.1,
+     "bodies": [
+      "earth",
+      "ceres"
+     ],
+     "au": 0.00777
+    },
+    {
+     "year": 374884.8,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00793
+    },
+    {
+     "year": 388533.5,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00866
+    },
+    {
+     "year": 392537.7,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00793
+    },
+    {
+     "year": 492770.5,
+     "bodies": [
+      "vesta",
+      "hygiea"
+     ],
+     "au": 0.00676
+    },
+    {
+     "year": 493520.2,
+     "bodies": [
+      "ceres",
+      "vesta"
+     ],
+     "au": 0.0096
+    },
+    {
+     "year": 502815.3,
+     "bodies": [
+      "earth",
+      "ceres"
+     ],
+     "au": 0.00606
+    },
+    {
+     "year": 532073.3,
+     "bodies": [
+      "vesta",
+      "hygiea"
+     ],
+     "au": 0.00885
+    },
+    {
+     "year": 565425.6,
+     "bodies": [
+      "ceres",
+      "vesta"
+     ],
+     "au": 0.0086
+    },
+    {
+     "year": 625532.5,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00705
+    },
+    {
+     "year": 645352.4,
+     "bodies": [
+      "vesta",
+      "hygiea"
+     ],
+     "au": 0.00912
+    },
+    {
+     "year": 651051.2,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00936
+    },
+    {
+     "year": 661310.0,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00844
+    },
+    {
+     "year": 675162.9,
+     "bodies": [
+      "ceres",
+      "vesta"
+     ],
+     "au": 0.00671
+    },
+    {
+     "year": 675899.2,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00733
+    },
+    {
+     "year": 683125.0,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00986
+    },
+    {
+     "year": 688226.8,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00708
+    },
+    {
+     "year": 700099.4,
+     "bodies": [
+      "vesta",
+      "hygiea"
+     ],
+     "au": 0.00293
+    },
+    {
+     "year": 726804.5,
+     "bodies": [
+      "ceres",
+      "hygiea"
+     ],
+     "au": 0.00902
+    },
+    {
+     "year": 727651.0,
+     "bodies": [
+      "earth",
+      "ceres"
+     ],
+     "au": 0.00715
+    },
+    {
+     "year": 727655.4,
+     "bodies": [
+      "earth",
+      "ceres"
+     ],
+     "au": 0.0096
+    },
+    {
+     "year": 733340.2,
+     "bodies": [
+      "earth",
+      "pallas"
+     ],
+     "au": 0.00751
+    },
+    {
+     "year": 738353.7,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00969
+    },
+    {
+     "year": 755556.3,
+     "bodies": [
+      "vesta",
+      "hygiea"
+     ],
+     "au": 0.00726
+    },
+    {
+     "year": 763525.7,
+     "bodies": [
+      "pallas",
+      "hygiea"
+     ],
+     "au": 0.00529
+    },
+    {
+     "year": 770332.1,
+     "bodies": [
+      "earth",
+      "ceres"
+     ],
+     "au": 0.00856
+    },
+    {
+     "year": 793719.1,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00709
+    },
+    {
+     "year": 794425.5,
+     "bodies": [
+      "ceres",
+      "hygiea"
+     ],
+     "au": 0.00972
+    },
+    {
+     "year": 804651.1,
+     "bodies": [
+      "earth",
+      "ceres"
+     ],
+     "au": 0.00918
+    },
+    {
+     "year": 822039.0,
+     "bodies": [
+      "ceres",
+      "hygiea"
+     ],
+     "au": 0.00864
+    },
+    {
+     "year": 866509.1,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.0074
+    },
+    {
+     "year": 901873.7,
+     "bodies": [
+      "pallas",
+      "vesta"
+     ],
+     "au": 0.00741
+    },
+    {
+     "year": 904682.8,
+     "bodies": [
+      "ceres",
+      "vesta"
+     ],
+     "au": 0.00919
+    },
+    {
+     "year": 923893.2,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00962
+    },
+    {
+     "year": 947017.3,
+     "bodies": [
+      "vesta",
+      "hygiea"
+     ],
+     "au": 0.00858
+    },
+    {
+     "year": 951380.7,
+     "bodies": [
+      "ceres",
+      "hygiea"
+     ],
+     "au": 0.00974
+    },
+    {
+     "year": 963618.4,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00854
+    },
+    {
+     "year": 966926.4,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00908
+    },
+    {
+     "year": 968870.6,
+     "bodies": [
+      "pallas",
+      "hygiea"
+     ],
+     "au": 0.00515
+    }
+   ],
+   "run_seconds": 841.9
+  },
+  {
+   "name": "Mars 3.05, Earth e 0.03 on Jupiter",
+   "earth_a": 2.7,
+   "mars_a": 3.05,
+   "earth_e": 0.03,
+   "earth_peri": "jupiter",
+   "years": 1000000,
+   "stopped": null,
+   "thrown_out": [],
+   "axial_tilt_deg": [
+    14.807,
+    27.858
+   ],
+   "energy_error": 3.5792769596167765e-09,
+   "earth_a_range": [
+    2.69758,
+    2.702
+   ],
+   "earth_e_max": 0.05684,
+   "mars_a_range": [
+    3.03866,
+    3.06002
+   ],
+   "mars_e_max": 0.09864,
+   "earth_mars_gap_min_au": -0.08495,
+   "jupiter_mars_period_ratio": [
+    2.21598,
+    2.24046
+   ],
+   "encounters": [
+    {
+     "year": 3867.3,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00771
+    },
+    {
+     "year": 5614.5,
+     "bodies": [
+      "mars",
+      "hygiea"
+     ],
+     "au": 0.00991
+    },
+    {
+     "year": 50008.8,
+     "bodies": [
+      "vesta",
+      "hygiea"
+     ],
+     "au": 0.0097
+    },
+    {
+     "year": 63819.0,
+     "bodies": [
+      "ceres",
+      "vesta"
+     ],
+     "au": 0.00966
+    },
+    {
+     "year": 73826.4,
+     "bodies": [
+      "earth",
+      "ceres"
+     ],
+     "au": 0.00751
+    },
+    {
+     "year": 76634.5,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00805
+    },
+    {
+     "year": 87399.6,
+     "bodies": [
+      "vesta",
+      "hygiea"
+     ],
+     "au": 0.00938
+    },
+    {
+     "year": 105176.8,
+     "bodies": [
+      "earth",
+      "ceres"
+     ],
+     "au": 0.0092
+    },
+    {
+     "year": 121423.4,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00803
+    },
+    {
+     "year": 149615.2,
+     "bodies": [
+      "vesta",
+      "hygiea"
+     ],
+     "au": 0.00543
+    },
+    {
+     "year": 153409.9,
+     "bodies": [
+      "earth",
+      "ceres"
+     ],
+     "au": 0.00723
+    },
+    {
+     "year": 160777.4,
+     "bodies": [
+      "ceres",
+      "pallas"
+     ],
+     "au": 0.00924
+    },
+    {
+     "year": 168115.4,
+     "bodies": [
+      "earth",
+      "ceres"
+     ],
+     "au": 0.00778
+    },
+    {
+     "year": 174402.5,
+     "bodies": [
+      "ceres",
+      "pallas"
+     ],
+     "au": 0.00734
+    },
+    {
+     "year": 196446.1,
+     "bodies": [
+      "mars",
+      "hygiea"
+     ],
+     "au": 0.00129
+    },
+    {
+     "year": 240524.8,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00954
+    },
+    {
+     "year": 244676.4,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00925
+    },
+    {
+     "year": 253908.1,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00941
+    },
+    {
+     "year": 284808.5,
+     "bodies": [
+      "earth",
+      "ceres"
+     ],
+     "au": 0.00678
+    },
+    {
+     "year": 308969.3,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00814
+    },
+    {
+     "year": 313858.6,
+     "bodies": [
+      "ceres",
+      "pallas"
+     ],
+     "au": 0.00835
+    },
+    {
+     "year": 323651.2,
+     "bodies": [
+      "ceres",
+      "hygiea"
+     ],
+     "au": 0.00425
+    },
+    {
+     "year": 348039.1,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00861
+    },
+    {
+     "year": 348628.9,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00657
+    },
+    {
+     "year": 386914.7,
+     "bodies": [
+      "mars",
+      "hygiea"
+     ],
+     "au": 0.00896
+    },
+    {
+     "year": 395883.7,
+     "bodies": [
+      "mars",
+      "ceres"
+     ],
+     "au": 0.00083
+    },
+    {
+     "year": 405293.6,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00475
+    },
+    {
+     "year": 425691.1,
+     "bodies": [
+      "mars",
+      "pallas"
+     ],
+     "au": 0.00989
+    },
+    {
+     "year": 518936.1,
+     "bodies": [
+      "mars",
+      "hygiea"
+     ],
+     "au": 0.00724
+    },
+    {
+     "year": 528516.7,
+     "bodies": [
+      "vesta",
+      "hygiea"
+     ],
+     "au": 0.00842
+    },
+    {
+     "year": 602811.0,
+     "bodies": [
+      "mars",
+      "hygiea"
+     ],
+     "au": 0.00791
+    },
+    {
+     "year": 607664.7,
+     "bodies": [
+      "vesta",
+      "hygiea"
+     ],
+     "au": 0.00654
+    },
+    {
+     "year": 658178.0,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00742
+    },
+    {
+     "year": 660856.5,
+     "bodies": [
+      "earth",
+      "ceres"
+     ],
+     "au": 0.00502
+    },
+    {
+     "year": 684516.5,
+     "bodies": [
+      "mars",
+      "hygiea"
+     ],
+     "au": 0.00677
+    },
+    {
+     "year": 705913.8,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00675
+    },
+    {
+     "year": 726367.4,
+     "bodies": [
+      "earth",
+      "ceres"
+     ],
+     "au": 0.0083
+    },
+    {
+     "year": 739109.1,
+     "bodies": [
+      "mars",
+      "ceres"
+     ],
+     "au": 0.00837
+    },
+    {
+     "year": 745779.3,
+     "bodies": [
+      "mars",
+      "ceres"
+     ],
+     "au": 0.00988
+    },
+    {
+     "year": 752374.9,
+     "bodies": [
+      "pallas",
+      "vesta"
+     ],
+     "au": 0.00955
+    },
+    {
+     "year": 777793.4,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00949
+    },
+    {
+     "year": 818986.3,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00487
+    },
+    {
+     "year": 834546.9,
+     "bodies": [
+      "earth",
+      "ceres"
+     ],
+     "au": 0.00556
+    },
+    {
+     "year": 836229.8,
+     "bodies": [
+      "vesta",
+      "hygiea"
+     ],
+     "au": 0.00949
+    },
+    {
+     "year": 850980.6,
+     "bodies": [
+      "vesta",
+      "hygiea"
+     ],
+     "au": 0.00995
+    },
+    {
+     "year": 854148.2,
+     "bodies": [
+      "mars",
+      "hygiea"
+     ],
+     "au": 0.00645
+    },
+    {
+     "year": 855921.3,
+     "bodies": [
+      "pallas",
+      "vesta"
+     ],
+     "au": 0.00743
+    },
+    {
+     "year": 865839.2,
+     "bodies": [
+      "earth",
+      "ceres"
+     ],
+     "au": 0.00759
+    },
+    {
+     "year": 868504.0,
+     "bodies": [
+      "mars",
+      "pallas"
+     ],
+     "au": 0.00657
+    },
+    {
+     "year": 871024.2,
+     "bodies": [
+      "pallas",
+      "vesta"
+     ],
+     "au": 0.00331
+    },
+    {
+     "year": 880642.1,
+     "bodies": [
+      "vesta",
+      "hygiea"
+     ],
+     "au": 0.00587
+    },
+    {
+     "year": 883465.0,
+     "bodies": [
+      "mars",
+      "pallas"
+     ],
+     "au": 0.00657
+    },
+    {
+     "year": 883935.3,
+     "bodies": [
+      "earth",
+      "ceres"
+     ],
+     "au": 0.00886
+    },
+    {
+     "year": 891315.9,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00627
+    },
+    {
+     "year": 891582.0,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00194
+    },
+    {
+     "year": 897589.9,
+     "bodies": [
+      "ceres",
+      "vesta"
+     ],
+     "au": 0.00908
+    },
+    {
+     "year": 902368.6,
+     "bodies": [
+      "earth",
+      "ceres"
+     ],
+     "au": 0.00766
+    },
+    {
+     "year": 902373.0,
+     "bodies": [
+      "earth",
+      "ceres"
+     ],
+     "au": 0.00999
+    },
+    {
+     "year": 903192.9,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00968
+    },
+    {
+     "year": 905083.3,
+     "bodies": [
+      "pallas",
+      "vesta"
+     ],
+     "au": 0.0092
+    },
+    {
+     "year": 920927.4,
+     "bodies": [
+      "pallas",
+      "hygiea"
+     ],
+     "au": 0.0078
+    },
+    {
+     "year": 948222.3,
+     "bodies": [
+      "pallas",
+      "vesta"
+     ],
+     "au": 0.00652
+    },
+    {
+     "year": 954898.9,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00205
+    },
+    {
+     "year": 982722.8,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00521
+    },
+    {
+     "year": 982780.4,
+     "bodies": [
+      "earth",
+      "hygiea"
+     ],
+     "au": 0.00475
+    }
+   ],
+   "run_seconds": 903.0
+  }
+ ]
+}

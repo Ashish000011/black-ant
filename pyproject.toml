@@ -1,0 +1,14 @@
+[project]
+name = "black-ant"
+version = "0.1.0"
+description = "Simulation of a light-pushed asteroid tow that moves Earth to 2.7 AU"
+requires-python = ">=3.12,<3.13"
+dependencies = ["numpy", "rebound", "pyyaml"]
+
+[dependency-groups]
+dev = ["pytest"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+markers = ["slow: runs for more than about 20 seconds"]

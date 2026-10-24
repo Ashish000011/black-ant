@@ -1,0 +1,193 @@
+# Black Ant settings and working rules. Change a value here and re-run; no code changes needed.
+# The rules are our own stand-ins until the organisers publish section 7, the safety appendix
+# and the benchmarks. Each section names the team member who owns it.
+
+run:                       # Member 1 (physics core)
+  years: 10000             # stop after this many years even if not arrived
+  dt_days: 1.0             # step size; 1 day matches 0.5 days to within a year of arrival
+  check_every_steps: 100   # how often stats, arrival and frames are checked
+  frame_every_years: 10    # one saved frame per this many years (for the viewer)
+  start_orbits: real       # real: tilted, oval orbits where the planets were at J2000.0 (1 Jan 2000, noon)
+                           # circular: flat circles at the same mean longitudes (our first runs)
+
+# Orbital elements at J2000.0, relative to the mean ecliptic and equinox of J2000, from JPL's
+# "Approximate Positions of the Planets", Table 1: https://ssd.jpl.nasa.gov/planets/approx_pos.html
+# a: orbit size; e: eccentricity; i: tilt; L: mean longitude; perihelion and node: their longitudes.
+# Earth uses the Earth-Moon barycentre's orbit and carries the Moon's mass.
+planets:
+  - {name: venus,   mass_kg: 4.8675e24,  a_au: 0.72333566, e: 0.00677672, i_deg: 3.39467605,  mean_longitude_deg: 181.97909950, perihelion_longitude_deg: 131.60246718, node_longitude_deg: 76.67984255}
+  - {name: earth,   mass_kg: 6.04562e24, a_au: 1.00000261, e: 0.01671123, i_deg: -0.00001531, mean_longitude_deg: 100.46457166, perihelion_longitude_deg: 102.93768193, node_longitude_deg: 0.0}
+  - {name: mars,    mass_kg: 6.4171e23,  a_au: 1.52371034, e: 0.09339410, i_deg: 1.84969142,  mean_longitude_deg: -4.55343205,  perihelion_longitude_deg: -23.94362959, node_longitude_deg: 49.55953891}
+  - {name: jupiter, mass_kg: 1.89813e27, a_au: 5.20288700, e: 0.04838624, i_deg: 1.30439695,  mean_longitude_deg: 34.39644051,  perihelion_longitude_deg: 14.72847983,  node_longitude_deg: 100.47390909}
+  - {name: saturn,  mass_kg: 5.6834e26,  a_au: 9.53667594, e: 0.05386179, i_deg: 2.48599187,  mean_longitude_deg: 49.95424423,  perihelion_longitude_deg: 92.59887831,  node_longitude_deg: 113.66242448}
+  - {name: uranus,  mass_kg: 8.6810e25,  a_au: 19.18916464, e: 0.04725744, i_deg: 0.77263783, mean_longitude_deg: 313.23810451, perihelion_longitude_deg: 170.95427630, node_longitude_deg: 74.01692503}
+  - {name: neptune, mass_kg: 1.02413e26, a_au: 30.06992276, e: 0.00859048, i_deg: 1.77004347, mean_longitude_deg: -55.12002969, perihelion_longitude_deg: 44.96476227,  node_longitude_deg: 131.78422574}
+# Mercury is left out: its pull on Earth is tiny, and its 88-day orbit would need much shorter steps.
+
+# The four largest asteroids, as massive bodies. Positions (AU) and velocities (AU/day) at J2000.0,
+# heliocentric, ecliptic J2000, from JPL Horizons; masses from the GM values in JPL's Small-Body Database.
+small_bodies:
+  - {name: ceres,  mass_kg: 9.3839e20, pos_au: [-2.379327705915647, 0.7954860388931395, 0.4630055715902157],  vel_au_per_day: [-3.584228273182221e-03, -1.058594861536097e-02, 3.338536192580540e-04]}
+  - {name: pallas, mass_kg: 2.0423e20, pos_au: [-0.8411384433388419, 1.653739426955205, -1.073889494800965],  vel_au_per_day: [-1.173753499559210e-02, -4.121974546925030e-03, 3.817460329256512e-03]}
+  - {name: vesta,  mass_kg: 2.5904e20, pos_au: [-1.353580437607153, -1.673136657862151, 0.2149018113721361],  vel_au_per_day: [9.624804330114381e-03, -7.402735946443642e-03, -9.457048767913505e-04]}
+  - {name: hygiea, mass_kg: 1.0489e20, pos_au: [-2.374062486038638, -1.463570769967126, -0.1781685951459966], vel_au_per_day: [6.109725584714315e-03, -8.949322941029890e-03, 2.567731873697293e-04]}
+
+# Massless test asteroids spread through the belt, to estimate how many real ones come near Earth.
+belt_sample:
+  count: 1000
+  start_year: 6000             # Earth reaches the belt's inner edge (2.1 AU) around year 6,340
+  seed: 2026
+  # Real orbits: 20,000 main-belt asteroids brighter than H 15.5 (a few km and up) from the JPL Small-Body
+  # Database query API (mean eccentricity 0.138, mean tilt 7.2 deg). Ceres, Pallas, Vesta, Hygiea are skipped:
+  # they are massive bodies in the run already.
+  orbits_file: data/belt/sbdb_mba_H15.5.json
+  skip_numbers: [1, 2, 4, 10]
+  a_au: [2.1, 3.3]             # used only without orbits_file
+  e_spread: 0.1
+  i_spread_deg: 8
+  real_population_over_1km: 1.2e6   # Tedesco & Desert 2002: (1.2 +/- 0.5) million main-belt asteroids over 1 km
+  close_pass_au: 0.05          # every pass this close is an encounter; its chance of hitting is Earth's focused
+                               # cross-section over this disc (wide enough for good counts, far enough to be a straight pass)
+
+# Each tow: an asteroid parked at 45 degrees between "ahead" and "away from the Sun" of its target.
+# Target acceleration = G x asteroid mass / distance^2, so Mars gets the same as Earth.
+tows:
+# max_beam_w: the most a tow may use. Mars's tow is served first; the Earth tow may use the rest of E1's
+# 1e26 W, so it has spare power to catch its asteroid after an outage (sim/scenarios/outage.py).
+  - {name: earth-tow, target: earth, asteroid_mass_kg: 3.97e20,   distance_km: 637100, stop_au: 2.7, max_beam_w: 1.0e26}
+# Mars parks at 3.64 AU, past Jupiter's 2:1 resonance (3.28 AU) and between the resonances with Earth and
+# Jupiter (sim/scenarios/parking.py). At 3.0-3.1 AU a million-year run throws Mars onto an Earth-crossing orbit;
+# at 3.4 an untrimmed Mars, next to Earth's 7:5 resonance (3.379 AU), drifts until the orbits cross.
+  - {name: mars-tow,  target: mars,  asteroid_mass_kg: 9.7808e18, distance_km: 100000, stop_au: 3.64, max_beam_w: 1.5e25}
+
+controller:
+  correction_period_days: 10   # how fast drift off the spot is corrected
+
+arrival_trim:                  # sim/secular.py: Earth arrives with the orbit shape and plane Jupiter forces at 2.7 AU
+  enabled: true
+  from_au: 2.0                 # steer only on the last stretch: the orbit on arrival is what matters
+  beta_max: 0.4                # the Earth tow's pull may drop by up to this share on one side of each lap
+  full_strength_at_e: 0.005    # full steering while the free eccentricity is above this; gentler below
+  lift_max_deg: 20             # the tow asteroid may ride this far above or below Earth's orbit plane
+  full_strength_at_tilt_deg: 0.1
+  beta_step: 0.003             # most the steering commands may change per check (100 days): full strength in ~36 years
+  lift_step_deg: 0.15
+  invariable_plane_deg: [1.5787, 107.5822]   # tilt and node to the J2000 ecliptic (Souami & Souchay 2012)
+  s6_arcsec_per_year: -26.3302               # Jupiter-Saturn plane mode (Laskar 1990)
+  mars-tow: {from_au: 1.8, lift_max_deg: 0}   # Mars's tow trims the shape only, from 1.8 AU
+
+moon:                          # Member 1 runs these; Member 2 owns the verdict
+  earth_mass_kg: 5.9722e24     # Earth alone (the long run gives Earth the Moon's mass too)
+  mass_kg: 7.342e22
+  a_km: 384400                 # average distance
+  eccentricity: 0.0549
+  years: 50                    # length of each run
+  dt_minutes: 30
+
+beam:
+  total_limit_w: 1.0e26        # enabler E1
+  earth_clearance_km: 420000   # no beam closer to Earth: beyond the Moon's farthest point (406,700 km)
+  route_angles_deg: [0, 5, -5, 10, -10, 15, -15, 20, -20, 30, -30]  # how far off the Sun line light may arrive
+
+enablers:                      # Member 3 (structures and enablers)
+  e1_beam_limit_w: 1.0e26
+  e2_absorbed_fraction: 1.0e-7
+  e2_strength_pa: 1.0e11
+  e2_density_kg_m3: 2000
+  e2_max_temperature_k: 1500
+  e2_emissivity: 0.9           # infrared, each face of the tow mirrors
+  e3_asteroid_limit_kg: 4.0e20
+  e3_mirror_area_limit_km2: 1.0e9
+  # What each enabler covers; flags caused by these are allowed by the brief.
+  covers:
+    E1: "Beamed-power station: up to 1e26 W of focused light; cancels its own recoil; can also nudge dangerous asteroids aside"
+    E2: "Super-mirror material: absorbs 1e-7 of light, 100 GPa strength, up to 1,500 K"
+    E3: "Planet-scale space manufacturing: places the asteroids and builds the tow and sunlight mirrors"
+
+structures:                    # Member 3; design sizes the checks test against
+  # Sized for the most the beam can ever push (2P/c at 1e26 W) with a 1.5 safety factor, so recovery is covered too.
+  earth-tow: {cable_cross_section_km2: 10.5, anchor_area_km2: 10500, mirror_radius_km: 2600, asteroid_density_kg_m3: 2500}
+  mars-tow:  {cable_cross_section_km2: 1.6,  anchor_area_km2: 1600,  mirror_radius_km: 1000, asteroid_density_kg_m3: 2500}
+  rock_strength_pa: 1.0e8
+
+safety:                        # Member 2 (safety and environment)
+  temperature_k: {target: 288, tolerance: 2}
+  sunlight_fraction: {target: 1.0, tolerance: 0.02}
+  mirror_heat_max_fraction_of_sunlight: 0.005
+  asteroid_tide_max_fraction_of_moon: 0.01
+  tow_acceleration_max_m_s2: 1.0e-6
+  moon_distance_change_max_fraction: 0.01
+  mars_min_distance_au: 0.05
+  big_asteroid_min_distance_au: 0.02    # Ceres, Pallas, Vesta, Hygiea: well outside the Moon's reach
+  natural_1km_impact_interval_years: 500000   # Catalina Sky Survey FAQ: about one 1 km impact per 500,000 years
+  structural_safety_factor_min: 1.5
+  spot_error_max_fraction: 0.01         # each asteroid within 1% of its distance from its spot
+  energy_error_max_of_total: 1.0e-5     # numerical integrity of the ledger
+  momentum_error_max: 1.0e-9
+
+arrival:                       # from the brief, plus our eccentricity limit
+  target_au: 2.7
+  max_eccentricity: 0.05       # Earth's own eccentricity swings from about 0 to 0.07 (NASA Earth Observatory)
+  max_years: 10000
+
+longterm:                      # Member 1 runs it; after arrival, tows gone (sim/scenarios/longterm.py)
+  years: 1.0e6
+  dt_days: 5                   # 1/45 of Venus's year; MERCURIUS switches to small steps in close passes
+  sample_years: 100            # how often orbits are recorded
+  encounter_au: 0.01           # log any two bodies passing closer than this
+  encounter_pause_years: 1     # after logging a pass, let it finish before watching again
+  escape_au: 100               # a body this far from the centre has been thrown out
+  energy_error_max: 1.0e-6
+  earth_a_drift_max_fraction: 0.01
+  earth_max_eccentricity: 0.07 # the top of Earth's own natural range today (NASA Earth Observatory)
+  tilt_swing_max_times_natural: 1.5   # the moved Earth's tilt swing may be at most this times the real one
+  nudge: {warning_years: 50, beam_w: 1.0e25, max_hours: 24}   # E1 pushing a big asteroid off a close pass
+
+spin:                          # Earth's axial tilt, followed on top of the long-term orbit (longterm.py)
+  tilt_today_deg: 23.439
+  lunisolar_precession_arcsec_per_year: 50.385   # IAU 2006 precession (Capitaine et al. 2003): 5038.48 arcsec/century
+  moon_mass_kg: 7.342e22
+  moon_distance_m: 3.844e8
+  sun_mass_kg: 1.98892e30
+  earth_e_today: 0.0167
+  step_years: 20
+
+parking:                       # sim/scenarios/parking.py: final orbits placed directly, to compare choices
+  # First scan (Earth e 0.02, Mars e 0.065, perihelia as today): Mars at 3.0 and 3.1 AU goes unstable,
+  # 3.05-3.2 stays but crosses Earth's orbit, 3.4 never crosses; Earth's eccentricity reaches 0.09 in all.
+  # Second scan: Earth arriving on Jupiter's forced eccentricity (0.03) keeps its own eccentricity under 0.06.
+  # Third (below): Earth also on its forced plane, as the arrival trim delivers it; Mars at radii between the
+  # strong resonances with Earth (7:5 at 3.379, 10:7 at 3.425, 3:2 at 3.538, 8:5 at 3.694 AU) and Jupiter
+  # (2:1 at 3.278, 11:6 at 3.474, 9:5 at 3.516, 7:4 at 3.583, 5:3 at 3.701 AU), each from two starting phases.
+  arrangements:
+    - {name: "Mars 3.40, phase 0", earth_a: 2.7, earth_e: 0.03, earth_peri: jupiter, earth_i: 1.1349, earth_node: 92.92, mars_a: 3.4, mars_e: 0.04, mars_peri: jupiter, mars_phase: 0}
+    - {name: "Mars 3.40, phase 120", earth_a: 2.7, earth_e: 0.03, earth_peri: jupiter, earth_i: 1.1349, earth_node: 92.92, mars_a: 3.4, mars_e: 0.04, mars_peri: jupiter, mars_phase: 120}
+    - {name: "Mars 3.45, phase 0", earth_a: 2.7, earth_e: 0.03, earth_peri: jupiter, earth_i: 1.1349, earth_node: 92.92, mars_a: 3.45, mars_e: 0.04, mars_peri: jupiter, mars_phase: 0}
+    - {name: "Mars 3.45, phase 120", earth_a: 2.7, earth_e: 0.03, earth_peri: jupiter, earth_i: 1.1349, earth_node: 92.92, mars_a: 3.45, mars_e: 0.04, mars_peri: jupiter, mars_phase: 120}
+    - {name: "Mars 3.50, phase 0", earth_a: 2.7, earth_e: 0.03, earth_peri: jupiter, earth_i: 1.1349, earth_node: 92.92, mars_a: 3.5, mars_e: 0.04, mars_peri: jupiter, mars_phase: 0}
+    - {name: "Mars 3.50, phase 120", earth_a: 2.7, earth_e: 0.03, earth_peri: jupiter, earth_i: 1.1349, earth_node: 92.92, mars_a: 3.5, mars_e: 0.04, mars_peri: jupiter, mars_phase: 120}
+    - {name: "Mars 3.56, phase 0", earth_a: 2.7, earth_e: 0.03, earth_peri: jupiter, earth_i: 1.1349, earth_node: 92.92, mars_a: 3.56, mars_e: 0.04, mars_peri: jupiter, mars_phase: 0}
+    - {name: "Mars 3.56, phase 120", earth_a: 2.7, earth_e: 0.03, earth_peri: jupiter, earth_i: 1.1349, earth_node: 92.92, mars_a: 3.56, mars_e: 0.04, mars_peri: jupiter, mars_phase: 120}
+    - {name: "Mars 3.64, phase 0", earth_a: 2.7, earth_e: 0.03, earth_peri: jupiter, earth_i: 1.1349, earth_node: 92.92, mars_a: 3.64, mars_e: 0.04, mars_peri: jupiter, mars_phase: 0}
+    - {name: "Mars 3.64, phase 120", earth_a: 2.7, earth_e: 0.03, earth_peri: jupiter, earth_i: 1.1349, earth_node: 92.92, mars_a: 3.64, mars_e: 0.04, mars_peri: jupiter, mars_phase: 120}
+  earth_e: 0.02                # about what the journey arrives with
+  earth_i_deg: 1.07
+  mars_e: 0.065
+  years: 1.0e6
+
+outage:                        # sim/scenarios/outage.py: the Earth tow's beam switched off for a while
+  start_year: 1.0
+  watch_years: 1.0
+  dt_days: 0.1
+  search_max_days: 8
+  resolution_days: 0.05
+  designs:                     # each is searched for its longest safe outage
+    - {name: "old: own cap 8.5e25 W, all beams off", earth_max_beam_w: 8.5e25}
+    - {name: "shared E1 budget, all beams off"}
+    - {name: "shared E1 budget, half the stations off", power_left: 0.5}
+    - {name: "shared E1 budget, a quarter off", power_left: 0.75}
+    - {name: "lighter 3.4e20 kg + shared, all off", earth_mass_kg: 3.4e20}
+    - {name: "Mars tow, all beams off", tow: mars-tow}
+    - {name: "Mars tow, half the stations off", tow: mars-tow, power_left: 0.5}
+    - {name: "Mars tow, a quarter off", tow: mars-tow, power_left: 0.75}
+  mars_floor_km: 20000         # Mars's tow asteroid counts as lost once it is this close to Mars
