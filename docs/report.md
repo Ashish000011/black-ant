@@ -89,7 +89,7 @@ Every body pulls every other: the Sun, Venus to Neptune on their real J2000 orbi
 \ddot{\mathbf r}_i = \sum_{j \ne i} \frac{G m_j (\mathbf r_j - \mathbf r_i)}{|\mathbf r_j - \mathbf r_i|^3} + \frac{\mathbf F_i^{\text{beam}}}{m_i}
 ```
 
-- **Integrators.** Leapfrog (kick, drift, kick) with 1-day steps for the journey; Yoshida fourth order for the benchmarks; REBOUND's MERCURIUS with 5-day steps for the million-year runs. Halving the step (checked on an earlier version of the design) moved arrival by 7 years in about 8,550; the same check on the final design is being rerun.
+- **Integrators.** Leapfrog (kick, drift, kick) with 1-day steps for the journey; Yoshida fourth order for the benchmarks; REBOUND's MERCURIUS with 5-day steps for the million-year runs. Halving the step to 0.5 days moves Earth's arrival from year 8,758 to 8,730 (0.3%) with the same orbit (2.70 AU, eccentricity 0.033, tilt 1.29°); Mars parks in 5,170 against 5,168, there are 0 unresolved flags and the ledger closes to 2.3 × 10^-16. Only the big asteroids' closest passes move (Vesta 0.037 AU against 0.018), because they depend on where each asteroid is as Earth goes by; that is why E1 nudges them instead of relying on the miss distance.
 - **Light pressure.** A mirror turning light from direction *in* to *out* feels the force below; the power for a wanted force F follows from it.
 
 ```latex
