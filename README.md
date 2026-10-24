@@ -84,6 +84,8 @@ uv run python -m sim.scenarios.longterm --only moved --state results/end_state.j
 uv run python -m sim.scenarios.parking              # where Earth and Mars can park, a million years each
 uv run python -m sim.scenarios.outage               # how long a beam can fail before its asteroid is lost
 uv run python -m sim.scenarios.octo                 # the Octo-Earth audit: net force, arm stress and buckling, 10 seconds
+uv run python -m sim.scenarios.swap                 # Plan S: tow Mars in instead of out; the Earth-Mars crossing, a few minutes
+                                                    # (--longterm 1e6 for the swapped orbits' million years, --handover 3000)
 ```
 
 Add `--no-mars-tow` to the journey to see why Mars must move first, or `--orbits circular` for flat
@@ -139,7 +141,7 @@ checks are X1 to X9 in `tests/test_extra_checks.py` and `tests/test_checks.py`.
 | `sim/belt.py` | 1,000 test asteroids on real orbits: close passes and the impact estimate |
 | `sim/secular.py` | The arrival trim: steering Earth's orbit shape and plane |
 | `sim/spin.py` | Earth's spin axis, axial tilt and seasons |
-| `sim/scenarios/` | The journey, the Moon test, the million-year run, the parking scan, the outage test |
+| `sim/scenarios/` | The journey, the Moon test, the million-year run, the parking scan, the outage test, the Plan S Earth-Mars swap study (`swap.py`) |
 | `sim/viewer_data.py` | Turns `results/` into the 3D test bench's data files |
 | `viewer/` | The 3D test bench (Vite and Three.js), published on GitHub Pages |
 | `tests/` | The ten official benchmarks, our extra checks X1 to X9 and the safety and structure checks |
