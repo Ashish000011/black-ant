@@ -55,9 +55,14 @@ circular starting orbits.
 ## Test
 
 ```bash
-uv run pytest -m "not slow" -v     # quick tests, about 40 seconds (these run on every pull request)
+uv run python -m sim.benchmarks    # the ten official benchmarks, measured against expected, about 12 seconds
+uv run python -m sim.benchmarks 4 --set e=0.5 --set periods=20   # change a benchmark's inputs, as judges may
+uv run pytest -m "not slow" -v     # quick tests, about a minute (these run on every pull request)
 uv run pytest -v -s                # everything, a few minutes
 ```
+
+The official benchmarks (participant guide, section 6) are `tests/test_official_benchmarks.py`; our own extra
+checks are X1 to X9 in `tests/test_extra_checks.py` and `tests/test_checks.py`.
 
 ## How we work
 
@@ -74,15 +79,19 @@ uv run pytest -v -s                # everything, a few minutes
 | Path | What it holds |
 | --- | --- |
 | `docs/problem.md` | The brief and the winning conditions |
+| `docs/enablers.md` | Our three hypothetical enablers, as declared at the mid-point check-in |
 | `docs/approach.md` | Our plan, the physics, the machine, what we found and fixed |
 | `docs/risk-register.md` | Every risk: why it matters, how we check it, the counter, its status, its owner |
 | `config.yaml` | Every setting and working rule, with sources; change a number and re-run |
 | `results/` | The final run: `summary.json` (every number and flag), `run.json` (one frame per 10 years, what the viewer plays), `end_state.json`, `longterm.json`, `outage.json`, `parking*.json` |
 | `sim/bodies.py` | Bodies and their real starting orbits |
-| `sim/integrator.py` | Gravity, the leapfrog stepper, total energy |
+| `sim/integrator.py` | Gravity, the leapfrog and Yoshida fourth-order steppers, exactly opposite pair forces, energy |
 | `sim/forces.py` | Each tow's spot, and the beam that holds its asteroid there |
-| `sim/ledger.py` | The force ledger: station recoil, bounced light, asteroids sent away |
+| `sim/ledger.py` | The force ledger, kept exactly: applied impulse, station recoil, bounced light, asteroids sent away |
 | `sim/flags.py` | Checks and flags |
+| `sim/benchmarks.py` | The ten official benchmarks, each with inputs that can be changed |
+| `sim/habitability.py` | Sunlight, the sunlight mirrors' build schedule, temperature, shielding, the Moon's Hill sphere |
+| `sim/em.py` | Lorentz force and Biot-Savart fields (benchmarks 1 to 3, and the Octo-Earth audit) |
 | `sim/checks/` | Safety (Member 2) and structure (Member 3) checks, run every 100 days |
 | `sim/belt.py` | 1,000 test asteroids on real orbits: close passes and the impact estimate |
 | `sim/secular.py` | The arrival trim: steering Earth's orbit shape and plane |

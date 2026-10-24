@@ -1,7 +1,8 @@
-"""The results table for the README, built straight from results/ so no number is typed by hand.
+"""Results built straight from results/, so no number is typed by hand.
 
-    uv run python -m sim.report            # prints the table
-    uv run python -m sim.report --readme   # also writes it into README.md between the results markers
+    uv run python -m sim.report              # prints the README's results table
+    uv run python -m sim.report --readme     # also writes it into README.md between the results markers
+    uv run python -m sim.report --momentum   # writes docs/momentum-record.md (a required deliverable)
 """
 
 import argparse
@@ -65,10 +66,78 @@ def table(folder=ROOT / "results") -> str:
     return "\n".join(out)
 
 
+def momentum_record(folder=ROOT / "results") -> str:
+    """The conservation and momentum record: baseline drift, and the full ledger of the propulsion run."""
+    from .benchmarks import b5
+    s = json.loads((folder / "summary.json").read_text(encoding="utf-8"))
+    lg = s["ledger"]
+    real = json.loads((folder / "longterm_real_solar_system.json").read_text(encoding="utf-8"))["baseline"]
+    lt = json.loads((folder / "longterm.json").read_text(encoding="utf-8"))["moved"]
+    bench5 = b5()
+
+    def vec(v):
+        return "(" + ", ".join(f"{x:.4e}" for x in v) + ")"
+
+    station, light, departed = lg["station_recoil_kg_m_s"], lg["bounced_light_kg_m_s"], lg["departed_kg_m_s"]
+    partners = [a + b for a, b in zip(station, light)]
+    lines = [
+        "# Conservation and momentum record",
+        "",
+        "Generated from `results/` by `uv run python -m sim.report --momentum`. Every number comes from the running model.",
+        "",
+        "## Baseline drift (no push)",
+        "",
+        "| Run | Energy error | Limit |",
+        "| --- | --- | --- |",
+        f"| Official benchmark 5: Sun, Mercury to Neptune, 5 years, Yoshida fourth order, 0.25-day steps | {bench5['measured']:.2e} | 1e-9 |",
+        f"| The real solar system for {real['years']:,} years (REBOUND MERCURIUS, 5-day steps) | {real['energy_error']:.2e} | 1e-6 |",
+        f"| The moved solar system for {lt['years']:,} years after arrival | {lt['energy_error']:.2e} | 1e-6 |",
+        "",
+        "## The propulsion run's momentum ledger",
+        "",
+        "Earth is pulled only by gravity. The only outside forces in the run are the beams' pushes on the two tow asteroids",
+        "(the applied impulse). Their partners are the beam stations, which recoil as they fire, and the light, which carries",
+        "momentum away after bouncing. Gravity between bodies is applied in exactly opposite pairs. Asteroids sent away at",
+        "the end of their tows take their momentum with them.",
+        "",
+        "| Account | Impulse, kg m/s (x, y, z; J2000 ecliptic) |",
+        "| --- | --- |",
+        f"| Applied impulse (beams on asteroids) | magnitude {lg['applied_impulse_kg_m_s']:.4e} |",
+        f"| Beam stations' recoil | {vec(station)} |",
+        f"| Bounced light | {vec(light)} |",
+        f"| Station recoil plus bounced light | {vec(partners)} |",
+        f"| Asteroids sent away | {vec(departed)} |",
+        "",
+        "| The guide's check | Worst during the run | At the end | Limit |",
+        "| --- | --- | --- | --- |",
+        f"| Integrator is honest: bodies' momentum change against the applied impulse | {lg['integrator_honest_max']:.1e} | "
+        f"{lg['integrator_honest_end']:.1e} | 1e-9 of the applied impulse |",
+        f"| Nothing from nothing: applied impulse plus its partners | {lg['nothing_from_nothing_max']:.1e} | "
+        f"{lg['nothing_from_nothing_end']:.1e} | 1e-9 of the applied impulse |",
+        "",
+        "The stepper keeps every rounding error (sim/ledger.py): each pair's gravity forces are exact negatives bit for bit, "
+        "and every push is added with an error-free sum, so momentum is conserved to the precision of the arithmetic itself.",
+        "",
+        "## Energy",
+        "",
+        f"The beams did {lg['beam_work_j']:.4e} J of work on the bodies; the bodies gained {lg['bodies_energy_gain_j']:.4e} J "
+        f"(counting what left with the asteroids sent away). They match to {lg['work_mismatch_share']:.3%}. The worst gap "
+        f"between the two during the run was {lg['energy_error_max_of_total']:.1e} of the system's total energy (limit 1e-5).",
+        "",
+    ]
+    return "
+".join(lines)
+
+
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Results table from results/.")
-    parser.add_argument("--readme", action="store_true", help="write it into README.md")
+    parser = argparse.ArgumentParser(description="Results built from results/.")
+    parser.add_argument("--readme", action="store_true", help="write the results table into README.md")
+    parser.add_argument("--momentum", action="store_true", help="write docs/momentum-record.md")
     args = parser.parse_args()
+    if args.momentum:
+        (ROOT / "docs" / "momentum-record.md").write_text(momentum_record(), encoding="utf-8")
+        print("Wrote docs/momentum-record.md")
+        return
     t = table()
     print(t)
     if args.readme:
