@@ -226,4 +226,4 @@ while Earth goes out to 2.7 AU. Tows modelled as their pull on the planet (G m /
   million-years explainer). Checked: build, headless Chromium shots, capture API, 40 quick tests. All simulations
   from the Plan S study had finished. Not committed.
 - 25 Oct: Committed as madhukarverma on the PR #23 branch: the Plan S study (`sim/scenarios/swap.py`), the P7 test
-  bench fixes (one commit listing each fix), and this log. Not pushed yet.
+  bench fixes (one commit listing each fix), and this log. Pushed to PR #23 as madhukarverma.
