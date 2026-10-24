@@ -113,8 +113,15 @@ merges cleanly.
    - Top-left **Scene** tab: every body's r, ecliptic longitude, source (run or Kepler); Moon, tow asteroids,
      sunlight satellites and Moon reflector counts under Earth/Mars; click a body to centre on it.
    - Left **Model** panel: experiments R, A-I; Time (speed + meters: journey, Earth/Mars orbit progress, E1 beam,
-     E3 mirror area, year length); Target orbit (target AU, tow mass, tow distance; time to arrive, beam power, mirrors
-     needed, hazard chips); Sunlight reflector satellites (follow the run or set a count); Moon reflectors.
+     E3 mirror area, year length); Concept and enablers (open by default). The target-orbit, sunlight-satellite and
+     Moon-reflector sliders were removed on 25 Oct (P7); reflector numbers stay at fixed defaults elsewhere.
+   - Top bar: name left, live **mission line** in the middle ("Year X · Earth a → 2.7 AU · N years to go"),
+     **A− / A+ text size** (80-150%, remembered) left of Visualisation. Text size scales font sizes, panel widths
+     and fixed heights via `--ui-zoom` (CSS `zoom` overflowed full-width bars, so it is not used).
+   - Scene tab: clicking the Moon, a tow asteroid or the reflectors opens the Earth or Mars tow view centred on it,
+     and the camera follows it (`Stage.focusClose`).
+   - Experiment I opens a large **explainer card over the Data panel**: why a million years, how it is tested,
+     moved vs real Earth table, flags, chaos copies, what it cannot prove (inner planets chaotic, ~5 Myr, Laskar 1989).
    - Right **Data** panel: Constants, Initial Earth (year 0), Now against year 0 (24 factors incl. year length,
      seasons, Sun size, tides, light time, moonlight, impacts), Results and checks (all nine original tabs).
    - Bottom-right **Top view** button: orthographic, every orbit a circle, Inner / All orbits zoom; what-if target
@@ -129,6 +136,27 @@ Checked: 40 quick tests pass; `npm run build` passes; headless Chromium (SwiftSh
 no console errors; `?capture` bench API works; Kepler placement matches the run's Earth/Jupiter at year 0 to 6e-7 AU.
 The built-in browser pane has no WebGL, so 3D checks need headless Chromium (Playwright in the scratchpad).
 
+### Plan S study (25 Oct): swap Earth and Mars instead of pushing Mars out
+
+`sim/scenarios/swap.py` (committed 25 Oct; outputs in `out/swap_*.json`, which git ignores). Mars towed IN to Earth's old orbit (1 AU)
+while Earth goes out to 2.7 AU. Tows modelled as their pull on the planet (G m / d^2 toward the spot; Mars's spot
+45 deg behind-and-out); REBOUND IAS15, real J2000 planets.
+- By hand: Mars needs 5.66 km/s (out to 3.64: 8.52), ~3,900 years at the normal pull, no Jupiter 2:1 crossing.
+  But the orbits MUST cross: sizes meet ~year 1,940 at ~1.22 AU.
+- Plain crossing, tows kept on (48 runs: Mars eccentric/round x normal/4x-sprint, 12 starts each): every run passes
+  inside the 0.05 AU limit (2 to 99 times); closest 0.0018-0.0447 AU; 10 of 48 within 1 million km, 2 of 48 inside
+  the Moon's distance. No collisions, crossing always completes, Earth e stays <= 0.026. NOT safe.
+- End state (Earth 2.7, Mars 1.0), a million years, 5 runs: stable. Earth as in the design (a 2.698-2.702, e <= 0.056,
+  tilt 22.4-27.0); Mars a +-0.0005, e <= 0.095 (round start) or 0.166 (as today); Earth-Mars orbit gap 1.39-1.46 AU
+  (design 0.55). Close passes only Earth vs big asteroids, as in the design.
+- Gravity handover (Janus-Epimetheus): tows off, 0.0007-0.003 AU apart, 180 deg apart: they swap in 130-240 years
+  and never come within 0.37 AU. Restarting the tows at normal pull: re-swaps 7 times, passes at 45,000-90,000 km
+  (near collision). Restarting with Mars x4, Earth x0.56: one clean swap, closest 0.026 AU (3.9 million km).
+- Verdict: the end state is better than the design's; the crossing is the problem. Only a staged handover with a
+  sprint comes near safe (0.026 AU, under the 0.05 AU rule), and its approach leg (arriving 180 deg apart, nearly
+  level, round orbits) is untested and needs a phase-targeting controller plus inward-tow code in the full model.
+  Recommendation: keep the design for the final; use Plan S as a studied alternative (Q&A).
+
 ## 8. Decisions (with the reason)
 
 | Date | Decision | Why |
@@ -139,6 +167,8 @@ The built-in browser pane has no WebGL, so 3D checks need headless Chromium (Pla
 | 25 Oct | Night feature shows both light (lux) and heating | User's choice |
 | 25 Oct | Defaults: one sunlight satellite = 10,000 km2; one Moon reflector panel = 1 km2 (in `config.yaml`, `night`) | Counts need a unit size |
 | 25 Oct | Work only in the pipelin-two clone | Both clones share one GitHub repo |
+| 25 Oct | Moon / tow asteroid rows open the tow close-up (not drawn in the solar-system view) | In that view Earth is drawn 260x, so they would sit inside it |
+| 25 Oct | Model panel keeps experiments, time meters, concept and enablers only; reflector numbers stay at fixed defaults (satellites follow the run, Moon reflectors restore today's full Moon) | User: no need for the sliders |
 | 25 Oct | Commit as **madhukarverma** `<174335640+madhukarverma@users.noreply.github.com>` and push with that gh account: `git -c user.name=madhukarverma -c user.email=174335640+madhukarverma@users.noreply.github.com commit ...`, then `GH_TOKEN=$(gh auth token --user madhukarverma) git push` | The user's GitHub account; this clone's git config and gh's active account are sushmitnitt |
 
 ## 9. Important prompts (condensed)
@@ -151,6 +181,14 @@ The built-in browser pane has no WebGL, so 3D checks need headless Chromium (Pla
   commit to the branch for Ashish.
 - **25 Oct, P4:** Redo the commits from the user's own account, madhukarverma.
 - **25 Oct, P5:** Open a new PR to main from madhukarverma with the same description, saying it replaces #22.
+- **25 Oct, P7:** GUI fixes: Moon and tow asteroid "not working" in the solar system view; remove the target-orbit,
+  sunlight-satellite and Moon-reflector sections from the Model panel (keep concept and enablers); A-/A+ text size
+  left of Visualisation; a big explainer popup when "A million years later" is pressed; replace "Earth tow test
+  bench" with something interesting in the middle of the top bar. Also: report when running simulations finish.
+- **25 Oct, P8:** Show the Earth-Mars swap results; is it feasible? (Answered with a chart: no, not for the final.)
+- **25 Oct, P9:** Commit it all now, with messages saying what is implemented.
+- **25 Oct, P6:** Instead of moving Mars out, swap Earth and Mars so Mars takes a stable inner orbit; run
+  simulations and calculations to find out if it is viable (see Plan S study in 7).
 
 ## 10. What can be delivered next (ideas, not started)
 
@@ -182,3 +220,10 @@ The built-in browser pane has no WebGL, so 3D checks need headless Chromium (Pla
   unchanged) and force-pushed them to PR #22. PR #22 itself was opened by sushmitnitt.
 - 25 Oct: Found PR #22 closed by Ashish (label `invalid`, no comment) a minute before the force-push.
 - 25 Oct: Opened PR #23 from madhukarverma (ready for review, same description, "Replaces #22").
+- 25 Oct: Plan S study (swap Earth and Mars): `sim/scenarios/swap.py`, 48 crossing runs, 5 million-year runs,
+  14 handover runs. End state stable; crossing unsafe unless staged. Not committed.
+- 25 Oct: P7 GUI fixes done (Model panel slimmed, close-ups for Moon/tow asteroids, mission line, text size,
+  million-years explainer). Checked: build, headless Chromium shots, capture API, 40 quick tests. All simulations
+  from the Plan S study had finished. Not committed.
+- 25 Oct: Committed as madhukarverma on the PR #23 branch: the Plan S study (`sim/scenarios/swap.py`), the P7 test
+  bench fixes (one commit listing each fix), and this log. Not pushed yet.
