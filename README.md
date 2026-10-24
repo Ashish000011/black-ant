@@ -49,9 +49,13 @@ relies on one of our declared enablers, which the brief allows.
 ## The 3D test bench
 
 **[ashish000011.github.io/black-ant](https://ashish000011.github.io/black-ant/)**: the journey in 3D (the solar system,
-the Earth tow and the Mars tow up close), nine experiments from the baseline to a million years later, and every
-check beside it: forces and momentum, orbit, structures, the ten Earth-safety thresholds, benchmarks, plots and
-the comparison with the real solar system. It replays the model's saved runs; it computes nothing itself.
+the Earth tow and the Mars tow up close, and a top-down view with every orbit as a circle), ten experiments from the
+baseline to a million years later, and every check beside it: forces and momentum, orbit, structures, the ten
+Earth-safety thresholds, benchmarks, plots and the comparison with the real solar system. Laid out like Blender: a
+Scene tab with where every body is (click the Moon or a tow asteroid to see it up close), a Model panel with the
+experiments, time meters and the concept and enablers, and a Data panel with the constants, Earth at the start and
+Earth now. It replays the model's saved runs; only the Moon reflectors (marked ≈, `sim/night.py`) are not in the run.
+Keys: Space plays, T and N hide the panels, 7 toggles the top view; A− and A+ in the top bar change the text size.
 
 ```bash
 uv run python -m sim.viewer_data   # turn results/ into viewer/public/data/
@@ -80,6 +84,8 @@ uv run python -m sim.scenarios.longterm --only moved --state results/end_state.j
 uv run python -m sim.scenarios.parking              # where Earth and Mars can park, a million years each
 uv run python -m sim.scenarios.outage               # how long a beam can fail before its asteroid is lost
 uv run python -m sim.scenarios.octo                 # the Octo-Earth audit: net force, arm stress and buckling, 10 seconds
+uv run python -m sim.scenarios.swap                 # Plan S: tow Mars in instead of out; the Earth-Mars crossing, a few minutes
+                                                    # (--longterm 1e6 for the swapped orbits' million years, --handover 3000)
 ```
 
 Add `--no-mars-tow` to the journey to see why Mars must move first, or `--orbits circular` for flat
@@ -111,6 +117,7 @@ checks are X1 to X9 in `tests/test_extra_checks.py` and `tests/test_checks.py`.
 
 | Path | What it holds |
 | --- | --- |
+| `CONTEXT.md` | The whole project in one file for AI assistants and new teammates: state, decisions, important prompts, log |
 | `docs/problem.md` | The brief and the winning conditions |
 | `docs/enablers.md` | Our three hypothetical enablers, as declared at the mid-point check-in |
 | `docs/approach.md` | Our plan, the physics, the machine, what we found and fixed |
@@ -129,12 +136,13 @@ checks are X1 to X9 in `tests/test_extra_checks.py` and `tests/test_checks.py`.
 | `sim/flags.py` | Checks and flags |
 | `sim/benchmarks.py` | The ten official benchmarks, each with inputs that can be changed |
 | `sim/habitability.py` | Sunlight, the sunlight mirrors' build schedule, temperature, shielding, the Moon's Hill sphere |
+| `sim/night.py` | Night light after the move: moonlight, and Moon reflectors (light and heat), for the test bench's estimates |
 | `sim/em.py` | Lorentz force and Biot-Savart fields (benchmarks 1 to 3, and the Octo-Earth audit) |
 | `sim/checks/` | Safety (Member 2) and structure (Member 3) checks, run every 100 days |
 | `sim/belt.py` | 1,000 test asteroids on real orbits: close passes and the impact estimate |
 | `sim/secular.py` | The arrival trim: steering Earth's orbit shape and plane |
 | `sim/spin.py` | Earth's spin axis, axial tilt and seasons |
-| `sim/scenarios/` | The journey, the Moon test, the million-year run, the parking scan, the outage test |
+| `sim/scenarios/` | The journey, the Moon test, the million-year run, the parking scan, the outage test, the Plan S Earth-Mars swap study (`swap.py`) |
 | `sim/viewer_data.py` | Turns `results/` into the 3D test bench's data files |
 | `viewer/` | The 3D test bench (Vite and Three.js), published on GitHub Pages |
 | `tests/` | The ten official benchmarks, our extra checks X1 to X9 and the safety and structure checks |

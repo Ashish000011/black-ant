@@ -13,8 +13,9 @@ import numpy as np
 from .benchmarks import ALL as BENCHMARKS
 from .bodies import state_from_elements
 from .checks.structure import structure_checks
+from . import habitability as hab, night
 from .config import ROOT, load_config
-from .constants import AU, C_LIGHT, GM_SUN
+from .constants import AU, C_LIGHT, G, GM_SUN, M_SUN, YEAR
 from .habitability import (SOLAR_CONSTANT, Mirrors, absorbed_flux, day_length_rate, hill_share, jeans_lambda,
                            liquid_water_share, magnetopause_re, mean_temperature, thrust_over_moon_pull)
 
@@ -125,6 +126,15 @@ def benchmarks() -> list:
     return out
 
 
+def constants() -> dict:
+    """The model's own constants, so the test bench's live estimates use exactly the numbers the Python model does."""
+    return {"G": G, "c": C_LIGHT, "au_m": AU, "year_s": YEAR, "gm_sun": GM_SUN, "m_sun": M_SUN,
+            "solar_constant": SOLAR_CONSTANT, "sigma": hab.SIGMA, "today_mean_k": hab.TODAY_MEAN_K,
+            "warm_albedo": hab.WARM_ALBEDO, "ice_albedo": hab.ICE_ALBEDO, "warm_k": hab.WARM_K, "ice_k": hab.ICE_K,
+            "emissivity": hab.EMISSIVITY, "latitude_t2_k": hab.LATITUDE_T2_K, "runaway_w_m2": hab.RUNAWAY_W_M2,
+            "earth_radius_m": night.EARTH_RADIUS_M, "month_mean": night.MONTH_MEAN}
+
+
 def main() -> None:
     cfg = load_config()
     OUT.mkdir(parents=True, exist_ok=True)
@@ -142,7 +152,9 @@ def main() -> None:
         "structures.json": structures(cfg, s),
         "octo.json": load("octo_earth.json"),
         "config.json": {"safety": cfg["safety"], "enablers": cfg["enablers"], "structures": cfg["structures"],
-                        "tows": cfg["tows"], "beam": cfg["beam"]},
+                        "tows": cfg["tows"], "beam": cfg["beam"], "habitability": cfg["habitability"],
+                        "night": cfg["night"], "moon": cfg["moon"], "arrival": cfg["arrival"],
+                        "planets": cfg["planets"], "small_bodies": cfg["small_bodies"], "constants": constants()},
     }
     for name, data in files.items():
         (OUT / name).write_text(json.dumps(data, separators=(",", ":"), default=float), encoding="utf-8")

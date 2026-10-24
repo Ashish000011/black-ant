@@ -1,13 +1,20 @@
 // The 3D views. Solar system: AU, heliocentric ecliptic. Earth tow and Mars tow: 1,000 km units in the planet's
-// own frame, with the Sun towards the top of the screen and "ahead along the orbit" to the right.
+// own frame, with the Sun towards the top of the screen and "ahead along the orbit" to the right. Top: the solar
+// system seen straight down, every orbit drawn as a circle.
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+import { allBodies } from "./bodies.js";
 import { AU_KM, G, MASS, positionAt, towActive, towLocalAt, valueAt } from "./data.js";
 
 const KM_AU = 1 / AU_KM;
-const RADIUS_KM = { sun: 696000, earth: 6371, mars: 3389.5, jupiter: 69911, moon: 1737.4 };
+const RADIUS_KM = {
+  sun: 696000, venus: 6051.8, earth: 6371, mars: 3389.5, jupiter: 69911, saturn: 58232, uranus: 25362, neptune: 24622,
+  moon: 1737.4,
+};
 // Visualisation sizes in the solar-system view (AU); distances are always true.
-const VIS_AU = { sun: 0.09, earth: 0.05, mars: 0.04, jupiter: 0.12 };
+const VIS_AU = { sun: 0.09, venus: 0.045, earth: 0.05, mars: 0.04, jupiter: 0.12, saturn: 0.11, uranus: 0.08, neptune: 0.08 };
+// Top view: how far out it shows at first (AU, half the screen's height), and with every orbit.
+const TOP_HALF_AU = { inner: 4.3, all: 32 };
 const CLOSE_VIS = { planet: 6, moon: 6, rock: 30, mirror: 4 };
 const HILL_KM_PER_AU = { earth: 1.5026e6, mars: 7.114e5 };
 
@@ -162,6 +169,16 @@ function trailLine(color, n = 400) {
   return line;
 }
 
+// Without WebGL (a locked-down browser or machine) there is no 3D view, but every panel and result still works.
+export function noStage(data, noteEl) {
+  noteEl.textContent = "This browser could not start WebGL, so the 3D view is off. Every panel, estimate and result still works.";
+  const s = { view: "system", scale: "vis", t: 0, bodyList: allBodies(data) };
+  for (const m of ["setScale", "update", "render", "setReflectors", "setTopZoom", "focus", "focusClose", "resetCamera", "orbit"]) s[m] = () => {};
+  s.setView = (v) => { s.view = v; };
+  s.setScale = (v) => { s.scale = v; };
+  return s;
+}
+
 export class Stage {
   constructor(canvas, labelsEl, noteEl, data) {
     this.d = data;
@@ -173,14 +190,29 @@ export class Stage {
     this.camera = new THREE.PerspectiveCamera(45, 1, 0.0005, 1e5);
     this.controls = new OrbitControls(this.camera, canvas);
     this.controls.enableDamping = true;
-    this.labels = { system: [], earth: [], mars: [], octo: [] };
-    this.scenes = { system: this.buildSystem(), earth: this.buildTowView("earth"), mars: this.buildTowView("mars"), octo: this.buildOcto() };
+    // The top view: an orthographic camera straight down on the ecliptic (its +y up the screen), pan and zoom only.
+    this.ortho = new THREE.OrthographicCamera(-1, 1, 1, -1, -1000, 1000);
+    this.ortho.up.set(0, 0, -1);
+    this.ortho.position.set(0, 100, 0);
+    this.topControls = new OrbitControls(this.ortho, canvas);
+    Object.assign(this.topControls, { enableRotate: false, screenSpacePanning: true, enableDamping: true, enabled: false,
+      zoomToCursor: true, minZoom: 0.05, maxZoom: 500 });
+    this.topControls.mouseButtons = { LEFT: THREE.MOUSE.PAN, MIDDLE: THREE.MOUSE.DOLLY, RIGHT: THREE.MOUSE.PAN };
+    this.topControls.touches = { ONE: THREE.TOUCH.PAN, TWO: THREE.TOUCH.DOLLY_PAN };
+    this.bodyList = allBodies(data);
+    this.reflect = { sunKm2: 0, moonKm2: 0, sunSats: 0, moonPanels: 0 };
+    this.follow = null;  // a close-up the camera keeps centred on (the Moon or a tow asteroid move)
+    this.labels = { system: [], earth: [], mars: [], octo: [], top: [] };
+    this.scenes = { system: this.buildSystem(), earth: this.buildTowView("earth"), mars: this.buildTowView("mars"), octo: this.buildOcto(),
+      top: this.buildTop() };
     this.poses = {
       system: { pos: new THREE.Vector3(0.8, 9.6, 8.2), target: new THREE.Vector3(0, 0, 0.4) },
       earth: { pos: new THREE.Vector3(200, 1000, 1260), target: new THREE.Vector3(200, 0, 160) },
       mars: { pos: new THREE.Vector3(120, 660, 820), target: new THREE.Vector3(120, 0, 110) },
       octo: { pos: new THREE.Vector3(4, 21, 44), target: new THREE.Vector3(0, 3, 0) },
     };
+    this.homePoses = Object.fromEntries(Object.entries(this.poses).map(([k, p]) => [k, { pos: p.pos.clone(), target: p.target.clone() }]));
+    this.setTopZoom("inner");
     this.view = "system";
     this.scale = "vis";
     this.t = 0;
@@ -236,15 +268,30 @@ export class Stage {
       mars: sphere(0xc1440e, planetTexture("mars")),
       jupiter: sphere(0xc9a77c, planetTexture("jupiter")),
     };
+    // Planets the run does not save: plain spheres on their Kepler orbits.
+    for (const b of this.bodyList) if (b.kind === "planet" && !this.bodies[b.id]) this.bodies[b.id] = sphere(b.color);
     const ringTex = ringTexture();
+    const markerColor = { earth: 0x7fb3ff, mars: 0xff9a6b, jupiter: 0xe0c9a0 };
     this.markers = {};
     for (const [k, m] of Object.entries(this.bodies)) {
       scene.add(m);
-      const mk = new THREE.Sprite(new THREE.SpriteMaterial({ map: ringTex, color: k === "earth" ? 0x7fb3ff : k === "mars" ? 0xff9a6b : 0xe0c9a0, sizeAttenuation: false, depthWrite: false }));
+      const mk = new THREE.Sprite(new THREE.SpriteMaterial({ map: ringTex, color: markerColor[k] ?? this.bodyList.find((b) => b.id === k).color, sizeAttenuation: false, depthWrite: false }));
       mk.scale.setScalar(0.03);
       scene.add(mk);
       this.markers[k] = mk;
     }
+    // The big asteroids: dots, always a few pixels wide.
+    this.rocks = this.bodyList.filter((b) => b.kind === "asteroid");
+    this.rockDots = new THREE.Points(new THREE.BufferGeometry().setAttribute("position", new THREE.BufferAttribute(new Float32Array(this.rocks.length * 3), 3)),
+      new THREE.PointsMaterial({ color: 0xd8d4c8, size: 4, sizeAttenuation: false }));
+    this.rockDots.frustumCulled = false;
+    scene.add(this.rockDots);
+    this.rockPos = {};
+    for (const b of this.rocks) {
+      this.rockPos[b.id] = new THREE.Vector3();
+      this.label("system", b.name, () => this.rockPos[b.id], "dim");
+    }
+    for (const b of this.bodyList) if (b.kind === "planet" && !["earth", "mars", "jupiter"].includes(b.id)) this.label("system", b.name, () => this.bodies[b.id].position);
     this.nowOrbit = { earth: circle(1, 0x3987e5, { opacity: 0.55 }), mars: circle(1, 0xd95926, { opacity: 0.55 }) };
     scene.add(this.nowOrbit.earth, this.nowOrbit.mars);
     this.trails = { earth: trailLine(0x7fb3ff), mars: trailLine(0xff9a6b) };
@@ -281,6 +328,22 @@ export class Stage {
       scene.add(v.moon, circle(384.4, 0x6f6c64, { opacity: 0.8 }));
       v.clearance = circle(420, 0xfab219, { dashed: true, dash: 12, opacity: 0.5 });
       scene.add(v.clearance);
+      // Moon reflectors: a glint on the Moon and their light on Earth's night side, only while the near side is lit.
+      v.moonGlint = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTexture("rgba(255,255,255,1)"), color: 0xcfe6ff,
+        blending: THREE.AdditiveBlending, depthWrite: false, transparent: true }));
+      v.moonBeam = beam(0xcfe6ff);
+      scene.add(v.moonGlint, v.moonBeam);
+      // Sunlight mirrors (E3): an illustrative swarm on Earth's sunward side, one dot per share of the E3 bound.
+      const n = 600, sw = new Float32Array(n * 3);
+      for (let i = 0; i < n; i++) {
+        const u = Math.random() * 2 - 1, th = Math.random() * Math.PI, r = 55 + 45 * Math.random(), s = Math.sqrt(1 - u * u);
+        sw.set([r * s * Math.cos(th) * 1.6, r * u * 0.5, -r * s * Math.sin(th)], i * 3);
+      }
+      v.swarm = new THREE.Points(new THREE.BufferGeometry().setAttribute("position", new THREE.BufferAttribute(sw, 3)),
+        new THREE.PointsMaterial({ color: 0xffe6b0, size: 2.5, sizeAttenuation: false }));
+      v.swarm.n = n;
+      v.swarm.geometry.setDrawRange(0, 0);
+      scene.add(v.swarm);
     } else {
       v.moonRings = [circle(9.376, 0x6f6c64), circle(23.463, 0x6f6c64)];
       scene.add(...v.moonRings);
@@ -317,8 +380,10 @@ export class Stage {
     const towCfg = d.config.tows.find((t) => t.target === kind);
     this.label(kind, name, () => new THREE.Vector3(0, 0, 0));
     if (kind === "earth") {
-      this.label(kind, "Moon", () => v.moon.position, "dim");
+      this.label(kind, () => (this.reflect.moonKm2 > 0 ? `Moon: ${Math.round(this.reflect.moonPanels).toLocaleString("en")} reflector panels` : "Moon"), () => v.moon.position, "dim");
       this.label(kind, "No beam inside 420,000 km (beyond the Moon)", () => new THREE.Vector3(-420 * 0.71, 0, -420 * 0.71), "dim");
+      this.label(kind, () => (this.reflect.sunKm2 > 0 ? `Sunlight mirrors (E3): ${Math.round(this.reflect.sunSats).toLocaleString("en")} satellites, placement illustrative` : ""),
+        () => new THREE.Vector3(-110, 0, -70), "dim to-left");
     } else {
       this.label(kind, "Phobos and Deimos orbit close in", () => new THREE.Vector3(-30, 0, 45), "dim");
     }
@@ -380,16 +445,118 @@ export class Stage {
     return scene;
   }
 
-  setView(view, initial = false) {
-    if (!initial) this.poses[this.view] = { pos: this.camera.position.clone(), target: this.controls.target.clone() };
-    this.view = view;
-    const p = this.poses[view];
+  // Seen straight down: every orbit a circle at its size now, each body on it at its real longitude.
+  buildTop() {
+    const d = this.d;
+    const scene = new THREE.Scene();
+    const sun = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTexture(), blending: THREE.AdditiveBlending, depthWrite: false }));
+    scene.add(sun);
+    const belt = d.journey.belt;
+    const band = new THREE.Mesh(new THREE.RingGeometry(belt.inner_au, belt.outer_au, 160),
+      new THREE.MeshBasicMaterial({ color: 0x7d786c, transparent: true, opacity: 0.14, side: THREE.DoubleSide, depthWrite: false }));
+    band.rotation.x = -Math.PI / 2;
+    scene.add(band);
+    const target = d.config.arrival.target_au, park = d.config.tows.find((t) => t.target === "mars").stop_au;
+    scene.add(circle(d.series.earth_a[0], 0x3987e5, { dashed: true, dash: 0.03, opacity: 0.45 }));
+    scene.add(circle(d.series.mars_a[0], 0xd95926, { dashed: true, dash: 0.03, opacity: 0.45 }));
+    scene.add(circle(target, 0x0ca30c, { dashed: true, dash: 0.05 }));
+    scene.add(circle(park, 0xd95926, { dashed: true, dash: 0.05, opacity: 0.85 }));
+    this.topResonance = circle(3.278, 0xd03b3b, { dashed: true, dash: 0.02, opacity: 0.6 });
+    scene.add(this.topResonance);
+    const dotTex = glowTexture("rgba(255,255,255,1)");
+    this.top = { sun, rings: {}, dots: {} };
+    for (const b of this.bodyList) {
+      if (b.kind === "star") continue;
+      const ring = circle(1, b.color, { opacity: b.kind === "asteroid" ? 0.3 : 0.75 });
+      scene.add(ring);
+      const dot = new THREE.Sprite(new THREE.SpriteMaterial({ map: dotTex, color: b.color, depthWrite: false }));
+      dot.px = b.kind === "asteroid" ? 9 : 16;
+      scene.add(dot);
+      this.top.rings[b.id] = ring;
+      this.top.dots[b.id] = dot;
+      this.label("top", b.name, () => dot.position, b.kind === "asteroid" ? "dim" : "");
+    }
+    const at = (r, deg) => new THREE.Vector3(r * Math.cos(deg * Math.PI / 180), 0, -r * Math.sin(deg * Math.PI / 180));
+    this.label("top", "Sun", () => new THREE.Vector3(0, 0, 0), "dim");
+    this.label("top", `Earth's target: ${target} AU`, () => at(target, -62), "dim");
+    this.label("top", `Mars parks: ${park} AU`, () => at(park, -50), "dim");
+    this.label("top", "Jupiter's 2:1 resonance: 3.28 AU", () => (this.topResonance.visible ? at(3.278, -38) : null), "dim");
+    this.label("top", "Asteroid belt", () => at((belt.inner_au + belt.outer_au) / 2, 215), "dim");
+    return scene;
+  }
+
+  setTopZoom(which) {
+    this.ortho.zoom = TOP_HALF_AU.inner / TOP_HALF_AU[which];
+    this.topControls.target.set(0, 0, 0);
+    this.ortho.position.set(0, 100, 0);
+    this.ortho.updateProjectionMatrix();
+    this.topControls.update();
+  }
+
+  // Centre the camera on a body (solar-system and top views).
+  focus(id) {
+    const b = this.bodyList.find((x) => x.id === id);
+    if (!b) return;
+    const p = ecl(b.pos(this.t));
+    if (this.view === "top") {
+      this.topControls.target.set(p.x, 0, p.z);
+      this.ortho.position.set(p.x, 100, p.z);
+      this.topControls.update();
+    } else if (this.view === "system") {
+      const off = this.camera.position.clone().sub(this.controls.target);
+      if (off.length() > 3) off.setLength(3);
+      this.controls.target.copy(p);
+      this.camera.position.copy(p).add(off);
+      this.controls.update();
+    }
+  }
+
+  // Centre the Earth or Mars tow view on the Moon, a tow asteroid or the planet, and keep following it as it moves.
+  focusClose(id) {
+    const v = id === "mars-tow" || id === "mars" ? this.marsView : this.earthView;
+    const at = { moon: () => v.moon.position, "earth-tow": () => (v.state.active ? v.rock.position : null),
+      "mars-tow": () => (v.state.active ? v.rock.position : null), earth: () => v.planet.position, mars: () => v.planet.position }[id];
+    const p = at?.();
+    this.follow = p ? at : null;
+    if (!p) return;
+    this.controls.target.copy(p);
+    this.camera.position.copy(p).add(new THREE.Vector3(0, 230, 330));
+    this.controls.update();
+  }
+
+  resetCamera() {
+    this.follow = null;
+    if (this.view === "top") return this.setTopZoom("inner");
+    const p = this.homePoses[this.view];
     this.camera.position.copy(p.pos);
     this.controls.target.copy(p.target);
-    this.camera.near = view === "system" ? 0.0005 : 0.05;
-    this.camera.far = view === "system" ? 2e4 : 2e4;
-    this.camera.updateProjectionMatrix();
     this.controls.update();
+  }
+
+  // Areas (km2) and counts of the sunlight mirrors and the Moon reflectors now, for the Earth tow view.
+  setReflectors(r) {
+    this.reflect = r;
+    const sw = this.earthView.swarm;
+    const n = r.sunKm2 > 0 ? Math.max(1, Math.round((sw.n * r.sunKm2) / this.d.config.enablers.e3_mirror_area_limit_km2)) : 0;
+    sw.geometry.setDrawRange(0, Math.min(sw.n, n));
+  }
+
+  setView(view, initial = false) {
+    if (!initial && this.view !== "top") this.poses[this.view] = { pos: this.camera.position.clone(), target: this.controls.target.clone() };
+    this.view = view;
+    this.follow = null;
+    const top = view === "top";
+    this.controls.enabled = !top;
+    this.topControls.enabled = top;
+    if (!top) {
+      const p = this.poses[view];
+      this.camera.position.copy(p.pos);
+      this.controls.target.copy(p.target);
+      this.camera.near = view === "system" ? 0.0005 : 0.05;
+      this.camera.far = 2e4;
+      this.camera.updateProjectionMatrix();
+      this.controls.update();
+    }
     for (const [k, list] of Object.entries(this.labels)) for (const l of list) l.el.style.display = k === view ? "" : "none";
     this.updateNote();
   }
@@ -427,13 +594,16 @@ export class Stage {
   updateNote() {
     const vis = this.scale === "vis";
     let text;
-    if (this.view === "octo") {
+    if (this.view === "top") {
+      text = "Top view: every orbit drawn as a circle at its size now, each body at its real longitude; dots not to scale. "
+        + "Earth, Mars and Jupiter come from the saved run; Venus, Saturn, Uranus, Neptune and the big asteroids follow Kepler orbits from J2000. Drag to pan, scroll to zoom.";
+    } else if (this.view === "octo") {
       text = vis
         ? "Visualisation: the arms drawn 3× as thick as the demo's 200 km tube; lengths and Earth true. This is the brief's reference concept as our audit models it: straight arms at the demo's 36° elevation."
         : "True scale: Earth, the ring and 200 km-wide arms 12,000 km long, as the demo sets them by default.";
     } else if (this.view === "system") {
       text = vis
-        ? "Visualisation: the Sun is drawn 19× and the planets 260–1,800× their true size so they can be seen. Every distance and orbit is true. Between saved frames (10 years apart) each planet follows its orbit by Kepler's third law."
+        ? "Visualisation: the Sun is drawn 19× and the planets 260–4,700× their true size so they can be seen. Every distance and orbit is true. Between saved frames (10 years apart) each planet follows its orbit by Kepler's third law; Venus, Saturn, Uranus, Neptune and the big asteroids are not in the run and follow Kepler orbits from J2000."
         : "True scale: every body at its real size. The planets are far smaller than a pixel here; the rings only mark where they are.";
     } else {
       const v = this.view === "earth" ? this.earthView : this.marsView;
@@ -449,11 +619,22 @@ export class Stage {
     this.t = t;
     const d = this.d;
     // Solar system
-    for (const k of ["earth", "mars", "jupiter"]) {
-      const p = ecl(positionAt(d.tracks[k], t));
-      this.bodies[k].position.copy(p);
-      this.markers[k].position.copy(p);
+    for (const b of this.bodyList) {
+      if (b.kind === "star") continue;
+      const p = b.pos(t);
+      if (this.bodies[b.id]) {
+        this.bodies[b.id].position.copy(ecl(p));
+        this.markers[b.id].position.copy(ecl(p));
+      } else this.rockPos[b.id].copy(ecl(p));
+      // Top view: on its circle, at its real longitude.
+      const r = b.orbitA(t), lon = Math.atan2(p[1], p[0]);
+      this.top.rings[b.id].scale.setScalar(r);
+      this.top.dots[b.id].position.copy(ecl([r * Math.cos(lon), r * Math.sin(lon), 0]));
     }
+    const rp = this.rockDots.geometry.attributes.position;
+    this.rocks.forEach((b, i) => rp.setXYZ(i, this.rockPos[b.id].x, this.rockPos[b.id].y, this.rockPos[b.id].z));
+    rp.needsUpdate = true;
+    this.topResonance.visible = t < d.milestones.marsParks + 400;
     this.nowOrbit.earth.scale.setScalar(valueAt(d, "earth_a", t));
     this.nowOrbit.mars.scale.setScalar(valueAt(d, "mars_a", t));
     for (const k of ["earth", "mars"]) {
@@ -548,6 +729,9 @@ export class Stage {
     this.renderer.setSize(w, h, false);
     this.camera.aspect = w / h;
     this.camera.updateProjectionMatrix();
+    const H = TOP_HALF_AU.inner;
+    Object.assign(this.ortho, { left: -H * (w / h), right: H * (w / h), top: H, bottom: -H });
+    this.ortho.updateProjectionMatrix();
   }
 
   render(now) {
@@ -558,19 +742,47 @@ export class Stage {
     const moonA = sec * 0.3;
     ev.moon.position.set(384.4 * Math.cos(moonA), 0, 384.4 * Math.sin(moonA));
     if (ev.rock.visible) ev.rock.rotation.y = sec * 0.1;
-    this.controls.update();
-    this.renderer.render(this.scenes[this.view], this.camera);
+    // The Moon's phase angle: 0 when it sits over the night side (+z, away from the Sun). Its reflectors work only
+    // while their site is in sunlight, below 90 deg, sending cos(phase / 2) of their full-Moon light (sim/night.py).
+    const phase = Math.acos(Math.max(-1, Math.min(1, Math.sin(moonA))));
+    const f = phase < Math.PI / 2 ? Math.cos(phase / 2) : 0;
+    const on = this.reflect.moonKm2 > 0 && f > 0;
+    ev.moonGlint.visible = ev.moonBeam.visible = on;
+    if (on) {
+      const level = Math.min(1, 0.2 + Math.log10(1 + this.reflect.moonKm2) / 8) * f;
+      ev.moonGlint.position.copy(ev.moon.position).multiplyScalar(0.97);
+      ev.moonGlint.scale.setScalar(20 + 70 * level);
+      ev.moonGlint.material.opacity = level;
+      ev.moonBeam.setEnds(ev.moon.position, new THREE.Vector3(0, 0, 0), 2 + 10 * level);
+      ev.moonBeam.material.opacity = 0.35 * level;
+    }
+    const top = this.view === "top";
+    const p = this.follow?.();
+    if (p && !top) {  // move the camera with what it is following
+      const shift = p.clone().sub(this.controls.target);
+      this.controls.target.add(shift);
+      this.camera.position.add(shift);
+    }
+    (top ? this.topControls : this.controls).update();
+    if (top) {
+      // Sprites in an orthographic view scale with the zoom: keep each dot a fixed number of pixels.
+      const perPx = (this.ortho.top - this.ortho.bottom) / this.ortho.zoom / Math.max(1, this.canvas.clientHeight);
+      for (const dot of Object.values(this.top.dots)) dot.scale.setScalar(dot.px * perPx);
+      this.top.sun.scale.setScalar(70 * perPx);
+    }
+    this.renderer.render(this.scenes[this.view], top ? this.ortho : this.camera);
     this.placeLabels();
   }
 
   placeLabels() {
     const w = this.canvas.clientWidth, h = this.canvas.clientHeight;
     const v = new THREE.Vector3();
+    const cam = this.view === "top" ? this.ortho : this.camera;
     for (const l of this.labels[this.view]) {
       const text = typeof l.text === "function" ? l.text() : l.text;
-      const at = l.at();
+      const at = text && l.at();
       if (!text || !at) { l.el.style.display = "none"; continue; }
-      v.copy(at).project(this.camera);
+      v.copy(at).project(cam);
       if (v.z > 1 || v.x < -1.2 || v.x > 1.2 || v.y < -1.2 || v.y > 1.2) { l.el.style.display = "none"; continue; }
       l.el.style.display = "";
       if (l.el.textContent !== text) l.el.textContent = text;
