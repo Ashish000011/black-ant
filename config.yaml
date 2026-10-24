@@ -207,3 +207,13 @@ outage:                        # sim/scenarios/outage.py: the Earth tow's beam s
 benchmarks:                    # the official ten (participant guide, section 6): uv run python -m sim.benchmarks
   # Mercury joins only benchmark 5 (the whole solar system); the journey leaves it out (88-day orbit, tiny pull)
   mercury: {name: mercury, mass_kg: 3.3011e23, a_au: 0.38709927, e: 0.20563593, i_deg: 7.00497902, mean_longitude_deg: 252.25032350, perihelion_longitude_deg: 77.45779628, node_longitude_deg: 48.33076593}
+
+crossing:                      # sim/scenarios/crossing.py: Mars across Jupiter's 2:1 resonance, several starts
+  start_a_au: 2.95
+  start_e: 0.06
+  years: 1400
+  phases: 8                    # starting points spread around the orbit
+  workers: 12
+  variants:                    # results of 24 Oct: normal pull caught 6/8, 1.56x 2/8, 3.3x 0/8, 4.9x 0/8
+    normal pull: null
+    sprint 4x (as designed): {from_au: 3.0, to_au: 3.5, distance_km: 50000, ramp_km_per_check: 300}
