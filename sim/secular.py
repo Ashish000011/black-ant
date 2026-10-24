@@ -50,6 +50,11 @@ def forced_eccentricity(a: float, a_jupiter: float) -> float:
 
 
 @lru_cache(maxsize=None)
+def _b1(alpha: float) -> float:
+    return laplace_b(1.5, 1, alpha)
+
+
+@lru_cache(maxsize=None)
 def _forced_share(alpha: float) -> float:
     return laplace_b(1.5, 2, alpha) / laplace_b(1.5, 1, alpha)
 
@@ -118,7 +123,7 @@ class Trim:
         n = 2 * math.pi / (a / AU) ** 1.5 * 180 / math.pi * 3600  # arcsec per year
         inv_i, inv_node = (math.radians(x) for x in self.cfg["invariable_plane_deg"])
         q_inv, p_inv = math.sin(inv_i) * math.cos(inv_node), math.sin(inv_i) * math.sin(inv_node)
-        b = [n / 4 * mass * (a / aj) ** 2 * laplace_b(1.5, 1, a / aj) for aj, mass, _ in giants]
+        b = [n / 4 * mass * (a / aj) ** 2 * _b1(round(a / aj, 4)) for aj, mass, _ in giants]
         denom = sum(b) + self.cfg["s6_arcsec_per_year"]
         q, p = q_inv, p_inv
         for bj, (_, _, pole) in zip(b, giants):

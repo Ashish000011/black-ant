@@ -83,11 +83,13 @@ def test_x2_energy_steady_for_1000_years():
 
 
 def test_x3_momentum_with_ledger():
-    """X3: the tow run with the force ledger; total momentum (bodies plus light) changes by under 1 part in 10^10."""
+    """X3: the guide's ledger check on a 20-year tow run: the bodies' momentum change equals the applied impulse,
+    and the applied impulse plus its partners (station recoil, bounced light) is zero, each to 1e-9 of it."""
     summary, _, _ = run(years=20, belt=False)
-    err = summary["ledger"]["momentum_error_max"]
-    print(f"X3 momentum error {err:.1e}")
-    assert err < 1e-10
+    lg = summary["ledger"]
+    print(f"X3 integrator honest {lg['integrator_honest_max']:.1e}; nothing from nothing {lg['nothing_from_nothing_max']:.1e}")
+    assert lg["integrator_honest_max"] < 1e-9
+    assert lg["nothing_from_nothing_max"] < 1e-9
 
 
 def test_x4_hohmann_transfer():

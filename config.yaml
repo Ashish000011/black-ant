@@ -102,7 +102,7 @@ enablers:                      # Member 3 (structures and enablers)
   e3_mirror_area_limit_km2: 1.0e9
   # What each enabler covers; flags caused by these are allowed by the brief.
   covers:
-    E1: "Beamed-power station: up to 1e26 W of focused light; cancels its own recoil; can also nudge dangerous asteroids aside"
+    E1: "Power source: up to 1e26 W of focused light from many independent stations; their recoil and the bounced light are booked; also nudges dangerous asteroids aside"
     E2: "Super-mirror material: absorbs 1e-7 of light, 100 GPa strength, up to 1,500 K"
     E3: "Planet-scale space manufacturing: places the asteroids and builds the tow and sunlight mirrors"
 
@@ -126,6 +126,13 @@ safety:                        # Member 2 (safety and environment)
   spot_error_max_fraction: 0.01         # each asteroid within 1% of its distance from its spot
   energy_error_max_of_total: 1.0e-5     # numerical integrity of the ledger
   momentum_error_max: 1.0e-9
+
+habitability:                  # Member 2; sim/habitability.py. Computed along the journey, not assumed
+  mirror_batch_years: 50       # E3 builds sunlight mirrors in batches sized for the orbit at each batch's end
+  mirror_reflectivity: 0.95
+  magnetopause_today_re: 10.0  # the magnetopause sits about 10 Earth radii sunward today
+  earth_mass_with_moon_kg: 6.04562e24
+  moon_hill_max_share: 0.5     # prograde moons stay bound out to about half the Hill radius
 
 arrival:                       # from the brief, plus our eccentricity limit
   target_au: 2.7

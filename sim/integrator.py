@@ -73,3 +73,14 @@ def energy(m: np.ndarray, pos: np.ndarray, vel: np.ndarray) -> float:
     i, j = np.triu_indices(len(m), k=1)
     potential = -G * float((m[i] * m[j] / r[i, j]).sum())
     return kinetic + potential
+
+
+def pair_forces(m: np.ndarray, pos: np.ndarray) -> np.ndarray:
+    """Gravity between every pair as forces, shape (N, N, 3): F[i, j] is the pull on i from j. Each pair's two
+    forces are exact negatives of each other, bit for bit (same product of masses, same distance, negated
+    separation), so adding both to the two bodies' momenta cancels exactly."""
+    d = pos[np.newaxis, :, :] - pos[:, np.newaxis, :]
+    r2 = (d * d).sum(axis=2)
+    np.fill_diagonal(r2, np.inf)
+    mm = m[:, np.newaxis] * m[np.newaxis, :]
+    return (G * mm * r2 ** -1.5)[:, :, np.newaxis] * d

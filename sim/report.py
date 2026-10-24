@@ -28,7 +28,9 @@ def table(folder=ROOT / "results") -> str:
         ("Closest big asteroid during the journey",
          ", ".join(f"{k} {v} AU" for k, v in s["big_asteroids_closest_au"].items()) + " (limit 0.02)"),
         ("Most beam power", f"{s['total_beam_max_w']:.3g} W (E1 limit 1e26)"),
-        ("Ledger", f"momentum error {s['ledger']['momentum_error_max']:.1e}; beam work matches energy gained to "
+        ("Ledger (the guide's form)", f"bodies' momentum change matches the applied impulse to "
+                   f"{s['ledger']['integrator_honest_max']:.1e} of it; applied impulse plus its partners: "
+                   f"{s['ledger']['nothing_from_nothing_max']:.1e} (limit 1e-9); beam work matches energy gained to "
                    f"{s['ledger']['work_mismatch_share']:.3%}"),
         ("Flags during the journey", f"{fl['unresolved']} unresolved; {fl['covered_by_enablers']} covered by "
                                      f"{', '.join(covered) or 'none'}"),
