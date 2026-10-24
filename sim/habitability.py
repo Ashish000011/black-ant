@@ -63,9 +63,10 @@ def hill_share(a_au: float, earth_mass_kg: float, moon_distance_m: float = 3.844
 
 class Mirrors:
     """The sunlight mirrors (enabler E3) as a schedule, not an assumption. They are built in batches; each batch
-    brings the area to what Earth's orbit will need when the batch ends, predicted from how fast the orbit is
-    growing. What they deliver is computed from their area and reflectivity: they sit near Earth, so each square
-    metre catches the same sunlight per area as Earth does and reflects `reflectivity` of it onto Earth's disc."""
+    brings the area to what Earth's orbit will need when the batch ends, predicted from how fast the orbit grew
+    since the last batch (over the whole batch: Earth's orbit size wobbles from month to month, so a short-term
+    rate is noise). What they deliver is computed from their area and reflectivity: they sit near Earth, so each
+    square metre catches the same sunlight per area as Earth does and reflects `reflectivity` of it onto Earth."""
 
     def __init__(self, cfg: dict, earth_radius_m: float = 6.371e6):
         self.batch = cfg["mirror_batch_years"]
@@ -73,14 +74,14 @@ class Mirrors:
         self.disc_km2 = math.pi * earth_radius_m ** 2 / 1e6
         self.area_km2 = 0.0
         self.next_build = 0.0
-        self.last = None  # (year, a) at the previous update, for the growth rate
+        self.last_build = None  # (year, a) when the previous batch was built, for the growth rate
 
     def update(self, year: float, a_au: float, e: float) -> None:
-        rate = 0.0
-        if self.last and year > self.last[0]:
-            rate = max(0.0, (a_au - self.last[1]) / (year - self.last[0]))
-        self.last = (year, a_au)
         if year >= self.next_build:
+            rate = 0.0
+            if self.last_build and year > self.last_build[0]:
+                rate = max(0.0, (a_au - self.last_build[1]) / (year - self.last_build[0]))
+            self.last_build = (year, a_au)
             a_end = a_au + rate * self.batch
             need = 1.0 / mean_inverse_r2(a_end, e) - 1.0  # extra sunlight, in Earth-discs of 1-AU sunlight
             self.area_km2 = max(self.area_km2, need * self.disc_km2 / self.reflect)

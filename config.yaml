@@ -131,7 +131,7 @@ safety:                        # Member 2 (safety and environment)
   momentum_error_max: 1.0e-9
 
 habitability:                  # Member 2; sim/habitability.py. Computed along the journey, not assumed
-  mirror_batch_years: 50       # E3 builds sunlight mirrors in batches sized for the orbit at each batch's end
+  mirror_batch_years: 25       # E3 builds sunlight mirrors in batches sized for the orbit at each batch's end
   mirror_reflectivity: 0.95
   magnetopause_today_re: 10.0  # the magnetopause sits about 10 Earth radii sunward today
   earth_mass_with_moon_kg: 6.04562e24
