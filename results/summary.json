@@ -28,13 +28,13 @@
       {
         "name": "earth-tow",
         "asteroid_mass_kg": 3.97e+20,
-        "distance_km": 709259.3983669631,
+        "distance_km": 703420.9561228814,
         "stop_au": 2.7
       },
       {
         "name": "mars-tow",
-        "asteroid_mass_kg": 9.7808e+18,
-        "distance_km": 116349.82236334303,
+        "asteroid_mass_kg": 1.56493e+20,
+        "distance_km": 400000.0,
         "stop_au": 3.64
       }
     ]
@@ -62,18 +62,18 @@
         "covered_by": "E3",
         "first_year": 0.0,
         "times": 1,
-        "worst": 4.067808e+20,
+        "worst": 5.53493e+20,
         "last_year": 0.0
       },
       {
-        "check": "Beam power far above all of humanity's (2e+13 W). Beamed-power station: up to 1e26 W of focused light; cancels its own recoil; can also nudge dangerous asteroids aside",
+        "check": "Beam power far above all of humanity's (2e+13 W). Power source: up to 1e26 W of focused light from many independent stations; their recoil and the bounced light are booked; also nudges dangerous asteroids aside",
         "limit": 0.0,
         "kind": "max",
         "unit": "W",
         "covered_by": "E1",
         "first_year": 0.0,
         "times": 1,
-        "worst": 9.783303383240151e+25,
+        "worst": 9.270690508535033e+25,
         "last_year": 0.0
       },
       {
@@ -82,10 +82,10 @@
         "kind": "min",
         "unit": "AU",
         "covered_by": "E1",
-        "first_year": 7803.7,
+        "first_year": 7169.3,
         "times": 2,
-        "worst": 0.013729212378866517,
-        "last_year": 8508.4
+        "worst": 0.01831820419103302,
+        "last_year": 8309.1
       },
       {
         "check": "Expected 1 km impacts crossing the belt, against Earth's natural rate",
@@ -93,10 +93,10 @@
         "kind": "max",
         "unit": "times natural",
         "covered_by": "E1",
-        "first_year": 8742.2,
+        "first_year": 8958.2,
         "times": 1,
-        "worst": 3919.190502255806,
-        "last_year": 8742.2
+        "worst": 3935.841256158519,
+        "last_year": 8958.2
       },
       {
         "check": "Expected 1 km impacts parked at the target, against Earth's natural rate",
@@ -104,121 +104,168 @@
         "kind": "max",
         "unit": "times natural",
         "covered_by": "E1",
-        "first_year": 8742.2,
+        "first_year": 8958.2,
         "times": 1,
-        "worst": 4545.048498278306,
-        "last_year": 8742.2
+        "worst": 5726.454428041663,
+        "last_year": 8958.2
       }
     ]
   },
   "tows": {
     "earth-tow": {
-      "beam_min_w": 5.010314424181994e+25,
-      "beam_max_w": 8.89744835747049e+25,
-      "mirror_angle_min_deg": 45.056629079928285,
-      "mirror_angle_max_deg": 48.70055603726027,
-      "spot_error_max_km": 2626.470073634738,
-      "beam_clearance_min_km": 448908.64765705384,
+      "beam_min_w": 4.6913882369604344e+25,
+      "beam_max_w": 8.898515815956335e+25,
+      "mirror_angle_min_deg": 45.05673667863847,
+      "mirror_angle_max_deg": 48.706667645388826,
+      "spot_error_max_km": 2715.4685223708534,
+      "beam_clearance_min_km": 448908.6476555522,
       "target_distance_km": [
-        636780.3619842561,
-        822464.9970734968
+        636780.3619836484,
+        849924.6524196772
       ],
       "arrival": {
-        "year": 8542.1,
-        "a_au": 2.7008,
-        "eccentricity": 0.0315,
-        "tilt_deg": 1.279,
-        "speed_km_s": 17.9,
-        "free_eccentricity": 0.0051,
-        "free_tilt_deg": 0.02
+        "year": 8758.1,
+        "a_au": 2.7006,
+        "eccentricity": 0.0331,
+        "tilt_deg": 1.294,
+        "speed_km_s": 17.55,
+        "free_eccentricity": 0.0023,
+        "free_tilt_deg": 0.018
       },
       "days_without_allowed_beam": 0.0,
       "days_rerouted": 0.0,
-      "days_power_capped": 0.0
+      "days_power_capped": 7.5
     },
     "mars-tow": {
-      "beam_min_w": 5.325601704819846e+24,
-      "beam_max_w": 8.880269220428042e+24,
-      "mirror_angle_min_deg": 44.98777692087564,
-      "mirror_angle_max_deg": 45.03293509949847,
-      "spot_error_max_km": 325.33964743977066,
-      "beam_clearance_min_km": 641326.9888380448,
+      "beam_min_w": 8.848823804188106e+24,
+      "beam_max_w": 3.552014296571754e+25,
+      "mirror_angle_min_deg": 44.997741338056194,
+      "mirror_angle_max_deg": 46.97045015868962,
+      "spot_error_max_km": 2004.8224333938404,
+      "beam_clearance_min_km": 455418.46795136516,
       "target_distance_km": [
-        99980.55972790474,
-        129096.62332368971
+        199995.61532998303,
+        400000.00000001
       ],
-      "arrival": null,
+      "arrival": {
+        "year": 5167.7,
+        "a_au": 3.6408,
+        "eccentricity": 0.057,
+        "tilt_deg": 0.582,
+        "speed_km_s": 16.48
+      },
       "days_without_allowed_beam": 0.0,
-      "days_rerouted": 26.5,
+      "days_rerouted": 27.0,
       "days_power_capped": 0.0
     }
   },
   "arrival_trim": {
     "earth-tow": {
-      "beta_mean": 0.11435227837148741,
-      "free_eccentricity_end": 0.005093020799799249,
-      "free_tilt_end_deg": 0.020017556807569666
-    },
-    "mars-tow": {
-      "beta_mean": 0.2955620335187059,
-      "free_eccentricity_end": 0.5625482122428974,
-      "free_tilt_end_deg": 2.2046092843828062
+      "beta_mean": 0.10451771548625484,
+      "free_eccentricity_end": 0.0022787792993781432,
+      "free_tilt_end_deg": 0.01829085215414668
     }
   },
   "axial_tilt_journey_deg": [
-    21.866,
+    21.848,
     23.439
   ],
-  "total_beam_max_w": 9.783303383240151e+25,
-  "station_recoil_max_n": 3.2633587410795206e+17,
-  "mars_closest": {
-    "au": 0.0594,
-    "year": 7129.5
+  "climate": {
+    "temperature_k": [
+      287.828551,
+      288.831699
+    ],
+    "sunlight_share": [
+      0.995219,
+      1.010356
+    ],
+    "mirror_area_km2": [
+      0.0,
+      850345744.265371
+    ],
+    "liquid_water_share": [
+      0.81761,
+      0.831499
+    ],
+    "absorbed_w_m2": [
+      237.608354,
+      240.938189
+    ],
+    "surface_pressure_kpa": [
+      101.325,
+      101.325
+    ],
+    "jeans_lambda_n2": [
+      194.358846,
+      195.831389
+    ],
+    "magnetopause_re": [
+      10.000009,
+      13.928152
+    ],
+    "day_length_change_s": [
+      0.0,
+      0.0
+    ],
+    "moon_hill_share": [
+      0.094684,
+      0.255833
+    ],
+    "thrust_over_moon_pull": [
+      0.0,
+      0.001968
+    ]
   },
-  "jupiter_closest_au": 2.308,
+  "total_beam_max_w": 9.270690508535033e+25,
+  "station_recoil_max_n": 3.092369491341584e+17,
+  "mars_closest": {
+    "au": 0.37283,
+    "year": 3.7
+  },
+  "jupiter_closest_au": 2.298,
   "big_asteroids_closest_au": {
-    "ceres": 0.1201,
-    "pallas": 0.0137,
-    "vesta": 0.019,
-    "hygiea": 0.1253
+    "ceres": 0.0455,
+    "pallas": 0.0681,
+    "vesta": 0.0183,
+    "hygiea": 0.1633
   },
   "big_asteroid_nudges": [
     {
-      "year": 7803.7,
+      "year": 7169.3,
       "body": "vesta",
-      "au": 0.019,
-      "beam_hours": 0.033
+      "au": 0.0183,
+      "beam_hours": 0.057
     },
     {
-      "year": 8508.4,
-      "body": "pallas",
-      "au": 0.0137,
-      "beam_hours": 0.169
+      "year": 8309.1,
+      "body": "vesta",
+      "au": 0.0183,
+      "beam_hours": 0.056
     }
   ],
   "belt": {
     "sample_size": 1000,
-    "years_tracked": 2742,
+    "years_tracked": 2958,
     "close_pass_au": 0.05,
-    "sample_encounters": 1228,
-    "sample_closest_au": 0.0002,
+    "sample_encounters": 1325,
+    "sample_closest_au": 0.00281,
     "sample_direct_hits": 0,
-    "encounter_speed_median_km_s": 3.08,
-    "expected_real_impacts_over_1km": 21.74318391277984,
-    "natural_impacts_same_years": 0.005484462696783026,
-    "times_natural_rate": 3964.5057528668312,
+    "encounter_speed_median_km_s": 3.05,
+    "expected_real_impacts_over_1km": 24.000682140187056,
+    "natural_impacts_same_years": 0.0059164955509924694,
+    "times_natural_rate": 4056.570639381455,
     "crossing": {
-      "years": 2542,
-      "sample_encounters": 1154,
-      "expected_impacts": 19.92516451346852,
-      "years_per_impact": 127.58238449081082
+      "years": 2758,
+      "sample_encounters": 1261,
+      "expected_impacts": 21.71010036897039,
+      "years_per_impact": 127.04225006449403
     },
     "parked_at_target": {
       "years": 200,
-      "sample_encounters": 74,
-      "expected_impacts": 1.8180193993113223,
-      "years_per_impact": 110.08207528881368,
-      "times_natural_rate": 4542.065533268604
+      "sample_encounters": 64,
+      "expected_impacts": 2.290581771216665,
+      "years_per_impact": 87.37857692367989,
+      "times_natural_rate": 5722.226403809723
     },
     "deflection": {
       "asteroid_kg": 1308996938995.747,
@@ -229,24 +276,43 @@
     }
   },
   "end": {
-    "year": 8742.2,
+    "year": 8958.2,
     "earth": {
-      "a_au": 2.6983,
-      "eccentricity": 0.034,
-      "tilt_deg": 1.29
+      "a_au": 2.6989,
+      "eccentricity": 0.0338,
+      "tilt_deg": 1.307
     },
     "mars": {
-      "a_au": 3.2806,
-      "eccentricity": 0.5249,
-      "tilt_deg": 0.977
+      "a_au": 3.623,
+      "eccentricity": 0.075,
+      "tilt_deg": 2.986
     }
   },
   "ledger": {
-    "energy_error_max_of_total": 6.914641190601381e-07,
-    "beam_work_j": 1.820013226044121e+33,
-    "bodies_energy_gain_j": 1.8201351158319542e+33,
-    "work_mismatch_share": 6.697192420853131e-05,
-    "momentum_error_max": 5.333781863322269e-10
+    "energy_error_max_of_total": 6.900341093345113e-07,
+    "beam_work_j": 1.7968537260650177e+33,
+    "bodies_energy_gain_j": 1.796987751369672e+33,
+    "work_mismatch_share": 7.458887872188991e-05,
+    "applied_impulse_kg_m_s": 8.784058227491968e+26,
+    "integrator_honest_max": 5.502223431670576e-22,
+    "nothing_from_nothing_max": 5.640536419852472e-16,
+    "integrator_honest_end": 1.505854142747155e-22,
+    "nothing_from_nothing_end": 3.6036318433149925e-17,
+    "station_recoil_kg_m_s": [
+      -3.719003207310844e+26,
+      -6.126098445203848e+26,
+      1.1498086281403941e+25
+    ],
+    "bounced_light_kg_m_s": [
+      5.5217161602009766e+26,
+      -2.280392931509786e+26,
+      -1.9152052062475988e+26
+    ],
+    "departed_kg_m_s": [
+      6.939187261605201e+24,
+      -3.134215896752847e+24,
+      -1.2274271896466513e+22
+    ]
   },
-  "run_seconds": 2450.9
+  "run_seconds": 5757.6
 }

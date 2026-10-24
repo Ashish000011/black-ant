@@ -54,14 +54,24 @@ belt_sample:
 tows:
 # max_beam_w: the most a tow may use. Mars's tow is served first; the Earth tow may use the rest of E1's
 # 1e26 W, so it has spare power to catch its asteroid after an outage (sim/scenarios/outage.py).
-  - {name: earth-tow, target: earth, asteroid_mass_kg: 3.97e20,   distance_km: 637100, stop_au: 2.7, max_beam_w: 1.0e26}
+  - {name: earth-tow, target: earth, asteroid_mass_kg: 3.97e20,   distance_km: 637100, stop_au: 2.7, max_beam_w: 1.0e26,
+     sprint: {while_tow: mars-tow, from_au: 2.9, to_au: 3.6, distance_km: 850000, ramp_km_per_check: 3000}}
 # Mars parks at 3.64 AU, past Jupiter's 2:1 resonance (3.28 AU) and between the resonances with Earth and
 # Jupiter (sim/scenarios/parking.py). At 3.0-3.1 AU a million-year run throws Mars onto an Earth-crossing orbit;
 # at 3.4 an untrimmed Mars, next to Earth's 7:5 resonance (3.379 AU), drifts until the orbits cross.
-  - {name: mars-tow,  target: mars,  asteroid_mass_kg: 9.7808e18, distance_km: 100000, stop_au: 3.64, max_beam_w: 1.5e25}
+# Crossing Jupiter's 2:1 at the normal pull, Mars was caught in 6 of 8 trials; so Mars's tow sprints across it
+# (asteroid at 50,000 km, 4x the pull: caught in 0 of 8 at 3.3x and at 4.9x), while Earth's tow eases off
+# (asteroid at 850,000 km) to keep E1's total under 1e26 W. Both moves are ramped gently.
+  # Mars's asteroid sits 400,000 km out (16 times heavier than the first design, same pull): close in, Mars's pull
+  # changes too fast across the asteroid's spot for the controller and the 1-day step (100,000 km: a 1.8-day
+  # timescale; 400,000 km: 14 days). Its sprint moves it to 200,000 km (4x the pull, a 5-day timescale).
+  - {name: mars-tow,  target: mars,  asteroid_mass_kg: 1.56493e20, distance_km: 400000, stop_au: 3.64, max_beam_w: 4.0e25,
+     sprint: {from_au: 3.0, to_au: 3.5, distance_km: 200000, ramp_km_per_check: 2000}}
 
 controller:
   correction_period_days: 10   # how fast drift off the spot is corrected
+  min_strength_over_gradient: 3   # the controller's pull-back must beat the target's pull gradient by this much
+  min_steps_per_timescale: 3      # the step must be this much shorter than the spot's timescale, 1/sqrt(gradient)
 
 arrival_trim:                  # sim/secular.py: Earth arrives with the orbit shape and plane Jupiter forces at 2.7 AU
   enabled: true
@@ -74,7 +84,7 @@ arrival_trim:                  # sim/secular.py: Earth arrives with the orbit sh
   lift_step_deg: 0.15
   invariable_plane_deg: [1.5787, 107.5822]   # tilt and node to the J2000 ecliptic (Souami & Souchay 2012)
   s6_arcsec_per_year: -26.3302               # Jupiter-Saturn plane mode (Laskar 1990)
-  mars-tow: {from_au: 1.8, lift_max_deg: 0}   # Mars's tow trims the shape only, from 1.8 AU
+  # Mars's tow does not trim: any weakening of its pull near Jupiter's 2:1 resonance lets the resonance catch it.
 
 moon:                          # Member 1 runs these; Member 2 owns the verdict
   earth_mass_kg: 5.9722e24     # Earth alone (the long run gives Earth the Moon's mass too)
@@ -100,19 +110,30 @@ enablers:                      # Member 3 (structures and enablers)
   e3_mirror_area_limit_km2: 1.0e9
   # What each enabler covers; flags caused by these are allowed by the brief.
   covers:
-    E1: "Beamed-power station: up to 1e26 W of focused light; cancels its own recoil; can also nudge dangerous asteroids aside"
+    E1: "Power source: up to 1e26 W of focused light from many independent stations; their recoil and the bounced light are booked; also nudges dangerous asteroids aside"
     E2: "Super-mirror material: absorbs 1e-7 of light, 100 GPa strength, up to 1,500 K"
     E3: "Planet-scale space manufacturing: places the asteroids and builds the tow and sunlight mirrors"
 
 structures:                    # Member 3; design sizes the checks test against
   # Sized for the most the beam can ever push (2P/c at 1e26 W) with a 1.5 safety factor, so recovery is covered too.
   earth-tow: {cable_cross_section_km2: 10.5, anchor_area_km2: 10500, mirror_radius_km: 2600, asteroid_density_kg_m3: 2500}
-  mars-tow:  {cable_cross_section_km2: 1.6,  anchor_area_km2: 1600,  mirror_radius_km: 1000, asteroid_density_kg_m3: 2500}
+  mars-tow:  {cable_cross_section_km2: 4.2,  anchor_area_km2: 4200,  mirror_radius_km: 1650, asteroid_density_kg_m3: 2500}
   rock_strength_pa: 1.0e8
 
 safety:                        # Member 2 (safety and environment)
-  temperature_k: {target: 288, tolerance: 2}
-  sunlight_fraction: {target: 1.0, tolerance: 0.02}
+  # The ten Earth-safety thresholds of the company's reference demo (octo-earth-simulator.vercel.app, Safety
+  # thresholds panel and Earth safety tab), adopted until the rulebook appendix says otherwise:
+  temperature_min_k: 263
+  temperature_max_k: 308
+  liquid_water_min_share: 0.30
+  runaway_absorbed_max_w_m2: 282
+  surface_pressure_min_kpa: 50
+  jeans_lambda_min: 30           # N2 retained
+  magnetopause_min_re: 3
+  day_length_change_max_s: 1
+  moon_hill_max_share: 0.49
+  thrust_over_moon_pull_max: 0.01
+  # Our own, beyond the ten:
   mirror_heat_max_fraction_of_sunlight: 0.005
   asteroid_tide_max_fraction_of_moon: 0.01
   tow_acceleration_max_m_s2: 1.0e-6
@@ -124,6 +145,13 @@ safety:                        # Member 2 (safety and environment)
   spot_error_max_fraction: 0.01         # each asteroid within 1% of its distance from its spot
   energy_error_max_of_total: 1.0e-5     # numerical integrity of the ledger
   momentum_error_max: 1.0e-9
+
+habitability:                  # Member 2; sim/habitability.py. Computed along the journey, not assumed
+  mirror_batch_years: 25       # E3 builds sunlight mirrors in batches sized for the orbit at each batch's end
+  mirror_reflectivity: 0.95
+  magnetopause_today_re: 10.0  # the magnetopause sits about 10 Earth radii sunward today
+  earth_mass_with_moon_kg: 6.04562e24
+  surface_pressure_kpa: 101.325   # nothing in our design removes air; Jeans escape is checked separately
 
 arrival:                       # from the brief, plus our eccentricity limit
   target_au: 2.7
@@ -190,4 +218,49 @@ outage:                        # sim/scenarios/outage.py: the Earth tow's beam s
     - {name: "Mars tow, all beams off", tow: mars-tow}
     - {name: "Mars tow, half the stations off", tow: mars-tow, power_left: 0.5}
     - {name: "Mars tow, a quarter off", tow: mars-tow, power_left: 0.75}
+    - {name: "Mars tow in its 4x sprint (200,000 km), all off", tow: mars-tow, mars_distance_km: 200000, earth_distance_km: 850000}
+    - {name: "Mars tow in its 4x sprint, half off", tow: mars-tow, mars_distance_km: 200000, earth_distance_km: 850000, power_left: 0.5}
+    - {name: "Earth tow during Mars's sprint (850,000 km), all off", mars_distance_km: 200000, earth_distance_km: 850000}
   mars_floor_km: 20000         # Mars's tow asteroid counts as lost once it is this close to Mars
+
+benchmarks:                    # the official ten (participant guide, section 6): uv run python -m sim.benchmarks
+  # Mercury joins only benchmark 5 (the whole solar system); the journey leaves it out (88-day orbit, tiny pull)
+  mercury: {name: mercury, mass_kg: 3.3011e23, a_au: 0.38709927, e: 0.20563593, i_deg: 7.00497902, mean_longitude_deg: 252.25032350, perihelion_longitude_deg: 77.45779628, node_longitude_deg: 48.33076593}
+
+crossing:                      # sim/scenarios/crossing.py: Mars across Jupiter's 2:1 resonance, several starts
+  start_a_au: 2.95
+  start_e: 0.06
+  years: 1400
+  phases: 8                    # starting points spread around the orbit
+  workers: 12
+  variants:                    # results of 24 Oct: normal pull caught 6/8, 1.56x 2/8, 3.3x 0/8, 4.9x 0/8
+    normal pull: null
+    sprint 4x (as designed): {from_au: 3.0, to_au: 3.5, distance_km: 200000, ramp_km_per_check: 2000}
+
+octo_earth:                    # sim/scenarios/octo.py: the brief's reference concept, audited with the same physics
+  # The arm as the company's demo sets it by default: 8 arms rooted 45 deg apart on a ring round the globe,
+  # 12,000 km long, a 200 km tube with 2 km walls, 1 MA in each arm with its return conductor 50 km away.
+  arms: 8
+  length_km: 12000
+  outer_diameter_km: 200
+  wall_km: 2
+  elevation_deg: 36.1          # deployed elevation above the local horizon (the demo's default)
+  current_a: 1.0e6
+  go_return_spacing_km: 50
+  segment_km: 100              # conductor pieces for the force sums
+  # Earth's field from its core: a current loop at the centre with Earth's dipole moment (8.0e22 A m^2, IGRF)
+  core_loop_radius_km: 1000
+  earth_dipole_a_m2: 8.0e22
+  interplanetary_field_t: [0.0, 5.0e-10, 0.0]   # the demo's 0.5 nT external field
+  lengths_km: [100, 300, 1000, 3000, 6000, 12000]
+  # Strength (yield, or tensile for fibres) and stiffness at room temperature. The last two are single-tube and
+  # single-sheet records, taken as if a whole arm could be made of them: "ideal macroscale", hypothetical.
+  materials:
+    - {name: "Structural steel S355", density: 7850, strength_pa: 3.55e8, e_pa: 2.10e11, source: "EN 10025-2"}
+    - {name: "Maraging steel 300", density: 8000, strength_pa: 2.0e9, e_pa: 1.90e11, source: "ASM Handbook vol. 1"}
+    - {name: "Titanium Ti-6Al-4V", density: 4430, strength_pa: 8.8e8, e_pa: 1.14e11, source: "ASM Handbook vol. 2"}
+    - {name: "Aluminium 7075-T6", density: 2810, strength_pa: 5.03e8, e_pa: 7.2e10, source: "ASM Handbook vol. 2"}
+    - {name: "CFRP, unidirectional (axial)", density: 1600, strength_pa: 2.0e9, e_pa: 1.35e11, source: "typical T300/epoxy"}
+    - {name: "Aramid (Kevlar 49) composite", density: 1380, strength_pa: 1.4e9, e_pa: 7.6e10, source: "DuPont data sheet"}
+    - {name: "Carbon nanotube, ideal macroscale (hypothetical)", density: 1300, strength_pa: 6.3e10, e_pa: 1.0e12, source: "Yu et al. 2000, Science 287, 637: 63 GPa, one tube"}
+    - {name: "Graphene, ideal macroscale (hypothetical)", density: 2267, strength_pa: 1.3e11, e_pa: 1.0e12, source: "Lee et al. 2008, Science 321, 385: 130 GPa, one sheet"}

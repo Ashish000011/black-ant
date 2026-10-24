@@ -5,7 +5,7 @@
 A 4 x 10^20 kg asteroid (about 670 km across) is parked 637,100 km from Earth, ahead of it and out
 from the Sun. Its gravity pulls Earth very gently: 6.5 x 10^-8 m/s^2. Left alone it would fall onto
 Earth, so a mirror tethered to it is pushed by a focused beam of light that holds it exactly in place.
-Earth keeps being pulled, its orbit widens a little on every lap, and after about 8,000 years it reaches
+Earth keeps being pulled, its orbit widens a little on every lap, and after about 8,760 years it reaches
 2.7 AU. Mars sits across that path, so a second, smaller tow moves Mars out of the way first. Sunlight
 mirrors keep Earth's sunlight and temperature at today's level the whole way.
 
@@ -14,9 +14,21 @@ mirrors keep Earth's sunlight and temperature at today's level the whole way.
 Arms rooted on Earth push on Earth, and Earth pushes back on them equally (Newton's third law). Forces
 inside the Earth-plus-machine system cancel, so they cannot move its centre of mass: to change Earth's
 orbit, a force has to come from outside it (another mass's gravity, light from outside, or mass thrown
-away). The arms also could not hold themselves up: a 12,000 km arm on Earth carries about 320 GPa at its
-base in steel and about 53 GPa even in carbon nanotube, beyond either material's strength. Member 3's
-audit and benchmark B8 make both points with numbers.
+away). We audited the reference concept with numbers (`uv run python -m sim.scenarios.octo`, results in
+`results/octo_earth.json`), at the demo's default arm: 12,000 km long, a 200 km tube with 2 km walls, 1 MA.
+
+- **No net push.** Earth's magnetic field comes from currents in Earth's own core. The force of the core's
+  field on the arms' circuits (2.3 x 10^6 N) and the force of the arms' field on the core, worked out
+  separately, cancel to 8 x 10^-12 of each other (test X8). The arms only push on Earth itself. In a
+  uniform outside field (the demo's 0.5 nT) closed circuits feel no net force at all. Arms with no return
+  path seem to push, but their charge would have nowhere to go; and even in Earth's full field they would
+  give at most 3 x 10^9 N, so the trip would take about 10^12 years.
+- **The arms cannot hold themselves up.** Standing, a 12,000 km arm's own weight puts 315 GPa on its base
+  in steel (which yields at 0.355 GPa) and 52 GPa in carbon nanotube (63 GPa is the strongest single tube
+  ever measured: a safety factor of 1.2, under the 1.5 required). Long before that, the column buckles
+  under its own weight: past 470 km in steel and 1,450 km in nanotube (under 3,000 km even with the
+  weakest gravity along the arm). Held out level, the longest arm with a 1.5 safety factor is 17 km in
+  steel and 570 km in nanotube.
 
 A gravity tractor gets around both: the asteroid is outside Earth, its pull is a real outside force, and
 nothing touches Earth.
@@ -28,7 +40,7 @@ nothing touches Earth.
 | Earth's orbital speed | 29.8 km/s at 1 AU, 18.1 km/s at 2.7 AU |
 | Energy Earth's orbit must gain | about 1.7 x 10^33 J |
 | Pull on Earth | about 3.9 x 10^17 N (2.8 x 10^17 N of it along the orbit) |
-| Time | about 8,000 of the 10,000 years allowed |
+| Time | about 8,760 of the 10,000 years allowed |
 
 ## The physics we use
 
@@ -59,19 +71,48 @@ may pass within 420,000 km of Earth (beyond the Moon's farthest point), so when 
 light arrives up to 30 degrees off the Sun line instead. About 8.4 x 10^25 W is needed.
 
 **Power.** Mars's tow is served first; the Earth tow may use the rest of E1's 10^26 W. That leaves spare
-power to catch the asteroid after a fault (see below).
+power to catch the asteroid after a fault (see below). For a few decades while Mars crosses Jupiter's 2:1
+resonance, the budget is shared differently (next section), and the total never goes above 10^26 W.
 
 **Structures.** Cables and anchors are sized for the most the beam can ever push (2P/c) with a 1.5
 safety factor; the mirror is sized so it stays under 1,500 K. Earth tow: cables 10.5 km^2, anchor
-10,500 km^2, mirror radius 2,600 km. Mars tow: 1.6 km^2, 1,600 km^2, 1,000 km.
+10,500 km^2, mirror radius 2,600 km. Mars tow (sized for its sprint, 4 x 10^25 W): 4.2 km^2, 4,200 km^2,
+1,650 km.
 
 ## Mars goes first
 
 Earth's path crosses Mars's orbit. Without help, Earth passes Mars at about 33,000 km
-(`--no-mars-tow`). A smaller tow (9.8 x 10^18 kg asteroid, 100,000 km from Mars, giving Mars the same
-pull) moves Mars from 1.52 AU out to **3.4 AU**, past Jupiter's 2:1 resonance at 3.28 AU. It crosses that
-resonance without being caught and parks around year 5,500. We first parked Mars at 3.1 AU; a
-million-year run showed Jupiter can throw it onto an Earth-crossing orbit from there (see below).
+(`--no-mars-tow`). A second tow (a 1.6 x 10^20 kg asteroid 400,000 km from Mars, giving Mars the same pull
+as Earth gets) moves Mars from 1.52 AU out to **3.64 AU**, past Jupiter's 2:1 resonance at 3.28 AU.
+
+Why so far out: a hovering asteroid sits at an unstable balance, and the planet's pull changes across its spot
+at 2GM/d^3. At 100,000 km from Mars (our first design) that gradient acts on a 1.25-day timescale, faster than
+both the 10-day controller and the 1-day step, so the asteroid held only because the controller's model was
+exact; any disturbance ran away. At 400,000 km the timescale is 10 days and the controller is 39 times stronger
+than the gradient. Both are checked every 100 days for both tows.
+
+Where Mars parks matters, because once Earth sits at 2.7 AU, Earth's own resonances join Jupiter's:
+
+| Resonance (orbital periods) | With Jupiter, Mars at | With Earth at 2.7 AU, Mars at |
+| --- | --- | --- |
+| 2:1 | 3.278 AU | |
+| 7:5 | | 3.379 AU |
+| 11:6, 9:5, 7:4, 5:3 | 3.473, 3.516, 3.583, 3.701 AU | |
+| 3:2, 8:5 | | 3.538, 3.694 AU |
+
+3.64 AU sits between them all, with the widest gap from Earth's orbit (about 0.55 AU).
+
+**Crossing Jupiter's 2:1 resonance.** To get there Mars must cross 3.28 AU while moving toward Jupiter, and a
+resonance crossed slowly can catch a planet and pump up its eccentricity. We tested it: Mars started at 2.95 AU
+from eight different points on its orbit and was pulled across at the normal strength. **Jupiter caught it in 6
+of the 8.** So Mars's tow **sprints**: between 3.0 and 3.5 AU its asteroid moves in to half its distance,
+pulling four times as hard (about 3.6 x 10^25 W), and Mars crosses the resonance in decades instead of
+centuries. (With the asteroid at 400,000 km, the sprint takes it to 200,000 km; the controller stays five times
+stronger than the gradient there.) In the same test, sprints of 3.3 and 4.9 times were caught **0 times out of 8**. To keep E1's total
+under 10^26 W, Earth's tow eases off over the same stretch: its asteroid drifts out from 637,100 km to
+850,000 km, so it needs about 4.7 x 10^25 W, still with about a third spare. Both moves are ramped over decades
+so neither asteroid is left behind. Mars's orbit shape is not trimmed: any weakening of its pull near the
+resonance raises the chance of capture.
 
 ## The Moon comes along
 
@@ -83,9 +124,20 @@ times heavier would be needed to disturb it.
 
 ## Keeping Earth livable
 
-At 2.7 AU Earth would get 1/7.3 of today's sunlight and freeze (about 188 K). Sunlight mirrors (E3)
-make up the difference: about 8 x 10^8 km^2 of thin film at 2.7 AU, supplying 86% of Earth's light by
-then. The tow mirror's waste heat reaching Earth is at most about 0.24% of sunlight.
+At 2.7 AU Earth would get 1/7.3 of today's sunlight. Our climate model (zero-dimensional energy balance with
+ice-albedo feedback, as in the company's reference demo) then gives 150.4 K and no liquid water anywhere, the
+same as the demo. Sunlight mirrors (E3) make up the difference: built in 25-year batches, each sized for where
+Earth's orbit will be when the batch ends, up to about 8.5 x 10^8 km^2 at 2.7 AU (supplying 86% of Earth's
+light by then). What they deliver is computed from their area, not assumed. The tow mirror's waste heat
+reaching Earth is at most about 0.24% of sunlight.
+
+Every 100 days the journey checks the ten Earth-safety thresholds of the company's reference demo
+(`sim/habitability.py`, `sim/checks/safety.py`): global mean temperature (263 to 308 K), the share of the
+surface warm enough for liquid water (at least 30%; today 82%), absorbed sunlight under the runaway-greenhouse
+limit, surface pressure, N2 kept (Jeans escape), the magnetopause distance, the change in day length, the Moon's
+place in Earth's Hill sphere and the tow's pull against Earth's pull on the Moon. Nothing in our machine touches
+Earth, so the day changes only through the tow asteroid's tide: about 3 x 10^-7 s over the whole journey
+(limit 1 s). Results: `results/summary.json` (climate) and the README table.
 
 ## Arriving settled: the arrival trim
 
@@ -101,8 +153,9 @@ So from 2.0 AU the Earth tow steers Earth's orbit as it pulls, using Gauss's equ
   there), which turns Earth's eccentricity toward the forced value, 0.03 at 2.7 AU. Result in a
   million-year test: eccentricity stays under 0.056 (the real Earth's own maximum: 0.051).
 - **Plane:** the asteroid rides up to 20 degrees above or below Earth's orbit plane around each lap,
-  tipping the plane onto the forced one (computed from Jupiter's and Saturn's planes). Result: the tilt
-  swing drops from about 12 degrees to about 4.
+  tipping the plane onto the forced one (computed from Jupiter's and Saturn's planes). Result, following the
+  real spin axis from today through the journey and a million years after: tilt 21.7 to 26.1 degrees, against
+  15 to 28 untrimmed (today: 22.2 to 24.4).
 
 The pull only ever weakens, so the beam never needs more power, and the asteroid never comes closer.
 
@@ -115,9 +168,9 @@ Three hazards remain that today's Earth does not have. Each has a counter with a
 
 | Hazard | Size | Counter |
 | --- | --- | --- |
-| Asteroid impacts: 2.7 AU is inside the main belt | Many times Earth's natural rate of one 1 km impact per 500,000 years (`results/summary.json`, belt) | E1 nudges any asteroid found heading for Earth: 5 cm/s ten years ahead moves it about 47,000 km, about 10^14 W for a day |
-| Big asteroids (Ceres, Pallas, Vesta, Hygiea) passing within 0.01 AU | Never in the real solar system; tens of times per million years after the move | E1 nudges each pass decades ahead: under an hour of a 10^25 W beam |
-| Seasons: the remaining tilt swing of about 4 degrees | About 1% of yearly sunlight lands at a different latitude or season than today | The sunlight mirrors (E3), which already supply 86% of the light, re-aim that share |
+| Asteroid impacts: 2.7 AU is inside the main belt | One 1 km impact per about 127 years while crossing and 87 once parked, against Earth's natural one per 500,000 (`results/summary.json`, belt) | E1 nudges any asteroid found heading for Earth: 5 cm/s ten years ahead moves it about 47,000 km, about 10^14 W for a day |
+| Big asteroids (Ceres, Pallas, Vesta, Hygiea) passing within 0.01 AU | Never in the real solar system; 23 to 45 times per million years after the move | E1 nudges each pass 50 years ahead: under an hour of a 10^25 W beam |
+| Seasons: the remaining tilt swing, 21.7 to 26.1 degrees (today 22.2 to 24.4) | About 1.4% of yearly sunlight lands at a different latitude or season than with today's tilt (the real Earth's own swing: 0.7%) | The sunlight mirrors (E3), which already supply 86% of the light, re-aim that share |
 
 The tilt swing cannot be removed by orbit choice alone: at 2.7 AU Earth's axis turns at about 35
 arcseconds a year, close to a rate (26 arcseconds a year) at which Jupiter and Saturn tip every orbit's
@@ -137,11 +190,14 @@ None creates energy or momentum from nothing: every push is booked with its reac
 
 | Found | Fix | Re-tested |
 | --- | --- | --- |
-| Mars parked at 3.1 AU is thrown onto an Earth-crossing orbit within a million years (at 3.0 AU, out to 20 AU) | Park Mars at 3.4 AU, past Jupiter's 2:1 resonance | Stable for a million years; Earth's and Mars's orbits never cross |
-| A beam outage of 3 hours lost the Earth tow's asteroid, which then fell through the Moon's orbit | Shared E1 budget, structures sized for full power, E1 built from independent stations | Survives a 15-hour blackout, half the stations down for 1.25 days, a quarter for 2.8 days |
+| Mars parked at 3.1 AU is thrown onto an Earth-crossing orbit within a million years (at 3.0 AU, out to 20 AU) | Park Mars past Jupiter's 2:1 resonance | |
+| Mars parked at 3.4 AU, next to Earth's 7:5 resonance, drifts until its orbit crosses Earth's | Park Mars at 3.64 AU, between all the resonances, and trim its orbit shape | Parking scan: ten arrangements stable for a million years, orbits at least 0.26 AU apart |
+| Crossing Jupiter's 2:1 resonance at the normal pull, Mars was caught in 6 of 8 trials (and every time its shape was being trimmed) | Mars's tow sprints across 3.0-3.5 AU at 4 times the pull while Earth's tow eases off | Caught 0 of 8 at 3.3 and 4.9 times; then the final run |
+| A beam outage of 3 hours lost the Earth tow's asteroid, which then fell through the Moon's orbit | Shared E1 budget, structures sized for full power, E1 built from independent stations | Earth tow survives a 15-hour blackout, half the stations down for 1.25 days, a quarter for 2.8 days; Mars tow 13 hours, 1.8 days, and indefinitely |
+| Vesta passes Earth at about 0.012 AU during the journey (our limit 0.02) | E1 nudges it fifty years ahead | About 0.3 hours of a 10^25 W beam |
 | Mars tow's cables and mirror too weak at its own power cap | Resized | Test at full power for both tows |
 | Earth's eccentricity drifts to 0.09 after arrival | Shape trim | Under 0.056 |
-| Earth's axial tilt swings 15 to 28 degrees | Plane trim onto the forced plane; mirrors for the rest | Swing about 4 degrees; about 1% of sunlight re-aimed |
+| Earth's axial tilt swings 15 to 28 degrees | Plane trim onto the forced plane; mirrors for the rest | 21.7 to 26.1 degrees over a million years; about 1.4% of sunlight re-aimed |
 | Our first belt sample was too cold (made-up orbits) | Real orbits from the JPL Small-Body Database | In the final run |
 
 Every risk, how we check it and its status: [risk-register.md](risk-register.md).

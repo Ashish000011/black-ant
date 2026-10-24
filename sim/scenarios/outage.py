@@ -46,6 +46,12 @@ def design_cfg(design: dict) -> dict:
     tow = next(t for t in cfg["tows"] if t["name"] == "earth-tow")
     tow["asteroid_mass_kg"] = design.get("earth_mass_kg", tow["asteroid_mass_kg"])
     tow["max_beam_w"] = design.get("earth_max_beam_w", tow["max_beam_w"])
+    if "mars_distance_km" in design:  # Mars's tow during its sprint: its asteroid closer, Earth's eased off
+        mars = next(t for t in cfg["tows"] if t["name"] == "mars-tow")
+        mars["distance_km"] = design["mars_distance_km"]
+        mars.pop("sprint", None)
+        tow.pop("sprint", None)
+        tow["distance_km"] = design.get("earth_distance_km", tow["distance_km"])
     return cfg
 
 

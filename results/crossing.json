@@ -1,0 +1,50 @@
+{
+ "note": "Mars from 2.95 AU across Jupiter's 2:1 resonance (3.28 AU), 8 starting points per variant (sim/scenarios/crossing.py). Caught = never reaches its parking orbit.",
+ "variants": {
+  "normal pull": {
+   "caught": 6,
+   "of": 8,
+   "caught_starts_deg": [
+    45,
+    135,
+    180,
+    225,
+    270,
+    315
+   ]
+  },
+  "sprint 1.56x (80,000 km)": {
+   "caught": 2,
+   "of": 8,
+   "caught_starts_deg": [
+    45,
+    135
+   ]
+  },
+  "sprint 3.3x (55,000 km)": {
+   "caught": 0,
+   "of": 8
+  },
+  "sprint 4.9x (45,000 km)": {
+   "caught": 0,
+   "of": 8
+  },
+  "chosen: sprint 4x (50,000 km)": {
+   "superseded": "Mars's asteroid moved to 400,000 km; see the next entry"
+  },
+  "chosen: sprint 4x with the asteroid at 400,000 km (to 200,000 km)": {
+   "caught": 0,
+   "of": 8,
+   "eccentricity_on_arrival": [
+    0.0691,
+    0.0197,
+    0.0393,
+    0.0011,
+    0.1005,
+    0.1149,
+    0.1133,
+    0.0966
+   ]
+  }
+ }
+}

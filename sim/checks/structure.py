@@ -34,3 +34,25 @@ def structure_checks(cfg: dict, tow_name: str, beam_force_n: float, beam_power_w
     stress = design["asteroid_density_kg_m3"] * (G * target_mass / distance ** 2) * radius
     results.append(check(f"{tow_name}: asteroid body safety factor", rock / stress, sf_min, "min"))
     return results
+
+
+def cantilever(q: float, length: float, e_mod: float, inertia: float, segments: int = 2000) -> tuple[float, float]:
+    """Root bending moment (N m) and tip deflection (m) of a cantilever under a load q (N/m: its own weight, a
+    number or a function of distance from the root), worked out numerically with the trapezoid rule: shear is the
+    load integrated in from the free tip, moment is the shear integrated in from the tip, and slope and deflection
+    are the curvature M / (E I) integrated out from the clamped root, twice.
+    For a uniform load the formulas are M = q L^2 / 2 and deflection = q L^4 / (8 E I)."""
+    import numpy as np
+    x = np.linspace(0.0, length, segments + 1)
+    h = length / segments
+    load = np.asarray(q(x) if callable(q) else np.full_like(x, q), float)
+
+    def from_tip(f):
+        return np.concatenate((np.cumsum(((f[1:] + f[:-1]) / 2)[::-1])[::-1] * h, [0.0]))
+
+    shear = from_tip(load)
+    moment = from_tip(shear)
+    curvature = moment / (e_mod * inertia)
+    slope = np.concatenate(([0.0], np.cumsum((curvature[1:] + curvature[:-1]) / 2) * h))
+    deflection = np.concatenate(([0.0], np.cumsum((slope[1:] + slope[:-1]) / 2) * h))
+    return float(moment[0]), float(deflection[-1])

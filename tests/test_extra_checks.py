@@ -1,4 +1,4 @@
-"""Benchmarks B1 to B8 from our working rules (our own stand-ins until the organisers publish theirs).
+"""Our own extra checks X1 to X8 (the official ten benchmarks are in test_official_benchmarks.py).
 
 Run all:            uv run pytest -v
 Skip the slow ones: uv run pytest -v -m "not slow"
@@ -41,8 +41,8 @@ def test_real_orbits_match_their_elements():
         assert abs(o["i"] - abs(p["i_deg"])) < 1e-4, p["name"]
 
 
-def test_b1_period_matches_kepler():
-    """B1: Sun and Earth on a circular orbit for 100 years; period within 0.001% of Kepler's law.
+def test_x1_period_matches_kepler():
+    """X1: Sun and Earth on a circular orbit for 100 years; period within 0.001% of Kepler's law.
     Uses tenth-of-a-day steps: the period error grows with the square of the step (2.5e-5 at half a day)."""
     system = sun_and_earth()
     dt, years = 0.1 * DAY, 100
@@ -57,13 +57,13 @@ def test_b1_period_matches_kepler():
     measured = years * YEAR / (angle["total"] / (2 * math.pi))
     kepler = 2 * math.pi * math.sqrt(AU ** 3 / (G * (M_SUN + EARTH_MASS)))
     error = abs(measured / kepler - 1)
-    print(f"B1 period error {error:.2e}")
+    print(f"X1 period error {error:.2e}")
     assert error < 1e-5
 
 
 @pytest.mark.slow
-def test_b2_energy_steady_for_1000_years():
-    """B2: Sun and five planets on their real orbits for 1,000 years; energy error below 1 part in a
+def test_x2_energy_steady_for_1000_years():
+    """X2: Sun and five planets on their real orbits for 1,000 years; energy error below 1 part in a
     million, no steady drift."""
     system = real_planets(CFG["planets"])
     move_to_barycentre(system)
@@ -77,28 +77,30 @@ def test_b2_energy_steady_for_1000_years():
     dt = 0.5 * DAY
     leapfrog(system.m, system.pos, system.vel, dt, round(1000 * YEAR / dt), track)
     half = len(errors) // 2
-    print(f"B2 energy error max {max(errors):.2e}")
+    print(f"X2 energy error max {max(errors):.2e}")
     assert max(errors) < 1e-6
     assert max(errors[half:]) < 2 * max(errors[:half]) + 1e-12  # no steady drift
 
 
-def test_b3_momentum_with_ledger():
-    """B3: the tow run with the force ledger; total momentum (bodies plus light) changes by under 1 part in 10^10."""
+def test_x3_momentum_with_ledger():
+    """X3: the guide's ledger check on a 20-year tow run: the bodies' momentum change equals the applied impulse,
+    and the applied impulse plus its partners (station recoil, bounced light) is zero, each to 1e-9 of it."""
     summary, _, _ = run(years=20, belt=False)
-    err = summary["ledger"]["momentum_error_max"]
-    print(f"B3 momentum error {err:.1e}")
-    assert err < 1e-10
+    lg = summary["ledger"]
+    print(f"X3 integrator honest {lg['integrator_honest_max']:.1e}; nothing from nothing {lg['nothing_from_nothing_max']:.1e}")
+    assert lg["integrator_honest_max"] < 1e-9
+    assert lg["nothing_from_nothing_max"] < 1e-9
 
 
-def test_b4_hohmann_transfer():
-    """B4: Hohmann transfer from 1 to 2.7 AU; speed change within 0.1% of 11.00 km/s, and the
+def test_x4_hohmann_transfer():
+    """X4: Hohmann transfer from 1 to 2.7 AU; speed change within 0.1% of 11.00 km/s, and the
     simulated transfer really reaches 2.7 AU."""
     r1, r2 = AU, 2.7 * AU
     v1, v2 = math.sqrt(GM_SUN / r1), math.sqrt(GM_SUN / r2)
     a_t = (r1 + r2) / 2
     vp, va = math.sqrt(GM_SUN * (2 / r1 - 1 / a_t)), math.sqrt(GM_SUN * (2 / r2 - 1 / a_t))
     dv = (vp - v1) + (v2 - va)
-    print(f"B4 Hohmann speed change {dv / 1e3:.3f} km/s")
+    print(f"X4 Hohmann speed change {dv / 1e3:.3f} km/s")
     assert abs(dv / 11.0e3 - 1) < 1e-3
     # Simulate the transfer: a massless test body starting at 1 AU with the first burn already applied.
     m = np.array([M_SUN, 0.0])
@@ -108,12 +110,12 @@ def test_b4_hohmann_transfer():
     dt = 0.05 * DAY
     leapfrog(m, pos, vel, dt, round(half_period / dt))
     reached = math.hypot(*(pos[1] - pos[0]))
-    print(f"B4 transfer reached {reached / AU:.5f} AU")
+    print(f"X4 transfer reached {reached / AU:.5f} AU")
     assert abs(reached / r2 - 1) < 1e-3
 
 
-def test_b5_steady_push_arrival_time():
-    """B5: a steady push along the orbit; arrival time at 2.7 AU within 1% of mass x 11.66 km/s / push.
+def test_x5_steady_push_arrival_time():
+    """X5: a steady push along the orbit; arrival time at 2.7 AU within 1% of mass x 11.66 km/s / push.
     The push is scaled up so the test takes seconds; the physics is the same gentle spiral."""
     accel = 1.2e-5  # m/s^2, still 500 times weaker than the Sun's pull at 1 AU
     dv = math.sqrt(GM_SUN / AU) - math.sqrt(GM_SUN / (2.7 * AU))
@@ -136,13 +138,13 @@ def test_b5_steady_push_arrival_time():
         if 1 / (2 / r - v2 / GM_SUN) >= 2.7 * AU:
             break
     error = abs(t / predicted - 1)
-    print(f"B5 arrival time error {error:.2%}")
+    print(f"X5 arrival time error {error:.2%}")
     assert error < 0.01
 
 
 @pytest.mark.slow
-def test_b6_matches_rebound():
-    """B6: our stepper against REBOUND's high-accuracy IAS15, Sun and five planets on their real
+def test_x6_matches_rebound():
+    """X6: our stepper against REBOUND's high-accuracy IAS15, Sun and five planets on their real
     orbits for 100 years; Earth's orbit size agrees within 1e-6 AU."""
     rebound = pytest.importorskip("rebound")
     ours = real_planets(CFG["planets"])
@@ -162,12 +164,12 @@ def test_b6_matches_rebound():
         ref.pos[k] = (p.x, p.y, p.z)
         ref.vel[k] = (p.vx, p.vy, p.vz)
     a_ours, a_ref = orbit_elements(ours, earth)["a"], orbit_elements(ref, earth)["a"]
-    print(f"B6 Earth orbit size ours {a_ours:.9f} AU, REBOUND {a_ref:.9f} AU")
+    print(f"X6 Earth orbit size ours {a_ours:.9f} AU, REBOUND {a_ref:.9f} AU")
     assert abs(a_ours - a_ref) < 1e-6
 
 
-def test_b7_asteroid_pull_and_hold():
-    """B7: the asteroid's pull on Earth equals G x asteroid mass / distance^2, and the tow holds the
+def test_x7_asteroid_pull_and_hold():
+    """X7: the asteroid's pull on Earth equals G x asteroid mass / distance^2, and the tow holds the
     asteroid on its spot (within 0.1% of its distance) over 20 years."""
     tow = CFG["tows"][0]
     d, mass = tow["distance_km"] * 1e3, tow["asteroid_mass_kg"]
@@ -176,10 +178,19 @@ def test_b7_asteroid_pull_and_hold():
     assert abs(acc[0, 0] / expected - 1) < 1e-12
     summary, _, _ = run(years=20, belt=False)
     held = summary["tows"]["earth-tow"]["spot_error_max_km"]
-    print(f"B7 Earth's tow acceleration {expected:.3e} m/s^2; asteroid held within {held:.0f} km")
+    print(f"X7 Earth's tow acceleration {expected:.3e} m/s^2; asteroid held within {held:.0f} km")
     assert held < 0.001 * d / 1e3
 
 
-@pytest.mark.skip(reason="Octo-Earth scenario not written yet (Physics Core Plan, hours 16 to 20)")
-def test_b8_octo_earth_net_push_is_zero():
-    """B8: Octo-Earth's arms pushing on Earth give zero net outside force on Earth plus machine."""
+def test_x8_octo_earth_net_push_is_zero():
+    """X8: Octo-Earth's arms, energised in Earth's own field, push on Earth's core exactly as hard as the core's field
+    pushes on them, so Earth plus machine gets no net force; in a uniform outside field closed circuits feel none."""
+    from sim.scenarios.octo import net_force, outside_field
+    o = dict(CFG["octo_earth"], segment_km=200)
+    for arms in ([0], list(range(o["arms"]))):
+        n = net_force(o, arms)
+        print(f"X8 arms {n['arms']}: on the arms {np.linalg.norm(n['on_arms_n']):.3e} N, sum {n['sum_over_force']:.1e} of it")
+        assert np.linalg.norm(n["on_arms_n"]) > 1e5          # a real force on the arms...
+        assert n["sum_over_force"] < 1e-9                     # ...and its exact partner on Earth's core
+    f = outside_field(o)
+    assert f["closed_circuits_n"] < 1e-9 * f["scale_i_l_b_n"]

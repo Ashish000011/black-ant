@@ -30,15 +30,17 @@ All of these are required to win:
 Teams may declare up to three **hypothetical enablers** (section 7 of the rulebook). Entries that
 honestly show their concept failing are still scored and can win other awards.
 
-## What we do not have yet
+## What we have, and what we still lack
 
-The rulebook's section 7 (the enablers), its safety appendix (the thresholds) and the official
-benchmarks have not been published. Until they are:
-
-- every safety limit, structural rule and enabler limit we use is our own stand-in, written as a number
-  with its source in [`config.yaml`](../config.yaml);
-- our benchmarks B1 to B9 are in [`tests/`](../tests);
-- the questions we will ask the organisers are at the end of [risk-register.md](risk-register.md).
-
-When the real rules arrive, the owner changes the number in `config.yaml` and the journey is re-run.
-Nothing else has to change.
+- **The participant guide** (Planetary Propulsion Hackathon, 24 to 26 October): the ten official benchmarks
+  (all pass: `uv run python -m sim.benchmarks`), the enabler rules (declared in writing at the mid-point
+  check-in; ours: [enablers.md](enablers.md)), the deliverables and the judging weights.
+- **Team size:** the guide says 2 to 4; the organisers later allowed 5.
+- **The company's reference demo**, [octo-earth-simulator.vercel.app](https://octo-earth-simulator.vercel.app)
+  ("what the company expects"; they call it about 30% successful). Its Safety thresholds panel and Earth safety
+  tab give ten Earth-safety thresholds, which we adopt: global mean temperature 263 to 308 K; liquid water on at
+  least 30% of the surface; absorbed sunlight under the runaway-greenhouse limit (282 W/m2); surface pressure at
+  least 50 kPa; N2 kept (Jeans lambda over 30); magnetopause at least 3 Earth radii; day length changed by at
+  most 1 s; the Moon inside 0.49 of Earth's Hill radius; thrust under 0.01 of Earth's pull on the Moon.
+- **Still missing:** the rulebook itself. If its appendix differs from the demo's thresholds, the owner changes the
+  number in [`config.yaml`](../config.yaml) and the journey is re-run; nothing else has to change.

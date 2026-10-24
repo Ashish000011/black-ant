@@ -21,12 +21,13 @@ from ..bodies import System, add_state_bodies, move_to_barycentre, orbit_element
 from ..checks.safety import nudge_hours, safety_checks
 from ..checks.structure import structure_checks
 from ..config import load_config
-from ..constants import AU, C_LIGHT, DAY, YEAR
+from ..constants import AU, C_LIGHT, DAY, G, YEAR
 from ..export import write_outputs
 from ..flags import Flags, check
 from ..forces import Beam, Tow, beam_for, ray_distance, spot
-from ..integrator import energy, gravity
-from ..ledger import Ledger
+from ..integrator import energy, gravity, pair_forces
+from ..ledger import Ledger, Momenta
+from ..habitability import Mirrors
 from ..secular import Trim
 from ..spin import TODAY_AXIS, follow_spin, orbit_pole
 
@@ -74,6 +75,9 @@ def run(cfg: dict | None = None, years: float | None = None, dt_days: float | No
     m, pos, vel = system.m, system.pos, system.vel
     sun, earth, mars, jupiter, saturn = (system.index(n) for n in ("sun", "earth", "mars", "jupiter", "saturn"))
     ledger, flags = Ledger(), Flags()
+    mom = Momenta(m, vel)  # the stepper kicks momenta, keeping every rounding error (sim/ledger.py)
+    mirrors, climate = Mirrors(cfg["habitability"]), {}  # sunlight mirrors built in batches (sim/habitability.py)
+    mom.velocity(m, vel)
     beam_acc = np.zeros_like(pos)  # each asteroid's acceleration from its beam
     sample: BeltSample | None = None
     sample_acc = None
@@ -87,6 +91,14 @@ def run(cfg: dict | None = None, years: float | None = None, dt_days: float | No
                 base = {k: v for k, v in at.items() if not isinstance(v, dict)}
                 trims[tow.name] = Trim({**base, **own}, tow.distance)
     outage_end = outage[0] + outage[1] * DAY / YEAR if outage else 0.0
+    # A sprint moves a tow's asteroid closer (a harder pull) while a planet crosses a resonance, so the crossing
+    # is too quick for the resonance to catch it. The other tow can make room in E1's budget by easing off
+    # (its asteroid farther out) during the same window: `while_tow` names the tow whose planet sets the window.
+    sprints = {t["name"]: t["sprint"] for t in cfg["tows"] if "sprint" in t}
+    by_name = {tow.name: tow for tow in tows}
+    rest = {tow.name: tow.distance for tow in tows}
+    for tow in tows:
+        tow.home = tow.distance
 
     def set_beams(acc):
         # Plain Python lists make the many small calculations below much faster than NumPy scalars.
@@ -111,7 +123,7 @@ def run(cfg: dict | None = None, years: float | None = None, dt_days: float | No
             used += beam.power
             beam_acc[tow.asteroid] = np.array(beam.force) / m[tow.asteroid]
 
-    def kick(acc, h):
+    def kick(acc, forces, h):
         total = acc + beam_acc
         v_rows, t_rows = None, None
         for tow in tows:
@@ -120,14 +132,22 @@ def run(cfg: dict | None = None, years: float | None = None, dt_days: float | No
                     v_rows, t_rows = vel.tolist(), total.tolist()
                 va, ta = v_rows[tow.asteroid], t_rows[tow.asteroid]
                 ledger.book_beam(tow.beam, (va[0] + 0.5 * ta[0] * h, va[1] + 0.5 * ta[1] * h, va[2] + 0.5 * ta[2] * h), h)
-        np.add(vel, total * h, out=vel)
+                push = np.zeros_like(pos)
+                push[tow.asteroid] = tow.beam.force
+                mom.add(push * h)  # the same f h the ledger booked as applied impulse
+        mom.add_pairs(forces, h)
+        mom.velocity(m, vel)
+        free = m == 0  # asteroids sent away: no mass, just coasting
+        if free.any():
+            vel[free] += acc[free] * h
 
     def send_away(tow):
         """A finished tow's asteroid is sent away: it leaves the run, and the ledger keeps what it carried."""
         a = tow.asteroid
         before = energy(m, pos, vel)
-        for i in range(3):
-            ledger.departed[i] += float(m[a] * vel[a, i])
+        p, c = mom.take(a)
+        ledger.departed.add(p)
+        ledger.departed.add(c)
         m[a] = 0.0
         tow.active, tow.beam = False, Beam()
         ledger.departed_energy += before - energy(m, pos, vel)
@@ -140,10 +160,10 @@ def run(cfg: dict | None = None, years: float | None = None, dt_days: float | No
     flags.note(f"Tow mirrors and cables. {covers['E2']}", cfg["enablers"]["e2_absorbed_fraction"], "absorbed share", "E2")
     flags.note(f"Asteroids and mirrors in place. {covers['E3']}", sum(t.mass for t in tows), "kg of asteroids", "E3")
 
-    acc = gravity(m, pos)
+    acc, forces = gravity(m, pos), pair_forces(m, pos)
     set_beams(acc)
     e0 = energy(m, pos, vel)
-    p0 = ledger.total_momentum(m, vel)
+    p0 = mom.total()
     stats = {t.name: {"beam_min_w": math.inf, "beam_max_w": 0.0, "mirror_angle_min_deg": 180.0,
                       "mirror_angle_max_deg": 0.0, "spot_error_max_km": 0.0, "beam_clearance_min_km": math.inf,
                       "target_distance_km": [math.inf, 0.0],
@@ -155,7 +175,8 @@ def run(cfg: dict | None = None, years: float | None = None, dt_days: float | No
     small_window, small_window_body = math.inf, None
     nudges = []  # big-asteroid passes inside the limit, and E1's cost to push each one outside
     jupiter_min = math.inf
-    energy_err_max = momentum_err_max = 0.0
+    energy_err_max = honest_max = nothing_max = 0.0
+    lc = {"integrator_honest": 0.0, "nothing_from_nothing": 0.0, "applied_impulse": 0.0}
     last = {"gain": 0.0}
     frames = []
     steps = round(years * YEAR / dt)
@@ -171,6 +192,16 @@ def run(cfg: dict | None = None, years: float | None = None, dt_days: float | No
             for tow in tows:
                 if tow.name in trims and tow.active:
                     trims[tow.name].update(m, pos, vel, sun, tow.target, jupiter, saturn)
+                if tow.name in sprints and tow.active:
+                    sc = sprints[tow.name]
+                    watch = by_name.get(sc.get("while_tow", tow.name))
+                    a_now = orbit_elements(system, watch.target, sun)["a"] if watch is not None else 0.0
+                    inside = watch is not None and watch.active and sc["from_au"] <= a_now <= sc["to_au"]
+                    want = sc["distance_km"] * 1e3 if inside else rest[tow.name]
+                    step = sc["ramp_km_per_check"] * 1e3  # moved gently, so the asteroid is never left behind
+                    tow.home += max(-step, min(step, want - tow.home))
+                    if tow.name not in trims:
+                        tow.distance = tow.home
             earth_orbit = orbit_elements(system, earth, sun)
             for tow in tows:
                 if not tow.active:
@@ -204,6 +235,13 @@ def run(cfg: dict | None = None, years: float | None = None, dt_days: float | No
                     results.append(check(f"{tow.name}: beam passes near Earth", clear / 1e3,
                                          cfg["beam"]["earth_clearance_km"], "min", "km"))
                 results += structure_checks(cfg, tow.name, f_len, b.power, tow.mass, tow.distance, float(m[tow.target]))
+                # A hovering asteroid sits at an unstable balance: the target's pull changes across its spot at
+                # 2 G M / d^3. The controller must beat that gradient, and the step must resolve its timescale.
+                gradient = 2 * G * float(m[tow.target]) / tow.distance ** 3
+                results.append(check(f"{tow.name}: controller stronger than the pull's gradient", kp / gradient,
+                                     cfg["controller"]["min_strength_over_gradient"], "min", "times"))
+                results.append(check(f"{tow.name}: step resolves the spot's timescale", 1 / math.sqrt(gradient) / dt,
+                                     cfg["controller"]["min_steps_per_timescale"], "min", "steps"))
                 orb = orbit_elements(system, tow.target, sun)
                 if orb["a"] >= tow.stop_au:
                     st["arrival"] = {"year": round(yr, 1), "a_au": round(orb["a"], 4), "eccentricity": round(orb["e"], 4),
@@ -213,8 +251,10 @@ def run(cfg: dict | None = None, years: float | None = None, dt_days: float | No
                         st["arrival"]["free_tilt_deg"] = round(trims[tow.name].free_tilt, 3)
                     send_away(tow)
             earth_tow = tows[0]
+            mirrors.update(yr, earth_orbit["a"], earth_orbit["e"])
             results += safety_checks(cfg, earth_orbit["a"], earth_tow.mass if earth_tow.active else None,
-                                     earth_tow.distance, earth_tow.beam.power if earth_tow.active else 0.0)
+                                     earth_tow.distance, earth_tow.beam.power if earth_tow.active else 0.0,
+                                     earth_orbit["e"], mirrors, climate, yr)
             total_beam_max = max(total_beam_max, total)
             results.append(check("Total beam power within E1's limit", total, limit, "max", "W"))
             results.append(check("Closest Earth to Mars", mars_window / AU, s_cfg["mars_min_distance_au"], "min", "AU"))
@@ -232,22 +272,25 @@ def run(cfg: dict | None = None, years: float | None = None, dt_days: float | No
             gain = energy(m, pos, vel) - e0 + ledger.departed_energy
             last["gain"] = gain
             e_err = abs(gain - ledger.work) / abs(e0)
-            p_err = float(np.linalg.norm(ledger.total_momentum(m, vel) - p0))
-            scale = float((m * np.linalg.norm(vel, axis=1)).sum())
+            lc = ledger.checks(p0, mom.total())  # the guide's two momentum checks, exact
             if yr > 1:
                 energy_err_max = max(energy_err_max, e_err)
                 results.append(check("Energy ledger error", e_err, s_cfg["energy_error_max_of_total"], "max", "share of total"))
-            momentum_err_max = max(momentum_err_max, p_err / scale)
-            results.append(check("Momentum ledger error", p_err / scale, s_cfg["momentum_error_max"], "max", "share"))
+                honest_max = max(honest_max, lc["integrator_honest"])
+                nothing_max = max(nothing_max, lc["nothing_from_nothing"])
+                results.append(check("Ledger: bodies' momentum change against the applied impulse", lc["integrator_honest"],
+                                     s_cfg["momentum_error_max"], "max", "of the applied impulse"))
+                results.append(check("Ledger: applied impulse plus its partners (station recoil, bounced light)",
+                                     lc["nothing_from_nothing"], s_cfg["momentum_error_max"], "max", "of the applied impulse"))
             failed = [r["check"] for r in results if flags.record(r, yr)]
             mars_window = small_window = math.inf
             jupiter_min = min(jupiter_min, dist(earth, jupiter) / AU)
             if n % frame_every < check_every:
-                frames.append(frame(system, tows, yr, e_err, p_err / scale, failed))
+                frames.append(frame(system, tows, yr, e_err, lc["integrator_honest"], failed))
             if not earth_tow.active and yr > stats[earth_tow.name]["arrival"]["year"] + after_arrival_years:
                 break
             if progress and n % (check_every * 500) == 0:
-                print(f"  year {yr:7.0f}  Earth at {earth_orbit['a']:.3f} AU  ({time.time() - started:.0f} s)")
+                print(f"  year {yr:7.0f}  Earth at {earth_orbit['a']:.3f} AU, Mars at {orbit_elements(system, mars, sun)['a']:.3f} AU  ({time.time() - started:.0f} s)")
         d_mars = dist(earth, mars)
         mars_window = min(mars_window, d_mars)
         if d_mars < mars_min:
@@ -260,13 +303,13 @@ def run(cfg: dict | None = None, years: float | None = None, dt_days: float | No
             for k, i in enumerate(small):
                 small_min[system.names[i]] = min(small_min[system.names[i]], float(d_small[k]))
         clock["yr"] = (n + 1) * dt / YEAR
-        kick(acc, dt / 2)
+        kick(acc, forces, dt / 2)
         if sample is not None:
             sample.vel += sample_acc * (dt / 2)
             earth_before, sample_before = pos[earth].copy(), sample.pos.copy()
             sample.pos += sample.vel * dt
         np.add(pos, vel * dt, out=pos)
-        acc = gravity(m, pos)
+        acc, forces = gravity(m, pos), pair_forces(m, pos)
         for tow in tows:
             if tow.name in trims and tow.active:
                 trims[tow.name].apply(tow, pos, sun, tow.target)
@@ -275,7 +318,7 @@ def run(cfg: dict | None = None, years: float | None = None, dt_days: float | No
             sample_acc = sample.accel(m, pos)
             sample.track(earth_before, pos[earth], sample_before, dt, yr)
             sample.vel += sample_acc * (dt / 2)
-        kick(acc, dt / 2)
+        kick(acc, forces, dt / 2)
 
     # End-of-run checks: beam power beyond any real source, arrival, and the asteroid belt.
     if total_beam_max > REAL_WORLD_POWER_W:
@@ -323,6 +366,7 @@ def run(cfg: dict | None = None, years: float | None = None, dt_days: float | No
         "arrival_trim": {name: {"beta_mean": t.beta_sum / max(t.updates, 1), "free_eccentricity_end": t.free_e,
                                 "free_tilt_end_deg": t.free_tilt} for name, t in trims.items()},
         "axial_tilt_journey_deg": [round(min(tilts), 3), round(max(tilts), 3)] if tilts else None,
+        "climate": {k: [float(f"{v[0]:.7g}"), float(f"{v[1]:.7g}")] for k, v in climate.items() if not k.startswith("_")},
         "total_beam_max_w": total_beam_max,
         "station_recoil_max_n": total_beam_max / C_LIGHT,
         "mars_closest": {"au": round(mars_min / AU, 5), "year": round(mars_min_year, 1)},
@@ -336,7 +380,11 @@ def run(cfg: dict | None = None, years: float | None = None, dt_days: float | No
         "ledger": {"energy_error_max_of_total": energy_err_max, "beam_work_j": ledger.work,
                    "bodies_energy_gain_j": last["gain"],
                    "work_mismatch_share": abs(last["gain"] - ledger.work) / max(ledger.work, 1.0),
-                   "momentum_error_max": momentum_err_max},
+                   "applied_impulse_kg_m_s": lc["applied_impulse"],
+                   "integrator_honest_max": honest_max, "nothing_from_nothing_max": nothing_max,
+                   "integrator_honest_end": lc["integrator_honest"], "nothing_from_nothing_end": lc["nothing_from_nothing"],
+                   "station_recoil_kg_m_s": ledger.station.floats(), "bounced_light_kg_m_s": ledger.light.floats(),
+                   "departed_kg_m_s": ledger.departed.floats()},
         "run_seconds": round(time.time() - started, 1),
     }
     return summary, frames, end_state
@@ -395,8 +443,10 @@ def main() -> None:
     for f in fl["flags"]:
         print(f"  [{f['covered_by'] or 'UNRESOLVED'}] {f['check']}: worst {f['worst']:.4g} {f['unit']} "
               f"(limit {f['limit']:.4g}), years {f['first_year']}-{f['last_year']}, {f['times']} checks")
-    print(f"Ledger: momentum error {summary['ledger']['momentum_error_max']:.1e}, "
-          f"work mismatch {summary['ledger']['work_mismatch_share']:.3%}")
+    lg = summary["ledger"]
+    print(f"Ledger: bodies' momentum change matches the applied impulse to {lg['integrator_honest_max']:.1e} of it; "
+          f"applied impulse plus partners {lg['nothing_from_nothing_max']:.1e}; beam work matches energy gained to "
+          f"{lg['work_mismatch_share']:.3%}")
     print(f"Wrote {out / 'summary.json'}, {out / 'run.json'} and {out / 'end_state.json'} in {summary['run_seconds']} s")
 
 

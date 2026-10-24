@@ -50,6 +50,11 @@ def forced_eccentricity(a: float, a_jupiter: float) -> float:
 
 
 @lru_cache(maxsize=None)
+def _b1(alpha: float) -> float:
+    return laplace_b(1.5, 1, alpha)
+
+
+@lru_cache(maxsize=None)
 def _forced_share(alpha: float) -> float:
     return laplace_b(1.5, 2, alpha) / laplace_b(1.5, 1, alpha)
 
@@ -97,7 +102,9 @@ class Trim:
         ne = _pole(e, s)  # P = pole x, Q = -pole y
         dq, dp = tq + ne[1], tp - ne[0]
         self.free_tilt = math.degrees(math.hypot(dq, dp))
-        if a_e < self.cfg["from_au"] * AU:  # only the orbit on arrival matters: steer on the last stretch
+        # Steer only on the stretch set in config.yaml: the orbit on arrival is what matters, and Mars must cross
+        # Jupiter's 2:1 resonance at full push (a weakened push lets the resonance capture it).
+        if not self.cfg["from_au"] * AU <= a_e <= self.cfg.get("to_au", math.inf) * AU:
             want_b, want_l = (0.0, 0.0), (0.0, 0.0)
         else:
             beta = self.cfg["beta_max"] * min(1.0, self.free_e / self.cfg["full_strength_at_e"])
@@ -116,7 +123,7 @@ class Trim:
         n = 2 * math.pi / (a / AU) ** 1.5 * 180 / math.pi * 3600  # arcsec per year
         inv_i, inv_node = (math.radians(x) for x in self.cfg["invariable_plane_deg"])
         q_inv, p_inv = math.sin(inv_i) * math.cos(inv_node), math.sin(inv_i) * math.sin(inv_node)
-        b = [n / 4 * mass * (a / aj) ** 2 * laplace_b(1.5, 1, a / aj) for aj, mass, _ in giants]
+        b = [n / 4 * mass * (a / aj) ** 2 * _b1(round(a / aj, 4)) for aj, mass, _ in giants]
         denom = sum(b) + self.cfg["s6_arcsec_per_year"]
         q, p = q_inv, p_inv
         for bj, (_, _, pole) in zip(b, giants):
@@ -126,7 +133,8 @@ class Trim:
 
     def apply(self, tow, pos, sun: int, earth: int) -> None:
         # "earth" is the towed planet, as in update()
-        """Hand the Earth tow its spot shape, and set its distance and lift for this step's checks."""
+        """Hand the tow its spot shape, and set its distance and lift for this step's checks."""
+        self.base = tow.home or self.base  # a sprint may move the resting distance; the trim swings around it
         tow.shape = self.shape
         lon = math.atan2(float(pos[earth][1] - pos[sun][1]), float(pos[earth][0] - pos[sun][0]))
         f = 1 - self.beta / 2 + (self.beta / 2) * math.cos(lon - self.phi)
