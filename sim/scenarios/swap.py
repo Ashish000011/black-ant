@@ -1,8 +1,9 @@
 """Plan S: swap Earth and Mars instead of pushing Mars out past the belt.
 
 Mars is towed inward to Earth's old orbit while Earth is towed out to 2.7 AU, so the two orbits must cross once.
-This tests that crossing from many starting points: how close does Mars come to Earth, does the crossing finish,
-and what orbits are left? (The finished orbits' million-year stability is the parking scan's job.)
+This tests that crossing from many starting points: how close does Mars come to Earth (against config.yaml's
+safety.mars_min_distance_au), does the crossing finish, and what orbits are left? `--longterm` then runs the swapped
+end state for a million years through the parking scan's code, and `--handover` tests a swap by gravity alone.
 
 Each tow is modelled by the pull it puts on its planet, G m / d^2 toward its asteroid's spot, which is what the held
 asteroid delivers (sim/forces.py keeps it within 1% of the spot). Earth's spot is the design's, 45 deg between
@@ -15,6 +16,8 @@ Run from the project root (one run per CPU core):
     uv run python -m sim.scenarios.swap                         # 12 starting points of Mars along its orbit
     uv run python -m sim.scenarios.swap --mars-e 0.02           # Mars's orbit made nearly round first
     uv run python -m sim.scenarios.swap --sprint 4 --ease 0.56  # Mars's tow 4x across the crossing, Earth's eased
+    uv run python -m sim.scenarios.swap --longterm 1e6          # the swapped end state, a million years
+    uv run python -m sim.scenarios.swap --handover 3000         # tows off: a swap by gravity, then tows back on
 """
 
 import argparse
@@ -31,7 +34,6 @@ from ..config import ROOT, load_config
 from ..constants import AU, G, YEAR
 
 RADII_M = {"earth": 6.371e6, "mars": 3.3895e6}
-CLOSE_AU = 0.05            # config.yaml safety.mars_min_distance_au: the closest Mars may come to Earth
 
 
 def elements(p, s, mu):
@@ -85,6 +87,7 @@ def one(job: dict) -> dict:
     accE = G * tow["earth"]["asteroid_mass_kg"] / (tow["earth"]["distance_km"] * 1e3) ** 2
     accM = G * tow["mars"]["asteroid_mass_kg"] / (tow["mars"]["distance_km"] * 1e3) ** 2
     touch = RADII_M["earth"] + RADII_M["mars"]
+    close = cfg["safety"]["mars_min_distance_au"] * AU  # the closest Mars may come to Earth
     st = {"earth_on": True, "mars_on": True, "boost": False, "dmin": math.inf, "tmin": 0.0, "inside": False, "passes": [],
           "hit": None}
 
@@ -97,13 +100,13 @@ def one(job: dict) -> dict:
         d = math.sqrt((e.x - m.x) ** 2 + (e.y - m.y) ** 2 + (e.z - m.z) ** 2)
         if d < st["dmin"]:
             st["dmin"], st["tmin"] = d, sim.t
-        if d < CLOSE_AU * AU and not st["inside"]:
+        if d < close and not st["inside"]:
             st["inside"] = True
             st["passes"].append({"year": round(sim.t / YEAR, 1), "au": d / AU})
         elif st["inside"]:
             if d < st["passes"][-1]["au"] * AU:
                 st["passes"][-1].update(year=round(sim.t / YEAR, 1), au=d / AU)
-            if d > 1.2 * CLOSE_AU * AU:
+            if d > 1.2 * close:
                 st["inside"] = False
         if d < touch and st["hit"] is None:
             st["hit"] = round(sim.t / YEAR, 2)
@@ -136,7 +139,8 @@ def one(job: dict) -> dict:
     last = samples[-1]
     return {**job, "crossed": crossed, "mars_arrived": mars_arrived, "closest_au": round(st["dmin"] / AU, 5),
             "closest_year": round(st["tmin"] / YEAR, 1), "a_at_closest": a_at_min, "collision_year": st["hit"],
-            "passes_within_0p05_au": [{"year": p["year"], "au": round(p["au"], 5)} for p in st["passes"]],
+            "limit_au": cfg["safety"]["mars_min_distance_au"],
+            "passes_inside_limit": [{"year": p["year"], "au": round(p["au"], 5)} for p in st["passes"]],
             "earth_e_max_after_crossing": round(earth_e_after, 4), "end": {"year": last[0], "earth_a": last[1],
             "earth_e": last[2], "mars_a": last[3], "mars_e": last[4]}, "samples": samples[::4],
             "run_seconds": round(time.time() - started)}
@@ -275,14 +279,15 @@ def main() -> None:
     for r in out:
         c, m = r["crossed"], r["mars_arrived"]
         print(f"  start +{r['phase']:5.1f} deg: closest {r['closest_au']:.4f} AU in year {r['closest_year']:7.1f} "
-              f"(a {r['a_at_closest']}); passes < {CLOSE_AU} AU: {len(r['passes_within_0p05_au']):3d}; "
+              f"(a {r['a_at_closest']}); passes < {r['limit_au']} AU: {len(r['passes_inside_limit']):3d}; "
               + (f"crossed year {c['year']} at {c['au']} AU; " if c else "NOT crossed; ")
               + (f"Mars at {m['a_au']} AU year {m['year']}; " if m else "Mars not arrived; ")
               + f"Earth e max after {r['earth_e_max_after_crossing']}; "
               + (f"COLLISION year {r['collision_year']}; " if r["collision_year"] else "")
               + f"{r['run_seconds']} s")
-    safe = [r for r in out if r["closest_au"] >= CLOSE_AU and r["crossed"]]
-    print(f"Safe (never within {CLOSE_AU} AU, crossing done): {len(safe)} of {len(out)}. Wrote {path.relative_to(ROOT)}")
+    limit = load_config()["safety"]["mars_min_distance_au"]
+    safe = [r for r in out if r["closest_au"] >= limit and r["crossed"]]
+    print(f"Safe (never within {limit} AU, crossing done): {len(safe)} of {len(out)}. Wrote {path.relative_to(ROOT)}")
 
 
 if __name__ == "__main__":
