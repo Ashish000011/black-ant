@@ -48,7 +48,7 @@ off the Sun line to keep clear. The closest any beam came was 448,909 km.
 **Does Earth freeze at 2.7 AU?**
 Without help, yes: our climate model gives 150 K and no liquid water, the same as the company's demo. Mirrors
 in space (E3), built in 25-year batches up to 8.5 x 10^8 km^2, keep Earth's sunlight within 1% of today's.
-The temperature stays between 287.7 and 288.7 K.
+The temperature stays between 287.8 and 288.8 K.
 
 **Does the Moon stay with Earth?**
 Yes. The Moon's distance is 0.26 of Earth's Hill radius at the start and 0.095 at 2.7 AU (limit 0.49): the
