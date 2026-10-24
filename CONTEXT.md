@@ -137,6 +137,7 @@ The built-in browser pane has no WebGL, so 3D checks need headless Chromium (Pla
 | 25 Oct | Night feature shows both light (lux) and heating | User's choice |
 | 25 Oct | Defaults: one sunlight satellite = 10,000 km2; one Moon reflector panel = 1 km2 (in `config.yaml`, `night`) | Counts need a unit size |
 | 25 Oct | Work only in the pipelin-two clone | Both clones share one GitHub repo |
+| 25 Oct | Commit as **madhukarverma** `<174335640+madhukarverma@users.noreply.github.com>` and push with that gh account: `git -c user.name=madhukarverma -c user.email=174335640+madhukarverma@users.noreply.github.com commit ...`, then `GH_TOKEN=$(gh auth token --user madhukarverma) git push` | The user's GitHub account; this clone's git config and gh's active account are sushmitnitt |
 
 ## 9. Important prompts (condensed)
 
@@ -146,6 +147,7 @@ The built-in browser pane has no WebGL, so 3D checks need headless Chromium (Pla
 - **25 Oct, P2:** Before committing, open a server and check the current state of the test bench.
 - **25 Oct, P3:** Keep a git timeline of each feature, with commit messages that use the prompt's own context, and
   commit to the branch for Ashish.
+- **25 Oct, P4:** Redo the commits from the user's own account, madhukarverma.
 
 ## 10. What can be delivered next (ideas, not started)
 
@@ -173,3 +175,5 @@ The built-in browser pane has no WebGL, so 3D checks need headless Chromium (Pla
   quoting the request: CONTEXT.md; Moon reflectors (sim/night.py); 3D bodies and top view; live estimates;
   Blender-style layout; README; this log. Pushed the branch for Ashish.
 - 25 Oct: Opened PR #22 against `main` (ready for review, follows the repo's PR template).
+- 25 Oct: Rewrote the branch's 8 commits as madhukarverma (author and committer; messages, contents and times
+  unchanged) and force-pushed them to PR #22. PR #22 itself was opened by sushmitnitt.
