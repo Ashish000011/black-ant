@@ -16,8 +16,15 @@ the asteroid never strayed more than 2,715 km (0.4%) from it. If every station g
 still recovers after 15 hours; with half the stations up, 1.25 days.
 
 **Where does a 4 x 10^20 kg asteroid come from?**
-That is enabler E3 (planet-scale space manufacturing). For scale: Vesta is 2.6 x 10^20 kg, Ceres 9.4 x 10^20 kg.
-Mars's tow uses 1.56 x 10^20 kg.
+The rules allow it, and E3 places it. The participant guide (section 7) lists "access to an asteroid of stated mass"
+among the allowed enablers, and E3 (planet-scale space manufacturing) declares it in `docs/enablers.md`: two
+asteroids put on their starting spots, 3.97 x 10^20 kg for Earth's tow and 1.56 x 10^20 kg for Mars's, both under
+a 4 x 10^20 kg bound. It need not be one body: E3 also declares "free raw material delivered where needed", so it
+could be gathered from smaller belt asteroids. For scale: Vesta is 2.6 x 10^20 kg, Ceres 9.4 x 10^20 kg.
+Bringing it in is not the hard part either. Coming in from the belt at 2.7 AU takes about 11.7 km/s (the gap
+between the orbital speeds there and at 1 AU). At the best case, 2P/c, E1's 10^26 W pushes 6.7 x 10^17 N, or
+1.7 x 10^-3 m/s^2 on 3.97 x 10^20 kg: about 80 days of push (114 days at our 45 degree bounce). That is only a
+check on scale: in the run E3 places the asteroid at the start, and E1 delivers nothing.
 
 **Why move Mars?**
 Earth's path from 1 to 2.7 AU crosses Mars's orbit. Mars is towed first to 3.64 AU, between the resonances
