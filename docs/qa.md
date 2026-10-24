@@ -23,6 +23,23 @@ Mars's tow uses 1.56 x 10^20 kg.
 Earth's path from 1 to 2.7 AU crosses Mars's orbit. Mars is towed first to 3.64 AU, between the resonances
 with Jupiter and with Earth. The two planets are never closer than 0.37 AU (an ordinary opposition, at the start).
 
+**Why not swap Earth and Mars?**
+We studied it ("Plan S", `sim/scenarios/swap.py`) and kept the design: the end state is better, but no crossing we
+tested stays outside our 0.05 AU limit. Towing Mars in to Earth's old orbit (1 AU) while Earth goes out would cost
+Mars 5.66 km/s instead of 8.52, and Mars would never cross Jupiter's 2:1 resonance. But the two orbits must then
+cross: their sizes meet around year 1,940, at about 1.22 AU. We ran the crossing 48 times (Mars's orbit as today or
+made round, normal pull or the 4x sprint, 12 starting points each). Every run passes inside the limit (`config.yaml`,
+`safety.mars_min_distance_au`), 2 to 99 times, and its closest pass is 0.0018 to 0.045 AU; 10 of 48 came within
+1 million km, and 2 inside the Moon's distance. None collided, and Earth's eccentricity stayed at or below 0.026.
+The swapped end state (Earth 2.7 AU, Mars 1.0 AU) is stable for a million years in 5 runs: Earth behaves as in the
+design, and the gap between the two orbits is 1.39 to 1.46 AU against 0.55 AU for our design set up the same way
+(`results/parking_scan3.json`; 0.36 AU after the full journey). A handover by gravity alone (tows off, the planets
+nearly level and on opposite sides of the Sun, as Saturn's moons Janus and Epimetheus swap) keeps them at least
+0.37 AU apart. Restarting the tows at the normal pull, though, makes them swap back and forth, passing 45,000 to
+90,000 km apart; restarting with Mars's tow at 4x gives one clean swap, closest 0.026 AU (3.9 million km), still
+under the limit. To run it: `uv run python -m sim.scenarios.swap`, with `--longterm 1e6` or `--handover 3000`
+(written to `out/`, not `results/`).
+
 **Why 45 degrees, ahead and out?**
 Light can only push. The beam comes from the Sun's side; at 45 degrees the pull along Earth's orbit per watt of
 light is largest.
@@ -63,6 +80,17 @@ Tide goes as mass over distance cubed: the asteroid's is 0.12% of the Moon's. It
 Earth's axial tilt swings 21.7 to 26.1 degrees over a million years at 2.7 AU (today 22.2 to 24.4), because
 there its spin precession runs close to a slow mode of the planets' orbits. The sunlight mirrors re-aim 1.4% of
 Earth's sunlight to keep today's seasons (E3).
+
+**What about night light?**
+A full Moon at 2.7 AU gives 0.034 lux, 13.7% of today's 0.25 lux: the Moon moves with Earth and gets less sunlight
+too, and the sunlight mirrors (E3) aim at Earth, not the Moon. About 3,335 km^2 of flat mirrors on the Moon's near
+side bring the night side back to 0.25 lux. They count against E3's 10^9 km^2 mirror bound, which has
+1.5 x 10^8 km^2 to spare, so no new enabler is needed. The area is conservative, up to about 2x: today's figure is a
+full Moon overhead, the mirrors' light an average over the whole night hemisphere. They work only from first to last
+quarter, around full Moon (cos(phase/2) of their full-Moon light, 45% over a month), so the monthly cycle stays. One
+mirror lights a patch about 1,300 km across. They cannot carry the climate: even the whole near side
+(9.5 x 10^6 km^2) gives at most 6.6 W/m^2 on the night side, 0.31 K on the global mean. The sunlight mirrors do that
+job. The numbers come from `sim/night.py` and `tests/test_night.py`, not the saved run.
 
 ## Numerics and honesty
 
