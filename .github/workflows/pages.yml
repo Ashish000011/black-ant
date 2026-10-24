@@ -1,0 +1,50 @@
+# Builds the 3D test bench (viewer/) on every pull request that touches it, and publishes it to GitHub Pages
+# when main changes. The page replays results/ through viewer/public/data (uv run python -m sim.viewer_data).
+name: viewer
+
+on:
+  pull_request:
+    paths: ["viewer/**", ".github/workflows/pages.yml"]
+  push:
+    branches: [main]
+    paths: ["viewer/**", ".github/workflows/pages.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: viewer/package-lock.json
+      - run: npm ci
+        working-directory: viewer
+      - run: npm run build
+        working-directory: viewer
+      - if: github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: viewer/dist
+
+  deploy:
+    if: github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

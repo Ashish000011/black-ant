@@ -5,3 +5,4 @@ out/
 sim-proto/out/
 viewer/node_modules/
 viewer/dist/
+.claude/
