@@ -68,7 +68,7 @@ Rules: the participant guide (Planetary Propulsion Hackathon); see `docs/problem
 | Risk | Why it matters | How we check | Counter | Status | Owner |
 | --- | --- | --- | --- | --- | --- |
 | Official benchmarks fail with changed inputs | Judges may change them | `sim/benchmarks.py` takes inputs from the command line; `tests/test_official_benchmarks.py` reruns 1-4 and 8-10 with changed inputs | Benchmark 4 failed at e = 0.7 (3e-6 a against 1e-6): its steps now scale with the pericentre's timescale, and it passes from e = 0 to 0.9. Benchmark 5 at coarser steps (0.5 days) misses 1e-9 (1.4e-9): the step is a method choice; at 0.25 days it passes for 5 and 20 years | Fixed | Ashish (#10) |
-| Step size | "Halve the time step and show the answer does not change" | Journey at 1 day and 0.5 day | Earth arrives in year 8,542.6 against 8,549.3, orbit 2.7005 against 2.7004 AU. Mars's crossing is chaotic at either step, which is why it now sprints | Holds | Ashish |
+| Step size | "Halve the time step and show the answer does not change" | Journey at 1 day and 0.5 day | Earth arrives in year 8,542.6 against 8,549.3, orbit 2.7005 against 2.7004 AU (earlier design); the final design at 0.5 days is running. Mars's crossing is chaotic at either step, which is why it now sprints | Holds | Ashish |
 | Integrator wrong | Everything rests on it | Official benchmarks 4 to 8; X6 against REBOUND | Pass | Holds | Member 5 |
 | Tilt model wrong | The seasons finding rests on it | X9: real solar system, 50,000 years | 22.5 to 24.0 degrees (known 22.1 to 24.5) | Holds | Member 5 |
 | Belt sample unlike the real belt | Our first sample was too cold | Compared with 20,000 real orbits | Sample drawn from real orbits | Fixed | Member 2 |
