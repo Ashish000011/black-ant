@@ -149,8 +149,8 @@ The built-in browser pane has no WebGL, so 3D checks need headless Chromium (Pla
 - **25 Oct, P2:** Before committing, open a server and check the current state of the test bench.
 - **25 Oct, P3:** Keep a git timeline of each feature, with commit messages that use the prompt's own context, and
   commit to the branch for Ashish.
-- **25 Oct, P5:** Open a new PR to main from madhukarverma with the same description, saying it replaces #22.
 - **25 Oct, P4:** Redo the commits from the user's own account, madhukarverma.
+- **25 Oct, P5:** Open a new PR to main from madhukarverma with the same description, saying it replaces #22.
 
 ## 10. What can be delivered next (ideas, not started)
 
