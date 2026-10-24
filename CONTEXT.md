@@ -101,7 +101,8 @@ cd viewer && npm ci && npm run dev        # test bench locally
 ## 7. Active work
 
 **Branch `claude/contextualization-blender-gui-1e303d` (pipelin-two worktree). Built and checked 25 Oct;
-committed one feature per commit; PR #22 (github.com/Ashish000011/black-ant/pull/22) is open for Ashish to review and merge.** The branch starts from `b101f2f`;
+committed one feature per commit as madhukarverma. PR #22 (opened from sushmitnitt) was closed unmerged by
+Ashish on 25 Oct 01:25 IST with the label `invalid` and no comment; no new PR is open yet.** The branch starts from `b101f2f`;
 `main` has since gained only a contribution log, a status update and README lines that do not overlap, so it
 merges cleanly.
 
@@ -157,7 +158,8 @@ The built-in browser pane has no WebGL, so 3D checks need headless Chromium (Pla
 - A day/night (two-box) climate model so night temperature is computed rather than estimated.
 - Mention Moon reflectors in `docs/approach.md`, `docs/report.md` and the risk register if the team adopts them.
 - Re-render the demo video (`viewer/scripts/video.mjs`) so it shows the new layout.
-- Ashish reviews and merges PR #22; Pages then deploys the new test bench from `main`.
+- Find out from Ashish why PR #22 was marked invalid, then, if wanted, open a new PR from madhukarverma
+  (#22 was closed before its branch was force-pushed, so it likely cannot be reopened).
 - Decide whether hidden panels (T / N) should be remembered between visits (they are now, in localStorage), so a
   returning viewer never sees an empty page.
 - Add this work to `docs/contributions.md` (on `main` since PR #21) if the team wants it credited.
@@ -177,3 +179,4 @@ The built-in browser pane has no WebGL, so 3D checks need headless Chromium (Pla
 - 25 Oct: Opened PR #22 against `main` (ready for review, follows the repo's PR template).
 - 25 Oct: Rewrote the branch's 8 commits as madhukarverma (author and committer; messages, contents and times
   unchanged) and force-pushed them to PR #22. PR #22 itself was opened by sushmitnitt.
+- 25 Oct: Found PR #22 closed by Ashish (label `invalid`, no comment) a minute before the force-push.
