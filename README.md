@@ -49,9 +49,13 @@ relies on one of our declared enablers, which the brief allows.
 ## The 3D test bench
 
 **[ashish000011.github.io/black-ant](https://ashish000011.github.io/black-ant/)**: the journey in 3D (the solar system,
-the Earth tow and the Mars tow up close), nine experiments from the baseline to a million years later, and every
-check beside it: forces and momentum, orbit, structures, the ten Earth-safety thresholds, benchmarks, plots and
-the comparison with the real solar system. It replays the model's saved runs; it computes nothing itself.
+the Earth tow and the Mars tow up close, and a top-down view with every orbit as a circle), ten experiments from the
+baseline to a million years later, and every check beside it: forces and momentum, orbit, structures, the ten
+Earth-safety thresholds, benchmarks, plots and the comparison with the real solar system. Laid out like Blender: a
+Scene tab with where every body is, a Model panel with sliders and time meters, and a Data panel with the constants,
+Earth at the start and Earth now. It replays the model's saved runs; the sliders (target orbit, tow, sunlight
+satellites, Moon reflectors) add live estimates marked ≈, with the same formulas as `sim/habitability.py` and
+`sim/night.py`, and never change the run. Keys: Space plays, T and N hide the panels, 7 toggles the top view.
 
 ```bash
 uv run python -m sim.viewer_data   # turn results/ into viewer/public/data/
@@ -111,6 +115,7 @@ checks are X1 to X9 in `tests/test_extra_checks.py` and `tests/test_checks.py`.
 
 | Path | What it holds |
 | --- | --- |
+| `CONTEXT.md` | The whole project in one file for AI assistants and new teammates: state, decisions, important prompts, log |
 | `docs/problem.md` | The brief and the winning conditions |
 | `docs/enablers.md` | Our three hypothetical enablers, as declared at the mid-point check-in |
 | `docs/approach.md` | Our plan, the physics, the machine, what we found and fixed |
@@ -128,6 +133,7 @@ checks are X1 to X9 in `tests/test_extra_checks.py` and `tests/test_checks.py`.
 | `sim/flags.py` | Checks and flags |
 | `sim/benchmarks.py` | The ten official benchmarks, each with inputs that can be changed |
 | `sim/habitability.py` | Sunlight, the sunlight mirrors' build schedule, temperature, shielding, the Moon's Hill sphere |
+| `sim/night.py` | Night light after the move: moonlight, and Moon reflectors (light and heat), for the test bench's estimates |
 | `sim/em.py` | Lorentz force and Biot-Savart fields (benchmarks 1 to 3, and the Octo-Earth audit) |
 | `sim/checks/` | Safety (Member 2) and structure (Member 3) checks, run every 100 days |
 | `sim/belt.py` | 1,000 test asteroids on real orbits: close passes and the impact estimate |
