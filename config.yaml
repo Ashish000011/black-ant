@@ -299,7 +299,7 @@ small_asteroids:               # sim/scenarios/small_asteroids.py: rocks under 1
   albedo: 0.05
   # The survey: NEO Surveyor-class infrared telescopes near Earth (50 cm, passively cooled, 6-10 um; 5 sigma in
   # 3 minutes at 8 um: 110 uJy 120 deg from the Sun, 280 uJy at 45 deg; Kim, Mainzer & Masiero, "From NEOWISE to
-  # NEO Surveyor", ESA NEO conference 2024). Several watch the whole sky; we rate them at the worse figure. Today's
+  # NEO Surveyor", EU-ESA NEO size workshop, Nov 2024). Several watch the whole sky; we rate them at the worse figure. Today's
   # technology: no enabler.
   survey_wavelength_um: 8
   survey_limit_jy: 2.8e-4
@@ -330,7 +330,7 @@ small_asteroids:               # sim/scenarios/small_asteroids.py: rocks under 1
     mars:   {radius_km: 3389.5, mass_kg: 6.4171e23}
     phobos: {radius_km: 11.1, mass_kg: 1.0659e16, around: mars, orbit_km: 9376}
     deimos: {radius_km: 6.2, mass_kg: 1.4762e15, around: mars, orbit_km: 23463}
-  belt_mass_kg: 2.47e21        # Pitjeva & Pitjev 2018: (12.4 +/- 1.0) x 10^-10 solar masses
+  belt_mass_kg: 2.394e21       # Pitjeva & Pitjev 2018: (4.008 +/- 0.029) x 10^-4 Earth masses
   # Breaking a body up: a small moon by Benz & Asphaug 1999 (basalt, 3 km/s; cgs: Q* = q0 (R/cm)^a + b_coeff rho
   # (R/cm)^b erg/g); the Moon by Stewart & Leinhardt 2009 (Q*_RD = c* (4/5) pi rho1 G R_C1^2, rho1 1,000 kg/m3).
   benz_asphaug: {q0: 3.5e7, a: -0.38, b_coeff: 0.3, b: 1.36}

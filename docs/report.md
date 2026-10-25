@@ -15,7 +15,7 @@ Mars is moved first, to 3.64 AU, so the two planets never meet: their closest pa
 
 ## The problem and how it is judged
 
-The brief from Black Ant Robotics asks for a simulation of a machine that moves Earth from 1 AU to about 2.7 AU, near the asteroid belt, without harming the planet or life on it. Teams may simulate the reference concept (Octo-Earth), change it, or propose another concept; we propose a gravity tractor. Teams may declare up to three hypothetical enablers; flags caused only by them are allowed.
+The brief from Black Ant Robotics [3] asks for a simulation of a machine that moves Earth from 1 AU to about 2.7 AU, near the asteroid belt, without harming the planet or life on it. Teams may simulate the reference concept (Octo-Earth), change it, or propose another concept; we propose a gravity tractor. Teams may declare up to three hypothetical enablers; flags caused only by them are allowed.
 
 | Winning condition | Our result |
 | --- | --- |
@@ -26,30 +26,30 @@ The brief from Black Ant Robotics asks for a simulation of a machine that moves 
 | Every force booked with its reaction; energy and momentum conserved | Ledger closes to 5.6 × 10^-16 and 5.5 × 10^-22 (limit 10^-9); energy gap at most 6.9 × 10^-7 of the total |
 | No unresolved flags | 0 unresolved; 6 caused by enablers E1 to E3 |
 
-The ten Earth-safety thresholds are those of the company's reference demo; the benchmarks, the enabler rules and the 1.5 safety factor come from the participant guide.
+The ten Earth-safety thresholds are those of the company's reference demo [4]; the benchmarks, the enabler rules and the 1.5 safety factor come from the participant guide [3].
 
 ## Why not Octo-Earth
 
-Octo-Earth cannot move Earth, and its arms cannot hold themselves up. We audited it with the same physics as our own machine, at the arm the company's demo draws (its experiment R): eight arms rooted 45° apart on a ring round the globe, each 12,000 km long in 24 jointed segments, a 200 km tube with 2 km walls, carrying 1 MA with its return conductor 50 km away. Alternate arms reach north and south and curl 72° round the globe to a gripper claw 4,600 km up.
+Octo-Earth cannot move Earth, and its arms cannot hold themselves up. We audited it with the same physics as our own machine, at the arm the company's demo draws (its experiment R) [4]: eight arms rooted 45° apart on a ring round the globe, each 12,000 km long in 24 jointed segments, a 200 km tube with 2 km walls, carrying 1 MA with its return conductor 50 km away. Alternate arms reach north and south and curl 72° round the globe to a gripper claw 4,600 km up.
 
 ![Octo-Earth as the company's demo draws it and our audit models it, in the test bench: a ring on the equator and eight jointed arms curling over the planet to gripper claws (arms, joints, claws and ring drawn 3× as thick as true; lengths true)](img/octo-earth.png)
 
-**No net push.** Earth's magnetic field comes from currents in Earth's own core, modelled as a loop with Earth's dipole moment (8.0 × 10^22 A m²). We work out the force of the core's field on the curled arms (1.94 × 10^6 N) and the force of the arms' field on the core separately, each with Biot–Savart fields and I dl × B. They cancel to 3.4 × 10^-13 of each other (test X8). Whatever the arms' shape, they push only on Earth itself, and a force inside Earth plus machine cannot move them.
+**No net push.** Earth's magnetic field comes from currents in Earth's own core, modelled as a loop with Earth's dipole moment (8.0 × 10^22 A m², IGRF [23]). We work out the force of the core's field on the curled arms (1.94 × 10^6 N) and the force of the arms' field on the core separately, each with Biot–Savart fields and I dl × B. They cancel to 3.4 × 10^-13 of each other (test X8). Whatever the arms' shape, they push only on Earth itself, and a force inside Earth plus machine cannot move them.
 
 - In the demo's uniform 0.5 nT outside field, closed arm circuits feel 2 × 10^-12 N against an I L B of 6,000 N: nothing.
 - Arms with no return path seem to push, but their charge would have nowhere to go. Even in Earth's full field they would give at most 3 × 10^9 N, so the trip would take about 10^12 years.
 
-**The arms cannot hold themselves up.** Curled as drawn, an arm is a beam held only at its root, and the weight of every segment bends it there: at 12,000 km the root carries 5,500 GPa even in ideal nanotube (63 GPa, the strongest single tube ever measured), a safety factor of 0.012, and 33,000 GPa in steel. Bending is 99% of that stress; the push along the arm is also 870 times the load at which a nanotube column that long buckles. At a safety factor of 1.5, with the demo's tube, the longest arm that holds itself up:
+**The arms cannot hold themselves up.** Curled as drawn, an arm is a beam held only at its root, and the weight of every segment bends it there: at 12,000 km the root carries 5,500 GPa even in ideal nanotube (63 GPa, the strongest single tube ever measured [20]), a safety factor of 0.012, and 33,000 GPa in steel. Bending is 99% of that stress; the push along the arm is also 870 times the load at which a nanotube column that long buckles. At a safety factor of 1.5, with the demo's tube, the longest arm that holds itself up:
 
 | Material | Curled as drawn | Standing straight up | Standing, buckles past | Held out level |
 | --- | --- | --- | --- | --- |
 | Structural steel S355 | 5 km | 3 km | 471 km | 17 km |
 | Maraging steel 300 | 22 km | 17 km | 453 km | 41 km |
 | CFRP, unidirectional | 72 km | 86 km | 691 km | 91 km |
-| Carbon nanotube, ideal (hypothetical) | 637 km | 6,964 km | 1,444 km | 568 km |
-| Graphene, ideal (hypothetical) | 699 km | 10,454 km | 1,200 km | 618 km |
+| Carbon nanotube, ideal (hypothetical) [20] | 637 km | 6,964 km | 1,444 km | 568 km |
+| Graphene, ideal (hypothetical) [21] | 699 km | 10,454 km | 1,200 km | 618 km |
 
-"Curled" is the demo's curl cut shorter. Steel fails curled at 5 km, but level only at 17 km, while nanotube holds out longer curled than level. A short curled arm rises at 36°, so its weight presses along it like a standing column's and crushes the root. A long one fails by bending, and rising at 36° shortens the weight's lever compared with a level arm. A standing 12,000 km arm puts 315 GPa on its base in steel, which yields at 0.355 GPa. In ideal nanotube it reaches a safety factor of 1.2, and the column buckles (Greenhill's limit) past 1,450 km. Titanium, aluminium and aramid fall between steel and CFRP. This is why we move Earth with an asteroid's gravity instead: the asteroid is outside Earth, and nothing touches the planet.
+"Curled" is the demo's curl cut shorter. Steel fails curled at 5 km, but level only at 17 km, while nanotube holds out longer curled than level. A short curled arm rises at 36°, so its weight presses along it like a standing column's and crushes the root. A long one fails by bending, and rising at 36° shortens the weight's lever compared with a level arm. A standing 12,000 km arm puts 315 GPa on its base in steel, which yields at 0.355 GPa. In ideal nanotube it reaches a safety factor of 1.2, and the column buckles (Greenhill's limit [22]) past 1,450 km. Titanium, aluminium and aramid fall between steel and CFRP. This is why we move Earth with an asteroid's gravity instead: the asteroid is outside Earth, and nothing touches the planet.
 
 ## The machine: a gravity tractor held by light
 
@@ -59,15 +59,17 @@ A 3.97 × 10^20 kg asteroid (336 km in radius at 2,500 kg/m³) sits 637,100 km f
 
 Earth feels only the asteroid's pull. The asteroid feels Earth's equal pull back, balanced by the light push on its mirror, whose partners are the stations' recoil and the light that leaves.
 
-**The beam.** Earth pulls the asteroid back with the same force, so a mirror tied to the asteroid by cables is pushed by focused light from stations far on the Sun's side. Light arriving along *in* and leaving along *out* pushes with (P/c)(in − out). The 45° spot gives the most pull along the orbit per watt, because light can only push. No beam may pass within 420,000 km of Earth, beyond the Moon's farthest point; light may arrive up to 30° off the Sun line to keep clear. The closest any beam came was 448,909 km. The Earth tow used 4.7 to 8.9 × 10^25 W. Light pressure is flown physics: JAXA's IKAROS (2010) and the Planetary Society's LightSail 2 (2019) sailed on sunlight, and DE-STAR (Lubin et al. 2014) shows how focused light deflects asteroids.
+**The beam.** Earth pulls the asteroid back with the same force, so a mirror tied to the asteroid by cables is pushed by focused light from stations far on the Sun's side. Light arriving along *in* and leaving along *out* pushes with (P/c)(in − out). The 45° spot gives the most pull along the orbit per watt, because light can only push. No beam may pass within 420,000 km of Earth, beyond the Moon's farthest point; light may arrive up to 30° off the Sun line to keep clear. The closest any beam came was 448,909 km. The Earth tow used 4.7 to 8.9 × 10^25 W. Light pressure is flown physics: JAXA's IKAROS (2010) [35] and the Planetary Society's LightSail 2 (2019) [36] sailed on sunlight, Breakthrough Starshot plans to sail on laser light [37], and DE-STAR shows how focused light deflects asteroids [38, 39].
 
 **The controller.** Each step it asks for the force that keeps the asteroid on its spot: what the spot's motion needs, minus the gravity the asteroid already feels, plus a correction with a 10-day response. Checks every 100 days confirm the correction beats the planet's pull gradient (2GM/d³) at least threefold and that the 1-day step resolves it. The asteroid never strayed more than 2,715 km (0.4%) from its spot.
 
 **Mars moves first.** Mars's orbit (1.52 AU) lies across Earth's path, so a second tow, a 1.56 × 10^20 kg asteroid 400,000 km from Mars, gives Mars the same acceleration and parks it at 3.64 AU in year 5,168. That orbit sits between the strong resonances with Jupiter and with Earth. Crossing Jupiter's 2:1 resonance (3.28 AU) at the normal pull, Mars was caught in 6 of 8 trials. So between 3.0 and 3.5 AU Mars's asteroid moves in to 200,000 km for 4× the pull (caught in 0 of 8), while Earth's eases out to 850,000 km to keep the total under E1's 10^26 W.
 
-**Arrival trim.** From 2.0 AU the tow varies its pull by up to 40% around each lap and rides up to 20° above or below Earth's orbit plane (Gauss's equations). Earth arrives on the eccentricity and plane that Jupiter forces at 2.7 AU (about 0.030), so it does not wobble afterwards: the free eccentricity left is 0.0023.
+**Arrival trim.** From 2.0 AU the tow varies its pull by up to 40% around each lap and rides up to 20° above or below Earth's orbit plane (Gauss's equations). Earth arrives on the eccentricity and plane (about the invariable plane [18]) that Jupiter forces at 2.7 AU (about 0.030), so it does not wobble afterwards: the free eccentricity left is 0.0023.
 
 **Sunlight mirrors.** Mirrors in space, built in 25-year batches, add the sunlight Earth loses as it moves out: up to 8.5 × 10^8 km² at 2.7 AU. Earth gets 0.995 to 1.010 of today's sunlight the whole way. After arrival each tow asteroid is sent away, and the momentum it carries off is booked. Where they sit matters: only a mirror behind Earth catches sunlight face on, and its light lands at night. Mirrors orbiting 200,000 km out in the plane facing the Sun, aimed at daylit ground, keep nights dark but need 1.2 × 10^9 km², 20% over E3's bound; a ring held 120° from the Sun by sunlight fits (9.8 × 10^8 km²) only on 1 µm film (`sim/scenarios/mirrors.py`).
+
+**Related work.** Our machine is Lu & Love's gravitational tractor [1] turned around: they proposed a spacecraft that hovers beside an asteroid, held by its thrusters, and tows it with its gravity; here an asteroid tows Earth, held by light. The closest earlier plan for moving Earth is Korycansky, Laughlin & Adams [2], who move it outward to escape the Sun's slow brightening: a 10^19 kg body swings past Earth about every 6,000 years, about a million times over billions of years, carrying orbital energy from Jupiter to Earth. Their best passes come within about 10^4 km of Earth's centre (1.6 Earth radii), each raises a tide about ten times the Moon's, the Moon is probably lost, and they call the scheme "extremely risky": one miss would sterilize the biosphere. Ours does the job in 8,758 years with one held body that never comes closer than 637,100 km, and the Moon stays; the price is E1's power. Stellar engines [40, 41] move the Sun instead, and Earth only follows it.
 
 ## Declared enablers
 
@@ -83,13 +85,13 @@ After arrival, two more flags arise over a million years, both covered: 45 big-a
 
 ## Models and equations
 
-Every body pulls every other: the Sun, Venus to Neptune on their real J2000 orbits (JPL), Ceres, Pallas, Vesta and Hygiea (JPL Horizons), and both tow asteroids. Each pair's forces are computed once and applied as exact negatives.
+Every body pulls every other: the Sun, Venus to Neptune on their real J2000 orbits (JPL [5]), Ceres, Pallas, Vesta and Hygiea (JPL Horizons [6]), and both tow asteroids; masses and sizes from NASA's fact sheets [42]. Each pair's forces are computed once and applied as exact negatives.
 
 ```latex
 \ddot{\mathbf r}_i = \sum_{j \ne i} \frac{G m_j (\mathbf r_j - \mathbf r_i)}{|\mathbf r_j - \mathbf r_i|^3} + \frac{\mathbf F_i^{\text{beam}}}{m_i}
 ```
 
-- **Integrators.** Leapfrog (kick, drift, kick) with 1-day steps for the journey; Yoshida fourth order for the benchmarks; REBOUND's MERCURIUS with 5-day steps for the million-year runs. Halving the step to 0.5 days moves Earth's arrival from year 8,758 to 8,730 (0.3%) with the same orbit (2.70 AU, eccentricity 0.033, tilt 1.29°); Mars parks in 5,170 against 5,168, there are 0 unresolved flags and the ledger closes to 2.3 × 10^-16. Only the big asteroids' closest passes move (Vesta 0.037 AU against 0.018), because they depend on where each asteroid is as Earth goes by; that is why E1 nudges them instead of relying on the miss distance.
+- **Integrators.** Leapfrog (kick, drift, kick) with 1-day steps for the journey; Yoshida fourth order [8] for the benchmarks; REBOUND's [9] MERCURIUS [11] with 5-day steps for the million-year runs. Halving the step to 0.5 days moves Earth's arrival from year 8,758 to 8,730 (0.3%) with the same orbit (2.70 AU, eccentricity 0.033, tilt 1.29°); Mars parks in 5,170 against 5,168, there are 0 unresolved flags and the ledger closes to 2.3 × 10^-16. Only the big asteroids' closest passes move (Vesta 0.037 AU against 0.018), because they depend on where each asteroid is as Earth goes by; that is why E1 nudges them instead of relying on the miss distance.
 - **Light pressure.** A mirror turning light from direction *in* to *out* feels the force below; the power for a wanted force F follows from it.
 
 ```latex
@@ -102,7 +104,7 @@ Every body pulls every other: the Sun, Venus to Neptune on their real J2000 orbi
 \frac{da}{dt} = \frac{2a^2}{\mu}\, \mathbf v \cdot \mathbf f
 ```
 
-- **Climate.** A zero-dimensional energy balance, with an albedo that rises from 0.30 to 0.62 as the surface freezes between 280 and 250 K, and an emissivity set so today's Earth sits at 288 K. A latitude profile gives the share of the surface with liquid water (82% today). Without mirrors it gives 150 K and no liquid water at 2.7 AU, as the company's demo does.
+- **Climate.** A zero-dimensional energy balance (Budyko [13], Sellers [14]) on today's sunlight of 1,361 W/m² [12], with an albedo that rises from 0.30 to 0.62 as the surface freezes between 280 and 250 K, and an emissivity set so today's Earth sits at 288 K. A latitude profile gives the share of the surface with liquid water (82% today). Without mirrors it gives 150 K and no liquid water at 2.7 AU, as the company's demo does.
 
 ```latex
 \frac{S}{4}\,(1 - \alpha(T)) = \varepsilon \sigma T^4
@@ -110,7 +112,7 @@ Every body pulls every other: the Sun, Venus to Neptune on their real J2000 orbi
 
 - **Atmosphere, shielding, Moon.** Nitrogen's Jeans parameter λ = GMm/(kTR) with the exosphere temperature scaled by sunlight; the magnetopause from solar-wind pressure (10 Earth radii today, growing as a^(1/3)); the Moon against Earth's Hill radius a (M/3M☉)^(1/3).
 - **Day length.** The tow asteroid's tide on Earth: torque (3/2)(k₂/Q) G m² R⁵/d⁶ on Earth's moment of inertia, added up over the journey.
-- **Axial tilt.** Earth's spin axis precesses about its moving orbit pole, ds/dt = α (s · n)(s × n), with α from the IAU 2006 precession rate.
+- **Axial tilt.** Earth's spin axis precesses about its moving orbit pole, ds/dt = α (s · n)(s × n), with α from the IAU 2006 precession rate [16].
 - **Momentum ledger.** Every push is added with an error-free sum (two-sum compensation), so momentum is conserved to the precision of the arithmetic itself.
 
 ## Validation
@@ -130,7 +132,7 @@ All ten official benchmarks (participant guide, section 6) pass. A test reruns t
 | 9 | Cantilever under its own weight | root moment and tip deflection both within 10^-9 | qL²/2, qL⁴/8EI (1%) |
 | 10 | Earth's equilibrium temperature | 254.0 K | 254 K (2 K) |
 
-Our own checks add what the benchmarks leave out: Kepler's third law (X1), energy over 1,000 years (X2), the momentum ledger in the guide's form with a push on (X3), a Hohmann transfer flown (X4), a steady push's arrival time against theory (X5), agreement with REBOUND, an independent code (X6), the asteroid's pull and hold (X7), Octo-Earth's zero net force (X8) and the axial tilt (X9). The quick tests run on every pull request.
+Our own checks add what the benchmarks leave out: Kepler's third law (X1), energy over 1,000 years (X2), the momentum ledger in the guide's form with a push on (X3), a Hohmann transfer flown (X4), a steady push's arrival time against theory (X5), agreement with REBOUND's IAS15 [10], an independent code (X6), the asteroid's pull and hold (X7), Octo-Earth's zero net force (X8) and the axial tilt (X9). The quick tests run on every pull request.
 
 ## Results of the journey
 
@@ -148,7 +150,7 @@ All ten thresholds hold at every 100-day check of the journey. Mirrors in space 
 | --- | --- | --- |
 | Global mean temperature | 287.8 to 288.8 K | 263 to 308 K |
 | Surface with liquid water | at least 82% | at least 30% |
-| Absorbed sunlight (runaway greenhouse) | at most 240.9 W/m² | under 282 W/m² |
+| Absorbed sunlight (runaway greenhouse) | at most 240.9 W/m² | under 282 W/m² [15] |
 | Surface pressure | 101.3 kPa | at least 50 kPa |
 | Nitrogen kept (Jeans λ) | at least 194 | over 30 |
 | Magnetopause distance | at least 10.0 Earth radii | at least 3 |
@@ -156,7 +158,7 @@ All ten thresholds hold at every 100-day check of the journey. Mirrors in space 
 | Moon's distance over Earth's Hill radius | at most 0.256 | under 0.49 |
 | Tow thrust over Earth's pull on the Moon | at most 0.0020 | under 0.01 |
 
-The Moon grows safer as Earth moves out: Earth's Hill sphere widens with distance from the Sun, so the Moon's share falls from 0.256 to 0.095. The magnetopause widens too, from 10 to 13.9 Earth radii, as the solar wind thins. The mirrors reach 8.5 × 10^8 km² at 2.7 AU, under E3's limit of 10^9 km².
+The Moon grows safer as Earth moves out: Earth's Hill sphere widens with distance from the Sun, so the Moon's share falls from 0.256 to 0.095. The magnetopause widens too, from 10 to 13.9 Earth radii, as the solar wind thins. The mirrors reach 8.5 × 10^8 km² at 2.7 AU, counted face on, under E3's limit of 10^9 km² (but see Limits of the model).
 
 ## Structures
 
@@ -184,7 +186,7 @@ The applied impulse over the journey is 8.78 × 10^26 kg m/s. The beams did 1.79
 
 ## Hazards and stability
 
-**Crossing the asteroid belt.** Without help, Earth would meet a 1 km asteroid about once every 127 years while crossing the belt and once every 87 years parked at 2.7 AU, against once per 500,000 years today. We tracked 1,000 real belt orbits (JPL Small-Body Database) for 2,958 years and scaled their 1,325 close passes to the belt's 1.2 million asteroids over 1 km. E1 handles each: found 10 years ahead, it is nudged 5 cm/s aside by a 1.1 × 10^14 W beam for one day, about a trillionth of the tow beams' power. Of the big asteroids, Vesta comes closest (0.018 AU), twice, and is nudged with 3 minutes of beam each time. Small rocks are far commoner (JWST's size distribution): parked, Earth would meet one of 20 m or more about 8 times a year and of 100 m once every 9 years. NEO Surveyor-class infrared telescopes see a dark 20 m rock 10 to 15 days out, and E1 pushes it aside with 1.6 × 10^23 W for a day, 2% of its spare power. Dust costs E3 570 km² of mirror a year, and Mars, its moons and the Moon get craters only (`sim/scenarios/small_asteroids.py`).
+**Crossing the asteroid belt.** Without help, Earth would meet a 1 km asteroid about once every 127 years while crossing the belt and once every 87 years parked at 2.7 AU, against once per 500,000 years today [25]. We tracked 1,000 real belt orbits (JPL Small-Body Database [7]) for 2,958 years and scaled their 1,325 close passes to the belt's 1.2 million asteroids over 1 km [24]. E1 handles each: found 10 years ahead, it is nudged 5 cm/s aside by a 1.1 × 10^14 W beam for one day, about a trillionth of the tow beams' power. Of the big asteroids, Vesta comes closest (0.018 AU), twice, and is nudged with 3 minutes of beam each time. Small rocks are far commoner (JWST's size distribution [26]): parked, Earth would meet one of 20 m or more about 8 times a year and of 100 m once every 9 years. NEO Surveyor-class infrared telescopes [27, 28] see a dark 20 m rock 10 to 15 days out (thermal model [30, 31]), and E1 pushes it aside with 1.6 × 10^23 W for a day, 2% of its spare power. Dust costs E3 570 km² of mirror a year [29], and Mars, its moons and the Moon get craters only: breaking the Moon up would take 20 times the belt's mass [32, 33, 34] (`sim/scenarios/small_asteroids.py`).
 
 **Beam outages.** The beams come from many independent stations, so losing all of them at once is the worst case. Each case below is a full run with the beams cut for longer and longer, until the asteroid can no longer be caught.
 
@@ -198,7 +200,7 @@ The applied impulse over the journey is 8.78 × 10^26 kg m/s. The beams did 1.79
 | Mars tow during its sprint, all off | 10.5 hours |
 | Earth tow during Mars's sprint, all off | 3.4 days |
 
-**A million years after arrival.** With the tows gone, we ran the moved solar system for a million years (REBOUND, MERCURIUS) beside the real one. Nothing was thrown out, there were 0 unresolved flags, and two chaos copies, started with tiny changes, agree.
+**A million years after arrival.** With the tows gone, we ran the moved solar system for a million years (REBOUND, MERCURIUS) beside the real one. Nothing was thrown out, there were 0 unresolved flags, and two chaos copies, started with tiny changes, agree (the solar system is chaotic [19]).
 
 | | Moved solar system | Real solar system |
 | --- | --- | --- |
@@ -207,7 +209,7 @@ The applied impulse over the journey is 8.78 × 10^26 kg m/s. The beams did 1.79
 | Earth's axial tilt | 21.7° to 26.1° | 22.2° to 24.4° |
 | Mars's orbit size | 3.614 to 3.655 AU | 1.5236 to 1.5239 AU |
 
-Mars's orbit never comes within 0.36 AU of Earth's. Earth's tilt swings twice as wide as today's, because at 2.7 AU its spin precession runs close to a slow mode of the planets' orbits; the sunlight mirrors (E3) re-aim 1.4% of Earth's sunlight to keep today's seasons. 45 big-asteroid passes come near Earth in the million years; E1 nudges each, 50 years ahead, with at most 0.6 hours of a 10^25 W beam.
+Mars's orbit never comes within 0.36 AU of Earth's. Earth's tilt swings twice as wide as today's, because at 2.7 AU its spin precession runs close to a slow mode of the planets' orbits [17]; the sunlight mirrors (E3) re-aim 1.4% of Earth's sunlight to keep today's seasons. 45 big-asteroid passes come near Earth in the million years; E1 nudges each, 50 years ahead, with at most 0.6 hours of a 10^25 W beam.
 
 ## Limits of the model
 
@@ -216,7 +218,11 @@ The model answers whether the physics closes; it does not design the hardware. W
 - **How the machine is built.** Beam stations, mirrors and the placing of the asteroids are what E1, E2 and E3 declare. The simulation books their forces, recoil and limits, not their engineering.
 - **Climate in one dimension.** A global energy balance with ice-albedo feedback and a latitude profile for liquid water: no weather, oceans, carbon cycle or biology. The mirrors hold sunlight within 1% of today's, so Earth stays near the state the model is calibrated on.
 - **Separate runs for the Moon and Earth's spin.** The journey carries the Earth–Moon pair as one body; the Moon's orbit (`sim/scenarios/moon.py`) and the axial tilt (`sim/spin.py`) are followed in their own runs and checked against the journey's orbits.
-- **Planets and four big asteroids, not Mercury.** Mercury's pull on Earth is tiny and its 88-day orbit would need far shorter steps; it joins benchmark 5. Smaller asteroids are a 1,000-orbit sample, scaled.
+- **Planets and four big asteroids, not Mercury.** Mercury's pull on Earth is tiny and its 88-day orbit would need far shorter steps; it joins benchmark 5.
+- **Where the sunlight mirrors sit** ([#32](https://github.com/Ashish000011/black-ant/issues/32)). The climate counts every mirror face on. Placed for real (`sim/scenarios/mirrors.py`), keeping nights dark needs 1.2 × 10^9 km², 20% over E3's frozen bound: a limit of our own design. Inside the bound only a ring held 120° from the Sun by sunlight, on 1 µm film, keeps nights dark.
+- **The tow mirror's scattered light** (#32). It faces Earth, so beam light it scatters rather than reflects falls on Earth: under a full Moon needs scatter below 3.4 × 10^-11 of the beam. No enabler bounds it (E2 bounds absorption, E1 sets no wavelength).
+- **Small asteroids are a calculation on the run's results**, not part of the run ([#30](https://github.com/Ashish000011/black-ant/issues/30), `sim/scenarios/small_asteroids.py`): the run tracked 1,000 orbits of asteroids over 1 km; smaller rocks follow JWST's size distribution.
+- **Moon reflectors and the test bench.** The Moon reflectors are formulas (`sim/night.py`), not in the run. The test bench places Venus, Saturn, Uranus, Neptune and the big asteroids by Kepler orbits from J2000; the official numbers come from the run.
 - **Safety thresholds.** We adopted the ten of the company's reference demo. If the rulebook's appendix differs, its numbers go into the configuration and the run is repeated; nothing else changes.
 
 Next we would add the Moon as its own body inside the journey, a latitude-resolved climate, and a sensitivity sweep of tow mass and distance.
@@ -235,3 +241,48 @@ uv run python -m sim.scenarios.octo              # the Octo-Earth audit, 10 seco
 ```
 
 The 3D test bench replays these runs in the browser, with the solar system, both tows up close, Octo-Earth, ten experiments and every check beside them: [ashish000011.github.io/black-ant](https://ashish000011.github.io/black-ant/). The conservation and momentum record is `docs/momentum-record.md`; every risk we looked for and its counter is in `docs/risk-register.md`.
+
+## References
+
+1. Lu, E. T. & Love, S. G. 2005, Gravitational tractor for towing asteroids, *Nature* 438, 177. doi:10.1038/438177a
+2. Korycansky, D. G., Laughlin, G. & Adams, F. C. 2001, Astronomical engineering: a strategy for modifying planetary orbits, *Astrophys. Space Sci.* 275, 349. doi:10.1023/A:1002790227314
+3. Black Ant Robotics 2026, Planetary Propulsion Hackathon participant guide, TransfiNITTe 2026.
+4. Black Ant Robotics, Octo-Earth reference demo, octo-earth-simulator.vercel.app
+5. Standish, E. M., Keplerian elements for approximate positions of the major planets, JPL. ssd.jpl.nasa.gov/planets/approx_pos.html
+6. JPL Horizons system. ssd.jpl.nasa.gov/horizons
+7. JPL Small-Body Database query. ssd.jpl.nasa.gov/tools/sbdb_query.html
+8. Yoshida, H. 1990, Construction of higher order symplectic integrators, *Phys. Lett. A* 150, 262. doi:10.1016/0375-9601(90)90092-3
+9. Rein, H. & Liu, S.-F. 2012, REBOUND: an open-source multi-purpose N-body code for collisional dynamics, *A&A* 537, A128. doi:10.1051/0004-6361/201118085
+10. Rein, H. & Spiegel, D. S. 2015, IAS15: a fast, adaptive, high-order integrator for gravitational dynamics, *MNRAS* 446, 1424. doi:10.1093/mnras/stu2164
+11. Rein, H. et al. 2019, Hybrid symplectic integrators for planetary dynamics (MERCURIUS), *MNRAS* 485, 5490. doi:10.1093/mnras/stz769
+12. Kopp, G. & Lean, J. L. 2011, A new, lower value of total solar irradiance, *Geophys. Res. Lett.* 38, L01706. doi:10.1029/2010GL045777
+13. Budyko, M. I. 1969, The effect of solar radiation variations on the climate of the Earth, *Tellus* 21, 611. doi:10.3402/tellusa.v21i5.10109
+14. Sellers, W. D. 1969, A global climatic model based on the energy balance of the Earth-atmosphere system, *J. Appl. Meteorol.* 8, 392.
+15. Goldblatt, C. et al. 2013, Low simulated radiation limit for runaway greenhouse climates, *Nature Geosci.* 6, 661. doi:10.1038/ngeo1892
+16. Capitaine, N., Wallace, P. T. & Chapront, J. 2003, Expressions for IAU 2000 precession quantities (adopted as IAU 2006), *A&A* 412, 567. doi:10.1051/0004-6361:20031539
+17. Laskar, J. 1990, The chaotic motion of the solar system, *Icarus* 88, 266. doi:10.1016/0019-1035(90)90084-M
+18. Souami, D. & Souchay, J. 2012, The solar system's invariable plane, *A&A* 543, A133. doi:10.1051/0004-6361/201219011
+19. Laskar, J. 1989, A numerical experiment on the chaotic behaviour of the Solar System, *Nature* 338, 237. doi:10.1038/338237a0
+20. Yu, M.-F. et al. 2000, Strength and breaking mechanism of multiwalled carbon nanotubes under tensile load, *Science* 287, 637. doi:10.1126/science.287.5453.637
+21. Lee, C., Wei, X., Kysar, J. W. & Hone, J. 2008, Measurement of the elastic properties and intrinsic strength of monolayer graphene, *Science* 321, 385. doi:10.1126/science.1157996
+22. Greenhill, A. G. 1881, Determination of the greatest height consistent with stability that a vertical pole or mast can be made, *Proc. Camb. Phil. Soc.* 4, 65.
+23. Alken, P. et al. 2021, International Geomagnetic Reference Field: the thirteenth generation, *Earth Planets Space* 73, 49. doi:10.1186/s40623-020-01288-x
+24. Tedesco, E. F. & Desert, F.-X. 2002, The Infrared Space Observatory Deep Asteroid Search, *AJ* 123, 2070. doi:10.1086/339482
+25. Catalina Sky Survey, FAQ (a 1 km impact every 500,000 years on average). catalina.lpl.arizona.edu/faq
+26. Burdanov, A. Y. et al. 2025, JWST sighting of decametre main-belt asteroids and view on meteorite sources, *Nature* 638, 74. doi:10.1038/s41586-024-08480-z
+27. Mainzer, A. K. et al. 2023, The Near-Earth Object Surveyor Mission, *Planet. Sci. J.* 4, 224. doi:10.3847/PSJ/ad0468
+28. Kim, Y., Mainzer, A. & Masiero, J. 2024, From NEOWISE to NEO Surveyor (survey sensitivity), EU-ESA Workshop on Size Determination of Potentially Hazardous NEOs, ESTEC, 11-13 November. indico.esa.int/event/530
+29. Grün, E., Zook, H. A., Fechtig, H. & Giese, R. H. 1985, Collisional balance of the meteoritic complex, *Icarus* 62, 244. doi:10.1016/0019-1035(85)90121-6
+30. Harris, A. W. 1998, A thermal model for near-Earth asteroids, *Icarus* 131, 291. doi:10.1006/icar.1997.5865
+31. Lebofsky, L. A. et al. 1986, A refined "standard" thermal model for asteroids based on observations of 1 Ceres and 2 Pallas, *Icarus* 68, 239. doi:10.1016/0019-1035(86)90021-7
+32. Pitjeva, E. V. & Pitjev, N. P. 2018, Masses of the main asteroid belt and the Kuiper belt from the motions of planets and spacecraft, *Astron. Lett.* 44, 554. doi:10.1134/S1063773718090050
+33. Benz, W. & Asphaug, E. 1999, Catastrophic disruptions revisited, *Icarus* 142, 5. doi:10.1006/icar.1999.6204
+34. Stewart, S. T. & Leinhardt, Z. M. 2009, Velocity-dependent catastrophic disruption criteria for planetesimals, *ApJ* 691, L133. doi:10.1088/0004-637X/691/2/L133
+35. JAXA 2010, IKAROS confirms photon acceleration (press release, 9 July). global.jaxa.jp/press/2010/07/20100709_ikaros_e.html
+36. The Planetary Society 2019, LightSail 2 successfully demonstrates flight by light (press release, 31 July). planetary.org/press-releases/lightsail-2-mission-success
+37. Breakthrough Initiatives 2016, Breakthrough Starshot announcement (12 April). breakthroughinitiatives.org/news/4
+38. Lubin, P. et al. 2013, Directed energy planetary defense, *Proc. SPIE* 8876. deepspace.ucsb.edu
+39. Lubin, P. et al. 2014, Toward directed energy planetary defense, *Opt. Eng.* 53(2), 025103. doi:10.1117/1.OE.53.2.025103
+40. Shkadov, L. M. 1987, Possibility of controlling solar system motion in the galaxy, 38th IAF Congress, IAA-87-613.
+41. Caplan, M. E. 2019, Stellar engines: design considerations for maximizing acceleration, *Acta Astronaut.* 165, 96. doi:10.1016/j.actaastro.2019.08.027
+42. Williams, D. R., NASA planetary fact sheets, NSSDCA. nssdc.gsfc.nasa.gov/planetary/factsheet

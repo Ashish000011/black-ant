@@ -40,6 +40,10 @@ your own words.
   `sim/scenarios/mirrors.py` found a limit of our own design: keeping nights dark needs 20% more mirror than E3's
   bound, unless a ring is held by sunlight on 1 um film. Also the tow mirror's glow and scattered light, what Earth
   sees of the mirrors, and our satellites.
+- **The report's references and related work** ([#36](https://github.com/Ashish000011/black-ant/issues/36)): 42
+  checked references cited in the text, a related-work paragraph (Lu & Love 2005; Korycansky, Laughlin & Adams 2001,
+  read in full) and an up-to-date "Limits of the model". The check caught our belt mass, now Pitjeva & Pitjev's own
+  value.
 
 ## Madhukar Verma
 
