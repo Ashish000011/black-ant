@@ -92,6 +92,7 @@ cd viewer && npm ci && npm run dev        # test bench locally
 | Conservation and momentum record | Done (`docs/momentum-record.md`) |
 | Demo video (3 min max) | Done, captions on screen (`media/black-ant-demo.mp4`, 2 min 20 s); re-rendered with the Blender-style test bench and again with #27's Octo-Earth view |
 | Pitch deck (7 min) | Drafted, 13 slides (shared deck, ask Ashish) |
+| Visual report (slides) | Done: `docs/black-ant-visual-report.pptx` and `.pdf`, 11 slides, built by `deck/build.mjs` from `deck/data.json` (made from `results/` by `deck/data.py`); every diagram is native shapes and charts |
 | Half-step convergence check | Done (numbers in section 2) |
 | Still open | Each member checks their section of `docs/contributions.md` (#17) |
 
@@ -294,3 +295,4 @@ Ideas, not started:
 - 25 Oct: Report trimmed to 8 pages (A4, 10.5 pt, references in two columns at 8 pt; 150 words of spare room): Summary states the L1 optics outcome (97%, 286 K); Octo-Earth table cut to four materials; one Sunlight optics paragraph; E3 limit reads sunlight optics; Limits adds the 13-month seasons and that the 1.4% tilt re-aim must come out of E3 with the L1 ring; Ceres leaving in one chaos copy stated.
 - 25 Oct: Wrap-up. `run.bat` (Windows menu: setup, test bench, benchmarks, tests, report PDF, viewer data, journey) and `scripts/report_pdf.py` (Chrome or Edge prints docs/report.md to `docs/black-ant-report.pdf`, 8 pages, fails if over); the explainer video and its captions in `media/`; the Moon stress-test answer in the Q&A.
 - 25 Oct: Scale bar in every 3D view (`Stage.drawScale`): a round length in km or AU and the real distance 1 cm on screen spans (96 CSS px per inch), exact in the top view and at the centre of the tilted views; distances are true in both modes. `python -m sim.benchmarks` now ends with "10 of 10 official benchmarks pass" and exits 1 if any fails.
+- 25 Oct: Visual report, 11 slides (`deck/`): the verdict with the six conditions and enabler gauges, the Octo-Earth audit, the tow diagram to scale, the journey chart and mission timeline, the engine and ledger flow, validation (benchmarks, X1-X9, verify pipeline, structures), the ten safety gauges with the no-optics climate curve and the L1 ring, the Moon and a million years, hazards and outages, limits. Every number from `results/` through `deck/data.py`; PDF printed by PowerPoint (`deck/export.ps1`).

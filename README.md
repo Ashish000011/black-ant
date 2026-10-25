@@ -5,7 +5,7 @@ from 1 AU to about 2.7 AU, near the asteroid belt, without harming the planet or
 winning conditions (target within 10,000 years, Earth safe, structures at safety factor 1.5 or more,
 benchmarks passing, every force booked, no unresolved flags) are in [docs/problem.md](docs/problem.md).
 
-**Start here:** [where we are](docs/status.md) · [technical report](docs/report.md) ([PDF](docs/black-ant-report.pdf)) · [demo video](media/black-ant-demo.mp4) · [explainer video](media/black-ant-explainer.mp4) · [3D test bench](https://ashish000011.github.io/black-ant/)
+**Start here:** [where we are](docs/status.md) · [technical report](docs/report.md) ([PDF](docs/black-ant-report.pdf)) · [visual report](docs/black-ant-visual-report.pdf) (11 slides, [.pptx](docs/black-ant-visual-report.pptx)) · [demo video](media/black-ant-demo.mp4) · [explainer video](media/black-ant-explainer.mp4) · [3D test bench](https://ashish000011.github.io/black-ant/)
 
 ## Our approach in short
 
@@ -125,6 +125,7 @@ checks are X1 to X9 in `tests/test_extra_checks.py` and `tests/test_checks.py`.
 | `docs/enablers.md` | Our three hypothetical enablers, as declared at the mid-point check-in |
 | `docs/approach.md` | Our plan, the physics, the machine, what we found and fixed |
 | `docs/status.md` | Where we are: every deliverable and issue, and what is left |
+| `deck/`, `docs/black-ant-visual-report.pptx` | The visual report: 11 dense slides whose diagrams are native PowerPoint shapes and charts, every number read from `results/` (`uv run python deck/data.py && node deck/build.mjs`; `deck/export.ps1` prints the PDF with PowerPoint) |
 | `docs/report.md` | The technical report (a copy of the shared document), with figures in `docs/img/`; `docs/black-ant-report.pdf` is it as submitted (8 pages, built by `run.bat pdf`) |
 | `docs/qa.md`, `docs/rules.md` | Answers for the judges' questions; the guide's rules and where each is met |
 | `docs/contributions.md` | Who built what: each member's own lines, for the careers offers |
