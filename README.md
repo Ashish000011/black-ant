@@ -1,11 +1,98 @@
-# Black Ant: towing Earth to 2.7 AU
+<h1 align="center">Black Ant: towing Earth to 2.7 AU</h1>
 
-Our entry for **Black Ant Robotics** at TransfiNITTe 2026: a simulation of a machine that moves Earth
-from 1 AU to about 2.7 AU, near the asteroid belt, without harming the planet or life on it. All six
-winning conditions (target within 10,000 years, Earth safe, structures at safety factor 1.5 or more,
-benchmarks passing, every force booked, no unresolved flags) are in [docs/problem.md](docs/problem.md).
+<p align="center"><b>A gravity tractor held by light.</b> An asteroid's gravity pulls Earth outward; focused light on a mirror tied to the asteroid holds it in place. Nothing touches the planet.<br>
+Team Black Ant's entry for <b>Black Ant Robotics</b> at TransfiNITTe 2026: a simulation that moves Earth from 1 AU to 2.7 AU without harming the planet or life on it.</p>
 
-**Start here:** [where we are](docs/status.md) · [technical report](docs/report.md) ([PDF](docs/black-ant-report.pdf)) · [visual report](docs/black-ant-visual-report.pdf) (11 slides, [.pptx](docs/black-ant-visual-report.pptx)) · [physics paper](docs/physics/black-ant-physics-paper.pdf) · [physics deck](docs/physics/black-ant-physics-deck.pptx) · [demo video](media/black-ant-demo.mp4) · [explainer video](media/black-ant-explainer.mp4) · [3D test bench](https://ashish000011.github.io/black-ant/)
+<p align="center">
+<a href="https://github.com/Ashish000011/black-ant/actions/workflows/tests.yml"><img alt="tests" src="https://github.com/Ashish000011/black-ant/actions/workflows/tests.yml/badge.svg"></a>
+<a href="https://ashish000011.github.io/black-ant/"><img alt="test bench" src="https://github.com/Ashish000011/black-ant/actions/workflows/pages.yml/badge.svg"></a>
+<img alt="benchmarks 10 of 10" src="https://img.shields.io/badge/official_benchmarks-10%2F10-2f9e5b">
+<img alt="winning conditions 6 of 6" src="https://img.shields.io/badge/winning_conditions-6%2F6-2f9e5b">
+<img alt="arrival" src="https://img.shields.io/badge/Earth_arrives-year_8%2C758_at_2.7006_AU-2a9d8f">
+<img alt="ledger" src="https://img.shields.io/badge/momentum_ledger-5.6_%C3%97_10%E2%81%BB%C2%B9%E2%81%B6_(limit_10%E2%81%BB%E2%81%B9)-f2a541">
+</p>
+
+<p align="center"><a href="docs/physics/black-ant-physics-paper.pdf"><img src="docs/physics/fig/fig2_journey.png" width="680" alt="The journey: Earth's and Mars's orbit size over 8,758 years, the beam power under E1's bound, and the sunlight optics' area under E3's bound"></a></p>
+<p align="center"><sub><b>The journey.</b> (a) Mars is towed out first and parked at 3.64 AU in year 5,168, sprinting across Jupiter's 2:1 resonance; Earth follows Gauss's spiral and arrives at 2.7006 AU in year 8,758 of the 10,000 allowed. (b) Both beams stay under E1's 10²⁶ W. (c) The sunlight optics stay under E3's 10⁹ km². Figure 2 of the physics paper, drawn from <code>results/</code>.</sub></p>
+
+<table align="center">
+<tr>
+<td align="center"><b>2.7006 AU</b><br><sub>Earth's new orbit<br>(target 2.7)</sub></td>
+<td align="center"><b>Year 8,758</b><br><sub>arrival, of<br>10,000 allowed</sub></td>
+<td align="center"><b>10 / 10</b><br><sub>official benchmarks,<br>inputs changeable</sub></td>
+<td align="center"><b>32,686</b><br><sub>100-day safety checks,<br>all ten thresholds held</sub></td>
+<td align="center"><b>1.57</b><br><sub>lowest safety factor<br>(needs 1.5)</sub></td>
+<td align="center"><b>5.6 × 10⁻¹⁶</b><br><sub>momentum ledger gap<br>(limit 10⁻⁹)</sub></td>
+<td align="center"><b>0</b><br><sub>unresolved flags<br>(6 covered by E1–E3)</sub></td>
+<td align="center"><b>1,000,000 yr</b><br><sub>after arrival: orbits hold,<br>the Moon stays</sub></td>
+</tr>
+</table>
+
+## The physics paper
+
+<table>
+<tr>
+<td width="230" valign="top"><a href="docs/physics/black-ant-physics-paper.pdf"><img src="docs/img/physics-paper-page1.png" width="220" alt="Page 1 of the physics paper"></a></td>
+<td valign="top">
+
+**[Towing Earth to 2.7 AU with a light-held gravity tractor: dynamics, conservation, habitability and stress tests over 8,758 years](docs/physics/black-ant-physics-paper.pdf)** (PDF, 7 pages)
+
+Ashish Bharti, Madhukar Verma, Akhil Semwal, Sushmit Sukla, Prabhanshu Kerketa · Team Black Ant · 25 October 2026 · technical preprint
+
+The whole physics of the machine in one journal-style paper, every number drawn from `results/` and `config.yaml`: **10 figures, 6 tables, 9 numbered equations, 50 references.**
+
+- **The tow:** the asteroid's pull and why it sits at 45°; the light pressure (P/c)(n̂ᵢₙ − n̂ₒᵤₜ) and the power it costs; the hover instability and the controller that beats it.
+- **The spiral by hand:** Gauss's equations give 8,004 years against the simulated 8,758.
+- **The model:** the N-body engine and the error-free momentum ledger; the Budyko–Sellers climate with ice-albedo feedback and the ten Earth-safety models; the structures at the power cap.
+- **The enablers E1–E3:** the guide's allowed kind, the bound, the most the run used, the flags each covers, and the real-world precedents (IKAROS, LightSail 2, Starshot, DE-STAR).
+- **Every stress test:** Octo-Earth audited, no Mars tow, Jupiter's 2:1 crossing, Mars parking, beam outages, the Earth–Mars swap, the climate cliff and the L1 ring, small bodies, the tow mirror at night, and a million years after arrival.
+
+A companion to the submitted [technical report](docs/black-ant-report.pdf), not a replacement. Rebuilt by the scripts in [`docs/physics/`](docs/physics/) after any new run; the clickable [physics deck](docs/physics/black-ant-physics-deck.pptx) (11 slides, 5 hidden backups, speaker notes) presents it in 7–8 minutes.
+
+</td>
+</tr>
+</table>
+
+<table>
+<tr>
+<td width="50%" align="center"><a href="docs/physics/black-ant-physics-paper.pdf"><img src="docs/physics/fig/fig1_geometry.png" alt="The tow geometry" width="100%"></a><br><sub><b>Fig. 1</b> The tow: light in along n̂ᵢₙ, out along n̂ₒᵤₜ; the asteroid 637,100 km from Earth at 45° between the orbit and the anti-Sun direction</sub></td>
+<td width="50%" align="center"><a href="docs/physics/black-ant-physics-paper.pdf"><img src="docs/physics/fig/fig5_climate.png" alt="The climate cliff" width="100%"></a><br><sub><b>Fig. 5</b> The climate cliff at 89.3% of today's sunlight: without optics Earth freezes at 150 K; the L1 ring at E3's bound keeps 286 K</sub></td>
+</tr>
+<tr>
+<td align="center"><a href="docs/physics/black-ant-physics-paper.pdf"><img src="docs/physics/fig/fig8_octo.png" alt="Octo-Earth audit" width="100%"></a><br><sub><b>Fig. 8</b> Octo-Earth audited: the safety factor at an arm's root against its length, four materials; the 12,000 km arm as drawn is at 0.012</sub></td>
+<td align="center"><a href="docs/physics/black-ant-physics-paper.pdf"><img src="docs/physics/fig/fig9_longterm.png" alt="A million years after arrival" width="100%"></a><br><sub><b>Fig. 9</b> A million years after arrival, the moved solar system beside the real one: orbit size, eccentricity, axial tilt and the Earth–Mars gap</sub></td>
+</tr>
+</table>
+
+## What to read, in order
+
+<table>
+<tr>
+<td width="33%" align="center" valign="top"><a href="docs/physics/black-ant-physics-paper.pdf"><img src="docs/img/physics-paper-page1.png" width="190" alt="Physics paper"></a><br><b><a href="docs/physics/black-ant-physics-paper.pdf">Physics paper</a></b><br><sub>7 pages · every model, enabler and stress test · 50 references</sub></td>
+<td width="33%" align="center" valign="top"><a href="docs/black-ant-visual-report.pdf"><img src="docs/img/visual-report-cover.png" width="280" alt="Visual report"></a><br><b><a href="docs/black-ant-visual-report.pdf">Visual report</a></b> (<a href="docs/black-ant-visual-report.pptx">.pptx</a>)<br><sub>11 dense slides · native diagrams and charts · speaker notes</sub></td>
+<td width="33%" align="center" valign="top"><a href="docs/black-ant-report.pdf"><img src="docs/img/technical-report-page1.png" width="190" alt="Technical report"></a><br><b><a href="docs/black-ant-report.pdf">Technical report</a></b> (<a href="docs/report.md">source</a>)<br><sub>8 pages, as submitted · 43 references</sub></td>
+</tr>
+</table>
+
+| | |
+| --- | --- |
+| **[3D test bench](https://ashish000011.github.io/black-ant/)** (live) | The journey in 3D with every check beside it: forces, orbit, structures, the ten thresholds, benchmarks, plots, a million years. Replays `results/`; a scale bar in every view |
+| **[Demo video](media/black-ant-demo.mp4)** (2 min 20 s) · **[Explainer video](media/black-ant-explainer.mp4)** | The journey shot in the test bench; the physics rules one scene at a time, with [captions](media/black-ant-explainer.srt) |
+| **Check it yourself:** `run.bat verify` | Re-runs the benchmarks, the tests, the engine and the studies and writes one results PDF in about 4 minutes ([details](#test)) |
+| [Where we are](docs/status.md) · [the brief](docs/problem.md) · [the approach](docs/approach.md) · [enablers](docs/enablers.md) · [risk register](docs/risk-register.md) · [Q&A](docs/qa.md) · [momentum record](docs/momentum-record.md) | The documents behind the numbers |
+
+## The six winning conditions
+
+| Condition (participant guide) | Our result |
+| --- | --- |
+| Earth reaches the target orbit within 10,000 years | Year 8,758, at 2.7006 AU (eccentricity 0.033) |
+| Every Earth-safety threshold holds for the whole run | All ten held at every one of 32,686 100-day checks |
+| Every structural safety factor at least 1.5 | Lowest 1.57, cables and anchors at the full E1 power cap |
+| Every applicable benchmark passes | 10 of 10 official benchmarks, also with changed inputs; our checks X1–X9; 49 tests on every pull request |
+| Every force booked with its reaction; energy and momentum conserved | Ledger closes to 5.6 × 10⁻¹⁶ and 5.5 × 10⁻²² of the applied impulse (limit 10⁻⁹); beam work matches energy gained to 0.007% |
+| No unresolved flags | 0 unresolved; 6 raised, each covered by a declared enabler (E1, E2 or E3) |
+
+**Team Black Ant:** Sushmit Sukla (team leader), Ashish Bharti, Akhil Semwal, Madhukar Verma, Prabhanshu Kerketa. Who built what is in [docs/contributions.md](docs/contributions.md).
 
 ## Our approach in short
 
