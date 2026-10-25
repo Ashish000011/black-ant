@@ -89,7 +89,7 @@ cd viewer && npm ci && npm run dev        # test bench locally
 | Runnable simulation + 3D test bench | Done; Blender-style test bench in PR #23 |
 | Technical report (8 pages max) | Drafted (`docs/report.md`); needs PDF export |
 | Conservation and momentum record | Done (`docs/momentum-record.md`) |
-| Demo video (3 min max) | Done, captions on screen (`media/black-ant-demo.mp4`); re-rendered with the Blender-style test bench; its Octo-Earth shot still shows the old straight arms: re-render it now that #27 is done (`video.mjs` caption already updated) |
+| Demo video (3 min max) | Done, captions on screen (`media/black-ant-demo.mp4`, 2 min 20 s); re-rendered with the Blender-style test bench and again with #27's Octo-Earth view |
 | Pitch deck (7 min) | Drafted, 13 slides (shared deck, ask Ashish) |
 | Half-step convergence check | Done (numbers in section 2) |
 | Still open | Each member checks their section of `docs/contributions.md` (#17) |
@@ -253,3 +253,4 @@ Ideas, not started:
   force 3.4e-13 (was 3.7e-12 for straight arms); curled it breaks at its root past 5 km (steel), 637 km (nanotube),
   safety factor 0.012 at 12,000 km. Test X8 checks the shape, the net force and the curled failure. `scene.js` draws
   the ring band, the jointed arms with collars and three-fingered claws; report figure, table and docs updated.
+  Demo video re-rendered (all 3,500 frames) with the new Octo-Earth shot and caption.
