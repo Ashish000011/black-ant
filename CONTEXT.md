@@ -267,3 +267,7 @@ Ideas, not started:
   E1 pushes each with 1.6e23 W for a day (2% of its spare). Wear: E3 replaces 570 km2 of sunlight mirror a year;
   debris 5,700 t of film a year, mostly vapour. Moon, Mars, Phobos, Deimos: craters only. Kirkwood gaps: 0.75 to 1.05
   of the encounters at 2.7 AU. Tests in `tests/test_small_asteroids.py`. Stacked on PR #29.
+- 25 Oct: #29 and #31 approved and merged, but #31 merged into #29's branch, not `main`; re-landed as PR #34. Q&A for
+  #33 (Akhil): stellar engines (Shkadov, Caplan 2019), where E1's power comes from, DE-STAR (Lubin et al.), light
+  pressure in flight (IKAROS, LightSail 2, Starshot), with sources; the #29 and #31 review follow-ups (why steel
+  fails curled sooner than level; "pushes it aside or vaporises it"). New PRs target `main` only.

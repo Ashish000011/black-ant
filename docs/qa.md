@@ -67,6 +67,48 @@ E2's 1,500 K. The stations radiate their own waste heat; E1 is declared that way
 No beam comes within 420,000 km of Earth, beyond the Moon's farthest point; light may arrive up to 30 degrees
 off the Sun line to keep clear. The closest any beam came was 448,909 km.
 
+## Moving things with light: is it real?
+
+**Why not a Shkadov or Caplan thruster?**
+Because they move the Sun, and Earth just comes along at 1 AU. Our job is to change Earth's distance from the Sun.
+Both are stellar engines.
+- A Shkadov thruster is a giant mirror hovering beside the Sun that sends sunlight back the way it came (Shkadov
+  1987, IAA-87-613). Reflecting half the Sun's light back gives a thrust of about 10^18 N, so the Sun accelerates by
+  under 10^-12 m/s^2 and moves a few hundredths of a light-year in a million years.
+- A Caplan thruster (Caplan 2019, *Acta Astronautica* 165, 96-104, doi:10.1016/j.actaastro.2019.08.027) gathers
+  fuel from the Sun and fires fusion jets. It reaches at most 10^-9 m/s^2: about 50 light-years in a million years.
+  That is 1.7 x 10^-7 of the Sun's pull on Earth at 1 AU, so Earth's orbit barely notices.
+
+**Where does E1's 10^26 W come from?**
+From sunlight: 10^26 W is 26% of the Sun's output (3.828 x 10^26 W, IAU 2015). The natural source is a swarm of
+mirrors near the Sun that catch sunlight and focus it onto the tow mirrors: a partial Dyson swarm. Caplan's thruster
+assumes the same kind of sunlight collector, to focus sunlight onto the Sun. This is still our declared enabler E1.
+The references show it belongs to a known class of ideas, not that anyone can build it.
+
+**Can lasers really deflect asteroids?**
+Yes, on paper. DE-STAR (Lubin et al. 2014, *Optical Engineering* 53(2), 025103; UC Santa Barbara) is a phased laser
+array powered by sunlight. It heats a spot on an asteroid until the rock boils, and the vapour jet pushes the
+asteroid like a rocket. Lubin et al. (SPIE 8876, 2013): "A DE-STAR 4 allows for asteroid engagement starting beyond
+1AU with a spot temperature sufficient to completely evaporate up to 500-m diameter asteroids in one year." A
+DE-STAR 4 is a 10 km array. This is E1's job against small rocks (`sim/scenarios/small_asteroids.py`). Boiling a
+surface pushes far harder per watt than light pressure alone (P/c), which is all our script counts. So the "2% of
+E1's spare power" for a 20 m rock is an upper bound.
+
+**Has light pushing anything ever actually worked?**
+Yes, in flight. The physics is the same as our beam's: F = 2P/c at best.
+- JAXA's IKAROS sailed toward Venus on sunlight. JAXA measured 1.12 mN of light pressure on its 14 m sail on 9 July
+  2010 ([JAXA press release](https://global.jaxa.jp/press/2010/07/20100709_ikaros_e.html)), against 1.8 mN for a
+  perfect mirror facing the Sun at 1 AU.
+- The Planetary Society's LightSail 2 raised its orbit's high point by about 2 km in four days on sunlight alone,
+  declared a success on 31 July 2019
+  ([The Planetary Society](https://www.planetary.org/press-releases/lightsail-2-mission-success)).
+- Breakthrough Starshot (announced 12 April 2016 by Yuri Milner and Stephen Hawking; Mark Zuckerberg on its board)
+  plans to push gram-scale sails to 20% of light speed with a laser array of up to 100 GW
+  ([Breakthrough Initiatives](https://breakthroughinitiatives.org/news/4)).
+
+On scale: Starshot's 10^11 W pushes grams; E1's 10^26 W is 10^15 times that. The physics is proven; the size is our
+enabler.
+
 ## Earth and the Moon
 
 **Does Earth freeze at 2.7 AU?**
@@ -113,7 +155,10 @@ dark 20 m rock 2.7 to 3.8 million km out, 10 to 15 days before it would arrive, 
 out, 7 to 10 weeks. E1 then pushes each one aside with the light it absorbs, while it is still beyond 840,000 km, so
 the beam (up to 30 degrees off the Sun line) stays 420,000 km from Earth. A 20 m rock needs 82 m/s: 1.6 x 10^23 W for
 a day, even if E1's spot is as wide as the tow mirror. That is 2% of E1's spare power. It is inside E1's declared
-role (it nudges dangerous asteroids), so nothing new is declared.
+role (it nudges dangerous asteroids), so nothing new is declared. In practice E1 pushes the rock aside or vaporises
+it. In that day the rock absorbs 2.1 x 10^17 J, while vaporising it takes about 1.3 x 10^14 J. So it boils long
+before light pressure alone could move it, and the boiling pushes far harder (see DE-STAR above). Counting light
+pressure only is the cautious bound.
 
 **Why not park in a Kirkwood gap?**
 The gaps are gaps in orbit size, not in space. Among 20,000 real orbits, sizes near 2.50 AU are only 4% as common as

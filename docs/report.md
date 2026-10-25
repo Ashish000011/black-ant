@@ -49,7 +49,7 @@ Octo-Earth cannot move Earth, and its arms cannot hold themselves up. We audited
 | Carbon nanotube, ideal (hypothetical) | 637 km | 6,964 km | 1,444 km | 568 km |
 | Graphene, ideal (hypothetical) | 699 km | 10,454 km | 1,200 km | 618 km |
 
-"Curled" is the demo's curl cut shorter. A standing 12,000 km arm puts 315 GPa on its base in steel, which yields at 0.355 GPa. In ideal nanotube it reaches a safety factor of 1.2, and the column buckles (Greenhill's limit) past 1,450 km. Titanium, aluminium and aramid fall between steel and CFRP. This is why we move Earth with an asteroid's gravity instead: the asteroid is outside Earth, and nothing touches the planet.
+"Curled" is the demo's curl cut shorter. Steel fails curled at 5 km, but level only at 17 km, while nanotube holds out longer curled than level. A short curled arm rises at 36°, so its weight presses along it like a standing column's and crushes the root. A long one fails by bending, and rising at 36° shortens the weight's lever compared with a level arm. A standing 12,000 km arm puts 315 GPa on its base in steel, which yields at 0.355 GPa. In ideal nanotube it reaches a safety factor of 1.2, and the column buckles (Greenhill's limit) past 1,450 km. Titanium, aluminium and aramid fall between steel and CFRP. This is why we move Earth with an asteroid's gravity instead: the asteroid is outside Earth, and nothing touches the planet.
 
 ## The machine: a gravity tractor held by light
 
@@ -59,7 +59,7 @@ A 3.97 × 10^20 kg asteroid (336 km in radius at 2,500 kg/m³) sits 637,100 km f
 
 Earth feels only the asteroid's pull. The asteroid feels Earth's equal pull back, balanced by the light push on its mirror, whose partners are the stations' recoil and the light that leaves.
 
-**The beam.** Earth pulls the asteroid back with the same force, so a mirror tied to the asteroid by cables is pushed by focused light from stations far on the Sun's side. Light arriving along *in* and leaving along *out* pushes with (P/c)(in − out). The 45° spot gives the most pull along the orbit per watt, because light can only push. No beam may pass within 420,000 km of Earth, beyond the Moon's farthest point; light may arrive up to 30° off the Sun line to keep clear. The closest any beam came was 448,909 km. The Earth tow used 4.7 to 8.9 × 10^25 W.
+**The beam.** Earth pulls the asteroid back with the same force, so a mirror tied to the asteroid by cables is pushed by focused light from stations far on the Sun's side. Light arriving along *in* and leaving along *out* pushes with (P/c)(in − out). The 45° spot gives the most pull along the orbit per watt, because light can only push. No beam may pass within 420,000 km of Earth, beyond the Moon's farthest point; light may arrive up to 30° off the Sun line to keep clear. The closest any beam came was 448,909 km. The Earth tow used 4.7 to 8.9 × 10^25 W. Light pressure is flown physics: JAXA's IKAROS (2010) and the Planetary Society's LightSail 2 (2019) sailed on sunlight, and DE-STAR (Lubin et al. 2014) shows how focused light deflects asteroids.
 
 **The controller.** Each step it asks for the force that keeps the asteroid on its spot: what the spot's motion needs, minus the gravity the asteroid already feels, plus a correction with a 10-day response. Checks every 100 days confirm the correction beats the planet's pull gradient (2GM/d³) at least threefold and that the 1-day step resolves it. The asteroid never strayed more than 2,715 km (0.4%) from its spot.
 
