@@ -315,3 +315,4 @@ Ideas, not started:
   seven safety rows, limits from `config.yaml`), Earth at year 0, Constants. Same numbers as before; `bench.panel`
   added and `video.mjs` uses it instead of scrolling. Works at phone width (to 320 px at 150% text), without WebGL,
   in both themes. The video in `media/` still shows the one-column panel.
+- 25 Oct: README home page redesigned: hero figure (the journey, Fig. 2 of the physics paper), badges, headline numbers, the physics paper showcased with its cover and four figures, reading cards (paper, visual report, technical report), the six conditions, the team. Cover thumbnails in `docs/img/`.
