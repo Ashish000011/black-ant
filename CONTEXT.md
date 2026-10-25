@@ -108,8 +108,9 @@ cd viewer && npm ci && npm run dev        # test bench locally
   averaged over the whole night hemisphere, so the area comes out up to 2x too big.
 - Past 3.28 AU lie Jupiter's 2:1 resonance and Mars's parking orbit (3.64 AU): orbits there are not safe.
 - Vite 6 needs Node 18 or newer; CI uses Node 22.
-- The climate run counts the sunlight mirrors face on. Placed for real (`sim/scenarios/mirrors.py`, #32), keeping
-  nights dark needs 1.2e9 km2, 20% over E3's frozen bound; inside E3 only with a sunlight-held ring on 1 um film.
+- The climate run counts the sunlight optics face on. Design (#39): a refracting ring near L1 (100 g/m2) gives 97%
+  of today's sunlight inside E3 at 95% transmission; below 89.3% of today's sunlight the climate model freezes. E3's
+  bound is read as covering sunlight optics; fallback (mirrors only): the sunlight-held ring at 120 deg (#32).
   The tow mirror's scattered light is bounded by no enabler (needs s < 3.4e-11 for dark nights).
 
 ## 7. Active work
@@ -186,6 +187,7 @@ while Earth goes out to 2.7 AU. Tows modelled as their pull on the planet (G m /
 | 25 Oct | E1 answers small rocks by pushing them whole (light they absorb, spot as wide as the tow mirror), never by breaking them | Inside E1's declared role; no fragments, no debris; 2% of its spare power |
 | 25 Oct | Space debris from the mirror fleet handled by thin rip-stop film, E3 recycling and placement away from today's satellites | Akhil asked; hits make holes and vapour, not fragments |
 | 25 Oct | Sunlight mirrors (#32): lead with the simple ring that keeps nights dark (20% over E3, said plainly), then the sunlight-held ring at 120 deg as the way back inside E3; tow-mirror scatter an open risk with both limits | Akhil's choices; a limit of our own design counts for honesty |
+| 25 Oct | Sunlight optics (#39): adopt a refracting ring near L1 (option D); the sunlight-held ring at 120 deg (C) is the fallback if E3 is read as mirrors only. Film 100 g/m2; tow-mirror rock totals over the belt years, the whole tow as upper bound | Ashish's decision (#39); film weight and counting are Akhil's choices: light film is pushed far past L1 |
 
 ## 9. Important prompts (condensed)
 
@@ -285,3 +287,7 @@ Ideas, not started:
   risky"), Limits of the model brought up to date (#30, #32). Checking caught the belt mass: Pitjeva & Pitjev 2018 give
   4.008e-4 Earth masses (2.394e21 kg), not 12.4e-10 solar masses; fixed in `config.yaml`, small-asteroid results
   re-run (Mars break-up 370 belt masses). The NEO Surveyor sensitivity source is the EU-ESA NEO size workshop, Nov 2024.
+- 25 Oct: Sunlight optics (#39, Akhil): option D in `sim/scenarios/mirrors.py`. Sunlight's push sets how far past
+  L1 the ring sits (2.5 g/m2: 48%, only 38% of the light lands; 100 g/m2: 0.9%, 82%). Inside E3: 97.3% of today's
+  sunlight, 286 K at T 0.95; 281.7 K at 0.90; freezes at 0.85 (cliff 89.3%). Tow mirrors: 62 rocks >= 20 m over the
+  belt years (196 whole tow), beam vaporises a 1 m rock in 3-6 ms, 7.3% spare power. Q&A, register, report, enablers.

@@ -53,3 +53,34 @@ def test_light_held_ring_balances():
     total = push + pull
     assert abs(total[0]) < 1e-12 * mr.GM_EARTH / d ** 2
     assert total[1] < 0 and math.isclose(-total[1], h["inward_m_s2"], rel_tol=1e-9)
+
+
+def test_refracting_ring_landing_and_balance():
+    """Option D (#39): the share of the Sun's image Earth catches is (R_E / image radius)^2 (sampled over the image);
+    with no push the balance point is L1, (GM_E / 3 n^2)^(1/3); with a push it sits where tide = pull + push."""
+    rng = np.random.default_rng(1)
+    image = 7.0e6
+    r = image * np.sqrt(rng.random(400_000))
+    assert abs((r < mr.R_EARTH).mean() - mr.landing_share(image)) < 0.003
+    r_au = CFG["arrival"]["target_au"]
+    n2 = mr.GM_SUN / (r_au * mr.AU) ** 3
+    assert math.isclose(mr.balance_distance(0.0, r_au), (mr.GM_EARTH / (3 * n2)) ** (1 / 3), rel_tol=1e-9)
+    d = mr.balance_distance(0.003, r_au)
+    assert abs(3 * n2 * d - mr.GM_EARTH / d ** 2 - 0.003 * mr.GM_SUN / (r_au * mr.AU) ** 2) < 1e-12
+
+
+def test_refracting_ring_area_and_fit_inside_e3():
+    """The area sends the run's extra sunlight (need Earth-discs) through T and the landing share; held to E3's
+    10^9 km^2, the design's transmission keeps Earth above the climate cliff, inside the temperature thresholds and
+    with liquid water, while the lowest transmission does not (the fallback's case)."""
+    r = mr.run(CFG)
+    d = r["refractor_l1"]
+    disc = math.pi * (mr.R_EARTH / 1e3) ** 2
+    need = CFG["habitability"]["mirror_reflectivity"] * r["face_on_area_km2"] / disc
+    for t, x in d["by_transmission"].items():
+        assert math.isclose(x["area_km2"] * float(t) * x["lands"] / disc, need, rel_tol=1e-9)
+    s = CFG["safety"]
+    best = d["by_transmission"][f"{CFG['mirrors']['refractor']['transmission'][0]:.2f}"]
+    assert best["warm"] and s["temperature_min_k"] < best["temperature_k"] < s["temperature_max_k"]
+    assert best["liquid_water"] >= s["liquid_water_min_share"] and best["beam_gap_km"] > 0
+    assert not d["by_transmission"][f"{CFG['mirrors']['refractor']['transmission'][-1]:.2f}"]["warm"]

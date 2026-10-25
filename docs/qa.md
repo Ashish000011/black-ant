@@ -189,30 +189,48 @@ What keeps it that way:
 - E1 pushing rocks aside whole, never breaking them up;
 - the same infrared survey tracking anything large that breaks loose.
 
-## The sunlight mirrors
+**Won't rocks hit the tow mirror?**
+Yes, and it is built for it. The Earth tow's 2.1 x 10^7 km^2 mirror meets about 65 rocks of 1 m or more a year in
+the belt. Over its 2,758 years there, 62 of 20 m or more, 0.85 of 100 m and 0.09 of 1 km (196, 2.7 and 0.29 at the
+belt's rate over the whole 8,758-year tow). Its cables meet about 0.35 rocks of 10 m (1.2 kt each). Layers of
+protection:
+- its own beam: 4.7 x 10^12 W/m^2, 75,000 times the Sun's surface, vaporises a 1 m rock in 3 to 6 ms, so rocks
+  reach it only from the sides and back;
+- the survey and E1: 20 m rocks are seen about 10 days out and 100 m about 52 days out, then pushed aside or
+  vaporised;
+- rip-stop panels and E3 patching about 14 km^2 a year (unrepaired, dust would hole 0.18% of it);
+- damage margin: E1 has 7.3% spare power, so the mirror can lose about 7% of its area and still hold the asteroid;
+- the cables are many strands: their safety factor of 1.57 at the power cap covers losing 4.7%;
+- and if all else fails, the Earth tow survives 15 hours with no beam, or 1.25 days at half power.
+The Mars tow's mirror meets about 40% of these rates and has 11% spare power.
+
+## The sunlight optics
 
 The numbers here come from `sim/scenarios/mirrors.py` (`results/mirrors.json`), worked out from the run's mirror area.
 
-**Where are the sunlight mirrors, and won't they light up the night?**
-Our run counts every mirror face on, catching sunlight square to it. Only a mirror right behind Earth can do that,
-its light then lands on the night side, and it would sit in Earth's shadow, which reaches 3.7 million km. A mirror
-at angle phi from the Sun catches light at cos = sin(phi/2), and if its light covers Earth, (1 - cos phi)/2 of it
-lands at night. So where they sit matters, and we found a limit of our own design:
-- To keep nights dark, the mirrors orbit Earth 200,000 km out in the plane facing the Sun, between geostationary
-  orbit and the Moon. Each mirror's spot on Earth is only 690 km wide, so it is aimed at daylit ground. That needs
-  1.2 x 10^9 km^2 of mirror, 20% over E3's frozen 10^9 km^2.
-- Capping the area at 10^9 km^2 does not work: Earth would get 86% of today's sunlight and freeze (238 K, no
-  liquid water).
-- The way back inside E3 is a ring held 120 degrees from the Sun by sunlight's own push: 9.8 x 10^8 km^2, 1.8%
-  under the bound. That works only with film about 1 um thin, hovering 711,000 km out, with spots 2,450 km wide aimed
-  into a daylit strip 6,670 km wide, 92,000 km clear of the tow beam. With 2 um film or thicker it fails.
+**Where are the sunlight optics?**
+Near the Sun-Earth L1 point, 4.08 million km toward the Sun: a ring of refracting film, 13,400 to 22,300 km from the
+Sun-Earth line, that bends sunlight by up to 0.31 degrees onto Earth. The extra light comes from the Sun's own
+direction, so noons, dawns, nights and seasons stay natural. It is Angel's (2006) L1 sunshade used the other way
+round. Sunlight's push holds the ring a little beyond L1, less the heavier the film: at 100 g/m^2 (10^14 kg in all)
+it sits 0.9% out, and Earth catches 82% of the Sun's image each piece throws. Held to E3's 10^9 km^2, Earth gets
+97% of today's sunlight (286 K) if the film passes 95% of the light, and 92% (282 K) at 90%. Below 89% of today's
+sunlight our climate model freezes, so the film must pass at least about 88%. L1 is unstable (a drift doubles in
+about 70 days), so each piece is steered by switching 1% of its reflectivity, nine times what holding within 1,000 km
+needs. The tow beams pass 425,000 km from the ring. Why not elsewhere: a mirror right behind Earth sends its light
+to the night side, and a ring orbiting Earth that keeps nights dark needs 1.2 x 10^9 km^2, 20% over E3.
+
+E3's bound covers sunlight optics, mirrors or film. If it is read as mirrors only, our fallback is a ring of mirrors
+held 120 degrees from the Sun by sunlight (9.8 x 10^8 km^2, 1 um film, 711,000 km out). It can only reach a daylit
+strip near dawn and dusk, so a place gets most of its mirror light in the morning and evening, with a dim noon from
+the 14% direct Sun. The daily total matches today's, but our one-dimensional climate model cannot show that shape of
+the day. Such a ring is not passively stable either: each mirror needs active station-keeping, for example by tilting.
 
 **Will we see the mirrors from Earth?**
-Yes. The mirrors lighting any place shine with the Sun's own surface brightness and together cover 0.91 of today's
-Sun disc: a scatter of sun-bright points along a band across the sky, 90 degrees from the Sun. Mirrors not aimed at
-you look dark. The ring is 0.27 degrees wide and blocks 0.24% of the sky, so astronomers lose a strip. At night the
-fleet's scattered light stays under the 2.7 AU full Moon if its film scatters less than 3 x 10^-4 of its light (from
-`sim/night.py`: the natural full Moon there gives 0.034 lux). The tow mirror is seen too. It faces Earth, 135
+The L1 ring, as a bright halo 0.19 to 0.31 degrees from the Sun's centre (the Sun itself is 0.2 degrees across at
+2.7 AU): the Sun looks a little wider, and the ring adds nothing at night. With the fallback ring, the mirrors
+lighting a place would shine at the Sun's surface brightness, a scatter of sun-bright points along a band, together
+0.91 of today's Sun disc. The tow mirror is seen too. It faces Earth, 135
 degrees from the Sun in the night sky, as a dull red disc 0.47 degrees wide (the Moon's size) glowing at 1,466 K at
 full power: 0.24 lux, as bright as today's full Moon (0.008 to 0.15 lux at the power the run used). Any beam light
 it scatters rather than reflects falls on Earth: keeping that under a full Moon needs scatter below 3.4 x 10^-11 of

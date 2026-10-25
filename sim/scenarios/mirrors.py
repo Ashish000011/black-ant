@@ -8,7 +8,10 @@ and sending all of it to Earth. That is only true for a mirror right behind Eart
 night side (and which sits in Earth's shadow). A mirror at angle phi from the Sun, seen from Earth, catches sunlight
 at an incidence whose cosine is sin(phi / 2); if its light covers Earth's disc, a share (1 - cos phi) / 2 of it lands
 on the night side. A mirror near enough can instead aim its spot (the Sun's apparent size times its distance) at the
-daylit ground it sees. Post-processing only: the area comes from the run (`results/summary.json`).
+daylit ground it sees. The design (#39) is a ring of refracting film near the Sun-Earth L1 point instead, which bends
+sunlight onto Earth from the Sun's own direction; the sunlight-held ring at 120 degrees is the fallback. Also here: how
+the tow mirrors are protected from rocks (from `results/small_asteroids.json`). Post-processing only: the area comes
+from the run (`results/summary.json`).
 """
 
 import argparse
@@ -19,7 +22,7 @@ import numpy as np
 
 from .. import night
 from ..config import ROOT, load_config
-from ..constants import AU, C_LIGHT, YEAR
+from ..constants import AU, C_LIGHT, GM_SUN, YEAR
 from ..habitability import SIGMA, SOLAR_CONSTANT, liquid_water_share, mean_temperature
 
 GM_EARTH = 3.986004418e14
@@ -116,6 +119,123 @@ def planck_lux_per_w(t_k: float, lo_um: float, hi_um: float, n: int = 4000) -> f
     return 683.0 * float(np.sum(b * eye) * (lam[1] - lam[0]) * math.pi / (SIGMA * t_k ** 4))
 
 
+def climate_cliff(lo: float = 0.5, hi: float = 1.0) -> float:
+    """Lowest share of today's sunlight at which the climate model stays on its warm branch (below it, ice wins)."""
+    for _ in range(50):
+        mid = (lo + hi) / 2
+        lo, hi = (lo, mid) if mean_temperature(mid * SOLAR_CONSTANT) > 270.0 else (mid, hi)
+    return hi
+
+
+def balance_distance(beta: float, r_au: float) -> float:
+    """Distance (m) from Earth toward the Sun where a sheet pushed by sunlight (beta: the push over the Sun's pull)
+    holds still in Hill's approximation: the Sun's tide 3 n^2 x equals Earth's pull plus the push. beta = 0 is L1."""
+    gm_sun_a2 = GM_SUN / (r_au * AU) ** 2
+    n2 = GM_SUN / (r_au * AU) ** 3
+    lo, hi = (GM_EARTH / (3 * n2)) ** (1 / 3), 20 * (GM_EARTH / (3 * n2)) ** (1 / 3)
+    for _ in range(200):
+        mid = (lo + hi) / 2
+        lo, hi = (mid, hi) if 3 * n2 * mid - GM_EARTH / mid ** 2 - beta * gm_sun_a2 < 0 else (lo, mid)
+    return lo
+
+
+def landing_share(image_radius: float) -> float:
+    """Share of a Sun's image (radius m) centred on Earth that Earth's disc catches."""
+    return min(1.0, (R_EARTH / image_radius) ** 2)
+
+
+def refractor(cfg: dict, full: dict, need: float, sun: float, rays, r_au: float) -> dict:
+    """Option D for each transmission T: where the ring balances, how much light lands, the area that gives today's
+    sunlight against E3, Earth's sunlight and climate when held to E3's area, the ring's size and look, how it is
+    kept in place, and how far the tow beams pass from it."""
+    rf = cfg["refractor"]
+    sigma = rf["areal_density_g_m2"] / 1e3
+    limit = full["enablers"]["e3_mirror_area_limit_km2"]
+    disc = math.pi * (R_EARTH / 1e3) ** 2
+    per_area = SOLAR_CONSTANT * AU ** 2 / (C_LIGHT * GM_SUN)     # kg/m^2: L / (4 pi c GM_sun)
+    n = math.sqrt(GM_SUN / (r_au * AU) ** 3)
+    unstable = n * math.sqrt(1 + 2 * math.sqrt(7))                      # growth rate at a collinear point (Hill)
+    steer = rf["control_reflectivity"] * 2 * SOLAR_CONSTANT / r_au ** 2 / (C_LIGHT * sigma)
+    need_steer = unstable ** 2 * rf["hold_km"] * 1e3
+    l1 = balance_distance(0.0, r_au)
+    mirror_r = full["structures"]["earth-tow"]["mirror_radius_km"] * 1e3
+    out = {"l1_km": l1 / 1e3, "areal_density_g_m2": rf["areal_density_g_m2"], "mass_kg": limit * 1e6 * sigma,
+           "unstable_efold_days": 1 / unstable / 86400, "steering_needed_m_s2": need_steer, "steering_available_m_s2": steer,
+           "climate_cliff_sunlight": climate_cliff(), "by_transmission": {}}
+    for t in rf["transmission"]:
+        beta = (1 - t) * 2 * per_area / sigma
+        d = balance_distance(beta, r_au)
+        image = d * sun / 2
+        land = landing_share(image)
+        area = need * disc / (t * land)
+        share = (1 + min(1.0, limit / area) * need) / (1 + need)
+        temp = mean_temperature(share * SOLAR_CONSTANT)
+        r_in = R_EARTH + image                                   # inside this, light partly reaches Earth anyway
+        r_out = math.sqrt(min(area, limit) * 1e6 / math.pi + r_in ** 2)
+        gap = math.inf
+        for start, back, _ in rays:                              # incoming light, traced back toward the Sun
+            if back[0] <= 0:
+                continue
+            p = start + (d - start[0]) / back[0] * back
+            r = math.hypot(p[1], p[2])
+            gap = min(gap, r_in - mirror_r - r if r < r_in else r - r_out - mirror_r if r > r_out else -1.0)
+        out["by_transmission"][f"{t:.2f}"] = {
+            "beta": beta, "distance_km": d / 1e3, "past_l1": d / l1 - 1, "image_km": 2 * image / 1e3, "lands": land,
+            "area_km2": area, "area_vs_e3": area / limit, "sunlight_vs_today_at_e3": share, "temperature_k": temp,
+            "liquid_water": liquid_water_share(temp), "warm": share > out["climate_cliff_sunlight"],
+            "ring_km": [r_in / 1e3, r_out / 1e3], "bend_deg": math.degrees(r_out / d),
+            "halo_deg": [math.degrees(r_in / d), math.degrees(r_out / d)], "beam_gap_km": gap / 1e3}
+    return out
+
+
+def tow_protection(cfg: dict, full: dict, summary: dict) -> dict:
+    """Rocks and dust on each tow mirror and its cables, over its years in the belt (Earth's: the years the run measured
+    the belt's rate over; Mars's: from its orbit passing belt_inner_au) and, as an upper bound, the belt's rate over the
+    whole tow, and the layers that protect it: its own beam, the survey and E1, patching, spare power,
+    the cables' margin and the outage study."""
+    from .small_asteroids import count_ratio
+    small = json.loads((ROOT / "results" / "small_asteroids.json").read_text(encoding="utf-8"))
+    frames = json.loads((ROOT / "results" / "run.json").read_text(encoding="utf-8"))["frames"]
+    outage = {c["name"]: c["longest_safe_outage_days"] for c in json.loads((ROOT / "results" / "outage.json").read_text(encoding="utf-8"))}
+    sa = full["small_asteroids"]
+    v = small["encounter_speed_km_s"] * 1e3
+    rho = sa["density_kg_m3"][1]
+    out = {}
+    for tow_cfg in full["tows"]:
+        name, planet = tow_cfg["name"], tow_cfg["target"]
+        arrive = summary["tows"][name]["arrival"]["year"]
+        if planet == "earth":   # the years over which the run measured the belt's rate
+            belt = summary["belt"]["crossing"]["years"]
+        else:
+            belt = arrive - next(f["t"] for f in frames if f["mars_orbit_au"] >= cfg["belt_inner_au"])
+        years = {"belt": belt, "whole_tow": arrive}
+        mirror, cable = small["wear"][f"{name} mirror"], small["wear"][f"{name} cable"]
+        rocks = {f"{d}m": {"per_year": mirror["rocks_1m_per_year"] * count_ratio(d, sa) / count_ratio(1.0, sa)} for d in cfg["tow_rock_sizes_m"]}
+        for r in rocks.values():
+            r.update({f"over_{k}": r["per_year"] * y for k, y in years.items()})
+        r_m = full["structures"][name]["mirror_radius_km"] * 1e3
+        intensity = tow_cfg["max_beam_w"] / (math.pi * r_m ** 2)
+        one_m = math.pi / 6 * rho
+        cable_10 = cable["rocks_1m_per_year"] * count_ratio(10.0, sa) / count_ratio(1.0, sa)
+        cap = tow_cfg["max_beam_w"]
+        cable_sf = full["enablers"]["e2_strength_pa"] * full["structures"][name]["cable_cross_section_km2"] * 1e6 / (2 * cap / C_LIGHT)
+        peak = summary["total_beam_max_w"] if planet == "earth" else summary["tows"][name]["beam_max_w"]
+        limit = full["beam"]["total_limit_w"] if planet == "earth" else cap
+        prefix = "shared E1 budget" if planet == "earth" else "Mars tow"
+        out[name] = {"years": years, "rocks": rocks, "dust_holed_per_year": mirror["holed_fraction_per_year"],
+                     "dust_unrepaired": {k: mirror["holed_fraction_per_year"] * y for k, y in years.items()},
+                     "patch_km2_per_year": mirror["holed_km2_per_year"],
+                     "cable_rocks_10m": {k: cable_10 * y for k, y in years.items()},
+                     "rock_10m_kt": 0.5 * math.pi / 6 * 1000 * rho * v * v / 4.184e12,
+                     "beam_w_m2": intensity, "beam_vs_sun_surface": intensity / (SIGMA * cfg["sun_surface_k"] ** 4),
+                     "vaporise_1m_s": [one_m * j / (intensity * math.pi * 0.25) for j in sa["vaporise_j_per_kg"]],
+                     "spare_power": 1 - peak / limit, "cable_sf_at_cap": cable_sf, "cable_loss_allowed": 1 - full["safety"]["structural_safety_factor_min"] / cable_sf,
+                     "outage_all_off_days": outage[f"{prefix}, all beams off"],
+                     "outage_half_off_days": outage[f"{prefix}, half the stations off"]}
+    out["survey_warning_days"] = {d: small["survey_and_e1"][d]["worst"]["warning_days"] for d in ("20m", "100m")}
+    return out
+
+
 def run(full: dict | None = None, summary: dict | None = None) -> dict:
     full = full or load_config()
     cfg = full["mirrors"]
@@ -206,11 +326,14 @@ def run(full: dict | None = None, summary: dict | None = None) -> dict:
                   "covered_by_enablers": "E2 bounds absorption (1e-7) only; E1 sets no wavelength: neither bounds scatter"}
 
     satellites = {"panel_sunlight_vs_today": 1 / (1 + extra), "inside_km": cfg["geostationary_km"]}
+    design = refractor(cfg, full, extra, sun, rays, r_au)
+    guard = tow_protection(cfg, full, summary)
     return {"face_on_area_km2": face_on, "e3_limit_km2": limit, "sun_deg": math.degrees(sun),
             "hill_radius_km": r_au * AU / 1e3 * (full["habitability"]["earth_mass_with_moon_kg"] / (3 * 1.98892e30)) ** (1 / 3),
             "earth_shadow_km": R_EARTH / 1e3 / (sun / 2),
             "scan": scan, "simple_ring": simple, "light_ring": light, "sky": sky, "tow_mirror": tow_mirror,
-            "satellites": satellites, "full_moon_w_m2": full_moon_w, "full_moon_2.7au_w_m2": moon_at_r_w}
+            "satellites": satellites, "full_moon_w_m2": full_moon_w, "full_moon_2.7au_w_m2": moon_at_r_w,
+            "refractor_l1": design, "tow_protection": guard}
 
 
 def main() -> None:
@@ -244,6 +367,28 @@ def main() -> None:
           f"{sk['simple_ring']['band_deg']:.2f} deg, {100 * sk['simple_ring']['sky_share']:.2f}% of the sky; scatter stays under "
           f"the 2.7 AU full Moon if s < {sk['simple_ring']['scatter_under_2.7au_full_moon_if_s_below']:.1e}")
     print(f"Satellites: solar panels get {r['satellites']['panel_sunlight_vs_today']:.3f} of today's sunlight")
+    d = r["refractor_l1"]
+    print(f"Refracting ring near L1 ({d['l1_km']:,.0f} km), {d['areal_density_g_m2']} g/m2, {d['mass_kg']:.1e} kg; climate cliff "
+          f"{d['climate_cliff_sunlight']:.3f} of today's sunlight; unstable e-fold {d['unstable_efold_days']:.0f} days, steering "
+          f"{d['steering_needed_m_s2']:.1e} needed vs {d['steering_available_m_s2']:.1e} m/s2")
+    for t, x in d["by_transmission"].items():
+        print(f"  T {t}: {x['distance_km']:,.0f} km ({100 * x['past_l1']:.1f}% past L1), image {x['image_km']:,.0f} km, lands {x['lands']:.3f}, "
+              f"area {x['area_km2']:.3g} km2 ({x['area_vs_e3']:.2f}x E3); at E3 {x['sunlight_vs_today_at_e3']:.3f} of today -> "
+              f"{x['temperature_k']:.1f} K, water {x['liquid_water']:.2f}; ring {x['ring_km'][0]:,.0f}-{x['ring_km'][1]:,.0f} km, "
+              f"halo {x['halo_deg'][0]:.2f}-{x['halo_deg'][1]:.2f} deg; beam gap {x['beam_gap_km']:,.0f} km")
+    for name, g in r["tow_protection"].items():
+        if name == "survey_warning_days":
+            continue
+        rk = g["rocks"]
+        print(f"{name}: {g['years']['belt']:,.0f} belt years (whole tow {g['years']['whole_tow']:,.0f}); per year >=1 m {rk['1m']['per_year']:.3g}; "
+              f"in the belt >=20 m {rk['20m']['over_belt']:.3g}, >=100 m {rk['100m']['over_belt']:.3g}, >=1 km {rk['1000m']['over_belt']:.3g} "
+              f"(whole tow {rk['20m']['over_whole_tow']:.3g} / {rk['100m']['over_whole_tow']:.3g} / {rk['1000m']['over_whole_tow']:.3g}); "
+              f"dust unrepaired {100 * g['dust_unrepaired']['belt']:.2f}% ({100 * g['dust_unrepaired']['whole_tow']:.2f}%); "
+              f"cable >=10 m {g['cable_rocks_10m']['belt']:.2f} ({g['cable_rocks_10m']['whole_tow']:.2f}), {g['rock_10m_kt']:.2f} kt; "
+              f"beam {g['beam_w_m2']:.2e} W/m2 = {g['beam_vs_sun_surface']:,.0f}x Sun's surface, 1 m rock gone in "
+              f"{g['vaporise_1m_s'][0]:.4f}-{g['vaporise_1m_s'][2]:.4f} s; patch {g['patch_km2_per_year']:.1f} km2/yr; spare power "
+              f"{100 * g['spare_power']:.1f}%; cable SF {g['cable_sf_at_cap']:.2f} (may lose {100 * g['cable_loss_allowed']:.1f}%); outage "
+              f"{g['outage_all_off_days']} d all off, {g['outage_half_off_days']} d half off")
     with open(args.out, "w", encoding="utf-8") as fh:
         json.dump(r, fh, indent=1, default=float)
     print(f"Wrote {args.out}")
