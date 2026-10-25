@@ -357,8 +357,8 @@
    "years_per_1km": 9281.768110110119,
    "disruption_j_per_kg": 5659089.7316734325,
    "breaker_kg": 4.883237520369334e+22,
-   "breaker_over_belt_mass": 19.77019239015925,
-   "binding_over_belt_mass": 5.911753688863484
+   "breaker_over_belt_mass": 20.397817545402397,
+   "binding_over_belt_mass": 6.099428409144864
   },
   "mars": {
    "rate_vs_earth": 0.072795393476938,
@@ -367,8 +367,8 @@
    "years_per_1km": 1200.33113017463,
    "disruption_j_per_kg": 24012066.174299136,
    "breaker_kg": 8.913683812755502e+23,
-   "breaker_over_belt_mass": 360.8778871560932,
-   "binding_over_belt_mass": 113.9387266123513
+   "breaker_over_belt_mass": 372.3343280181914,
+   "binding_over_belt_mass": 117.55582904448944
   },
   "phobos": {
    "rate_vs_earth": 4.1634832158008113e-07,
@@ -377,8 +377,8 @@
    "years_per_1km": 209868930.39959896,
    "disruption_j_per_kg": 9316.29383717395,
    "breaker_kg": 10771353690414.229,
-   "breaker_over_belt_mass": 4.360871939438959e-09,
-   "binding_over_belt_mass": 1.7999526963886597e-11,
+   "breaker_over_belt_mass": 4.499312318468767e-09,
+   "binding_over_belt_mass": 1.8570940518295697e-11,
    "breaker_km": 2.174772784770894,
    "years_per_breaker": 445902207.1279538
   },
@@ -389,8 +389,8 @@
    "years_per_1km": 957531917.5964928,
    "disruption_j_per_kg": 3369.025370904922,
    "breaker_kg": 767896451699.9648,
-   "breaker_over_belt_mass": 3.1088925170039064e-10,
-   "binding_over_belt_mass": 8.79817083029712e-13,
+   "breaker_over_belt_mass": 3.207587517543713e-10,
+   "binding_over_belt_mass": 9.077477840782744e-13,
    "breaker_km": 0.9017607900966138,
    "years_per_breaker": 866147520.5143894
   }

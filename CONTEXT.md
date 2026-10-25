@@ -280,3 +280,8 @@ Ideas, not started:
   capped at 1e9 Earth freezes (238 K). Sunlight-held ring at 120 deg on 1 um film: 9.8e8 km2, 711,000 km out. Tow
   mirror: 1,466 K red disc the Moon's size in the night sky, 0.24 lux at full power; scatter must stay under 3.4e-11.
   Satellites' panels get 13.6%. Q&A, risk register, report sentence. Stacked on #35 (and #34); PR targets `main`.
+- 25 Oct: Report references (#36, Akhil): 42 checked references with [n] in the text, related work (Lu & Love 2005;
+  Korycansky et al. 2001: a 1e19 kg body every ~6,000 years for ~1e6 passes at ~1e4 km, Moon likely lost, "extremely
+  risky"), Limits of the model brought up to date (#30, #32). Checking caught the belt mass: Pitjeva & Pitjev 2018 give
+  4.008e-4 Earth masses (2.394e21 kg), not 12.4e-10 solar masses; fixed in `config.yaml`, small-asteroid results
+  re-run (Mars break-up 370 belt masses). The NEO Surveyor sensitivity source is the EU-ESA NEO size workshop, Nov 2024.

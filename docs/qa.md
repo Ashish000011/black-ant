@@ -173,7 +173,7 @@ Craters only. Scaled by size and gravity focusing at the same encounter speed, t
 sparser. Phobos and Deimos get almost none. Breaking Phobos up takes a 2.2 km rock (Benz & Asphaug 1999), which comes
 once in 450 million years; Deimos takes a 0.9 km rock, once in 870 million years. Breaking the Moon up takes 20
 times the whole belt's mass hitting it (Stewart & Leinhardt 2009; at least 6 times even if every joule went into
-it), and Mars 360 times.
+it), and Mars 370 times.
 
 **Won't all those mirrors make space debris?**
 Some, and it stays small. Dust punches holes in the mirror film: 3.3 x 10^-7 of each face a year. On 8.5 x 10^8 km^2
