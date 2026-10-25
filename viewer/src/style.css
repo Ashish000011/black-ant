@@ -140,6 +140,7 @@ kbd { font: inherit; font-size: calc(10px * var(--ui-zoom, 1)); padding: 0 4px; 
 .lbl.to-left { transform: translate(calc(-100% - 8px), -50%); }
 .lbl.below { transform: translate(8px, 40%); }
 .lbl.force { color: #f0efec; font-weight: 600; }
+.lbl.wrap { white-space: normal; width: max-content; max-width: calc(220px * var(--ui-zoom, 1)); }
 .hud {
   position: absolute; top: 8px; left: calc(330px * var(--ui-zoom, 1)); right: calc(440px * var(--ui-zoom, 1));
   display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 12px; font-size: calc(11px * var(--ui-zoom, 1)); color: #d9d9d9; pointer-events: none; text-shadow: 0 0 3px #000; font-variant-numeric: tabular-nums;
@@ -381,6 +382,7 @@ code { font-size: calc(10.5px * var(--ui-zoom, 1)); background: var(--field); pa
   #model, #data { flex: none; }
   .hud { display: none; }
   .scale-note { left: 8px; right: 8px; bottom: 50px; max-width: none; min-width: 0; font-size: calc(10px * var(--ui-zoom, 1)); }
+  .lbl.wrap { max-width: 38vw; font-size: calc(10px * var(--ui-zoom, 1)); }
   .statusbar { display: none; }
   .mark .long { display: none; }
   .mark .short { display: inline; }
