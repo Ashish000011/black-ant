@@ -29,6 +29,10 @@ your own words.
   segments curling over the planet to gripper claws). The audit (`sim/scenarios/octo.py`, test X8) now models that
   curled arm: the net force is still zero, and curled, an arm breaks at its root past 5 km in steel and 637 km in
   ideal nanotube, sooner than it would buckle standing up.
+- **Small asteroids at 2.7 AU** ([#30](https://github.com/Ashish000011/black-ant/issues/30)): rocks under 1 km
+  (`sim/scenarios/small_asteroids.py`): impacts by size from JWST's size distribution, how early an infrared survey
+  sees them, E1's push, dust wear on the mirrors and cables, the debris it makes, Mars and the Moons, and why a
+  Kirkwood gap does not help.
 
 ## Madhukar Verma
 
