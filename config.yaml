@@ -338,3 +338,23 @@ small_asteroids:               # sim/scenarios/small_asteroids.py: rocks under 1
   # Kirkwood gaps (3:1, 5:2, 7:3) against 2.7 AU, from the 20,000 real orbits in belt_sample.orbits_file.
   kirkwood_au: [2.50, 2.82, 2.95]
   kirkwood_band_au: 0.01
+
+mirrors:                       # sim/scenarios/mirrors.py: where the sunlight mirrors sit and what Earth sees (#32)
+  # A flat mirror at angle phi from the Sun, seen from Earth, catches sunlight at an incidence whose cosine is
+  # sin(phi / 2); if its light covers Earth's disc, a share (1 - cos phi) / 2 lands on the night side. Its spot on
+  # Earth is the Sun's apparent size (night.sun_diameter_1au_deg / r) times its distance, so a mirror near enough
+  # can aim it at daylit ground it sees: a strip 180 - phi degrees wide.
+  phi_scan_deg: [178, 150, 120, 90, 70.53]
+  spot_fill_max: 0.5           # an aimed spot at most half as wide as the daylit strip it lands in
+  # The simple ring: mirrors orbiting Earth in the plane facing the Sun (every point 90 deg from it), between
+  # geostationary orbit and the Moon, and inside the beam clearance (beam.earth_clearance_km).
+  simple_ring: {phi_deg: 90, distance_km: 200000}
+  # The light-held ring: mirrors hovering 120 deg from the Sun on sunlight's push (no orbit holds them there).
+  light_ring: {phi_deg: 120}
+  film_um: [1, 2, 5]           # mirror film (E2, enablers.e2_density_kg_m3); LightSail 2's sail is 4.5 um
+  # Today's satellites and the Moon (NASA fact sheets): the fleet keeps clear of them.
+  geostationary_km: 42164
+  moon_perigee_km: 356500
+  moon_apogee_km: 406700
+  tow_bearing_deg: 135         # the Earth tow's asteroid: 45 deg between ahead and away from the Sun
+  visible_um: [0.38, 0.75]     # the eye's range, for the tow mirror's glow

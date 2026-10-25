@@ -1,0 +1,172 @@
+{
+ "face_on_area_km2": 850345744.265371,
+ "e3_limit_km2": 1000000000.0,
+ "sun_deg": 0.1974074074074074,
+ "hill_radius_km": 4056859.1991738565,
+ "earth_shadow_km": 3698254.4482183424,
+ "scan": [
+  {
+   "phi_deg": 178,
+   "incidence": 0.9998476951563913,
+   "night_share_if_flooding": 0.9996954135095479,
+   "area_km2": 850475275.7692401,
+   "area_day_side_flooding_km2": 2792229144854.6367,
+   "daylit_strip_km": 222.38985328911778
+  },
+  {
+   "phi_deg": 150,
+   "incidence": 0.9659258262890683,
+   "night_share_if_flooding": 0.9330127018922194,
+   "area_km2": 880342694.1510226,
+   "area_day_side_flooding_km2": 13141934650.574755,
+   "daylit_strip_km": 3335.847799336761
+  },
+  {
+   "phi_deg": 120,
+   "incidence": 0.8660254037844386,
+   "night_share_if_flooding": 0.7499999999999999,
+   "area_km2": 981894688.7117293,
+   "area_day_side_flooding_km2": 3927578754.8469157,
+   "daylit_strip_km": 6671.695598673525
+  },
+  {
+   "phi_deg": 90,
+   "incidence": 0.7071067811865475,
+   "night_share_if_flooding": 0.49999999999999994,
+   "area_km2": 1202570484.2463312,
+   "area_day_side_flooding_km2": 2405140968.4926624,
+   "daylit_strip_km": 10007.543398010286
+  },
+  {
+   "phi_deg": 70.53,
+   "incidence": 0.5773589665155303,
+   "night_share_if_flooding": 0.3333433762158813,
+   "area_km2": 1472819846.199613,
+   "area_day_side_flooding_km2": 2209263050.353418,
+   "daylit_strip_km": 12172.508619779845
+  }
+ ],
+ "simple_ring": {
+  "phi_deg": 90,
+  "distance_km": 200000,
+  "area_km2": 1202570484.2463312,
+  "over_e3": 0.20257048424633117,
+  "spot_km": 689.0818454170204,
+  "spot_fill": 0.06885624353665303,
+  "orbit_days": 10.302490708301537,
+  "turning_m_s2": 9.951854597571676e-05,
+  "sail_m_s2": {
+   "1um": 0.0006071758782243727,
+   "2um": 0.00030358793911218636,
+   "5um": 0.00012143517564487456
+  },
+  "night_share": 0.0,
+  "in_earth_shadow": false,
+  "capped_at_e3": {
+   "sunlight_vs_today": 0.8545167005212134,
+   "temperature_k": 237.68075351810376,
+   "liquid_water": 0.0
+  },
+  "beam_gap_km": 247897.73029394948,
+  "tow_gap_km": 512858.35707884317,
+  "above_geostationary_km": 157836.0,
+  "from_moon_orbit_km": 156500.0,
+  "clear": true,
+  "aimed": true
+ },
+ "light_ring": {
+  "phi_deg": 120,
+  "area_km2": 981894688.7117293,
+  "e3_margin": 0.018105311288270753,
+  "daylit_strip_km": 6671.695598673525,
+  "films": {
+   "1um": {
+    "distance_km": 710887.1887450692,
+    "light_m_s2": 0.0004553819086682795,
+    "earth_pull_m_s2": 0.0007887446026611504,
+    "inward_m_s2": 0.00045538190866827965,
+    "circling_days": 84.55589660624884,
+    "solar_tide_over_pull": 0.005445603942805056,
+    "spot_km": 2449.29727951885,
+    "spot_fill": 0.3671176604648782,
+    "beam_gap_km": 92454.1359214152,
+    "tow_gap_km": 187950.15138993607,
+    "above_geostationary_km": 668723.1887450692,
+    "from_moon_orbit_km": 304187.1887450692,
+    "clear": true,
+    "aimed": true,
+    "works": true
+   },
+   "2um": {
+    "distance_km": 1005346.3036405591,
+    "light_m_s2": 0.00022769095433413975,
+    "earth_pull_m_s2": 0.0003943723013305752,
+    "inward_m_s2": 0.00022769095433413983,
+    "circling_days": 142.20550068951675,
+    "solar_tide_over_pull": 0.015402493902454621,
+    "spot_km": 3463.8294309790826,
+    "spot_fill": 0.5191827744161118,
+    "beam_gap_km": 49575.42152632964,
+    "tow_gap_km": 420784.9010314073,
+    "above_geostationary_km": 963182.3036405591,
+    "from_moon_orbit_km": 598646.3036405591,
+    "clear": true,
+    "aimed": false,
+    "works": false
+   },
+   "5um": {
+    "distance_km": 1589592.078367698,
+    "light_m_s2": 9.107638173365591e-05,
+    "earth_pull_m_s2": 0.00015774892053223012,
+    "inward_m_s2": 9.107638173365596e-05,
+    "circling_days": 282.72968042008824,
+    "solar_tide_over_pull": 0.06088370297326489,
+    "spot_km": 5476.795214109451,
+    "spot_fill": 0.8209000445401547,
+    "beam_gap_km": 19190.74305615052,
+    "tow_gap_km": 985457.1718270677,
+    "above_geostationary_km": 1547428.078367698,
+    "from_moon_orbit_km": 1182892.078367698,
+    "clear": true,
+    "aimed": false,
+    "works": false
+   }
+  }
+ },
+ "sky": {
+  "mirror_share_of_daylight": 0.8636693670101004,
+  "lit_mirrors_vs_todays_sun_disc": 0.9091256494843163,
+  "simple_ring": {
+   "where": "a great circle 90 deg from the Sun",
+   "band_deg": 0.2741531959736496,
+   "sky_share": 0.0023924379623027235,
+   "scatter_w_m2_per_s": 1.2633284467684778,
+   "scatter_under_2.7au_full_moon_if_s_below": 0.000291885994210712
+  }
+ },
+ "tow_mirror": {
+  "temperature_k": 1465.5640301357446,
+  "disc_deg": 0.46764723507773986,
+  "bearing_from_sun_deg": 135,
+  "glow_w_m2": 3.9210729430175375,
+  "glow_lux": 0.24273327119465282,
+  "glow_vs_full_moon": 0.9709330847786113,
+  "glow_vs_2.7au_full_moon": 7.078102188036078,
+  "glow_lux_run": [
+   0.00782950563665742,
+   0.14852443294486464
+  ],
+  "glow_heat_share": 0.002881023470255355,
+  "scatter_w_m2_per_s": 78421458.86035077,
+  "scatter_limit_full_moon": 3.427852633802341e-11,
+  "scatter_limit_heat": 3.677471828365274e-08,
+  "heat_share_at_1e-6": 0.0576204694051071,
+  "covered_by_enablers": "E2 bounds absorption (1e-7) only; E1 sets no wavelength: neither bounds scatter"
+ },
+ "satellites": {
+  "panel_sunlight_vs_today": 0.13633063298989956,
+  "inside_km": 42164
+ },
+ "full_moon_w_m2": 0.002688172043010753,
+ "full_moon_2.7au_w_m2": 0.00036874787969969167
+}
