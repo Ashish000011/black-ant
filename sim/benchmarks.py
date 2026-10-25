@@ -199,13 +199,19 @@ def main() -> None:
         k, v = kv.split("=", 1)
         params[k] = eval(v, {"__builtins__": {}})  # numbers or tuples typed by a judge
     print(f"{'#':>2}  {'benchmark':34s} {'measured':>40s}  {'expected':>28s}  {'tolerance':>18s}  result")
+    passed = []
     for n in args.which or ALL:
         fn = ALL[n]
         r = fn(**{k: v for k, v in params.items() if k in fn.__code__.co_varnames})
+        passed.append(r["ok"])
         meas = r["measured"] if isinstance(r["measured"], (list, dict)) else f"{r['measured']:.6g}"
         exp = r["expected"] if isinstance(r["expected"], list) else f"{r['expected']:.6g}"
         print(f"{n:>2}  {r['name']:34s} {str(meas):>40s}  {str(exp):>28s}  {r['tolerance']:>18s}  "
               f"{'PASS' if r['ok'] else 'FAIL'} {r['unit']} {r['note']}")
+    noun = "official benchmark passes" if len(passed) == 1 else "official benchmarks pass"
+    print(f"\n{sum(passed)} of {len(passed)} {noun}." + ("" if all(passed) else " Some FAIL: see above."))
+    if not all(passed):
+        raise SystemExit(1)
 
 
 if __name__ == "__main__":
