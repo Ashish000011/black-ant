@@ -26,7 +26,7 @@ of each force). Curled over the planet as the company's demo draws it, a 12,000 
 `sim/scenarios/octo.py` (the demo's curled arm, from `config.yaml` `octo_earth`), test X8.
 
 - Repo: `github.com/Ashish000011/black-ant`. Nobody pushes to `main`: branch, PR, Ashish reviews and merges.
-- Team: Ashish Bharti (lead), Madhukar Verma, Akhil Semwal, Sushmit Sukla, Prabhanshu Kerketa. Who did what is in
+- Team: Sushmit Sukla (team leader), Ashish Bharti, Akhil Semwal, Madhukar Verma, Prabhanshu Kerketa. Who did what is in
   `docs/contributions.md`, by the work each actually did.
 
 ## 2. The six winning conditions and where we stand (final run, 24 Oct)
