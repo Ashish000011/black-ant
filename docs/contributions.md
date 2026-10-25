@@ -7,7 +7,7 @@ Each section lists what that person actually did, with the pull request where th
 the pull requests are the record behind every line. Members: check your own section and add anything missing, in
 your own words.
 
-## Ashish Bharti (team lead)
+## Ashish Bharti
 
 - **Concept and approach:** the gravity tractor held in place by light, Mars moved out of the way first, sunlight
   mirrors to keep Earth at today's sunlight, and the three declared enablers.
@@ -62,7 +62,7 @@ your own words.
 - **The demo video re-rendered** with the new test bench, with each shot framed around the floating panels
   ([#26](https://github.com/Ashish000011/black-ant/pull/26)).
 
-## Sushmit Sukla
+## Sushmit Sukla (Test case)
 
 - Started this contribution log, and pointed the status page and README to the new deliverables
   ([#21](https://github.com/Ashish000011/black-ant/pull/21)).

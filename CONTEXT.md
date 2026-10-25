@@ -89,7 +89,7 @@ cd viewer && npm ci && npm run dev        # test bench locally
 | --- | --- |
 | Source code with README | Done |
 | Runnable simulation + 3D test bench | Done; Blender-style test bench in PR #23 |
-| Technical report (8 pages max) | Drafted (`docs/report.md`); needs PDF export |
+| Technical report (8 pages max) | Done: `docs/black-ant-report.pdf`, 8 pages, built from `docs/report.md` by `run.bat pdf` |
 | Conservation and momentum record | Done (`docs/momentum-record.md`) |
 | Demo video (3 min max) | Done, captions on screen (`media/black-ant-demo.mp4`, 2 min 20 s); re-rendered with the Blender-style test bench and again with #27's Octo-Earth view |
 | Pitch deck (7 min) | Drafted, 13 slides (shared deck, ask Ashish) |
@@ -299,4 +299,6 @@ Ideas, not started:
   sunlight, 286 K at T 0.95; 281.7 K at 0.90; freezes at 0.85 (cliff 89.3%). Tow mirrors: 62 rocks >= 20 m over the
   belt years (196 whole tow), beam vaporises a 1 m rock in 3-6 ms, 7.3% spare power. Q&A, register, report, enablers.
 - 25 Oct: Report trimmed to 8 pages (A4, 10.5 pt, references in two columns at 8 pt; 150 words of spare room): Summary states the L1 optics outcome (97%, 286 K); Octo-Earth table cut to four materials; one Sunlight optics paragraph; E3 limit reads sunlight optics; Limits adds the 13-month seasons and that the 1.4% tilt re-aim must come out of E3 with the L1 ring; Ceres leaving in one chaos copy stated.
+- 25 Oct: Wrap-up. `run.bat` (Windows menu: setup, test bench, benchmarks, tests, report PDF, viewer data, journey) and `scripts/report_pdf.py` (Chrome or Edge prints docs/report.md to `docs/black-ant-report.pdf`, 8 pages, fails if over); the explainer video and its captions in `media/`; the Moon stress-test answer in the Q&A.
+- 25 Oct: Scale bar in every 3D view (`Stage.drawScale`): a round length in km or AU and the real distance 1 cm on screen spans (96 CSS px per inch), exact in the top view and at the centre of the tilted views; distances are true in both modes. `python -m sim.benchmarks` now ends with "10 of 10 official benchmarks pass" and exits 1 if any fails.
 - 25 Oct: Physics paper and deck (P13) in `docs/physics/`. Paper: 7 A4 pages, two columns, 10 figures from `results/` (journey with a by-hand Gauss spiral, 8,004 vs 8,758 years; ledger; climate branches and the 89.3% cliff; Mars crossing and parking; outages; Octo-Earth arms; impacts; eccentricity trim; a million years), 6 tables, 9 equations, 50 references, every enabler with its guide kind, bound, use and precedent. Deck: 11 slides plus 5 hidden backups, clickable map, native charts, speaker notes; validated and rendered.

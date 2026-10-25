@@ -1,0 +1,168 @@
+1
+00:00:01,000 --> 00:00:04,799
+This is the Black Ant plan for moving the Earth.
+
+2
+00:00:04,949 --> 00:00:15,077
+The goal: carry Earth from its orbit at 1 AU out to 2.7 AU, near the asteroid belt.
+
+3
+00:00:15,227 --> 00:00:22,080
+It must get there within 10,000 years, without harming the planet or anyone on it.
+
+4
+00:00:23,080 --> 00:00:29,723
+Rule 1, Newton's third law: every push comes with an equal push back.
+
+5
+00:00:29,873 --> 00:00:38,522
+Sit in a car and push its dashboard: the car does not move. Your push and the push back cancel.
+
+6
+00:00:38,672 --> 00:00:47,725
+A machine standing on Earth, pushing against Earth, is the same: it only pushes Earth against itself.
+
+7
+00:00:47,875 --> 00:00:52,564
+To move a planet, the force must come from outside it.
+
+8
+00:00:53,564 --> 00:01:01,713
+Rule 2, gravity: every mass pulls on every other mass, even across empty space.
+
+9
+00:01:01,863 --> 00:01:09,276
+The pull weakens with the square of the distance: twice as far, a quarter of the pull.
+
+10
+00:01:09,426 --> 00:01:16,045
+No rope, and no contact. Just mass, pulling on mass.
+
+11
+00:01:17,045 --> 00:01:24,079
+So we use a rock: an asteroid about 670 km wide.
+
+12
+00:01:24,229 --> 00:01:32,817
+It is parked 637,100 km from Earth, 1.7 times as far as the Moon.
+
+13
+00:01:32,967 --> 00:01:38,346
+It sits slightly ahead of Earth, and slightly further from the Sun.
+
+14
+00:01:38,496 --> 00:01:43,499
+Its gravity gently pulls Earth forward, along its path.
+
+15
+00:01:44,499 --> 00:01:50,143
+Rule 3: a push along the direction of motion makes an orbit bigger.
+
+16
+00:01:50,293 --> 00:01:56,332
+Every lap around the Sun, Earth's orbit widens, just a little.
+
+17
+00:01:56,482 --> 00:02:03,130
+The pull is tiny: 6.5 × 10⁻⁸ m/s², under a ten-millionth of a metre per second, every second.
+
+18
+00:02:03,280 --> 00:02:11,204
+But it never stops: over 8,700 years it carries Earth all the way out.
+
+19
+00:02:12,204 --> 00:02:19,537
+But gravity works both ways: Earth pulls the rock just as hard as the rock pulls Earth.
+
+20
+00:02:19,687 --> 00:02:26,771
+Left alone, the rock would fall onto Earth. So it has to be held in place.
+
+21
+00:02:27,771 --> 00:02:37,864
+Rule 4, light pushes: light carries momentum, so when it bounces off a mirror it gives the mirror a small push.
+
+22
+00:02:38,014 --> 00:02:46,497
+A huge mirror, made of a super-strong material (our assumption E2), is tied to the rock with cables.
+
+23
+00:02:46,647 --> 00:02:58,275
+Far away on the Sun's side, many light stations shine a beam onto it: our assumption E1, up to 10²⁶ W of light.
+
+24
+00:02:58,425 --> 00:03:08,194
+The bounced light pushes the rock away from Earth exactly as hard as Earth pulls it back, so the rock hovers on its spot.
+
+25
+00:03:08,344 --> 00:03:16,192
+The beam never comes closer to Earth than 420,000 km, further out than the Moon.
+
+26
+00:03:17,192 --> 00:03:27,940
+Mars lies across our path, so a second, smaller rock tows Mars out first, to 3.64 AU.
+
+27
+00:03:28,090 --> 00:03:35,913
+On the way, Jupiter's gravity tries to trap Mars at a resonance; the tow sprints across it.
+
+28
+00:03:36,063 --> 00:03:43,177
+Mars is parked by year 5,168, long before Earth arrives.
+
+29
+00:03:44,177 --> 00:03:53,835
+Rule 5, energy balance: a planet's temperature is set by the sunlight it absorbs and the heat it radiates away.
+
+30
+00:03:53,985 --> 00:04:04,473
+At 2.7 AU sunlight is 7.3 times weaker: Earth would freeze at about 150 K.
+
+31
+00:04:04,623 --> 00:04:11,386
+So mirrors in space (our assumption E3) send extra sunlight to Earth.
+
+32
+00:04:11,536 --> 00:04:21,384
+Earth always gets today's sunlight and stays near 288 K, with its water, air and Moon kept safe.
+
+33
+00:04:22,384 --> 00:04:30,038
+The asteroid belt is mostly empty space: its big rocks are millions of kilometres apart.
+
+34
+00:04:30,188 --> 00:04:38,176
+Still, without help, a 1 km asteroid would hit Earth about once every 130 years.
+
+35
+00:04:38,326 --> 00:04:44,805
+So each dangerous one is spotted 10 years ahead and nudged aside by a weak beam.
+
+36
+00:04:45,805 --> 00:04:53,028
+Rule 6, conservation: momentum and energy are never created from nothing.
+
+37
+00:04:53,178 --> 00:05:04,206
+Our simulation books every push with its partner: the light pushes the rock, the stations recoil, the bounced light carries momentum away.
+
+38
+00:05:04,356 --> 00:05:11,674
+The books balance to better than one part in 10¹⁵ (5.6 × 10⁻¹⁶); the limit is one part in a billion.
+
+39
+00:05:12,674 --> 00:05:20,388
+In year 8,758, Earth arrives at 2.7 AU.
+
+40
+00:05:20,538 --> 00:05:24,732
+The beams switch off, and the rock is sent away.
+
+41
+00:05:24,882 --> 00:05:31,795
+We then ran the new solar system for a million years: Earth stays in its new orbit.
+
+42
+00:05:31,945 --> 00:05:38,588
+That is how a light-held gravity tractor moves a planet. Team Black Ant.
+

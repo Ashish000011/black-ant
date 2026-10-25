@@ -34,7 +34,7 @@ thresholds come from the company's reference demo (see the last section).
 | 32-bit physics | 64-bit throughout, plus error-free sums in the momentum ledger |
 | One time step for everything | 1-day steps for orbits; the controller is checked against the step every 100 days |
 | Ignoring the Moon | `sim/scenarios/moon.py` follows the Moon itself; its Hill-sphere share is checked along the journey |
-| Unlabelled visual scaling | The test bench labels visualisation and true scale on screen, with the factors |
+| Unlabelled visual scaling | The test bench labels visualisation and true scale on screen, with the factors, and a scale bar in every view gives a round length and the real distance 1 cm on screen spans |
 | Hard-coded or tuned results | Every number comes from the running model, written to `results/`; tables are generated |
 | No convergence check | The journey run at half the step (0.5 days): arrival moves 28 years in 8,758 (0.3%), same orbit, 0 unresolved flags |
 
@@ -44,7 +44,7 @@ thresholds come from the company's reference demo (see the last section).
 | --- | --- |
 | Source code, README with setup, run, test | This repository |
 | Runnable simulation | The Python model, and the test bench on GitHub Pages (`viewer/`) |
-| Technical report, at most 8 pages | Drafted as a shared document; exported to PDF for submission |
+| Technical report, at most 8 pages | `docs/black-ant-report.pdf`, 8 pages, built from `docs/report.md` by `run.bat pdf` |
 | Conservation and momentum record | `docs/momentum-record.md` |
 | Demo video, at most 3 minutes | 2 minutes 20 seconds, `media/black-ant-demo.mp4` |
 | Pitch deck: 7 minutes, then 5 of questions | Deck drafted; answers in `docs/qa.md` |
