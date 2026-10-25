@@ -20,8 +20,10 @@ focused light on a mirror tied to the asteroid holds it in place. Mars is towed 
 Sunlight mirrors (E3) keep Earth at today's sunlight and 288 K. On the last stretch (from 2.0 AU) the tow steers
 Earth onto the orbit shape and plane Jupiter forces at 2.7 AU (the "arrival trim").
 
-**Why not the brief's Octo-Earth:** forces between arms and Earth are internal (net 3.7e-12 of each force), and a
-12,000 km arm buckles past 471 km (steel) or 1,444 km (nanotube). Audited in `sim/scenarios/octo.py`, test X8.
+**Why not the brief's Octo-Earth:** forces between arms and Earth are internal whatever the arms' shape (net 3.4e-13
+of each force). Curled over the planet as the company's demo draws it, a 12,000 km arm breaks at its root past 5 km
+(steel) or 637 km (nanotube); standing straight up it would buckle past 471 km or 1,444 km. Audited in
+`sim/scenarios/octo.py` (the demo's curled arm, from `config.yaml` `octo_earth`), test X8.
 
 - Repo: `github.com/Ashish000011/black-ant`. Nobody pushes to `main`: branch, PR, Ashish reviews and merges.
 - Team: Ashish Bharti (lead), Madhukar Verma, Akhil Semwal, Sushmit Sukla, Prabhanshu Kerketa. Who did what is in
@@ -87,7 +89,7 @@ cd viewer && npm ci && npm run dev        # test bench locally
 | Runnable simulation + 3D test bench | Done; Blender-style test bench in PR #23 |
 | Technical report (8 pages max) | Drafted (`docs/report.md`); needs PDF export |
 | Conservation and momentum record | Done (`docs/momentum-record.md`) |
-| Demo video (3 min max) | Done, captions on screen (`media/black-ant-demo.mp4`); re-rendered with the Blender-style test bench; the Octo-Earth shot waits for #27 |
+| Demo video (3 min max) | Done, captions on screen (`media/black-ant-demo.mp4`); re-rendered with the Blender-style test bench; its Octo-Earth shot still shows the old straight arms: re-render it now that #27 is done (`video.mjs` caption already updated) |
 | Pitch deck (7 min) | Drafted, 13 slides (shared deck, ask Ashish) |
 | Half-step convergence check | Done (numbers in section 2) |
 | Still open | Each member checks their section of `docs/contributions.md` (#17) |
@@ -175,6 +177,7 @@ while Earth goes out to 2.7 AU. Tows modelled as their pull on the planet (G m /
 | 25 Oct | Moon / tow asteroid rows open the tow close-up (not drawn in the solar-system view) | In that view Earth is drawn 260x, so they would sit inside it |
 | 25 Oct | Model panel keeps experiments, time meters, concept and enablers only; reflector numbers stay at fixed defaults (satellites follow the run, Moon reflectors restore today's full Moon) | User: no need for the sliders |
 | 25 Oct | CONTEXT.md is updated for notable changes only, in the same PR; no machine-specific setup in it | Ashish's review: every PR editing it would conflict, and local paths or accounts would mislead other machines |
+| 25 Oct | Octo-Earth drawn and audited as the company's demo draws it (experiment R: 24 jointed segments curling 72° round the globe to a claw 4,600 km up, alternate arms north and south), ring on the equator; its labels give both the curled arm's failure and the standing arm's buckling | Akhil (#27): the demo is what the company expects, "this or closest to it"; the curled arm fails sooner than the standing one buckles |
 
 ## 9. Important prompts (condensed)
 
@@ -195,6 +198,9 @@ while Earth goes out to 2.7 AU. Tows modelled as their pull on the planet (G m /
 - **25 Oct, P8:** Show the Earth-Mars swap results; is it feasible? (Answered with a chart: no, not for the final.)
 - **25 Oct, P9:** Commit it all now, with messages saying what is implemented.
 - **25 Oct, P10:** Ashish approved PR #23 with review comments: work on them, and start new sessions for the next PRs.
+- **25 Oct, P11 (Akhil, #27):** Make the Octo-Earth view match the company's demo (octo-earth-simulator.vercel.app),
+  "this or closest to it"; labels show both the curled and the standing numbers; ring on the equator; report figure
+  and a new column in its table.
 
 ## 10. What can be delivered next
 
@@ -241,3 +247,9 @@ Ideas, not started:
   enablers, and dropped from code comments. Organiser questions and `docs/video-script.md` removed from the public
   docs; the six winning conditions vs ten thresholds/benchmarks made explicit in `docs/problem.md`; report figures
   re-taken from the new test bench. Akhil assigned the Octo-Earth reference view (#27).
+- 25 Oct: Octo-Earth reference view (#27, Akhil). Studied the company's demo (its own code): experiment R's arm is 24
+  jointed segments leaving at 36.1° and bending 7.13° down per joint (less toward the tip) to a claw 72° round the
+  globe, 4,600 km up. `config.yaml` `octo_earth` and `octo.py` now model that arm (`arm_path`, `curled_root`): net
+  force 3.4e-13 (was 3.7e-12 for straight arms); curled it breaks at its root past 5 km (steel), 637 km (nanotube),
+  safety factor 0.012 at 12,000 km. Test X8 checks the shape, the net force and the curled failure. `scene.js` draws
+  the ring band, the jointed arms with collars and three-fingered claws; report figure, table and docs updated.

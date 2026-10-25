@@ -45,7 +45,8 @@ official benchmarks pass; the momentum ledger closes to 5.6 × 10^-16 (limit 10^
 1. **Report to PDF** and deck rehearsal.
 2. **Contribution log** (#17): careers offers go by individual contribution, so each member checks their section
    of [contributions.md](contributions.md) and adds anything missing.
-3. **A realistic Octo-Earth reference view** (Akhil, #27), then the demo video's Octo-Earth shot re-rendered.
+3. **The demo video's Octo-Earth shot re-rendered** with the new reference view (#27: curled jointed arms, as the
+   company's demo draws them).
 
 ## How to look at it
 
