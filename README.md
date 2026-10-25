@@ -5,7 +5,7 @@ from 1 AU to about 2.7 AU, near the asteroid belt, without harming the planet or
 winning conditions (target within 10,000 years, Earth safe, structures at safety factor 1.5 or more,
 benchmarks passing, every force booked, no unresolved flags) are in [docs/problem.md](docs/problem.md).
 
-**Start here:** [where we are](docs/status.md) · [technical report](docs/report.md) · [demo video](media/black-ant-demo.mp4) · [3D test bench](https://ashish000011.github.io/black-ant/)
+**Start here:** [where we are](docs/status.md) · [technical report](docs/report.md) · [physics paper](docs/physics/black-ant-physics-paper.pdf) · [physics deck](docs/physics/black-ant-physics-deck.pptx) · [demo video](media/black-ant-demo.mp4) · [3D test bench](https://ashish000011.github.io/black-ant/)
 
 ## Our approach in short
 
@@ -123,6 +123,7 @@ checks are X1 to X9 in `tests/test_extra_checks.py` and `tests/test_checks.py`.
 | `docs/approach.md` | Our plan, the physics, the machine, what we found and fixed |
 | `docs/status.md` | Where we are: every deliverable and issue, and what is left |
 | `docs/report.md` | The technical report (a copy of the shared document), with figures in `docs/img/` |
+| `docs/physics/` | The physics paper (PDF, 7 pages) and the clickable physics deck (.pptx), both built from `results/` by the scripts beside them |
 | `docs/qa.md`, `docs/rules.md` | Answers for the judges' questions; the guide's rules and where each is met |
 | `docs/contributions.md` | Who built what: each member's own lines, for the careers offers |
 | `docs/risk-register.md` | Every risk: why it matters, how we check it, the counter, its status, its owner |
