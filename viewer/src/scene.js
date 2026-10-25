@@ -16,6 +16,7 @@ const VIS_AU = { sun: 0.09, venus: 0.045, earth: 0.05, mars: 0.04, jupiter: 0.12
 // Top view: how far out it shows at first (AU, half the screen's height), and with every orbit.
 const TOP_HALF_AU = { inner: 4.3, all: 32 };
 const CLOSE_VIS = { planet: 6, moon: 6, rock: 30, mirror: 4 };
+const OCTO_VIS = 3;  // Octo-Earth: arms, joints, claws and the ring band drawn this many times as thick
 const HILL_KM_PER_AU = { earth: 1.5026e6, mars: 7.114e5 };
 
 // Ecliptic (x, y, z) to three.js (x, z, -y): the ecliptic is the ground plane, its north pole is up.
@@ -134,6 +135,89 @@ function sphere(color, map = null, emissive = 0x000000) {
     new THREE.MeshStandardMaterial({ color: map ? 0xffffff : color, map, roughness: 0.9, metalness: 0, emissive }));
 }
 
+// Armour plates for the Octo-Earth arms and ring: light and graphite panels with dark seams.
+function plateTexture(cols, rows) {
+  const c = document.createElement("canvas");
+  c.width = c.height = 256;
+  const g = c.getContext("2d");
+  const w = c.width / cols, h = c.height / rows;
+  for (let i = 0; i < cols; i++) for (let j = 0; j < rows; j++) {
+    g.fillStyle = (i + 2 * j) % 5 === 0 ? "#5d6066" : "#cfcfc8";
+    g.fillRect(i * w, j * h, w, h);
+    g.strokeStyle = "#26272a";
+    g.lineWidth = 4;
+    g.strokeRect(i * w + 2, j * h + 2, w - 4, h - 4);
+  }
+  const tex = new THREE.CanvasTexture(c);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
+  return tex;
+}
+
+// Octo-Earth arm k as the demo draws it, by the rule in sim/scenarios/octo.py (arm_path), in units of 1,000 km: rooted
+// on the equator at the ring's edge, the demo's arm 1 reaching south, arm 2 north and so on. It leaves at elevation_deg
+// and each joint turns the next segment by bend_deg + curl_deg k / (segments - 1), and side_deg sideways.
+function octoArmPath(o, k) {
+  const rad = THREE.MathUtils.degToRad;
+  const phi = (2 * Math.PI * k) / o.arms;
+  const up = new THREE.Vector3(Math.cos(phi), 0, -Math.sin(phi));
+  const reach = new THREE.Vector3(0, k % 2 ? 1 : -1, 0);
+  const side = reach.clone().cross(up);  // turning about this lifts the arm
+  const d = reach.clone().applyAxisAngle(side, rad(o.elevation_deg));
+  const step = o.length_km / 1e3 / o.segments;
+  const nodes = [up.clone().multiplyScalar(RADIUS_KM.earth / 1e3).addScaledVector(reach, o.root_offset_km / 1e3)];
+  const dirs = [];
+  for (let j = 0; j < o.segments; j++) {
+    if (j) {
+      d.applyAxisAngle(side, rad(o.bend_deg + (o.curl_deg * j) / (o.segments - 1)));
+      const u = side.clone().cross(d).normalize();
+      d.applyAxisAngle(u, rad(o.side_deg)).normalize();
+      side.applyAxisAngle(u, rad(o.side_deg));
+      side.addScaledVector(d, -side.dot(d)).normalize();
+    }
+    dirs.push(d.clone());
+    nodes.push(nodes[j].clone().addScaledVector(d, step));
+  }
+  return { up, nodes, dirs, step };
+}
+
+// A three-fingered gripper claw, one arm-width across, pointing along +y from the arm's tip; its fingers curl in.
+function claw() {
+  const steel = new THREE.MeshStandardMaterial({ color: 0x3b3e44, metalness: 0.6, roughness: 0.4 });
+  const plate = new THREE.MeshStandardMaterial({ color: 0xcfcfc8, metalness: 0.3, roughness: 0.5 });
+  const band = new THREE.MeshStandardMaterial({ color: 0xd9a514, metalness: 0.4, roughness: 0.4 });
+  const pad = new THREE.MeshStandardMaterial({ color: 0xe0592b, emissive: 0x5a1a08, roughness: 0.6 });
+  const g = new THREE.Group();
+  const wrist = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.5, 0.3, 24), steel);
+  wrist.position.y = 0.1;
+  const stripe = new THREE.Mesh(new THREE.CylinderGeometry(0.52, 0.52, 0.08, 24), band);
+  stripe.position.y = 0.1;
+  const palm = new THREE.Mesh(new THREE.CylinderGeometry(0.42, 0.48, 0.12, 24), plate);
+  palm.position.y = 0.3;
+  g.add(wrist, stripe, palm);
+  // Each finger: three bones from the palm's rim, out, up, then in (radius, height), as in the demo's gripper.
+  const joints = [[0.3, 0.32], [0.6, 0.78], [0.64, 1.12], [0.48, 1.42]];
+  for (let f = 0; f < 3; f++) {
+    const finger = new THREE.Group();
+    finger.rotation.y = (2 * Math.PI * f) / 3;
+    for (let b = 0; b < 3; b++) {
+      const [r0, y0] = joints[b], [r1, y1] = joints[b + 1];
+      const len = Math.hypot(r1 - r0, y1 - y0), w = 0.16 - 0.03 * b;
+      const bone = new THREE.Mesh(new THREE.BoxGeometry(w, len, w), b === 1 ? steel : plate);
+      bone.position.set((r0 + r1) / 2, (y0 + y1) / 2, 0);
+      bone.rotation.z = -Math.atan2(r1 - r0, y1 - y0);
+      const tip = new THREE.Mesh(new THREE.BoxGeometry(0.03, len * 0.6, w * 0.8), pad);
+      tip.position.set(-w / 2, 0, 0);
+      bone.add(tip);
+      const knuckle = new THREE.Mesh(new THREE.SphereGeometry(w * 0.62, 12, 8), steel);
+      knuckle.position.set(r0, y0, 0);
+      finger.add(bone, knuckle);
+    }
+    g.add(finger);
+  }
+  return g;
+}
+
 function rock() {
   const geo = new THREE.IcosahedronGeometry(1, 3);
   const p = geo.attributes.position;
@@ -185,6 +269,7 @@ export class Stage {
     this.canvas = canvas;
     this.labelsEl = labelsEl;
     this.noteEl = noteEl;
+    this.docks = [...document.querySelectorAll(".dock")];  // the floating panels, which long labels keep clear of
     this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     this.camera = new THREE.PerspectiveCamera(45, 1, 0.0005, 1e5);
@@ -209,7 +294,7 @@ export class Stage {
       system: { pos: new THREE.Vector3(0.8, 9.6, 8.2), target: new THREE.Vector3(0, 0, 0.4) },
       earth: { pos: new THREE.Vector3(200, 1000, 1260), target: new THREE.Vector3(200, 0, 160) },
       mars: { pos: new THREE.Vector3(120, 660, 820), target: new THREE.Vector3(120, 0, 110) },
-      octo: { pos: new THREE.Vector3(4, 21, 44), target: new THREE.Vector3(0, 3, 0) },
+      octo: { pos: new THREE.Vector3(15, 6, 40), target: new THREE.Vector3(0, -1.5, 0) },
     };
     this.homePoses = Object.fromEntries(Object.entries(this.poses).map(([k, p]) => [k, { pos: p.pos.clone(), target: p.target.clone() }]));
     this.setTopZoom("inner");
@@ -399,50 +484,103 @@ export class Stage {
     return scene;
   }
 
-  // The brief's reference concept as our audit models it (sim/scenarios/octo.py): a ring round the equator and
-  // eight straight arms rooted 45 degrees apart, at the demo's default length, width and elevation.
+  // The brief's reference concept as the company's demo draws it (its experiment R) and our audit models it
+  // (sim/scenarios/octo.py): a ring band round the equator, and eight arms rooted 45 degrees apart at its edge, each
+  // 24 jointed segments curling over the planet to a gripper claw. Lengths and the curl are true; setScale sets the
+  // thickness of the arms, joints, claws and band.
   buildOcto() {
     const o = this.d.octo?.arm;
     const scene = new THREE.Scene();
     scene.add(stars());
     scene.add(new THREE.AmbientLight(0xffffff, 0.25));
-    const sunLight = new THREE.DirectionalLight(0xfff2d8, 2.2);
-    sunLight.position.set(-1, 0.4, -0.6);
+    scene.add(new THREE.HemisphereLight(0xdfe8ff, 0x202020, 0.6));
+    const sunLight = new THREE.DirectionalLight(0xfff2d8, 2.4);
+    sunLight.position.set(-0.6, 0.5, 1);
     scene.add(sunLight);
     if (!o) return scene;
     const earth = sphere(0x3987e5, planetTexture("earth"));
     earth.scale.setScalar(RADIUS_KM.earth / 1e3);
     scene.add(earth);
-    this.octoEarth = earth;
-    const ring = new THREE.Mesh(new THREE.TorusGeometry(RADIUS_KM.earth / 1e3 * 1.01, 0.12, 8, 160),
-      new THREE.MeshStandardMaterial({ color: 0xc3c2b7, metalness: 0.7, roughness: 0.35 }));
-    ring.rotation.x = Math.PI / 2;
-    scene.add(ring);
-    this.octoArms = [];
-    const el = THREE.MathUtils.degToRad(o.elevation_deg), len = o.length_km / 1e3;
-    for (let k = 0; k < o.arms; k++) {
-      const phi = (2 * Math.PI * k) / o.arms;
-      const out = new THREE.Vector3(Math.cos(phi), 0, -Math.sin(phi));
-      const dir = out.clone().multiplyScalar(Math.cos(el)).add(new THREE.Vector3(0, Math.sin(el), 0));
-      const root = out.clone().multiplyScalar(RADIUS_KM.earth / 1e3);
-      const arm = new THREE.Mesh(new THREE.CylinderGeometry(1, 1, 1, 12),
-        new THREE.MeshStandardMaterial({ color: 0x9a978f, metalness: 0.6, roughness: 0.4, emissive: 0x3a1010 }));
-      arm.position.copy(root.clone().add(dir.clone().multiplyScalar(len / 2)));
-      arm.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir);
-      arm.userData = { len, tip: root.clone().add(dir.clone().multiplyScalar(len)) };
-      scene.add(arm);
-      this.octoArms.push(arm);
-    }
-    const r = this.d.octo;
-    const steel = r.materials[0], cnt = r.materials.find((m) => m.name.startsWith("Carbon"));
-    this.label("octo", "Earth", () => new THREE.Vector3(0, 0, 0));
-    this.label("octo", "Ring round the equator", () => new THREE.Vector3(-RADIUS_KM.earth / 1e3, 0, 0), "dim");
-    this.label("octo", `Arm: ${o.length_km.toLocaleString("en")} km long, ${o.outer_diameter_km} km across, ${o.current_a.toExponential(0).replace("e+", "e")} A`,
-      () => this.octoArms[0].userData.tip, "to-left");
-    this.label("octo", `Standing, it buckles past ${Math.round(steel.buckling_length_km)} km (steel), ${Math.round(cnt.buckling_length_km).toLocaleString("en")} km (nanotube)`,
-      () => this.octoArms[2].userData.tip, "force");
-    this.label("octo", "Its push lands on Earth's own core: net force 0", () => this.octoArms[5].userData.tip, "force");
+    const v = { arms: [] };
+    for (let k = 0; k < o.arms; k++) v.arms.push(octoArmPath(o, k));
+    const n = o.arms * o.segments;
+    const inst = (geo, mat, count) => {
+      const m = new THREE.InstancedMesh(geo, mat, count);
+      m.frustumCulled = false;
+      scene.add(m);
+      return m;
+    };
+    const steel = new THREE.MeshStandardMaterial({ color: 0x3b3e44, metalness: 0.6, roughness: 0.4 });
+    const gold = new THREE.MeshStandardMaterial({ color: 0xd9a514, metalness: 0.4, roughness: 0.4 });
+    const armour = plateTexture(8, 3);
+    v.segments = inst(new THREE.CylinderGeometry(0.5, 0.5, 1, 24),
+      new THREE.MeshStandardMaterial({ map: armour, metalness: 0.3, roughness: 0.5 }), n);
+    // Joints: a rotary collar between segments with a hazard band and a running light (as the demo's knuckles).
+    v.collars = [
+      inst(new THREE.CylinderGeometry(0.6, 0.6, 0.3, 24), steel, n - o.arms),
+      inst(new THREE.CylinderGeometry(0.62, 0.62, 0.1, 24), gold, n - o.arms),
+      inst(new THREE.CylinderGeometry(0.63, 0.63, 0.025, 24), new THREE.MeshBasicMaterial({ color: 0x5fe3ff }), n - o.arms),
+    ];
+    // The root hinge on the band, and its drive.
+    v.hinges = [inst(new THREE.BoxGeometry(1.3, 0.5, 1.3), steel, o.arms),
+      inst(new THREE.CylinderGeometry(0.28, 0.28, 1.5, 16).rotateZ(Math.PI / 2), gold, o.arms)];
+    const hand = claw();
+    v.claws = v.arms.map(() => { const c = hand.clone(); scene.add(c); return c; });
+    const plates = plateTexture(2, 4);
+    plates.repeat.set(180, 1);
+    v.band = new THREE.Mesh(new THREE.BufferGeometry(), new THREE.MeshStandardMaterial({ map: plates, metalness: 0.3, roughness: 0.5 }));
+    scene.add(v.band);
+    this.octoView = v;
+    const r = this.d.octo, c = r.curl;
+    const steelM = r.materials[0], cnt = r.materials.find((m) => m.name.startsWith("Carbon"));
+    const km = (x) => `${Math.round(x).toLocaleString("en")} km`;
+    // Labels on the arms seen at the sides, clear of the Data panel on the right and of the note at the bottom.
+    const mid = (k) => () => v.arms[k].nodes[Math.round(o.segments / 2)];
+    const tip = (k) => () => v.arms[k].nodes.at(-1);
+    const R = RADIUS_KM.earth / 1e3;
+    this.label("octo", "Earth", () => new THREE.Vector3(0, 0, 0), "dim");
+    this.label("octo", `Ring round the equator, ${o.ring_width_km} km wide`, () => new THREE.Vector3(0.5 * R, -0.5, 0.87 * R), "dim wrap");
+    this.label("octo", `Arm: ${km(o.length_km)} in ${o.segments} jointed segments, ${o.outer_diameter_km} km across, `
+      + `${o.current_a.toExponential(0).replace("e+", "e")} A; its claw ${km(c.tip_altitude_km)} up, ${Math.round(c.reach_deg)}° round the globe`,
+      tip(1), "wrap");
+    this.label("octo", `Curled like this, its weight breaks it at the root past ${km(steelM.curled_longest_km)} (steel), `
+      + `${km(cnt.curled_longest_km)} (nanotube)`, tip(5), "force wrap to-left");
+    this.label("octo", `Standing straight up, it would buckle past ${km(steelM.buckling_length_km)} (steel), `
+      + `${km(cnt.buckling_length_km)} (nanotube)`, mid(4), "force wrap to-left");
+    this.label("octo", "Whatever the arms' shape, their push lands on Earth's own core: net force 0", mid(5), "force wrap to-left");
     return scene;
+  }
+
+  // Places the Octo-Earth parts with the arms, joints, claws and band f times as thick as true.
+  placeOcto(f) {
+    const v = this.octoView, o = this.d.octo.arm;
+    const D = (o.outer_diameter_km / 1e3) * f;
+    const m = new THREE.Matrix4(), q = new THREE.Quaternion(), s = new THREE.Vector3(), Y = new THREE.Vector3(0, 1, 0);
+    let i = 0, j = 0;
+    v.arms.forEach((a, k) => {
+      a.dirs.forEach((d, n) => {
+        q.setFromUnitVectors(Y, d);
+        v.segments.setMatrixAt(i++, m.compose(a.nodes[n].clone().addScaledVector(d, a.step / 2), q, s.set(D, a.step, D)));
+        if (!n) return;
+        q.setFromUnitVectors(Y, a.dirs[n - 1].clone().add(d).normalize());  // halfway between its two segments
+        m.compose(a.nodes[n], q, s.set(D, D, D));
+        for (const c of v.collars) c.setMatrixAt(j, m);
+        j++;
+      });
+      q.setFromUnitVectors(Y, a.up);
+      m.compose(a.nodes[0], q, s.set(D, D, D));
+      for (const h of v.hinges) h.setMatrixAt(k, m);
+      const tip = v.claws[k];
+      tip.position.copy(a.nodes.at(-1));
+      tip.quaternion.setFromUnitVectors(Y, a.dirs.at(-1));
+      tip.scale.setScalar(D);
+    });
+    for (const x of [v.segments, ...v.collars, ...v.hinges]) x.instanceMatrix.needsUpdate = true;
+    // The band: armoured modules round the equator, as wide as the demo's and a third as tall.
+    const R = RADIUS_KM.earth / 1e3, w = (o.ring_width_km / 1e3) * f, h = w / 3;
+    v.band.geometry.dispose();
+    v.band.geometry = new THREE.LatheGeometry([new THREE.Vector2(R - 0.02, -w / 2), new THREE.Vector2(R + h, -w / 2),
+      new THREE.Vector2(R + h, w / 2), new THREE.Vector2(R - 0.02, w / 2)], 360);
   }
 
   // Seen straight down: every orbit a circle at its size now, each body on it at its real longitude.
@@ -571,10 +709,7 @@ export class Stage {
       this.bodies[k].scale.setScalar(au(k));
       this.markers[k].visible = !vis;
     }
-    for (const arm of this.octoArms || []) {
-      const w = (this.d.octo.arm.outer_diameter_km / 2 / 1e3) * (vis ? 3 : 1);
-      arm.scale.set(w, arm.userData.len, w);
-    }
+    if (this.octoView) this.placeOcto(vis ? OCTO_VIS : 1);
     for (const v of [this.earthView, this.marsView]) {
       const pr = (v.kind === "earth" ? RADIUS_KM.earth : RADIUS_KM.mars) / 1e3;
       v.planet.scale.setScalar(pr * (vis ? CLOSE_VIS.planet : 1));
@@ -598,9 +733,14 @@ export class Stage {
       text = "Top view: every orbit drawn as a circle at its size now, each body at its real longitude; dots not to scale. "
         + "Earth, Mars and Jupiter come from the saved run; Venus, Saturn, Uranus, Neptune and the big asteroids follow Kepler orbits from J2000. Drag to pan, scroll to zoom.";
     } else if (this.view === "octo") {
+      const o = this.d.octo?.arm, c = this.d.octo?.curl;
+      const shape = o ? `Each arm curls as in the company's demo: ${o.segments} segments leaving at ${Math.round(o.elevation_deg)}°, `
+        + `each joint bending it down (less toward the tip), ${Math.round(c.reach_deg)}° round the globe to a claw `
+        + `${Math.round(c.tip_altitude_km).toLocaleString("en")} km up. The audit (sim/scenarios/octo.py) models this shape; `
+        + "claws and collars are drawn, not weighed." : "";
       text = vis
-        ? "Visualisation: the arms drawn 3× as thick as the demo's 200 km tube; lengths and Earth true. This is the brief's reference concept as our audit models it: straight arms at the demo's 36° elevation."
-        : "True scale: Earth, the ring and 200 km-wide arms 12,000 km long, as the demo sets them by default.";
+        ? `Visualisation: arms, joints, claws and the ring band drawn ${OCTO_VIS}× as thick as true; lengths, the curl and Earth true. ${shape}`
+        : `True scale: Earth, the ${o?.ring_width_km} km ring band and ${o?.outer_diameter_km} km-wide arms at their real size. ${shape}`;
     } else if (this.view === "system") {
       text = vis
         ? "Visualisation: the Sun is drawn 19× and the planets 260–4,700× their true size so they can be seen. Every distance and orbit is true. Between saved frames (10 years apart) each planet follows its orbit by Kepler's third law; Venus, Saturn, Uranus, Neptune and the big asteroids are not in the run and follow Kepler orbits from J2000."
@@ -786,8 +926,30 @@ export class Stage {
       if (v.z > 1 || v.x < -1.2 || v.x > 1.2 || v.y < -1.2 || v.y > 1.2) { l.el.style.display = "none"; continue; }
       l.el.style.display = "";
       if (l.el.textContent !== text) l.el.textContent = text;
-      l.el.style.left = `${((v.x + 1) / 2) * w}px`;
+      const x = ((v.x + 1) / 2) * w;
+      l.el.style.left = `${x}px`;
       l.el.style.top = `${((1 - v.y) / 2) * h}px`;
+      if (l.el.classList.contains("wrap")) {  // long labels stay in sight: inside the view, clear of floating panels
+        const box = l.el.getBoundingClientRect(), [left, right] = this.clearSpan(box);
+        const shift = Math.max(left + 4 - box.left, Math.min(0, right - 4 - box.right));
+        if (shift) l.el.style.left = `${x + shift}px`;
+      }
     }
+  }
+
+  // The view's left and right edges (px) at a label's height: inside the canvas and clear of the floating panels.
+  clearSpan(box) {
+    const r = this.labelsEl.getBoundingClientRect();
+    let left = r.left, right = r.right;
+    for (const dock of this.docks) {
+      if (getComputedStyle(dock).position === "static") continue;  // phone layout: the panels sit below the view
+      for (const p of dock.children) {
+        const b = p.getBoundingClientRect();
+        if (!b.width || b.bottom < box.top || b.top > box.bottom) continue;
+        if (b.left < (r.left + r.right) / 2) left = Math.max(left, b.right);
+        else right = Math.min(right, b.left);
+      }
+    }
+    return [left, right];
   }
 }

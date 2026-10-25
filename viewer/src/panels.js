@@ -83,7 +83,7 @@ export function experiments(d) {
   const m = d.milestones;
   return [
     { id: "R", title: "Reference concept: Octo-Earth", view: "octo", t: 0, play: false, tab: "Summary",
-      q: "A ring round the globe with eight 12,000 km arms, pushed by currents in magnetic fields. What does established physics say about it?" },
+      q: "A ring round the globe with eight 12,000 km jointed arms curling over the planet to gripper claws, pushed by currents in magnetic fields. What does established physics say about it?" },
     { id: "A", title: "Baseline", view: "system", t: 0, play: false, tab: "Validation",
       q: "Sun and planets with no push. Do the integrators and the ten official benchmarks hold?" },
     { id: "B", title: "The journey", view: "system", t: 0, play: true, tab: "Summary",
@@ -114,17 +114,23 @@ const answers = {
     return div(`<div class="verdict"><b>It cannot move Earth, and its arms cannot stand.</b>
       Earth's field comes from currents in Earth's own core, so whatever the field does to the arms, the arms do back to the
       core: worked out separately, the two forces cancel to ${fmt(all.sum_over_force, 2)} of each other. A force inside
-      Earth plus machine cannot move them. And a ${r.arm.length_km.toLocaleString("en")} km arm crushes or buckles under its own
-      weight in every material, even ones that do not exist yet. That is why we tow Earth with an asteroid's gravity instead.</div>`
+      Earth plus machine cannot move them, whatever the arms' shape. And a ${r.arm.length_km.toLocaleString("en")} km arm breaks under
+      its own weight in every material, even ones that do not exist yet: curled over the planet as the demo draws it, or
+      standing straight up. That is why we tow Earth with an asteroid's gravity instead.</div>`
       + tiles([["Force on the arms from Earth's field", `${fmt(n(all.on_arms_n), 3)} N`, `on Earth's core from the arms: ${fmt(n(all.on_core_n), 3)} N`],
         ["Net force on Earth plus machine", `${fmt(all.sum_over_force, 2)} of it`, `one arm alone: ${fmt(one.sum_over_force, 2)} (test X8)`],
         ["Arms with no return path (impossible)", `${fmt(f.open_arms_in_earth_field_n, 2)} N at best`, `Earth would take ${fmt(f.years_needed_at_that_push, 2)} years`],
-        ["12,000 km standing, steel", `safety factor ${fmt(steel.lengths.at(-1).standing_sf, 2)}`, `nanotube ${cnt.lengths.at(-1).standing_sf.toFixed(2)}; 1.5 required`]])
-      + `<h3>Each material at the demo's tube (${r.arm.outer_diameter_km} km across, ${r.arm.wall_km} km walls), safety factor ${r.safety_factor_min}</h3>`
-      + table(["Material", "Longest standing", "Buckles past", "Longest level"], r.materials.map((m) => [
-        `${m.name}<br><span class="note">${m.source}</span>`, km(m.standing_longest_km), km(m.buckling_length_km),
-        km(m.level_longest_km)]), [1, 2, 3])
-      + `<p class="note">Standing: the arm's weight on its base, with gravity falling off with height and Earth's spin. Buckling:
+        ["12,000 km curled as drawn, nanotube", `safety factor ${cnt.lengths.at(-1).curled_sf.toFixed(3)}`, `steel ${fmt(steel.lengths.at(-1).curled_sf, 2)}; 1.5 required`]])
+      + `<h3>Each material at the demo's tube (${r.arm.outer_diameter_km} km across, ${r.arm.wall_km} km walls), safety factor ${r.safety_factor_min}:
+        the longest arm that holds itself up</h3>`
+      + table(["Material", "Curled", "Standing", "Buckles past", "Held level"], r.materials.map((m) => [
+        `${m.name}<br><span class="note">${m.source}</span>`, km(m.curled_longest_km), km(m.standing_longest_km),
+        km(m.buckling_length_km), km(m.level_longest_km)]), [1, 2, 3, 4])
+      + `<p class="note">Curled: the demo's arm (${r.arm.segments} jointed segments, its claw ${Math.round(r.curl.reach_deg)}° round the globe and
+        ${Math.round(r.curl.tip_altitude_km).toLocaleString("en")} km up), held only at its root, and the same curl cut shorter; the weight of
+        every piece, with gravity falling off with height and Earth's spin, bends it at the root (${Math.round(100 * cnt.curled_bending_share)}% of the
+        stress at full length). It would buckle too: the push along it is ${Math.round(cnt.curled_push_over_euler).toLocaleString("en")} times the
+        Euler load in nanotube. Standing: the arm's weight on its base, with gravity falling off with height and Earth's spin. Buckling:
         Greenhill's limit for a column under its own weight, with surface gravity (with the weakest gravity along the arm,
         nanotube still buckles past ${Math.round(cnt.buckling_length_weakest_gravity_km).toLocaleString("en")} km). Level: the arm held out
         sideways near the ground, bending at its root. Closed arm circuits in the demo's 0.5 nT outside field feel ${fmt(f.closed_circuits_n, 2)} N
@@ -428,7 +434,7 @@ export function validationTab(d) {
       ["X1", "An orbit's period matches Kepler's third law"], ["X2", "Energy holds steady for 1,000 years"],
       ["X3", "Momentum ledger in the guide's form, with a push on"], ["X4", "A Hohmann transfer reaches its target orbit"],
       ["X5", "A steady push arrives when theory says"], ["X6", "Our integrator matches REBOUND, an independent code"],
-      ["X7", "An asteroid's pull and the hold on it"], ["X8", "Octo-Earth's arms and Earth's core push on each other equally: no net force on Earth plus machine"]])
+      ["X7", "An asteroid's pull and the hold on it"], ["X8", "Octo-Earth's arms and Earth's core push on each other equally: no net force on Earth plus machine; curled, an arm breaks at its root"]])
     + `<h3>Flags in the journey: all caused by declared enablers</h3>`
     + table(["Check", "Worst", "Limit", "Covered by"], flags.map((f) => [f.check, fmt(f.worst, 3), `${f.kind === "min" ? "≥" : "≤"} ${fmt(f.limit, 3)}`, chip(f.covered_by ? "cover" : "fail", f.covered_by || "none")]), [1, 2])
     + `<h3>Flags after a million years</h3>`

@@ -15,17 +15,20 @@ Arms rooted on Earth push on Earth, and Earth pushes back on them equally (Newto
 inside the Earth-plus-machine system cancel, so they cannot move its centre of mass: to change Earth's
 orbit, a force has to come from outside it (another mass's gravity, light from outside, or mass thrown
 away). We audited the reference concept with numbers (`uv run python -m sim.scenarios.octo`, results in
-`results/octo_earth.json`), at the demo's default arm: 12,000 km long, a 200 km tube with 2 km walls, 1 MA.
+`results/octo_earth.json`), at the arm the company's demo draws: 12,000 km in 24 jointed segments curling
+72 degrees round the globe to a claw 4,600 km up, a 200 km tube with 2 km walls, 1 MA.
 
 - **No net push.** Earth's magnetic field comes from currents in Earth's own core. The force of the core's
-  field on the arms' circuits (2.3 x 10^6 N) and the force of the arms' field on the core, worked out
-  separately, cancel to 8 x 10^-12 of each other (test X8). The arms only push on Earth itself. In a
-  uniform outside field (the demo's 0.5 nT) closed circuits feel no net force at all. Arms with no return
-  path seem to push, but their charge would have nowhere to go; and even in Earth's full field they would
-  give at most 3 x 10^9 N, so the trip would take about 10^12 years.
-- **The arms cannot hold themselves up.** Standing, a 12,000 km arm's own weight puts 315 GPa on its base
-  in steel (which yields at 0.355 GPa) and 52 GPa in carbon nanotube (63 GPa is the strongest single tube
-  ever measured: a safety factor of 1.2, under the 1.5 required). Long before that, the column buckles
+  field on the arms' circuits (1.9 x 10^6 N) and the force of the arms' field on the core, worked out
+  separately, cancel to 3 x 10^-13 of each other (test X8). Whatever their shape, the arms only push on
+  Earth itself. In a uniform outside field (the demo's 0.5 nT) closed circuits feel no net force at all.
+  Arms with no return path seem to push, but their charge would have nowhere to go; and even in Earth's
+  full field they would give at most 3 x 10^9 N, so the trip would take about 10^12 years.
+- **The arms cannot hold themselves up.** Curled as drawn, an arm is a beam held only at its root, and its
+  weight breaks it there past 5 km in steel and 640 km in nanotube (a safety factor of 0.012 at 12,000 km).
+  Standing straight up, a 12,000 km arm's own weight puts 315 GPa on its base in steel (which yields at
+  0.355 GPa) and 52 GPa in carbon nanotube (63 GPa is the strongest single tube ever measured: a safety
+  factor of 1.2, under the 1.5 required). Long before that, the column buckles
   under its own weight: past 470 km in steel and 1,450 km in nanotube (under 3,000 km even with the
   weakest gravity along the arm). Held out level, the longest arm with a 1.5 safety factor is 17 km in
   steel and 570 km in nanotube.

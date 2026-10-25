@@ -30,26 +30,26 @@ The ten Earth-safety thresholds are those of the company's reference demo; the b
 
 ## Why not Octo-Earth
 
-Octo-Earth cannot move Earth, and its arms cannot hold themselves up. We audited it with the same physics as our own machine, at the demo's default arm: eight arms, each 12,000 km long, a 200 km tube with 2 km walls, carrying 1 MA with its return conductor 50 km away.
+Octo-Earth cannot move Earth, and its arms cannot hold themselves up. We audited it with the same physics as our own machine, at the arm the company's demo draws (its experiment R): eight arms rooted 45° apart on a ring round the globe, each 12,000 km long in 24 jointed segments, a 200 km tube with 2 km walls, carrying 1 MA with its return conductor 50 km away. Alternate arms reach north and south and curl 72° round the globe to a gripper claw 4,600 km up.
 
-![Octo-Earth as our audit models it, in the test bench](img/octo-earth.png)
+![Octo-Earth as the company's demo draws it and our audit models it, in the test bench: a ring on the equator and eight jointed arms curling over the planet to gripper claws (arms, joints, claws and ring drawn 3× as thick as true; lengths true)](img/octo-earth.png)
 
-**No net push.** Earth's magnetic field comes from currents in Earth's own core, modelled as a loop with Earth's dipole moment (8.0 × 10^22 A m²). We work out the force of the core's field on the arms (2.27 × 10^6 N) and the force of the arms' field on the core separately, each with Biot–Savart fields and I dl × B. They cancel to 3.7 × 10^-12 of each other (test X8). The arms push only on Earth itself, and a force inside Earth plus machine cannot move them.
+**No net push.** Earth's magnetic field comes from currents in Earth's own core, modelled as a loop with Earth's dipole moment (8.0 × 10^22 A m²). We work out the force of the core's field on the curled arms (1.94 × 10^6 N) and the force of the arms' field on the core separately, each with Biot–Savart fields and I dl × B. They cancel to 3.4 × 10^-13 of each other (test X8). Whatever the arms' shape, they push only on Earth itself, and a force inside Earth plus machine cannot move them.
 
-- In the demo's uniform 0.5 nT outside field, closed arm circuits feel 10^-11 N against an I L B of 6,000 N: nothing.
+- In the demo's uniform 0.5 nT outside field, closed arm circuits feel 2 × 10^-12 N against an I L B of 6,000 N: nothing.
 - Arms with no return path seem to push, but their charge would have nowhere to go. Even in Earth's full field they would give at most 3 × 10^9 N, so the trip would take about 10^12 years.
 
-**The arms cannot stand.** At a safety factor of 1.5, with the demo's tube:
+**The arms cannot hold themselves up.** Curled as drawn, an arm is a beam held only at its root, and the weight of every segment bends it there: at 12,000 km the root carries 5,500 GPa even in ideal nanotube (63 GPa, the strongest single tube ever measured), a safety factor of 0.012, and 33,000 GPa in steel. Bending is 99% of that stress; the push along the arm is also 870 times the load at which a nanotube column that long buckles. At a safety factor of 1.5, with the demo's tube, the longest arm that holds itself up:
 
-| Material | Longest standing arm | Buckles under its own weight past | Longest arm held level |
-| --- | --- | --- | --- |
-| Structural steel S355 | 3 km | 471 km | 17 km |
-| Maraging steel 300 | 17 km | 453 km | 41 km |
-| CFRP, unidirectional | 86 km | 691 km | 91 km |
-| Carbon nanotube, ideal (hypothetical) | 6,964 km | 1,444 km | 568 km |
-| Graphene, ideal (hypothetical) | 10,454 km | 1,200 km | 618 km |
+| Material | Curled as drawn | Standing straight up | Standing, buckles past | Held out level |
+| --- | --- | --- | --- | --- |
+| Structural steel S355 | 5 km | 3 km | 471 km | 17 km |
+| Maraging steel 300 | 22 km | 17 km | 453 km | 41 km |
+| CFRP, unidirectional | 72 km | 86 km | 691 km | 91 km |
+| Carbon nanotube, ideal (hypothetical) | 637 km | 6,964 km | 1,444 km | 568 km |
+| Graphene, ideal (hypothetical) | 699 km | 10,454 km | 1,200 km | 618 km |
 
-A standing 12,000 km arm puts 315 GPa on its base in steel, which yields at 0.355 GPa. Even in ideal nanotube (63 GPa, the strongest single tube ever measured) it reaches only a safety factor of 1.2, and the column buckles (Greenhill's limit) past 1,450 km. Titanium, aluminium and aramid fall between steel and CFRP. This is why we move Earth with an asteroid's gravity instead: the asteroid is outside Earth, and nothing touches the planet.
+"Curled" is the demo's curl cut shorter. A standing 12,000 km arm puts 315 GPa on its base in steel, which yields at 0.355 GPa. In ideal nanotube it reaches a safety factor of 1.2, and the column buckles (Greenhill's limit) past 1,450 km. Titanium, aluminium and aramid fall between steel and CFRP. This is why we move Earth with an asteroid's gravity instead: the asteroid is outside Earth, and nothing touches the planet.
 
 ## The machine: a gravity tractor held by light
 

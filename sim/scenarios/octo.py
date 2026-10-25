@@ -10,8 +10,9 @@ Two questions, answered with numbers:
    moves the pair. In a uniform outside field a closed circuit feels no net force at all. Only arms with no return
    path seem to push, and they are impossible (the charge would have nowhere to go); even then the push is a
    billionth of what moving Earth needs.
-2. Can the arms hold themselves up? Standing, an arm's weight crushes its base and the column buckles; held out
-   level, its weight bends it at the root. Both for eight materials, at the demo's default tube.
+2. Can the arms hold themselves up? Curled over the planet as the demo draws them, an arm is a bent beam held only
+   at its root, and its weight bends it there. Standing straight up, its weight crushes its base and the column
+   buckles; held out level, its weight bends it at the root. All for eight materials, at the demo's tube.
 """
 
 import argparse
@@ -69,15 +70,52 @@ def polyline(corners, piece: float) -> np.ndarray:
     return np.array(out)
 
 
+def turn(v: np.ndarray, axis: np.ndarray, angle: float) -> np.ndarray:
+    """v turned by `angle` (rad) about the unit vector `axis` (Rodrigues' formula)."""
+    return v * math.cos(angle) + np.cross(axis, v) * math.sin(angle) + axis * np.dot(axis, v) * (1 - math.cos(angle))
+
+
+def arm_path(cfg: dict, k: int) -> tuple[np.ndarray, np.ndarray]:
+    """Arm k's centre line as the demo draws it: its joints (segments + 1 points, m, root first) and the arm's side
+    direction at each, for the return conductor. Rooted on the equator at the ring's edge, the demo's arm 1 reaching
+    south, arm 2 north and so on; each joint turns the next segment by the demo's rule (see config.yaml)."""
+    phi = 2 * math.pi * k / cfg["arms"]
+    up = np.array([math.cos(phi), math.sin(phi), 0.0])
+    reach = np.array([0.0, 0.0, 1.0 if k % 2 else -1.0])
+    side = np.cross(reach, up)               # turning about this lifts the arm
+    d = turn(reach, side, math.radians(cfg["elevation_deg"]))
+    n, step, sweep = cfg["segments"], cfg["length_km"] * 1e3 / cfg["segments"], math.radians(cfg["side_deg"])
+    nodes, sides = [R_EARTH * up + cfg["root_offset_km"] * 1e3 * reach], []
+    for j in range(n):
+        if j:
+            d = turn(d, side, math.radians(cfg["bend_deg"] + cfg["curl_deg"] * j / (n - 1)))
+            u = np.cross(side, d)
+            u /= np.linalg.norm(u)
+            d, side = turn(d, u, sweep), turn(side, u, sweep)
+            d /= np.linalg.norm(d)
+            side -= d * np.dot(side, d)
+            side /= np.linalg.norm(side)
+        sides.append(side)
+        nodes.append(nodes[-1] + step * d)
+    sides = np.array(sides)
+    at_joints = np.concatenate((sides[:1], sides[:-1] + sides[1:], sides[-1:]))   # each joint: its two segments' mean
+    return np.array(nodes), at_joints / np.linalg.norm(at_joints, axis=1, keepdims=True)
+
+
+def curl_shape(cfg: dict) -> dict:
+    """Where the curled arm goes: arc over the ground from its root to the claw, and the claw's and the lowest
+    joint's heights."""
+    nodes, _ = arm_path(cfg, 0)
+    r = np.linalg.norm(nodes, axis=1)
+    arc = math.degrees(math.acos(np.clip(np.dot(nodes[0], nodes[-1]) / (r[0] * r[-1]), -1, 1)))
+    return {"reach_deg": arc, "tip_altitude_km": (r[-1] - R_EARTH) / 1e3, "lowest_joint_km": (r[1:].min() - R_EARTH) / 1e3}
+
+
 def arm_circuit(cfg: dict, k: int) -> np.ndarray:
     """Arm k's closed circuit: out along the arm, across the tip, back along the return conductor, across the root."""
-    phi = 2 * math.pi * k / cfg["arms"]
-    out_dir, side = np.array([math.cos(phi), math.sin(phi), 0.0]), np.array([-math.sin(phi), math.cos(phi), 0.0])
-    el = math.radians(cfg["elevation_deg"])
-    along = math.cos(el) * out_dir + math.sin(el) * np.array([0.0, 0.0, 1.0])
-    root, half = R_EARTH * out_dir, cfg["go_return_spacing_km"] * 1e3 / 2 * side
-    tip = root + cfg["length_km"] * 1e3 * along
-    return polyline([root + half, tip + half, tip - half, root - half], cfg["segment_km"] * 1e3)
+    nodes, sides = arm_path(cfg, k)
+    half = cfg["go_return_spacing_km"] * 1e3 / 2 * sides
+    return polyline(list(nodes + half) + list((nodes - half)[::-1]), cfg["segment_km"] * 1e3)
 
 
 def core_loop(cfg: dict, sides: int = 720) -> tuple[np.ndarray, float]:
@@ -111,9 +149,8 @@ def outside_field(cfg: dict) -> dict:
     closed = sum(loop_force(i, arm_circuit(cfg, k), field) for k in range(cfg["arms"]))
     one_way = []
     for k in range(cfg["arms"]):
-        c = arm_circuit(cfg, k)
-        tip = c[np.argmax(np.linalg.norm(c, axis=1))]
-        one_way.append(i * np.cross(tip - c[0], field))
+        nodes, _ = arm_path(cfg, k)
+        one_way.append(i * np.cross(nodes[-1] - nodes[0], field))   # a one-way wire in an even field: I (tip - root) x B
     open_force = np.sum(one_way, axis=0)
     # The same open arms in Earth's own field near the surface (the biggest push they could seem to give).
     surface = 3.1e-5
@@ -131,6 +168,33 @@ def column_stress(density: float, length: float) -> float:
 
 
 GEO_HEIGHT = (GM_EARTH / OMEGA ** 2) ** (1 / 3) - R_EARTH   # a standing tower's base stress peaks at this height
+
+
+def curled_root(cfg: dict, material: dict, length: float, pieces: int = 2000) -> dict:
+    """The first `length` m of the curled arm (the same curl, cut short), held only at its root: the root's stress
+    (Pa, von Mises of the push along the arm, the bending and the twist) from the weight of every piece outboard,
+    with gravity falling off with height and Earth's spin, and the push along the arm over the Euler load of a
+    column that long, pi^2 E I / (4 L^2)."""
+    nodes, _ = arm_path(cfg, 0)
+    step = cfg["length_km"] * 1e3 / cfg["segments"]
+    dirs = np.diff(nodes, axis=0) / step
+    s = (np.arange(pieces) + 0.5) * length / pieces
+    j = np.minimum((s // step).astype(int), cfg["segments"] - 1)
+    p = nodes[j] + (s - j * step)[:, None] * dirs[j]
+    d, t = cfg["outer_diameter_km"] * 1e3, cfg["wall_km"] * 1e3
+    area = math.pi / 4 * (d ** 2 - (d - 2 * t) ** 2)
+    inertia = math.pi / 64 * (d ** 4 - (d - 2 * t) ** 4)
+    r = np.linalg.norm(p, axis=1, keepdims=True)
+    accel = -GM_EARTH * p / r ** 3 + OMEGA ** 2 * p * np.array([1.0, 1.0, 0.0])
+    f = material["density"] * area * length / pieces * accel
+    force, moment = f.sum(axis=0), np.cross(p - nodes[0], f).sum(axis=0)
+    push = -np.dot(force, dirs[0])           # positive: the root is pressed
+    twist = np.dot(moment, dirs[0])
+    bending = np.linalg.norm(moment - twist * dirs[0])
+    normal = abs(push) / area + bending * (d / 2) / inertia
+    shear = abs(twist) * (d / 2) / (2 * inertia)
+    return {"stress_pa": math.sqrt(normal ** 2 + 3 * shear ** 2), "bending_share": bending * (d / 2) / inertia / normal,
+            "push_over_euler": push / (math.pi ** 2 * material["e_pa"] * inertia / (4 * length ** 2))}
 
 
 def longest(stress_at, allowed: float, top: float) -> float | None:
@@ -166,11 +230,17 @@ def materials(cfg: dict, sf_min: float) -> list[dict]:
         rows = []
         for km in cfg["lengths_km"]:
             L = km * 1e3
-            rows.append({"length_km": km, "standing_base_stress_pa": column_stress(m["density"], L),
+            curled = curled_root(cfg, m, L)["stress_pa"]
+            rows.append({"length_km": km, "curled_root_stress_pa": curled, "curled_sf": m["strength_pa"] / curled,
+                         "standing_base_stress_pa": column_stress(m["density"], L),
                          "standing_sf": m["strength_pa"] / column_stress(m["density"], L),
                          "level_root_stress_pa": bend(L), "level_sf": m["strength_pa"] / bend(L)})
+        full = curled_root(cfg, m, cfg["length_km"] * 1e3)
         out.append({**{k: m[k] for k in ("name", "density", "strength_pa", "e_pa", "source")},
                     "lengths": rows,
+                    "curled_longest_km": km_or_none(longest(lambda L, m=m: curled_root(cfg, m, L)["stress_pa"], allowed,
+                                                            cfg["length_km"] * 1e3)),
+                    "curled_bending_share": full["bending_share"], "curled_push_over_euler": full["push_over_euler"],
                     "standing_longest_km": km_or_none(longest(lambda L: column_stress(m["density"], L), allowed, GEO_HEIGHT)),
                     "buckling_length_km": (GREENHILL * m["e_pa"] * inertia / q) ** (1 / 3) / 1e3,
                     "buckling_length_weakest_gravity_km": (GREENHILL * m["e_pa"] * inertia / (q * top_g / G_SURFACE)) ** (1 / 3) / 1e3,
@@ -182,8 +252,10 @@ def run(cfg: dict | None = None) -> dict:
     cfg = cfg or load_config()
     o = cfg["octo_earth"]
     sf_min = cfg["safety"]["structural_safety_factor_min"]
-    return {"arm": {k: o[k] for k in ("arms", "length_km", "outer_diameter_km", "wall_km", "elevation_deg", "current_a",
+    return {"arm": {k: o[k] for k in ("arms", "length_km", "outer_diameter_km", "wall_km", "ring_width_km", "root_offset_km",
+                                      "segments", "elevation_deg", "bend_deg", "curl_deg", "side_deg", "current_a",
                                       "go_return_spacing_km")},
+            "curl": curl_shape(o),
             "net_force_all_arms": net_force(o, list(range(o["arms"]))),
             "net_force_one_arm": net_force(o, [0]),
             "outside_field": outside_field(o),
@@ -205,14 +277,18 @@ def main() -> None:
           f"open arms {f['open_arms_n']:.2e} N")
     print(f"Open arms in Earth's field, at best {f['open_arms_in_earth_field_n']:.2e} N: Earth would take "
           f"{f['years_needed_at_that_push']:.1e} years")
-    print(f"\nAt safety factor {r['safety_factor_min']}, the demo's tube ({r['arm']['outer_diameter_km']} km across, "
+    c = r["curl"]
+    print(f"\nCurled arm: claw {c['reach_deg']:.2f} deg of arc from the root, {c['tip_altitude_km']:,.0f} km up; lowest joint "
+          f"{c['lowest_joint_km']:,.0f} km up")
+    print(f"At safety factor {r['safety_factor_min']}, the demo's tube ({r['arm']['outer_diameter_km']} km across, "
           f"{r['arm']['wall_km']} km walls):")
-    print(f"{'Material':48} {'stand 12,000 km SF':>18} {'longest standing':>17} {'buckles past':>13} {'level 12,000 km SF':>19} {'longest level':>14}")
+    print(f"{'Material':48} {'curled 12,000 km SF':>19} {'longest curled':>15} {'stand 12,000 km SF':>18} {'longest standing':>17} "
+          f"{'buckles past':>13} {'longest level':>14}")
     for m in r["materials"]:
         last = m["lengths"][-1]
         stand = "no limit" if m["standing_longest_km"] is None else f"{m['standing_longest_km']:,.0f} km"
-        print(f"{m['name']:48} {last['standing_sf']:18.2e} {stand:>17} {m['buckling_length_km']:10,.0f} km "
-              f"{last['level_sf']:19.2e} {m['level_longest_km']:11,.0f} km")
+        print(f"{m['name']:48} {last['curled_sf']:19.2e} {m['curled_longest_km']:12,.0f} km {last['standing_sf']:18.2e} "
+              f"{stand:>17} {m['buckling_length_km']:10,.0f} km {m['level_longest_km']:11,.0f} km")
     with open(args.out, "w", encoding="utf-8") as fh:
         json.dump(r, fh, indent=1)
     print(f"\nWrote {args.out}")

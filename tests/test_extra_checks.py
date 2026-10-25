@@ -183,10 +183,13 @@ def test_x7_asteroid_pull_and_hold():
 
 
 def test_x8_octo_earth_net_push_is_zero():
-    """X8: Octo-Earth's arms, energised in Earth's own field, push on Earth's core exactly as hard as the core's field
-    pushes on them, so Earth plus machine gets no net force; in a uniform outside field closed circuits feel none."""
-    from sim.scenarios.octo import net_force, outside_field
+    """X8: Octo-Earth's arms, curled over the planet as the demo draws them and energised in Earth's own field, push
+    on Earth's core exactly as hard as the core's field pushes on them, so Earth plus machine gets no net force; in a
+    uniform outside field closed circuits feel none."""
+    from sim.scenarios.octo import curl_shape, net_force, outside_field
     o = dict(CFG["octo_earth"], segment_km=200)
+    c = curl_shape(o)                                         # the demo's shape: the claw 72 deg away, 4,600 km up
+    assert abs(c["reach_deg"] - 72) < 0.05 and abs(c["tip_altitude_km"] - 4600) < 5 and c["lowest_joint_km"] > 200
     for arms in ([0], list(range(o["arms"]))):
         n = net_force(o, arms)
         print(f"X8 arms {n['arms']}: on the arms {np.linalg.norm(n['on_arms_n']):.3e} N, sum {n['sum_over_force']:.1e} of it")
@@ -194,3 +197,28 @@ def test_x8_octo_earth_net_push_is_zero():
         assert n["sum_over_force"] < 1e-9                     # ...and its exact partner on Earth's core
     f = outside_field(o)
     assert f["closed_circuits_n"] < 1e-9 * f["scale_i_l_b_n"]
+
+
+def test_x8_octo_earth_curled_arm_breaks_at_its_root():
+    """X8: curled over the planet as drawn, an arm is a beam held only at its root, and its weight breaks it there long
+    before 12,000 km in every material, sooner than the same arm standing straight up would buckle. A short arm, still
+    nearly straight, matches the textbook tilted cantilever: weight along it over the area, plus q L^2 cos(e) / 2
+    bending over the section modulus."""
+    import math
+    from sim.scenarios.octo import arm_path, curled_root, materials
+    o = CFG["octo_earth"]
+    for m in materials(o, CFG["safety"]["structural_safety_factor_min"]):
+        print(f"X8 {m['name']}: curled 12,000 km SF {m['lengths'][-1]['curled_sf']:.2e}, holds up to "
+              f"{m['curled_longest_km']:,.0f} km; standing it buckles past {m['buckling_length_km']:,.0f} km")
+        assert m["lengths"][-1]["curled_sf"] < 0.02
+        assert m["curled_longest_km"] < m["buckling_length_km"]
+        assert m["curled_bending_share"] > 0.95 and m["curled_push_over_euler"] > 100   # it bends; it would buckle too
+    nodes, _ = arm_path(o, 0)
+    up, along = nodes[0] / np.linalg.norm(nodes[0]), (nodes[1] - nodes[0]) / np.linalg.norm(nodes[1] - nodes[0])
+    e = math.asin(np.dot(along, up))                          # the root's elevation above its own horizon
+    d, t, L = o["outer_diameter_km"] * 1e3, o["wall_km"] * 1e3, 50e3
+    area, inertia = math.pi / 4 * (d ** 2 - (d - 2 * t) ** 2), math.pi / 64 * (d ** 4 - (d - 2 * t) ** 4)
+    steel = o["materials"][0]
+    q = steel["density"] * 9.81 * area
+    by_hand = q * L * math.sin(e) / area + q * L ** 2 * math.cos(e) / 2 * (d / 2) / inertia
+    assert abs(curled_root(o, steel, L)["stress_pa"] / by_hand - 1) < 0.02

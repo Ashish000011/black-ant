@@ -118,7 +118,9 @@ error-free (two-sum) compensated sum. The guide's two checks close to 5.5 x 10^-
 
 **Why not Octo-Earth?**
 Its arms push on Earth's field, whose source is Earth's own core: we compute both forces and they cancel to
-3.7 x 10^-12. And a 12,000 km arm buckles under its own weight past 471 km in steel, 1,444 km in ideal nanotube.
+3.4 x 10^-13, whatever the arms' shape. And curled over the planet as the company's demo draws it, a 12,000 km arm
+breaks at its root under its own weight past 5 km in steel, 637 km in ideal nanotube; standing straight up, it would
+buckle past 471 km and 1,444 km.
 
 **What would break your design?**
 The power (E1) and building at planet scale (E3). Physically, the closest calls were Mars caught by Jupiter's 2:1

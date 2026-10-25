@@ -24,8 +24,11 @@ your own words.
 - **Research and verification:** the research behind the concept, and checking the physics and the numbers.
 - Raised the idea of parking Earth in a Kirkwood gap to dodge asteroids. The check showed the gaps are gaps in
   orbit size, not in space, so Earth stays at 2.7 AU.
-- Next: a realistic Octo-Earth reference view in the test bench
-  ([#27](https://github.com/Ashish000011/black-ant/issues/27)).
+- **The Octo-Earth reference view** ([#27](https://github.com/Ashish000011/black-ant/issues/27)): studied the
+  company's demo and redrew our Octo-Earth to match it (a ring on the equator, eight 12,000 km arms of 24 jointed
+  segments curling over the planet to gripper claws). The audit (`sim/scenarios/octo.py`, test X8) now models that
+  curled arm: the net force is still zero, and curled, an arm breaks at its root past 5 km in steel and 637 km in
+  ideal nanotube, sooner than it would buckle standing up.
 
 ## Madhukar Verma
 

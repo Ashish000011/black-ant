@@ -40,7 +40,7 @@ const shots = [
   { s: 15, setup: `bench.run('I'); ${data("validity")}`, each: () => "bench.orbit(0.1)",
     caption: () => "A million years later the new orbits stay put, and nothing is thrown out" },
   { s: 15, setup: `bench.run('R'); bench.orbit(25); ${data("validity")}`, each: () => "bench.orbit(-0.24)",
-    caption: () => "Octo-Earth, audited: its push lands on Earth’s own core (net 3.7 × 10⁻¹²), and a 12,000 km arm buckles past 471 km" },
+    caption: () => "Octo-Earth, audited: its push lands on Earth’s own core (net 3.4 × 10⁻¹³), and curled like this an arm breaks past 637 km, even in nanotube" },
   { s: 10, setup: `bench.run('A'); ${data("validity")}`, each: () => "bench.orbit(0.1)",
     caption: () => "All ten official benchmarks pass · github.com/Ashish000011/black-ant" },
 ];

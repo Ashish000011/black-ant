@@ -249,13 +249,23 @@ crossing:                      # sim/scenarios/crossing.py: Mars across Jupiter'
     sprint 4x (as designed): {from_au: 3.0, to_au: 3.5, distance_km: 200000, ramp_km_per_check: 2000}
 
 octo_earth:                    # sim/scenarios/octo.py: the brief's reference concept, audited with the same physics
-  # The arm as the company's demo sets it by default: 8 arms rooted 45 deg apart on a ring round the globe,
+  # The arm as the company's demo sets it (its experiment R): 8 arms rooted 45 deg apart on a ring round the globe,
   # 12,000 km long, a 200 km tube with 2 km walls, 1 MA in each arm with its return conductor 50 km away.
   arms: 8
   length_km: 12000
   outer_diameter_km: 200
   wall_km: 2
-  elevation_deg: 36.1          # deployed elevation above the local horizon (the demo's default)
+  # Its shape, as the demo draws it: alternate arms reach to opposite sides of the ring (here the equator, so north
+  # and south), rooted at the band's edge. 24 jointed segments; the arm leaves at elevation_deg and each joint turns
+  # the next segment by bend_deg + curl_deg * k / 23 (negative: down) and side_deg sideways, so it arches over the
+  # planet. elevation_deg and bend_deg are the demo's own solution for a claw 72 deg of arc away, 4,600 km up.
+  ring_width_km: 300
+  root_offset_km: 150          # from the ring's centre line to the arm's root
+  segments: 24
+  elevation_deg: 36.1424       # above the local horizon, at the root
+  bend_deg: -7.12683
+  curl_deg: 7
+  side_deg: 0.8
   current_a: 1.0e6
   go_return_spacing_km: 50
   segment_km: 100              # conductor pieces for the force sums
