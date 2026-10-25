@@ -4,15 +4,14 @@ columns at 8 pt. Chrome or Edge (Edge comes with Windows) prints the page; the g
     uv run --with markdown==3.7 --with pypdf==5.1.0 python scripts/report_pdf.py
 """
 
-import os
 import pathlib
-import shutil
-import subprocess
 import sys
 import tempfile
 
 import markdown
 from pypdf import PdfReader
+
+from browser import print_pdf
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SOURCE = ROOT / "docs" / "report.md"
@@ -25,18 +24,6 @@ img{max-width:100%;max-height:80mm;display:block;margin:5pt auto}code{font-size:
 h2:last-of-type + ol{font-size:8pt;line-height:1.25;columns:2;column-gap:7mm;padding-left:16pt}h2:last-of-type + ol li{margin:0 0 1pt}"""
 
 
-def browser() -> str:
-    """Chrome, Chromium or Edge: on the PATH, or where Windows installs them."""
-    for name in ("chrome", "google-chrome", "chromium", "chromium-browser", "msedge", "microsoft-edge"):
-        if found := shutil.which(name):
-            return found
-    for base in (os.environ.get("PROGRAMFILES"), os.environ.get("PROGRAMFILES(X86)"), os.environ.get("LOCALAPPDATA")):
-        for rel in (r"Google\Chrome\Application\chrome.exe", r"Microsoft\Edge\Application\msedge.exe"):
-            if base and (pathlib.Path(base) / rel).is_file():
-                return str(pathlib.Path(base) / rel)
-    sys.exit("Chrome or Edge is needed to print the PDF.")
-
-
 def main() -> None:
     html = markdown.markdown(SOURCE.read_text(encoding="utf-8"), extensions=["tables"])
     # Written next to report.md, so its img/ links resolve, and removed afterwards.
@@ -44,8 +31,7 @@ def main() -> None:
         fh.write(f"<!doctype html><meta charset=utf-8><title>Black Ant: Towing Earth to 2.7 AU</title><style>{CSS}</style>{html}")
         page = pathlib.Path(fh.name)
     try:
-        subprocess.run([browser(), "--headless=new", "--disable-gpu", "--no-pdf-header-footer", f"--print-to-pdf={OUT}",
-                        page.as_uri()], check=True, capture_output=True, timeout=180)
+        print_pdf(page, OUT)
     finally:
         page.unlink(missing_ok=True)
     pages = len(PdfReader(str(OUT)).pages)

@@ -1,6 +1,6 @@
 @echo off
 rem Black Ant: set up and run everything from one place on Windows.
-rem Double-click for the menu, or give a choice: run.bat setup ^| bench ^| benchmarks ^| tests ^| pdf ^| data ^| journey
+rem Double-click for the menu, or give a choice: run.bat setup ^| bench ^| benchmarks ^| tests ^| verify ^| verify-full ^| pdf ^| data ^| journey
 setlocal
 cd /d "%~dp0"
 title Black Ant
@@ -10,7 +10,7 @@ if errorlevel 1 goto :no_uv
 
 set "action=%~1"
 if "%action%"=="" goto :menu
-for %%a in (setup bench benchmarks tests pdf data journey) do if /i "%action%"=="%%a" goto :one
+for %%a in (setup bench benchmarks tests verify verify-full pdf data journey) do if /i "%action%"=="%%a" goto :one
 goto :usage
 
 :one
@@ -29,10 +29,12 @@ echo   4  Run the quick tests, about a minute
 echo   5  Build the report PDF: docs\black-ant-report.pdf
 echo   6  Turn results\ into the test bench's data
 echo   7  Run the full journey, about an hour and a half
+echo   8  Check everything and write the results PDF, about 5 minutes
+echo   9  The same with the slow tests too, about 15 minutes
 echo   0  Quit
 echo.
 set "pick="
-set /p "pick=  Choose 0-7: "
+set /p "pick=  Choose 0-9: "
 if "%pick%"=="0" exit /b 0
 if "%pick%"=="1" call :setup
 if "%pick%"=="2" call :bench
@@ -41,6 +43,8 @@ if "%pick%"=="4" call :tests
 if "%pick%"=="5" call :pdf
 if "%pick%"=="6" call :data
 if "%pick%"=="7" call :journey
+if "%pick%"=="8" call :verify
+if "%pick%"=="9" call :verify-full
 echo.
 pause
 goto :menu
@@ -72,6 +76,21 @@ exit /b %errorlevel%
 uv run pytest -m "not slow"
 exit /b %errorlevel%
 
+:verify
+rem The benchmarks, the tests, a fresh engine run, the Moon test, the studies re-run and the six winning conditions,
+rem written to out\verify\black-ant-verification.pdf, which then opens.
+uv run python scripts\verify.py
+goto :verify_open
+
+:verify-full
+uv run python scripts\verify.py --full
+goto :verify_open
+
+:verify_open
+set "result=%errorlevel%"
+if exist "out\verify\black-ant-verification.pdf" start "" "out\verify\black-ant-verification.pdf"
+exit /b %result%
+
 :pdf
 uv run --with markdown==3.7 --with pypdf==5.1.0 python scripts\report_pdf.py
 exit /b %errorlevel%
@@ -98,5 +117,5 @@ echo Node.js is needed for the test bench. Install it from https://nodejs.org an
 exit /b 1
 
 :usage
-echo Usage: run.bat [setup ^| bench ^| benchmarks ^| tests ^| pdf ^| data ^| journey]
+echo Usage: run.bat [setup ^| bench ^| benchmarks ^| tests ^| verify ^| verify-full ^| pdf ^| data ^| journey]
 exit /b 1

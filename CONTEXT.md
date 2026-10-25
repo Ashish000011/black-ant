@@ -26,7 +26,7 @@ of each force). Curled over the planet as the company's demo draws it, a 12,000 
 `sim/scenarios/octo.py` (the demo's curled arm, from `config.yaml` `octo_earth`), test X8.
 
 - Repo: `github.com/Ashish000011/black-ant`. Nobody pushes to `main`: branch, PR, Ashish reviews and merges.
-- Team: Ashish Bharti (lead), Madhukar Verma, Akhil Semwal, Sushmit Sukla, Prabhanshu Kerketa. Who did what is in
+- Team: Sushmit Sukla (team leader), Ashish Bharti, Akhil Semwal, Madhukar Verma, Prabhanshu Kerketa. Who did what is in
   `docs/contributions.md`, by the work each actually did.
 
 ## 2. The six winning conditions and where we stand (final run, 24 Oct)
@@ -76,6 +76,7 @@ Commands:
 uv sync                                   # set up
 uv run python -m sim.benchmarks           # ten official benchmarks, ~12 s
 uv run pytest -m "not slow" -v            # quick tests (run on every PR)
+uv run python scripts/verify.py           # everything checked into out/verify/black-ant-verification.pdf, ~5 min
 uv run python -m sim.scenarios.tow --out results   # full journey, about 1.5 hours
 uv run python -m sim.scenarios.swap       # Plan S: Earth-Mars crossing, 12 starts (a few minutes)
 uv run python -m sim.scenarios.small_asteroids   # rocks under 1 km at 2.7 AU (#30), a second
@@ -302,3 +303,4 @@ Ideas, not started:
 - 25 Oct: Wrap-up. `run.bat` (Windows menu: setup, test bench, benchmarks, tests, report PDF, viewer data, journey) and `scripts/report_pdf.py` (Chrome or Edge prints docs/report.md to `docs/black-ant-report.pdf`, 8 pages, fails if over); the explainer video and its captions in `media/`; the Moon stress-test answer in the Q&A.
 - 25 Oct: Scale bar in every 3D view (`Stage.drawScale`): a round length in km or AU and the real distance 1 cm on screen spans (96 CSS px per inch), exact in the top view and at the centre of the tilted views; distances are true in both modes. `python -m sim.benchmarks` now ends with "10 of 10 official benchmarks pass" and exits 1 if any fails.
 - 25 Oct: Physics paper and deck (P13) in `docs/physics/`. Paper: 7 A4 pages, two columns, 10 figures from `results/` (journey with a by-hand Gauss spiral, 8,004 vs 8,758 years; ledger; climate branches and the 89.3% cliff; Mars crossing and parking; outages; Octo-Earth arms; impacts; eccentricity trim; a million years), 6 tables, 9 equations, 50 references, every enabler with its guide kind, bound, use and precedent. Deck: 11 slides plus 5 hidden backups, clickable map, native charts, speaker notes; validated and rendered.
+- 25 Oct: `scripts/verify.py` (`run.bat verify`, menu 8; `--full` adds the slow tests): benchmarks, pytest, a fresh 200-year engine run against the official run (same orbits, ledger, all ten safety thresholds), the Moon test, Octo/small-asteroid/optics re-run against `results/` (numbers to 1e-9 of the largest same-unit quantity beside them, so cancelled-force rounding is not a difference), the six winning conditions; writes `out/verify/black-ant-verification.pdf`, exits 1 on any failure. `scripts/browser.py` shares the Chrome/Edge PDF printing with `report_pdf.py`.
