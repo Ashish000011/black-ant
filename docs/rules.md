@@ -44,7 +44,7 @@ thresholds come from the company's reference demo (see the last section).
 | --- | --- |
 | Source code, README with setup, run, test | This repository |
 | Runnable simulation | The Python model, and the test bench on GitHub Pages (`viewer/`) |
-| Technical report, at most 8 pages | Drafted as a shared document; exported to PDF for submission |
+| Technical report, at most 8 pages | `docs/black-ant-report.pdf`, 8 pages, built from `docs/report.md` by `run.bat pdf` |
 | Conservation and momentum record | `docs/momentum-record.md` |
 | Demo video, at most 3 minutes | 2 minutes 20 seconds, `media/black-ant-demo.mp4` |
 | Pitch deck: 7 minutes, then 5 of questions | Deck drafted; answers in `docs/qa.md` |

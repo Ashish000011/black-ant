@@ -5,7 +5,7 @@ from 1 AU to about 2.7 AU, near the asteroid belt, without harming the planet or
 winning conditions (target within 10,000 years, Earth safe, structures at safety factor 1.5 or more,
 benchmarks passing, every force booked, no unresolved flags) are in [docs/problem.md](docs/problem.md).
 
-**Start here:** [where we are](docs/status.md) · [technical report](docs/report.md) · [demo video](media/black-ant-demo.mp4) · [3D test bench](https://ashish000011.github.io/black-ant/)
+**Start here:** [where we are](docs/status.md) · [technical report](docs/report.md) ([PDF](docs/black-ant-report.pdf)) · [demo video](media/black-ant-demo.mp4) · [explainer video](media/black-ant-explainer.mp4) · [3D test bench](https://ashish000011.github.io/black-ant/)
 
 ## Our approach in short
 
@@ -66,7 +66,10 @@ It is published from `main` by `.github/workflows/pages.yml`.
 
 ## Setup
 
-Needs [uv](https://docs.astral.sh/uv/). From this folder:
+**On Windows, double-click `run.bat`**: a menu to set up, open the 3D test bench, run the benchmarks and tests,
+build the report PDF and run the journey (or `run.bat setup`, `run.bat bench`, `run.bat pdf` and so on).
+
+Otherwise you need [uv](https://docs.astral.sh/uv/) (and Node.js for the test bench). From this folder:
 
 ```bash
 uv python install 3.12
@@ -122,11 +125,12 @@ checks are X1 to X9 in `tests/test_extra_checks.py` and `tests/test_checks.py`.
 | `docs/enablers.md` | Our three hypothetical enablers, as declared at the mid-point check-in |
 | `docs/approach.md` | Our plan, the physics, the machine, what we found and fixed |
 | `docs/status.md` | Where we are: every deliverable and issue, and what is left |
-| `docs/report.md` | The technical report (a copy of the shared document), with figures in `docs/img/` |
+| `docs/report.md` | The technical report (a copy of the shared document), with figures in `docs/img/`; `docs/black-ant-report.pdf` is it as submitted (8 pages, built by `run.bat pdf`) |
 | `docs/qa.md`, `docs/rules.md` | Answers for the judges' questions; the guide's rules and where each is met |
 | `docs/contributions.md` | Who built what: each member's own lines, for the careers offers |
 | `docs/risk-register.md` | Every risk: why it matters, how we check it, the counter, its status, its owner |
-| `media/` | The demo video |
+| `media/` | The demo video, and the explainer video (the physics rules, one scene each) with its captions |
+| `run.bat`, `scripts/` | The Windows menu for setting up and running everything; `scripts/report_pdf.py` builds the report PDF |
 | `config.yaml` | Every setting and working rule, with sources; change a number and re-run |
 | `results/` | The final run: `summary.json` (every number and flag), `run.json` (one frame per 10 years, what the viewer plays), `end_state.json`, `longterm.json`, `outage.json`, `parking*.json` |
 | `sim/bodies.py` | Bodies and their real starting orbits |

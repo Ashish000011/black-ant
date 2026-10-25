@@ -12,9 +12,10 @@ official benchmarks pass; the momentum ledger closes to 5.6 × 10^-16 (limit 10^
 | --- | --- | --- |
 | Source code with README: setup, run, test | Done | this repository; [README](../README.md) |
 | Runnable simulation | Done | the Python model; the 3D test bench in `viewer/` ([ashish000011.github.io/black-ant](https://ashish000011.github.io/black-ant/)) |
-| Technical report, at most 8 pages | Drafted | [report.md](report.md); export to PDF for submission |
+| Technical report, at most 8 pages | Done (8 pages) | [black-ant-report.pdf](black-ant-report.pdf), built from [report.md](report.md) by `run.bat pdf` |
 | Conservation and momentum record | Done | [momentum-record.md](momentum-record.md) |
 | Demo video, at most 3 minutes | Done | [media/black-ant-demo.mp4](../media/black-ant-demo.mp4) (2 min 20 s, the Blender-style test bench, captions on screen) |
+| Explainer video (for the team and for questions) | Done | [media/black-ant-explainer.mp4](../media/black-ant-explainer.mp4) (5 min 41 s): the physics rules, one scene each, with voice and captions ([.srt](../media/black-ant-explainer.srt)) |
 | Pitch deck, 7 minutes | Drafted (13 slides, timed notes) | shared deck (ask Ashish for the link); answers for questions in [qa.md](qa.md) |
 | Mid-point review, 5 minutes | Ready | shared deck (ask Ashish); enablers declared in [enablers.md](enablers.md) |
 
@@ -42,7 +43,7 @@ official benchmarks pass; the momentum ledger closes to 5.6 × 10^-16 (limit 10^
 
 ## Still to do before the final
 
-1. **Report to PDF** and deck rehearsal.
+1. **Deck rehearsal**, with the shared deck updated to the new numbers (the L1 optics, small asteroids, references).
 2. **Contribution log** (#17): careers offers go by individual contribution, so each member checks their section
    of [contributions.md](contributions.md) and adds anything missing.
 
