@@ -44,6 +44,9 @@ your own words.
   checked references cited in the text, a related-work paragraph (Lu & Love 2005; Korycansky, Laughlin & Adams 2001,
   read in full) and an up-to-date "Limits of the model". The check caught our belt mass, now Pitjeva & Pitjev's own
   value.
+- **Sunlight optics at L1, and the tow mirrors' protection** ([#39](https://github.com/Ashish000011/black-ant/issues/39)):
+  put the refracting ring near L1 in the model, found the film must be heavy (100 g/m^2) to sit near L1 and pass at
+  least about 88% of the light, and worked out the rocks and dust on the tow mirrors and the layers that protect them.
 
 ## Madhukar Verma
 
