@@ -189,6 +189,42 @@ What keeps it that way:
 - E1 pushing rocks aside whole, never breaking them up;
 - the same infrared survey tracking anything large that breaks loose.
 
+## The sunlight mirrors
+
+The numbers here come from `sim/scenarios/mirrors.py` (`results/mirrors.json`), worked out from the run's mirror area.
+
+**Where are the sunlight mirrors, and won't they light up the night?**
+Our run counts every mirror face on, catching sunlight square to it. Only a mirror right behind Earth can do that,
+its light then lands on the night side, and it would sit in Earth's shadow, which reaches 3.7 million km. A mirror
+at angle phi from the Sun catches light at cos = sin(phi/2), and if its light covers Earth, (1 - cos phi)/2 of it
+lands at night. So where they sit matters, and we found a limit of our own design:
+- To keep nights dark, the mirrors orbit Earth 200,000 km out in the plane facing the Sun, between geostationary
+  orbit and the Moon. Each mirror's spot on Earth is only 690 km wide, so it is aimed at daylit ground. That needs
+  1.2 x 10^9 km^2 of mirror, 20% over E3's frozen 10^9 km^2.
+- Capping the area at 10^9 km^2 does not work: Earth would get 86% of today's sunlight and freeze (238 K, no
+  liquid water).
+- The way back inside E3 is a ring held 120 degrees from the Sun by sunlight's own push: 9.8 x 10^8 km^2, 1.8%
+  under the bound. That works only with film about 1 um thin, hovering 711,000 km out, with spots 2,450 km wide aimed
+  into a daylit strip 6,670 km wide, 92,000 km clear of the tow beam. With 2 um film or thicker it fails.
+
+**Will we see the mirrors from Earth?**
+Yes. The mirrors lighting any place shine with the Sun's own surface brightness and together cover 0.91 of today's
+Sun disc: a scatter of sun-bright points along a band across the sky, 90 degrees from the Sun. Mirrors not aimed at
+you look dark. The ring is 0.27 degrees wide and blocks 0.24% of the sky, so astronomers lose a strip. At night the
+fleet's scattered light stays under the 2.7 AU full Moon if its film scatters less than 3 x 10^-4 of its light (from
+`sim/night.py`: the natural full Moon there gives 0.034 lux). The tow mirror is seen too. It faces Earth, 135
+degrees from the Sun in the night sky, as a dull red disc 0.47 degrees wide (the Moon's size) glowing at 1,466 K at
+full power: 0.24 lux, as bright as today's full Moon (0.008 to 0.15 lux at the power the run used). Any beam light
+it scatters rather than reflects falls on Earth: keeping that under a full Moon needs scatter below 3.4 x 10^-11 of
+the beam, and below 3.7 x 10^-8 to keep its heat under our 0.5% limit. E2 bounds only absorption and E1 sets no
+wavelength, so this is an open risk our frozen enablers do not cover.
+
+**What happens to our satellites?**
+They come along: bound to Earth like the Moon, they move with it. Out of the mirrors' light (which is aimed at the
+ground), their solar panels get 13.6% of today's sunlight, so they need about 7 times the panel area or another
+power source. The mirror ring stays clear of them: 158,000 km above geostationary orbit, 156,000 km inside the
+Moon's closest approach, and inside the 420,000 km that no beam may enter.
+
 ## Numerics and honesty
 
 **How do you know the result is not tuned?**
