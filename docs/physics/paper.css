@@ -1,0 +1,65 @@
+/* The physics paper's print layout: A4, two columns, journal style. Built by build_paper.mjs. */
+@page { size: A4; margin: 15mm 13.5mm 14mm 13.5mm; }
+
+:root { --ink: #111; --muted: #555; --rule: #222; --tint: #f3f2ee; }
+html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body {
+  margin: 0; color: var(--ink); background: #fff;
+  font-family: "KaTeX_Main", "C059", "Nimbus Roman", serif;
+  font-size: 8.4pt; line-height: 1.22; text-align: justify; hyphens: auto;
+  font-kerning: normal;
+}
+b, strong { font-weight: bold; }
+a { color: inherit; text-decoration: none; }
+
+.masthead {
+  display: flex; justify-content: space-between; font-size: 7pt; color: var(--muted);
+  border-bottom: 0.6pt solid var(--rule); padding-bottom: 2pt; margin-bottom: 9pt; letter-spacing: 0.02em;
+}
+h1 { font-size: 16.5pt; line-height: 1.12; margin: 0 0 6pt; text-align: left; font-weight: bold; }
+.authors { font-size: 9pt; margin-bottom: 1.5pt; }
+.affil { font-size: 7.4pt; color: var(--muted); margin-bottom: 8pt; line-height: 1.3; }
+.abstract {
+  border-top: 0.6pt solid var(--rule); border-bottom: 0.6pt solid var(--rule); padding: 5pt 0 5pt;
+  margin-bottom: 8pt; font-size: 8.4pt; line-height: 1.25;
+}
+.abstract .label { font-weight: bold; }
+.keywords { font-size: 7.4pt; margin-top: 3pt; color: var(--muted); }
+
+.cols { column-count: 2; column-gap: 5.2mm; column-fill: balance; }
+h2 {
+  font-size: 9.2pt; margin: 7pt 0 2.5pt; font-weight: bold; text-align: left;
+  break-after: avoid; break-inside: avoid;
+}
+h3 { font-size: 8.4pt; font-style: italic; font-weight: normal; margin: 4.5pt 0 1.5pt; break-after: avoid; }
+p { margin: 0; text-indent: 1em; orphans: 2; widows: 2; }
+h2 + p, h3 + p, .nofirst { text-indent: 0; }
+.run-in { font-style: italic; }
+
+figure { margin: 4pt 0 5pt; break-inside: avoid; }
+figure img { width: 100%; display: block; }
+figure.wide { margin: 3pt 0 7pt; }
+figure.wide img { width: 100%; }
+figcaption { font-size: 7.35pt; line-height: 1.2; text-align: justify; margin-top: 2pt; }
+figcaption b:first-child { font-weight: bold; }
+
+.table { margin: 4pt 0 6pt; break-inside: avoid; }
+.table.wide { margin: 3pt 0 7pt; }
+.tcap { font-size: 7.35pt; line-height: 1.2; margin-bottom: 2pt; text-align: justify; }
+table { width: 100%; border-collapse: collapse; font-size: 7.15pt; line-height: 1.17; text-align: left; }
+th, td { padding: 1.1pt 2.6pt; vertical-align: top; }
+thead th { border-top: 0.8pt solid var(--rule); border-bottom: 0.45pt solid var(--rule); font-weight: bold; }
+tbody tr:last-child td { border-bottom: 0.8pt solid var(--rule); }
+td.n, th.n { text-align: right; white-space: nowrap; }
+tr.group td { font-style: italic; padding-top: 2pt; }
+
+.katex { font-size: 1.04em; }
+.katex-display { margin: 3pt 0; }
+.katex-display > .katex { text-align: center; }
+
+.refs { column-count: 2; column-gap: 5.2mm; font-size: 6.55pt; line-height: 1.15; margin-top: 2pt; }
+.refs ol { margin: 0; padding-left: 13pt; }
+.refs li { margin-bottom: 1.2pt; text-align: left; break-inside: avoid; }
+.endnotes { font-size: 7.3pt; line-height: 1.22; }
+.endnotes p { text-indent: 0; margin-bottom: 2pt; }
+.cite { white-space: nowrap; }

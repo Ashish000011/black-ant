@@ -67,6 +67,7 @@ Anything new (e.g. Moon reflectors) must fit inside an existing bound. Moon refl
 | `viewer/` | 3D test bench (Vite 6, Three.js 0.170, plain JS). **Replays saved runs; the official numbers are not computed in the browser.** Published to GitHub Pages from `main` (`.github/workflows/pages.yml`). `src/main.js` wiring and keys; `src/scene.js` 3D views incl. top view and close-ups, `noStage` fallback without WebGL; `src/studio.js` Blender-style panels (Scene tab, Model, Data, the million-years explainer); `src/estimates.js` values derived from the run (year length, Sun size, tides, light time) and the Moon reflectors (port of `night.py`); `src/bodies.js` positions of every body (run or Kepler); `src/panels.js` the nine results tabs; `src/data.js` loading and interpolation |
 | `viewer/scripts/video.mjs` | Renders the demo video through `?capture` mode and `window.bench` (run, view, tab, time, scale, orbit, caption, frame). **Keep that API working.** |
 | `docs/` | problem, approach, enablers, report (technical report), status, risk register, qa, rules, momentum record, contributions |
+| `docs/physics/` | Physics paper (PDF) and physics deck (.pptx). `figures.py` draws every figure and writes `fig/deck_data.json` from `results/` and `config.yaml`; `build_paper.mjs` (KaTeX, headless Chromium) and `build_deck.mjs` (pptxgenjs) build them. Rebuild after any re-run |
 | `tests/` | Official benchmarks, extra checks, safety and structure checks, Moon, night |
 
 Commands:
@@ -93,6 +94,7 @@ cd viewer && npm ci && npm run dev        # test bench locally
 | Conservation and momentum record | Done (`docs/momentum-record.md`) |
 | Demo video (3 min max) | Done, captions on screen (`media/black-ant-demo.mp4`, 2 min 20 s); re-rendered with the Blender-style test bench and again with #27's Octo-Earth view |
 | Pitch deck (7 min) | Drafted, 13 slides (shared deck, ask Ashish) |
+| Physics paper and physics deck | Done (`docs/physics/`): 7-page journal-style paper (10 figures, 50 references) and an 11-slide clickable deck with 5 hidden backups; companions to the report and the pitch deck |
 | Half-step convergence check | Done (numbers in section 2) |
 | Still open | Each member checks their section of `docs/contributions.md` (#17) |
 
@@ -189,6 +191,7 @@ while Earth goes out to 2.7 AU. Tows modelled as their pull on the planet (G m /
 | 25 Oct | Space debris from the mirror fleet handled by thin rip-stop film, E3 recycling and placement away from today's satellites | Akhil asked; hits make holes and vapour, not fragments |
 | 25 Oct | Sunlight mirrors (#32): lead with the simple ring that keeps nights dark (20% over E3, said plainly), then the sunlight-held ring at 120 deg as the way back inside E3; tow-mirror scatter an open risk with both limits | Akhil's choices; a limit of our own design counts for honesty |
 | 25 Oct | Sunlight optics (#39): adopt a refracting ring near L1 (option D); the sunlight-held ring at 120 deg (C) is the fallback if E3 is read as mirrors only. Film 100 g/m2; tow-mirror rock totals over the belt years, the whole tow as upper bound | Ashish's decision (#39); film weight and counting are Akhil's choices: light film is pushed far past L1 |
+| 25 Oct | Physics deck as a clickable .pptx (map slide, Map button on every slide, hidden backup slides; ~10 slides); physics paper as a companion to `docs/report.md`, not a replacement; numbers only from `results/` via `fig/deck_data.json`; no live calculators | User's choices (the recommended options): PowerPoint opens anywhere, and in-browser numbers would break the team rule |
 
 ## 9. Important prompts (condensed)
 
@@ -215,6 +218,10 @@ while Earth goes out to 2.7 AU. Tows modelled as their pull on the planet (G m /
 - **25 Oct, P12 (Akhil, #30):** Re-render the demo video here, and work on Ashish's new issue: small asteroids at
   2.7 AU (impacts, infrared survey, E1's response, mirror wear, Mars and the Moons). Also: with so many satellites
   and mirrors, won't there be space debris, and how is it handled efficiently?
+
+- **25 Oct, P13:** Make a PPT explaining what the model works on: interactive, easy, with physics backing the project's
+  viability, every enabler explained and cited, not lengthy. Also a PDF of the complete project physics and the
+  hypothetical situations, dense with graphs, like a peer-reviewed journal paper, under 8 pages.
 
 ## 10. What can be delivered next
 
@@ -295,4 +302,5 @@ Ideas, not started:
 - 25 Oct: Report trimmed to 8 pages (A4, 10.5 pt, references in two columns at 8 pt; 150 words of spare room): Summary states the L1 optics outcome (97%, 286 K); Octo-Earth table cut to four materials; one Sunlight optics paragraph; E3 limit reads sunlight optics; Limits adds the 13-month seasons and that the 1.4% tilt re-aim must come out of E3 with the L1 ring; Ceres leaving in one chaos copy stated.
 - 25 Oct: Wrap-up. `run.bat` (Windows menu: setup, test bench, benchmarks, tests, report PDF, viewer data, journey) and `scripts/report_pdf.py` (Chrome or Edge prints docs/report.md to `docs/black-ant-report.pdf`, 8 pages, fails if over); the explainer video and its captions in `media/`; the Moon stress-test answer in the Q&A.
 - 25 Oct: Scale bar in every 3D view (`Stage.drawScale`): a round length in km or AU and the real distance 1 cm on screen spans (96 CSS px per inch), exact in the top view and at the centre of the tilted views; distances are true in both modes. `python -m sim.benchmarks` now ends with "10 of 10 official benchmarks pass" and exits 1 if any fails.
+- 25 Oct: Physics paper and deck (P13) in `docs/physics/`. Paper: 7 A4 pages, two columns, 10 figures from `results/` (journey with a by-hand Gauss spiral, 8,004 vs 8,758 years; ledger; climate branches and the 89.3% cliff; Mars crossing and parking; outages; Octo-Earth arms; impacts; eccentricity trim; a million years), 6 tables, 9 equations, 50 references, every enabler with its guide kind, bound, use and precedent. Deck: 11 slides plus 5 hidden backups, clickable map, native charts, speaker notes; validated and rendered.
 - 25 Oct: `scripts/verify.py` (`run.bat verify`, menu 8; `--full` adds the slow tests): benchmarks, pytest, a fresh 200-year engine run against the official run (same orbits, ledger, all ten safety thresholds), the Moon test, Octo/small-asteroid/optics re-run against `results/` (numbers to 1e-9 of the largest same-unit quantity beside them, so cancelled-force rounding is not a difference), the six winning conditions; writes `out/verify/black-ant-verification.pdf`, exits 1 on any failure. `scripts/browser.py` shares the Chrome/Edge PDF printing with `report_pdf.py`.

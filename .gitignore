@@ -7,3 +7,5 @@ viewer/node_modules/
 viewer/dist/
 .claude/
 viewer/.vite/
+docs/physics/node_modules/
+docs/physics/paper.built.html
