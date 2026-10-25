@@ -358,3 +358,17 @@ mirrors:                       # sim/scenarios/mirrors.py: where the sunlight mi
   moon_apogee_km: 406700
   tow_bearing_deg: 135         # the Earth tow's asteroid: 45 deg between ahead and away from the Sun
   visible_um: [0.38, 0.75]     # the eye's range, for the tow mirror's glow
+  # Option D, the design (#39): a ring of refracting film near the Sun-Earth L1 point bends sunlight onto Earth from
+  # the Sun's own direction (Angel 2006, PNAS 103, 17184: refracting flyers at L1, used here the other way round).
+  # Sunlight's push (effective reflectivity 1 - T, what the film does not pass on) moves its balance point out past
+  # L1, less the heavier it is; Earth catches (R_E / image radius)^2 of the Sun's image each piece throws.
+  refractor:
+    transmission: [0.95, 0.90, 0.85]   # design: Angel's low-reflectivity screen (R 4.5%); 0.92 is bare glass (two
+                                        # 4% reflections: Early 1989, via Angel 2006); 0.85 allows extra absorption
+    areal_density_g_m2: 100            # thick glass (Early's 10 um screen with structure: 30 g/m2, via Angel 2006)
+    control_reflectivity: 0.01         # reflectivity each piece can switch to steer (Angel 2006: 1 +/- 1%)
+    hold_km: 1000                      # how far each piece may drift before it is steered back
+  # Protecting the tow mirrors (#39): rocks from results/small_asteroids.json, over the tows' years in the belt.
+  tow_rock_sizes_m: [1, 10, 20, 100, 1000]
+  belt_inner_au: 2.1           # a tow counts as in the belt from when its planet's orbit passes this size
+  sun_surface_k: 5772          # the Sun's effective temperature, for comparing the beam's intensity
