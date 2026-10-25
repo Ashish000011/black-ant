@@ -121,6 +121,16 @@ Yes. The Moon's distance is 0.26 of Earth's Hill radius at the start and 0.095 a
 Hill sphere grows as Earth moves out. The tow's thrust is 0.2% of Earth's pull on the Moon (limit 1%). The Moon
 test (`sim/scenarios/moon.py`) follows the Moon itself at the start, middle and end.
 
+**If the asteroid can pull Earth, why doesn't it pull the Moon away?**
+It pulls Earth and the Moon almost equally, so the pair moves together; only the difference between the two pulls
+tugs them apart, and Earth holds the Moon at least 5,000 times harder than that. The asteroid has 1/185 of the
+Moon's mass; its own Hill sphere against Earth reaches about 18,000 km from its centre, and the Moon never comes
+within about 230,000 km of it. The tug on the Moon also changes direction as the Moon goes round each month, so it
+does not add up the way the steady pull on Earth does. The Moon test, 50 years each at the start, middle and end:
+the Moon's closest and farthest distances change by 0.05%, 0.02% and 0.006%. Stress test
+(`--asteroid-scale`): at 10 times the mass the Moon stays (at most 0.25%); at 100 times, about half the Moon's
+mass, it is lost by the end of the journey; at 300 times it is lost at once.
+
 **Tides from the asteroid?**
 Tide goes as mass over distance cubed: the asteroid's is 0.12% of the Moon's. It lengthens the day by about
 2 x 10^-7 s over the whole journey (limit 1 s).
