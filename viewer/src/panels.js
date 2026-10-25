@@ -58,13 +58,14 @@ function worst(d, th) {
   return th.kind === "min" ? Math.min(...v) : Math.max(...v);
 }
 
-// Whether a value is inside the safety thresholds on `key` (two for temperature), and those limits as text.
+// Whether a value is inside the safety thresholds on `key` (two for temperature), and those limits as text (a
+// range does not break at its dash).
 export function safetyCheck(d, key, v) {
   const ths = thresholds(d).filter((th) => th.key === key);
   if (!ths.length) return null;
   const ok = ths.every((th) => (th.kind === "min" ? v >= th.limit : v <= th.limit));
   const f = (th) => (th.f ? th.f(th.limit) : `${th.limit}${th.unit ?? ""}`);
-  const limit = ths.length === 2 ? `${ths[0].limit}–${ths[1].limit}${ths[0].unit ?? ""}` : `${ths[0].kind === "min" ? "≥" : "≤"} ${f(ths[0])}`;
+  const limit = ths.length === 2 ? `${ths[0].limit}\u2060–\u2060${ths[1].limit}${ths[0].unit ?? ""}` : `${ths[0].kind === "min" ? "≥" : "≤"} ${f(ths[0])}`;
   return { ok, limit };
 }
 
