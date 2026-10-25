@@ -73,8 +73,8 @@ off the Sun line to keep clear. The closest any beam came was 448,909 km.
 Because they move the Sun, and Earth just comes along at 1 AU. Our job is to change Earth's distance from the Sun.
 Both are stellar engines.
 - A Shkadov thruster is a giant mirror hovering beside the Sun that sends sunlight back the way it came (Shkadov
-  1987, IAA-87-613). Reflecting half the Sun's light gives L/c = 1.3 x 10^18 N, so the Sun accelerates by
-  6.4 x 10^-13 m/s^2 and moves about 0.03 light-years in a million years.
+  1987, IAA-87-613). Reflecting half the Sun's light back gives a thrust of about 10^18 N, so the Sun accelerates by
+  under 10^-12 m/s^2 and moves a few hundredths of a light-year in a million years.
 - A Caplan thruster (Caplan 2019, *Acta Astronautica* 165, 96-104, doi:10.1016/j.actaastro.2019.08.027) gathers
   fuel from the Sun and fires fusion jets. It reaches at most 10^-9 m/s^2: about 50 light-years in a million years.
   That is 1.7 x 10^-7 of the Sun's pull on Earth at 1 AU, so Earth's orbit barely notices.
