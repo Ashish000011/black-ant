@@ -87,7 +87,7 @@ cd viewer && npm ci && npm run dev        # test bench locally
 | Runnable simulation + 3D test bench | Done; Blender-style test bench in PR #23 |
 | Technical report (8 pages max) | Drafted (`docs/report.md`); needs PDF export |
 | Conservation and momentum record | Done (`docs/momentum-record.md`) |
-| Demo video (3 min max) | Done, captions on screen (`media/black-ant-demo.mp4`); shows the old layout, re-render after PR #23 |
+| Demo video (3 min max) | Done, captions on screen (`media/black-ant-demo.mp4`); re-rendered with the Blender-style test bench; the Octo-Earth shot waits for #27 |
 | Pitch deck (7 min) | Drafted, 13 slides (shared deck, ask Ashish) |
 | Half-step convergence check | Done (numbers in section 2) |
 | Still open | Each member checks their section of `docs/contributions.md` (#17) |
@@ -234,6 +234,8 @@ Ideas, not started:
   done, `swap.py` reads its 0.05 AU limit from `config.yaml` and its docstring names `--longterm`, README lists
   `swap.py`, the top bar wraps at phone width, `night.py` says its reflector area is conservative, CLAUDE.md asks
   for updates on notable changes only. Next PRs (section 10) started in their own sessions.
+- 25 Oct: Demo video re-rendered with the Blender-style test bench (own PR, merges after #23): `video.mjs` turns the
+  Earth tow and Octo-Earth cameras so panels and caption hide nothing, and scrolls the Data panel to each shot's tab.
 - 25 Oct: Team by name. `docs/contributions.md` rewritten by name and by the work each member actually did
   (Claude Code noted as a tool, not a member); "Member N" labels replaced by names in the risk register and
   enablers, and dropped from code comments. Organiser questions and `docs/video-script.md` removed from the public

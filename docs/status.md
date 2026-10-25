@@ -14,7 +14,7 @@ official benchmarks pass; the momentum ledger closes to 5.6 × 10^-16 (limit 10^
 | Runnable simulation | Done | the Python model; the 3D test bench in `viewer/` ([ashish000011.github.io/black-ant](https://ashish000011.github.io/black-ant/)) |
 | Technical report, at most 8 pages | Drafted | [report.md](report.md); export to PDF for submission |
 | Conservation and momentum record | Done | [momentum-record.md](momentum-record.md) |
-| Demo video, at most 3 minutes | Done; being re-rendered with the new test bench | [media/black-ant-demo.mp4](../media/black-ant-demo.mp4) (2 min 20 s, captions on screen) |
+| Demo video, at most 3 minutes | Done | [media/black-ant-demo.mp4](../media/black-ant-demo.mp4) (2 min 20 s, the Blender-style test bench, captions on screen) |
 | Pitch deck, 7 minutes | Drafted (13 slides, timed notes) | shared deck (ask Ashish for the link); answers for questions in [qa.md](qa.md) |
 | Mid-point review, 5 minutes | Ready | shared deck (ask Ashish); enablers declared in [enablers.md](enablers.md) |
 
@@ -45,7 +45,7 @@ official benchmarks pass; the momentum ledger closes to 5.6 × 10^-16 (limit 10^
 1. **Report to PDF** and deck rehearsal.
 2. **Contribution log** (#17): careers offers go by individual contribution, so each member checks their section
    of [contributions.md](contributions.md) and adds anything missing.
-3. **Demo video** re-rendered with the new test bench (Madhukar), and a realistic Octo-Earth reference view (Akhil).
+3. **A realistic Octo-Earth reference view** (Akhil, #27), then the demo video's Octo-Earth shot re-rendered.
 
 ## How to look at it
 
