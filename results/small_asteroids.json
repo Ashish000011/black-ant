@@ -1,0 +1,414 @@
+{
+ "encounter_speed_km_s": 3.05,
+ "count_vs_1km": {
+  "20m": {
+   "low": 186.1565016778994,
+   "central": 674.932298469731,
+   "high": 2447.04645506193
+  },
+  "100m": {
+   "low": 6.7608297539198166,
+   "central": 9.332543007969909,
+   "high": 12.88249551693134
+  },
+  "1000m": {
+   "low": 1.0,
+   "central": 1.0,
+   "high": 1.0
+  }
+ },
+ "impacts": {
+  "crossing": {
+   "years": 2758,
+   "sample_encounters": 1261,
+   "20m": {
+    "years_per_impact": {
+     "low": 1.1699119420126665,
+     "central": 0.18822961999675522,
+     "high": 0.03664698813255543
+    },
+    "per_year": {
+     "low": 0.8547651870957422,
+     "central": 5.312660143590782,
+     "high": 27.287372058596212
+    }
+   },
+   "100m": {
+    "years_per_impact": {
+     "low": 32.21301560951248,
+     "central": 13.612822352492895,
+     "high": 6.96114213900598
+    },
+    "per_year": {
+     "low": 0.0310433525417813,
+     "central": 0.07346015206147692,
+     "high": 0.1436545871397471
+    }
+   },
+   "1000m": {
+    "years_per_impact": {
+     "low": 217.7867143962755,
+     "central": 127.04225006449404,
+     "high": 89.67688239846638
+    },
+    "per_year": {
+     "low": 0.004591648314141157,
+     "central": 0.007871397109956269,
+     "high": 0.011151145905771381
+    }
+   }
+  },
+  "parked": {
+   "years": 200,
+   "sample_encounters": 64,
+   "20m": {
+    "years_per_impact": {
+     "low": 0.8046554635736538,
+     "central": 0.1294627285163159,
+     "high": 0.02520548612714333
+    },
+    "per_year": {
+     "low": 1.2427679239991458,
+     "central": 7.724230838174959,
+     "high": 39.67390253676235
+    }
+   },
+   "100m": {
+    "years_per_impact": {
+     "low": 22.15583761268844,
+     "central": 9.362783203791224,
+     "high": 4.787814239444106
+    },
+    "per_year": {
+     "low": 0.04513483161779943,
+     "central": 0.10680584802979044,
+     "high": 0.20886357531617725
+    }
+   },
+   "1000m": {
+    "years_per_impact": {
+     "low": 149.7918461548798,
+     "central": 87.37857692367989,
+     "high": 61.67899547553874
+    },
+    "per_year": {
+     "low": 0.006675930804444677,
+     "central": 0.011444452807619446,
+     "high": 0.016212974810794215
+    }
+   }
+  }
+ },
+ "energy": {
+  "impact_speed_km_s": 11.594356213261692,
+  "20m": {
+   "mass_kg": {
+    "low": 5026548.245743669,
+    "central": 8377580.409572782,
+    "high": 13823007.67579509
+   },
+   "energy_mt": {
+    "low": 0.08074980122797647,
+    "central": 0.1345830020466275,
+    "high": 0.22206195337693532
+   }
+  },
+  "100m": {
+   "mass_kg": {
+    "low": 628318530.7179586,
+    "central": 1047197551.1965976,
+    "high": 1727875959.474386
+   },
+   "energy_mt": {
+    "low": 10.09372515349706,
+    "central": 16.822875255828432,
+    "high": 27.757744172116915
+   }
+  },
+  "1000m": {
+   "mass_kg": {
+    "low": 628318530717.9585,
+    "central": 1047197551196.5975,
+    "high": 1727875959474.386
+   },
+   "energy_mt": {
+    "low": 10093.725153497058,
+    "central": 16822.875255828432,
+    "high": 27757.744172116916
+   }
+  }
+ },
+ "survey_and_e1": {
+  "capture_radius_km": 24218.89948678369,
+  "miss_km": 48437.79897356738,
+  "engage_beyond_km": 840000.0000000001,
+  "beam_spot_km": 5200.0,
+  "e1_spare_w": 7.293094914649678e+24,
+  "20m": {
+   "worst": {
+    "seen_km": 2717352.5039985585,
+    "warning_days": 10.311750546442617,
+    "push_ends_km": 1663272.5039985585,
+    "in_time": true,
+    "speed_change_m_s": 82.30229064949519,
+    "absorbed_w": 2392420351466.5186,
+    "beam_w": 1.6172761575913667e+23,
+    "share_of_e1": 0.0016172761575913666,
+    "share_of_spare": 0.022175443711046947,
+    "beam_seconds_of_e1": 139.73266001589408
+   },
+   "central": {
+    "seen_km": 3190978.2153910627,
+    "warning_days": 12.109055158587822,
+    "push_ends_km": 2136898.2153910627,
+    "in_time": true,
+    "speed_change_m_s": 65.12011631682229,
+    "absorbed_w": 1892956931535.7585,
+    "beam_w": 1.2796388857181728e+23,
+    "share_of_e1": 0.0012796388857181727,
+    "share_of_spare": 0.01754589650475761,
+    "beam_seconds_of_e1": 110.56079972605012
+   },
+   "best": {
+    "seen_km": 3829725.055320887,
+    "warning_days": 14.53295786020373,
+    "push_ends_km": 2775645.055320887,
+    "in_time": true,
+    "speed_change_m_s": 50.813451878336615,
+    "absorbed_w": 1477080837515.4592,
+    "beam_w": 9.985066461604505e+22,
+    "share_of_e1": 0.0009985066461604504,
+    "share_of_spare": 0.013691123697769857,
+    "beam_seconds_of_e1": 86.27097422826292
+   },
+   "vaporise_j": {
+    "low": 83775804095727.81,
+    "central": 125663706143591.73,
+    "high": 167551608191455.62
+   },
+   "vaporise_seconds_of_e1": {
+    "low": 0.056632443568712,
+    "central": 0.08494866535306801,
+    "high": 0.113264887137424
+   }
+  },
+  "100m": {
+   "worst": {
+    "seen_km": 13586762.519992793,
+    "warning_days": 51.55875273221308,
+    "push_ends_km": 12532682.519992793,
+    "in_time": true,
+    "speed_change_m_s": 11.665360448054257,
+    "absorbed_w": 42387103570987.85,
+    "beam_w": 1.1461472805595115e+23,
+    "share_of_e1": 0.0011461472805595115,
+    "share_of_spare": 0.0157155130157053,
+    "beam_seconds_of_e1": 99.02712504034179
+   },
+   "central": {
+    "seen_km": 15954891.076955317,
+    "warning_days": 60.545275792939115,
+    "push_ends_km": 14900811.076955317,
+    "in_time": true,
+    "speed_change_m_s": 9.827679251479227,
+    "absorbed_w": 35709728829200.5,
+    "beam_w": 9.655910675415815e+22,
+    "share_of_e1": 0.0009655910675415814,
+    "share_of_spare": 0.013239798451025141,
+    "beam_seconds_of_e1": 83.42706823559263
+   },
+   "best": {
+    "seen_km": 19148625.276604436,
+    "warning_days": 72.66478930101864,
+    "push_ends_km": 18094545.276604436,
+    "in_time": true,
+    "speed_change_m_s": 8.105608055353697,
+    "absorbed_w": 29452433096948.793,
+    "beam_w": 7.963937909414954e+22,
+    "share_of_e1": 0.0007963937909414954,
+    "share_of_spare": 0.010919833078571006,
+    "beam_seconds_of_e1": 68.80842353734519
+   },
+   "vaporise_j": {
+    "low": 1.0471975511965976e+16,
+    "central": 1.5707963267948964e+16,
+    "high": 2.094395102393195e+16
+   },
+   "vaporise_seconds_of_e1": {
+    "low": 0.28316221784356,
+    "central": 0.42474332676534,
+    "high": 0.56632443568712
+   }
+  },
+  "1000m": {
+   "worst": {
+    "seen_km": 135867625.19992793,
+    "warning_days": 515.5875273221309,
+    "push_ends_km": 134813545.19992793,
+    "in_time": true,
+    "speed_change_m_s": 1.0947790043566437,
+    "absorbed_w": 3977974898559446.5,
+    "beam_w": 1.0756444125704743e+23,
+    "share_of_e1": 0.0010756444125704743,
+    "share_of_spare": 0.01474880589322678,
+    "beam_seconds_of_e1": 92.93567724608897
+   },
+   "central": {
+    "seen_km": 159548910.76955315,
+    "warning_days": 605.4527579293912,
+    "push_ends_km": 158494830.76955315,
+    "in_time": true,
+    "speed_change_m_s": 0.9313399862700501,
+    "absorbed_w": 3384104986178598.5,
+    "beam_w": 9.15061988262693e+22,
+    "share_of_e1": 0.0009150619882626929,
+    "share_of_spare": 0.012546963929190105,
+    "beam_seconds_of_e1": 79.06135578589667
+   },
+   "best": {
+    "seen_km": 191486252.76604435,
+    "warning_days": 726.6478930101864,
+    "push_ends_km": 190432172.76604435,
+    "in_time": true,
+    "speed_change_m_s": 0.775253138015132,
+    "absorbed_w": 2816949823463174.5,
+    "beam_w": 7.617032322644424e+22,
+    "share_of_e1": 0.0007617032322644423,
+    "share_of_spare": 0.010444170015316888,
+    "beam_seconds_of_e1": 65.81115926764782
+   },
+   "vaporise_j": {
+    "low": 1.0471975511965975e+19,
+    "central": 1.5707963267948964e+19,
+    "high": 2.094395102393195e+19
+   },
+   "vaporise_seconds_of_e1": {
+    "low": 2.8316221784355995,
+    "central": 4.2474332676534,
+    "high": 5.663244356871199
+   }
+  }
+ },
+ "wear": {
+  "dust_area_fraction_per_face_year": 3.3395836885907285e-07,
+  "dust_grains_per_m2_year": 8309655.166125679,
+  "film_kg_m2": 0.009999999999999998,
+  "sunlight mirrors": {
+   "area_km2": 850345744.265371,
+   "faces": 2,
+   "holed_km2_per_year": 567.9601554422352,
+   "holed_fraction_per_year": 6.679167377181457e-07,
+   "rocks_1m_per_year": 2587.777379135588,
+   "rocks_20m_per_year": 0.8957506329707964,
+   "film_debris_kg_per_year": 5679601.5544223515
+  },
+  "Moon reflectors": {
+   "area_km2": 3335.193637281678,
+   "faces": 1,
+   "holed_km2_per_year": 0.0011138158269357475,
+   "holed_fraction_per_year": 3.3395836885907285e-07,
+   "rocks_1m_per_year": 0.0050748408560865555,
+   "rocks_20m_per_year": 1.7566394797778359e-06
+  },
+  "earth-tow mirror": {
+   "area_km2": 21237166.338267,
+   "faces": 2,
+   "holed_km2_per_year": 14.184658859032913,
+   "holed_fraction_per_year": 6.679167377181457e-07,
+   "rocks_1m_per_year": 64.62907472370019,
+   "rocks_20m_per_year": 0.02237114176004167,
+   "film_debris_kg_per_year": 141846.5885903291
+  },
+  "mars-tow mirror": {
+   "area_km2": 8552985.999398213,
+   "faces": 2,
+   "holed_km2_per_year": 5.712682506467028,
+   "holed_fraction_per_year": 6.679167377181457e-07,
+   "rocks_1m_per_year": 26.02849939870914,
+   "rocks_20m_per_year": 0.00900967950321205,
+   "film_debris_kg_per_year": 57126.82506467028
+  },
+  "earth-tow cable": {
+   "width_km": 3.6563663957157257,
+   "side_km2": 9506.552628860887,
+   "volume_dug_per_year": 8.460062862658233e-15,
+   "rocks_1m_per_year": 0.0578607984162519,
+   "rocks_as_wide_per_year": 8.43774127512073e-09
+  },
+  "mars-tow cable": {
+   "width_km": 2.3124891541124435,
+   "side_km2": 3815.6071042855315,
+   "volume_dug_per_year": 1.337653389710214e-14,
+   "rocks_1m_per_year": 0.023223357837039375,
+   "rocks_as_wide_per_year": 5.281626678220244e-09
+  }
+ },
+ "debris": {
+  "sunlight_satellites": 85034.5744265371,
+  "film_kg_per_year": 5679601.5544223515,
+  "flake_beta_face_on": 0.14928329889809416,
+  "droplet_escapes_below_um": 0.574166534223439
+ },
+ "bodies": {
+  "moon": {
+   "rate_vs_earth": 0.009414001285865267,
+   "impact_speed_km_s": 4.125167177983895,
+   "years_per_20m": 13.752146891109822,
+   "years_per_1km": 9281.768110110119,
+   "disruption_j_per_kg": 5659089.7316734325,
+   "breaker_kg": 4.883237520369334e+22,
+   "breaker_over_belt_mass": 19.77019239015925,
+   "binding_over_belt_mass": 5.911753688863484
+  },
+  "mars": {
+   "rate_vs_earth": 0.072795393476938,
+   "impact_speed_km_s": 5.879908323361375,
+   "years_per_20m": 1.7784467166501468,
+   "years_per_1km": 1200.33113017463,
+   "disruption_j_per_kg": 24012066.174299136,
+   "breaker_kg": 8.913683812755502e+23,
+   "breaker_over_belt_mass": 360.8778871560932,
+   "binding_over_belt_mass": 113.9387266123513
+  },
+  "phobos": {
+   "rate_vs_earth": 4.1634832158008113e-07,
+   "impact_speed_km_s": 4.293976610416106,
+   "years_per_20m": 310948.1215752057,
+   "years_per_1km": 209868930.39959896,
+   "disruption_j_per_kg": 9316.29383717395,
+   "breaker_kg": 10771353690414.229,
+   "breaker_over_belt_mass": 4.360871939438959e-09,
+   "binding_over_belt_mass": 1.7999526963886597e-11,
+   "breaker_km": 2.174772784770894,
+   "years_per_breaker": 445902207.1279538
+  },
+  "deimos": {
+   "rate_vs_earth": 9.125395751089889e-08,
+   "impact_speed_km_s": 3.599054379950145,
+   "years_per_20m": 1418708.0982307377,
+   "years_per_1km": 957531917.5964928,
+   "disruption_j_per_kg": 3369.025370904922,
+   "breaker_kg": 767896451699.9648,
+   "breaker_over_belt_mass": 3.1088925170039064e-10,
+   "binding_over_belt_mass": 8.79817083029712e-13,
+   "breaker_km": 0.9017607900966138,
+   "years_per_breaker": 866147520.5143894
+  }
+ },
+ "kirkwood": {
+  "orbits": 20000,
+  "band_au": 0.01,
+  "2.50": {
+   "encounters_vs_2.70": 0.7496193814727691,
+   "orbit_sizes_vs_2.70": 0.03558718861209965
+  },
+  "2.82": {
+   "encounters_vs_2.70": 1.0547890394104973,
+   "orbit_sizes_vs_2.70": 0.2099644128113879
+  },
+  "2.95": {
+   "encounters_vs_2.70": 0.7713223114145464,
+   "orbit_sizes_vs_2.70": 0.3416370106761566
+  }
+ }
+}

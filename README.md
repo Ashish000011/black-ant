@@ -84,6 +84,7 @@ uv run python -m sim.scenarios.longterm --only moved --state results/end_state.j
 uv run python -m sim.scenarios.parking              # where Earth and Mars can park, a million years each
 uv run python -m sim.scenarios.outage               # how long a beam can fail before its asteroid is lost
 uv run python -m sim.scenarios.octo                 # the Octo-Earth audit: net force, arm stress and buckling, 10 seconds
+uv run python -m sim.scenarios.small_asteroids      # rocks under 1 km at 2.7 AU: impacts, survey, E1, wear, a second
 uv run python -m sim.scenarios.swap                 # Plan S: tow Mars in instead of out; the Earth-Mars crossing, a few minutes
                                                     # (--longterm 1e6 for the swapped orbits' million years, --handover 3000)
 ```
