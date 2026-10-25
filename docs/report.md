@@ -67,7 +67,7 @@ Earth feels only the asteroid's pull. The asteroid feels Earth's equal pull back
 
 **Arrival trim.** From 2.0 AU the tow varies its pull by up to 40% around each lap and rides up to 20° above or below Earth's orbit plane (Gauss's equations). Earth arrives on the eccentricity and plane that Jupiter forces at 2.7 AU (about 0.030), so it does not wobble afterwards: the free eccentricity left is 0.0023.
 
-**Sunlight mirrors.** Mirrors in space, built in 25-year batches, add the sunlight Earth loses as it moves out: up to 8.5 × 10^8 km² at 2.7 AU. Earth gets 0.995 to 1.010 of today's sunlight the whole way. After arrival each tow asteroid is sent away, and the momentum it carries off is booked.
+**Sunlight mirrors.** Mirrors in space, built in 25-year batches, add the sunlight Earth loses as it moves out: up to 8.5 × 10^8 km² at 2.7 AU. Earth gets 0.995 to 1.010 of today's sunlight the whole way. After arrival each tow asteroid is sent away, and the momentum it carries off is booked. Where they sit matters: only a mirror behind Earth catches sunlight face on, and its light lands at night. Mirrors orbiting 200,000 km out in the plane facing the Sun, aimed at daylit ground, keep nights dark but need 1.2 × 10^9 km², 20% over E3's bound; a ring held 120° from the Sun by sunlight fits (9.8 × 10^8 km²) only on 1 µm film (`sim/scenarios/mirrors.py`).
 
 ## Declared enablers
 

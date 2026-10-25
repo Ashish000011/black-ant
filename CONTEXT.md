@@ -108,6 +108,9 @@ cd viewer && npm ci && npm run dev        # test bench locally
   averaged over the whole night hemisphere, so the area comes out up to 2x too big.
 - Past 3.28 AU lie Jupiter's 2:1 resonance and Mars's parking orbit (3.64 AU): orbits there are not safe.
 - Vite 6 needs Node 18 or newer; CI uses Node 22.
+- The climate run counts the sunlight mirrors face on. Placed for real (`sim/scenarios/mirrors.py`, #32), keeping
+  nights dark needs 1.2e9 km2, 20% over E3's frozen bound; inside E3 only with a sunlight-held ring on 1 um film.
+  The tow mirror's scattered light is bounded by no enabler (needs s < 3.4e-11 for dark nights).
 
 ## 7. Active work
 
@@ -182,6 +185,7 @@ while Earth goes out to 2.7 AU. Tows modelled as their pull on the planet (G m /
 | 25 Oct | Rocks under 1 km (#30): rates as low / central / high with JWST's slope errors and the 1 km population's together; a whole-sky fleet of NEO Surveyor-class telescopes rated at 280 uJy; Grün's 1 AU dust flux unscaled; rocks 2,000 kg/m3 (1,200 to 3,300) | Akhil's choices (the recommended options); each errs toward more hits, later sightings and more wear |
 | 25 Oct | E1 answers small rocks by pushing them whole (light they absorb, spot as wide as the tow mirror), never by breaking them | Inside E1's declared role; no fragments, no debris; 2% of its spare power |
 | 25 Oct | Space debris from the mirror fleet handled by thin rip-stop film, E3 recycling and placement away from today's satellites | Akhil asked; hits make holes and vapour, not fragments |
+| 25 Oct | Sunlight mirrors (#32): lead with the simple ring that keeps nights dark (20% over E3, said plainly), then the sunlight-held ring at 120 deg as the way back inside E3; tow-mirror scatter an open risk with both limits | Akhil's choices; a limit of our own design counts for honesty |
 
 ## 9. Important prompts (condensed)
 
@@ -271,3 +275,8 @@ Ideas, not started:
   #33 (Akhil): stellar engines (Shkadov, Caplan 2019), where E1's power comes from, DE-STAR (Lubin et al.), light
   pressure in flight (IKAROS, LightSail 2, Starshot), with sources; the #29 and #31 review follow-ups (why steel
   fails curled sooner than level; "pushes it aside or vaporises it"). New PRs target `main` only.
+- 25 Oct: Sunlight mirrors (#32, Akhil): `sim/scenarios/mirrors.py`, `tests/test_mirrors.py`, `config.yaml` `mirrors`.
+  Ring orbiting 200,000 km out in the plane facing the Sun, spots aimed at daylit ground: 1.2e9 km2 (20% over E3);
+  capped at 1e9 Earth freezes (238 K). Sunlight-held ring at 120 deg on 1 um film: 9.8e8 km2, 711,000 km out. Tow
+  mirror: 1,466 K red disc the Moon's size in the night sky, 0.24 lux at full power; scatter must stay under 3.4e-11.
+  Satellites' panels get 13.6%. Q&A, risk register, report sentence. Stacked on #35 (and #34); PR targets `main`.

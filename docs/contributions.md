@@ -36,6 +36,10 @@ your own words.
 - **Moving things with light, with sources** ([#33](https://github.com/Ashish000011/black-ant/issues/33)): Q&A on
   stellar engines (Shkadov, Caplan 2019), where E1's 10^26 W comes from, DE-STAR laser deflection (Lubin et al.), and
   light pressure in flight (IKAROS, LightSail 2, Breakthrough Starshot).
+- **Where the sunlight mirrors sit** ([#32](https://github.com/Ashish000011/black-ant/issues/32)):
+  `sim/scenarios/mirrors.py` found a limit of our own design: keeping nights dark needs 20% more mirror than E3's
+  bound, unless a ring is held by sunlight on 1 um film. Also the tow mirror's glow and scattered light, what Earth
+  sees of the mirrors, and our satellites.
 
 ## Madhukar Verma
 
