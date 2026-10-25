@@ -150,6 +150,16 @@ kbd { font: inherit; font-size: calc(10px * var(--ui-zoom, 1)); padding: 0 4px; 
   position: absolute; left: calc(330px * var(--ui-zoom, 1)); right: calc(440px * var(--ui-zoom, 1)); bottom: 8px; margin: 0 auto;
   width: fit-content; max-width: calc(100% - 770px * var(--ui-zoom, 1)); min-width: 240px; font-size: calc(11px * var(--ui-zoom, 1)); color: #c9c9c9; background: rgba(0, 0, 0, .6); padding: 5px 8px; border-radius: 5px;
 }
+/* Scale bar, under the status line: a round length and how far 1 cm on screen reaches. */
+.scale-bar {
+  position: absolute; top: calc(30px * var(--ui-zoom, 1)); left: calc(330px * var(--ui-zoom, 1)); display: flex; flex-direction: column;
+  gap: 2px; font-size: calc(11px * var(--ui-zoom, 1)); color: #e8e6df; text-shadow: 0 0 3px #000, 0 0 6px #000; font-variant-numeric: tabular-nums;
+}
+.scale-bar[hidden] { display: none; }
+.scale-bar .sb-bar { width: var(--bar, 100px); height: 7px; border: 2px solid #e8e6df; border-top: 0; box-shadow: 0 1px 2px #000; }
+.scale-bar .sb-len { font-weight: 600; }
+.scale-bar .sb-cm { color: #bdbab2; }
+.viewport:has(#dock-left.hidden) .scale-bar { left: 8px; }
 .viewport:has(#dock-left.hidden) .hud, .viewport:has(#dock-left.hidden) .scale-note { left: 8px; }
 .viewport:has(#dock-right.hidden) .hud, .viewport:has(#dock-right.hidden) .scale-note { right: calc(140px * var(--ui-zoom, 1)); }
 .caption {
@@ -360,6 +370,7 @@ code { font-size: calc(10.5px * var(--ui-zoom, 1)); background: var(--field); pa
   .dock-left { width: calc(290px * var(--ui-zoom, 1)); }
   .dock-right { width: calc(380px * var(--ui-zoom, 1)); }
   .hud, .scale-note { left: calc(306px * var(--ui-zoom, 1)); right: calc(396px * var(--ui-zoom, 1)); }
+  .scale-bar { left: calc(306px * var(--ui-zoom, 1)); }
   .scale-note { max-width: calc(100% - 702px * var(--ui-zoom, 1)); }
 }
 /* Narrow screens: the viewport on top, the timeline under it, then the panels in the page's flow. */
@@ -381,6 +392,7 @@ code { font-size: calc(10.5px * var(--ui-zoom, 1)); background: var(--field); pa
   .fp-b { overflow: visible; }
   #model, #data { flex: none; }
   .hud { display: none; }
+  .scale-bar { left: 8px; top: 8px; }
   .scale-note { left: 8px; right: 8px; bottom: 50px; max-width: none; min-width: 0; font-size: calc(10px * var(--ui-zoom, 1)); }
   .lbl.wrap { max-width: 38vw; font-size: calc(10px * var(--ui-zoom, 1)); }
   .statusbar { display: none; }

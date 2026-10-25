@@ -269,6 +269,7 @@ export class Stage {
     this.canvas = canvas;
     this.labelsEl = labelsEl;
     this.noteEl = noteEl;
+    this.scaleEl = document.getElementById("scale-bar");
     this.docks = [...document.querySelectorAll(".dock")];  // the floating panels, which long labels keep clear of
     this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -912,6 +913,43 @@ export class Stage {
     }
     this.renderer.render(this.scenes[this.view], top ? this.ortho : this.camera);
     this.placeLabels();
+    this.drawScale();
+  }
+
+  // Kilometres one CSS pixel spans: anywhere in the top view, and at the centre of the 3D views (the camera's target).
+  kmPerPx() {
+    const h = Math.max(1, this.canvas.clientHeight);
+    const unitKm = this.view === "top" || this.view === "system" ? AU_KM : 1e3;  // AU there, 1,000 km in the close views
+    if (this.view === "top") return (this.ortho.top - this.ortho.bottom) / this.ortho.zoom / h * unitKm;
+    const d = this.camera.position.distanceTo(this.controls.target);
+    return 2 * d * Math.tan(THREE.MathUtils.degToRad(this.camera.fov / 2)) / h * unitKm;
+  }
+
+  // The scale bar: a round length about 110 px long, and how far 1 cm on screen reaches (96 CSS px per inch).
+  // Distances are true in both modes; Visualisation only draws the bodies larger.
+  drawScale() {
+    const el = this.scaleEl;
+    if (!el) return;
+    const perPx = this.kmPerPx();
+    if (!(perPx > 0 && Number.isFinite(perPx))) { el.hidden = true; return; }
+    const auView = this.view === "top" || this.view === "system";
+    const unit = auView && 110 * perPx >= 0.01 * AU_KM ? AU_KM : 1;
+    const want = (110 * perPx) / unit, p = 10 ** Math.floor(Math.log10(want));
+    let nice = p;
+    for (const m of [2, 5, 10]) if (m * p <= want * 1.35) nice = m * p;
+    const cmKm = perPx * 96 / 2.54;
+    const sig = (x) => Number(x.toPrecision(3)).toLocaleString("en");
+    const km = (x) => (x >= 1e9 ? `${sig(x / 1e9)} billion km` : x >= 1e6 ? `${sig(x / 1e6)} million km` : `${sig(x)} km`);
+    const bar = unit === AU_KM ? `${sig(nice)} AU` : km(nice);
+    const cm = unit === AU_KM ? `${sig(cmKm / AU_KM)} AU (${km(cmKm)})` : km(cmKm);
+    const text = `1 cm on screen ≈ ${cm}${this.view === "top" ? "" : " at the centre"}`;
+    el.hidden = false;
+    el.style.setProperty("--bar", `${((nice * unit) / perPx).toFixed(1)}px`);
+    if (el.dataset.text !== bar + text) {
+      el.dataset.text = bar + text;
+      el.querySelector(".sb-len").textContent = bar;
+      el.querySelector(".sb-cm").textContent = text;
+    }
   }
 
   placeLabels() {
