@@ -33,6 +33,9 @@ your own words.
   (`sim/scenarios/small_asteroids.py`): impacts by size from JWST's size distribution, how early an infrared survey
   sees them, E1's push, dust wear on the mirrors and cables, the debris it makes, Mars and the Moons, and why a
   Kirkwood gap does not help.
+- **Moving things with light, with sources** ([#33](https://github.com/Ashish000011/black-ant/issues/33)): Q&A on
+  stellar engines (Shkadov, Caplan 2019), where E1's 10^26 W comes from, DE-STAR laser deflection (Lubin et al.), and
+  light pressure in flight (IKAROS, LightSail 2, Breakthrough Starshot).
 
 ## Madhukar Verma
 
