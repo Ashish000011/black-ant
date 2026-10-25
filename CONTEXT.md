@@ -64,8 +64,8 @@ Anything new (e.g. Moon reflectors) must fit inside an existing bound. Moon refl
 | `config.yaml` | Every setting and limit, with sources. **Numbers live here only.** |
 | `sim/` | Python model (uv, Python 3.12, numpy, rebound, pyyaml). `integrator.py` gravity and steppers; `forces.py` tow and beam; `ledger.py` momentum; `habitability.py` sunlight, mirrors, climate; `night.py` moonlight and Moon reflectors; `checks/` safety and structures every 100 days; `scenarios/` journey (`tow.py`), moon, longterm, parking, outage, crossing, octo, swap (Plan S study), small_asteroids (rocks under 1 km, #30); `viewer_data.py` turns `results/` into `viewer/public/data/` |
 | `results/` | The final run's outputs. `run.json` has one frame per 10 years with positions of **only Earth, Mars, Jupiter and the Earth tow asteroid** |
-| `viewer/` | 3D test bench (Vite 6, Three.js 0.170, plain JS). **Replays saved runs; the official numbers are not computed in the browser.** Published to GitHub Pages from `main` (`.github/workflows/pages.yml`). `src/main.js` wiring and keys; `src/scene.js` 3D views incl. top view and close-ups, `noStage` fallback without WebGL; `src/studio.js` Blender-style panels (Scene tab, Model, Data, the million-years explainer); `src/estimates.js` values derived from the run (year length, Sun size, tides, light time) and the Moon reflectors (port of `night.py`); `src/bodies.js` positions of every body (run or Kepler); `src/panels.js` the nine results tabs; `src/data.js` loading and interpolation |
-| `viewer/scripts/video.mjs` | Renders the demo video through `?capture` mode and `window.bench` (run, view, tab, time, scale, orbit, caption, frame). **Keep that API working.** |
+| `viewer/` | 3D test bench (Vite 6, Three.js 0.170, plain JS). **Replays saved runs; the official numbers are not computed in the browser.** Published to GitHub Pages from `main` (`.github/workflows/pages.yml`). `src/main.js` wiring and keys; `src/scene.js` 3D views incl. top view and close-ups, `noStage` fallback without WebGL; `src/studio.js` Blender-style panels (Scene tab, Model, Checks, Data with its vertical tabs, the million-years explainer); `src/estimates.js` values derived from the run (year length, Sun size, tides, light time) and the Moon reflectors (port of `night.py`); `src/bodies.js` positions of every body (run or Kepler); `src/panels.js` the nine results tabs; `src/data.js` loading and interpolation |
+| `viewer/scripts/video.mjs` | Renders the demo video through `?capture` mode and `window.bench` (run, view, tab, time, scale, orbit, caption, frame, panel). **Keep that API working.** |
 | `docs/` | problem, approach, enablers, report (technical report), status, risk register, qa, rules, momentum record, contributions |
 | `tests/` | Official benchmarks, extra checks, safety and structure checks, Moon, night |
 
@@ -134,8 +134,11 @@ contribution log, a status update and README lines that do not overlap, so it me
      E3 mirror area, year length); Concept and enablers (open by default). No sliders (removed 25 Oct, P7).
    - Experiment I opens a large **explainer card over the Data panel**: why a million years, how it is tested,
      moved vs real Earth table, flags, chaos copies, what it cannot prove (inner planets chaotic, ~5 Myr, Laskar 1989).
-   - Right **Data** panel: Constants, Initial Earth (year 0), Now against year 0 (24 factors incl. year length,
-     seasons, Sun size, tides, light time, moonlight, impacts), Results and checks (all nine original tabs).
+   - Right: a **Checks** panel (the eight winning conditions, pass/fail with value and limit; a row opens its results
+     tab) above the **Data** panel, whose vertical tabs on its outer edge (as Blender's sidebar) open four pages, each
+     with a heading and one line on what it shows: Results (all nine original tabs, each with its own line), Now
+     against year 0 (24 factors in four groups, status and limit on the seven a safety threshold covers), Earth at
+     year 0, Constants (grouped). Experiments and `bench.tab` open Results; `bench.panel(name)` opens a page.
    - Bottom-right **Top view** button: orthographic, every orbit a circle, Inner / All orbits zoom. Keys: Space, T,
      N, 7, Home. Timeline with editable year and markers.
    - Works without WebGL (panels only) and at phone width (panels stack under the viewport).
@@ -187,6 +190,7 @@ while Earth goes out to 2.7 AU. Tows modelled as their pull on the planet (G m /
 | 25 Oct | E1 answers small rocks by pushing them whole (light they absorb, spot as wide as the tow mirror), never by breaking them | Inside E1's declared role; no fragments, no debris; 2% of its spare power |
 | 25 Oct | Space debris from the mirror fleet handled by thin rip-stop film, E3 recycling and placement away from today's satellites | Akhil asked; hits make holes and vapour, not fragments |
 | 25 Oct | Sunlight mirrors (#32): lead with the simple ring that keeps nights dark (20% over E3, said plainly), then the sunlight-held ring at 120 deg as the way back inside E3; tow-mirror scatter an open risk with both limits | Akhil's choices; a limit of our own design counts for honesty |
+| 25 Oct | Data panel split (Prabhanshu): a Checks panel on top, then one panel with vertical tabs (Results, Now vs year 0, Earth at year 0, Constants); the nine results tabs kept as sub-tabs; Now vs year 0 grouped, with status on the safety rows | Prabhanshu's choices; the vertical tabs (Blender's sidebar) over the recommended horizontal ones. One long column was hard to read; the same footprint keeps the 3D view clear |
 | 25 Oct | Sunlight optics (#39): adopt a refracting ring near L1 (option D); the sunlight-held ring at 120 deg (C) is the fallback if E3 is read as mirrors only. Film 100 g/m2; tow-mirror rock totals over the belt years, the whole tow as upper bound | Ashish's decision (#39); film weight and counting are Akhil's choices: light film is pushed far past L1 |
 
 ## 9. Important prompts (condensed)
@@ -294,3 +298,8 @@ Ideas, not started:
 - 25 Oct: Report trimmed to 8 pages (A4, 10.5 pt, references in two columns at 8 pt; 150 words of spare room): Summary states the L1 optics outcome (97%, 286 K); Octo-Earth table cut to four materials; one Sunlight optics paragraph; E3 limit reads sunlight optics; Limits adds the 13-month seasons and that the 1.4% tilt re-aim must come out of E3 with the L1 ring; Ceres leaving in one chaos copy stated.
 - 25 Oct: Wrap-up. `run.bat` (Windows menu: setup, test bench, benchmarks, tests, report PDF, viewer data, journey) and `scripts/report_pdf.py` (Chrome or Edge prints docs/report.md to `docs/black-ant-report.pdf`, 8 pages, fails if over); the explainer video and its captions in `media/`; the Moon stress-test answer in the Q&A.
 - 25 Oct: Scale bar in every 3D view (`Stage.drawScale`): a round length in km or AU and the real distance 1 cm on screen spans (96 CSS px per inch), exact in the top view and at the centre of the tilted views; distances are true in both modes. `python -m sim.benchmarks` now ends with "10 of 10 official benchmarks pass" and exits 1 if any fails.
+- 25 Oct: Data panel split (Prabhanshu): the right column is now a Checks panel (eight winning conditions, each
+  opening its results tab) and a Data panel with vertical tabs: Results, Now vs year 0 (grouped, pass/fail on the
+  seven safety rows, limits from `config.yaml`), Earth at year 0, Constants. Same numbers as before; `bench.panel`
+  added and `video.mjs` uses it instead of scrolling. Works at phone width (to 320 px at 150% text), without WebGL,
+  in both themes. The video in `media/` still shows the one-column panel.

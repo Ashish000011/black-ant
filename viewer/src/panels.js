@@ -58,24 +58,36 @@ function worst(d, th) {
   return th.kind === "min" ? Math.min(...v) : Math.max(...v);
 }
 
-export function validity(d) {
+// Whether a value is inside the safety thresholds on `key` (two for temperature), and those limits as text.
+export function safetyCheck(d, key, v) {
+  const ths = thresholds(d).filter((th) => th.key === key);
+  if (!ths.length) return null;
+  const ok = ths.every((th) => (th.kind === "min" ? v >= th.limit : v <= th.limit));
+  const f = (th) => (th.f ? th.f(th.limit) : `${th.limit}${th.unit ?? ""}`);
+  const limit = ths.length === 2 ? `${ths[0].limit}–${ths[1].limit}${ths[0].unit ?? ""}` : `${ths[0].kind === "min" ? "≥" : "≤"} ${f(ths[0])}`;
+  return { ok, limit };
+}
+
+// The run's verdict on the brief's winning conditions: one row each, with the results tab that shows the detail.
+export function checks(d) {
   const fl = d.summary.flags;
   const benchOk = d.benchmarks.filter((b) => b.ok).length;
   const lg = d.summary.ledger;
   const earth = d.summary.tows["earth-tow"].arrival;
-  const safeOk = thresholds(d).every((th) => (th.kind === "min" ? worst(d, th) >= th.limit : worst(d, th) <= th.limit));
+  const ths = thresholds(d);
+  const safeOk = ths.filter((th) => (th.kind === "min" ? worst(d, th) >= th.limit : worst(d, th) <= th.limit)).length;
   const sfMin = Math.min(...d.structures.filter((r) => r.check.includes("safety factor")).map((r) => r.value));
   const lt = d.longterm.verdict.flags;
   return [
-    chip(earth.year <= 10000 ? "pass" : "fail", `arrives year ${yr(earth.year)} (limit 10,000)`),
-    chip(fl.unresolved ? "fail" : "pass", `${fl.unresolved} unresolved flags`),
-    chip("cover", `${fl.covered_by_enablers} flags covered by enablers E1–E3`),
-    chip(benchOk === d.benchmarks.length ? "pass" : "fail", `${benchOk}/${d.benchmarks.length} benchmarks`),
-    chip(safeOk ? "pass" : "fail", "10 Earth-safety thresholds"),
-    chip(sfMin >= 1.5 ? "pass" : "fail", `safety factor ≥ ${sfMin.toFixed(2)}`),
-    chip(lg.nothing_from_nothing_max < 1e-9 ? "pass" : "fail", `momentum ledger ${fmt(lg.nothing_from_nothing_max, 2)} (1e-9)`),
-    chip(lt.unresolved ? "fail" : "pass", "a million years after"),
-  ].join("");
+    { kind: earth.year <= 10000 ? "pass" : "fail", name: "Earth arrives at 2.7 AU", value: `year ${yr(earth.year)}`, limit: "limit 10,000", tab: "Orbit" },
+    { kind: fl.unresolved ? "fail" : "pass", name: "Unresolved flags in the journey", value: `${fl.unresolved}`, limit: "must be 0", tab: "Validation" },
+    { kind: "cover", name: "Flags covered by enablers", value: `${fl.covered_by_enablers}`, limit: "E1–E3", tab: "Validation" },
+    { kind: benchOk === d.benchmarks.length ? "pass" : "fail", name: "Official benchmarks", value: `${benchOk}/${d.benchmarks.length}`, limit: "guide §6", tab: "Validation" },
+    { kind: safeOk === ths.length ? "pass" : "fail", name: "Earth-safety thresholds", value: `${safeOk}/${ths.length} hold`, limit: "whole journey", tab: "Earth safety" },
+    { kind: sfMin >= 1.5 ? "pass" : "fail", name: "Lowest structural safety factor", value: sfMin.toFixed(2), limit: "≥ 1.5", tab: "Structure" },
+    { kind: lg.nothing_from_nothing_max < 1e-9 ? "pass" : "fail", name: "Momentum ledger", value: fmt(lg.nothing_from_nothing_max, 2), limit: "≤ 1e-9", tab: "Forces & momentum" },
+    { kind: lt.unresolved ? "fail" : "pass", name: "Flags a million years later", value: `${lt.unresolved}`, limit: "must be 0", tab: "Compare & export" },
+  ];
 }
 
 // ---------------------------------------------------------------- experiments
