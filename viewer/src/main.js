@@ -3,12 +3,23 @@ import { noStage, Stage } from "./scene.js";
 import { fmt } from "./charts.js";
 import { makeModel } from "./estimates.js";
 import {
-  compareTab, experiments, forcesTab, notesTab, orbitTab, plotsTab, safetyTab, structureTab, summaryTab, validationTab, validity,
+  checks, compareTab, experiments, forcesTab, notesTab, orbitTab, plotsTab, safetyTab, structureTab, summaryTab, validationTab,
 } from "./panels.js";
-import { dataPanel, millionYears, modelPanel, outliner, store } from "./studio.js";
+import { checksPanel, dataPanel, millionYears, modelPanel, outliner, store } from "./studio.js";
 
 const SPEEDS = [10, 50, 100, 250, 500];   // simulated years per second
-const TABS = ["Summary", "Forces & momentum", "Orbit", "Structure", "Earth safety", "Plots", "Validation", "Model notes", "Compare & export"];
+// The results tabs, each with one line on what it shows.
+const TABS = {
+  "Summary": "The question the current experiment asks, and what the run answers.",
+  "Forces & momentum": "Every force on Earth and the tow asteroids, and the momentum ledger's two checks (limit 1e-9).",
+  "Orbit": "Earth's and Mars's orbits now and on arrival, and where Mars can park.",
+  "Structure": "Cables, anchors, mirrors and asteroids at the most beam power; safety factor 1.5 required.",
+  "Earth safety": "The ten Earth-safety thresholds: now, at their worst over the journey, and the limit.",
+  "Plots": "Any saved series over the whole journey.",
+  "Validation": "The ten official benchmarks, our extra checks X1 to X8, and every flag with what covers it.",
+  "Model notes": "What the Python model does, what it leaves out, and where to read more.",
+  "Compare & export": "The moved solar system against the real one over a million years, and the data files.",
+};
 const VIEW_NAMES = { system: "Solar system", earth: "Earth tow", mars: "Mars tow", octo: "Octo-Earth", top: "Top view" };
 const $ = (id) => document.getElementById(id);
 const yr = (v) => Math.round(v).toLocaleString("en");
@@ -56,7 +67,14 @@ async function main() {
   $("outliner").classList.toggle("closed", !scene.open);
   const right = dataPanel(d, model);
   $("data").replaceChildren(right.el);
-  $("validity").innerHTML = validity(d);
+  // A check opens its results tab; on a phone the Data panel is further down the page, so scroll to it.
+  const verdict = checksPanel(checks(d), (tab) => {
+    setTab(tab);
+    right.show("results", true);
+    if (window.matchMedia("(max-width: 900px)").matches) $("data").scrollIntoView({ behavior: "smooth" });
+  });
+  $("checks").replaceChildren(verdict.el);
+  $("checks").classList.toggle("closed", !verdict.open);
 
   function runExperiment(exp, scroll = true) {
     state.exp = exp;
@@ -77,9 +95,9 @@ async function main() {
   $("explainer").replaceChildren(millionYears(d));
   $("explainer").addEventListener("click", (e) => { if (e.target.closest("[data-close]")) showExplainer(false); });
 
-  // Results tabs, inside the right panel
+  // Results tabs, on the Data panel's Results page; choosing one (or an experiment) opens that page.
   const tabBox = $("tabs");
-  for (const name of TABS) {
+  for (const name of Object.keys(TABS)) {
     const b = document.createElement("button");
     b.textContent = name;
     b.setAttribute("role", "tab");
@@ -107,6 +125,8 @@ async function main() {
       "Compare & export": () => compareTab(d, ctx),
     }[name]();
     $("panel").replaceChildren(view);
+    $("tab-note").textContent = TABS[name];
+    right.show("results");
     refreshPanel(true);
   }
 
@@ -269,6 +289,8 @@ async function main() {
     window.bench = {
       run: (id) => { runExperiment(exps.find((e) => e.id === id), false); setPlaying(false); },
       view: setView, time: setTime, tab: setTab,
+      // The Data panel's page: "results", "now" (against year 0), "start" (Earth at year 0) or "constants".
+      panel: (name) => right.show(name, true),
       scale: (s) => $("scales").querySelector(`[data-scale="${s}"]`).click(),
       orbit: (deg) => stage.orbit(deg),
       caption: (text) => { $("caption").hidden = !text; $("caption").textContent = text || ""; },

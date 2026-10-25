@@ -182,7 +182,8 @@ kbd { font: inherit; font-size: calc(10px * var(--ui-zoom, 1)); padding: 0 4px; 
 }
 .fp > div { display: flex; flex-direction: column; min-height: 0; flex: 1; }
 .outliner { flex: 0 1 auto; max-height: 40%; }
-.outliner.closed .fp-b { display: none; }
+#checks { flex: 0 1 auto; max-height: 45%; }
+.fp.closed .fp-b { display: none; }
 #model, #data { flex: 1 1 0; }
 .fp-h {
   display: flex; align-items: center; gap: 6px; width: 100%; text-align: left; padding: 5px 10px; font-weight: 600;
@@ -208,7 +209,7 @@ kbd { font: inherit; font-size: calc(10px * var(--ui-zoom, 1)); padding: 0 4px; 
   width: 0; height: 0; border-left: 4px solid transparent; border-right: 4px solid transparent; border-top: 5px solid var(--text-secondary);
   transition: transform .12s; flex: none;
 }
-.bp.closed .tri, .outliner.closed .tri { transform: rotate(-90deg); }
+.bp.closed .tri, .fp.closed .tri { transform: rotate(-90deg); }
 
 /* Sliders, as Blender's: a dark field, a blue fill, the name left and the value right */
 .bslider { position: relative; display: block; height: calc(22px * var(--ui-zoom, 1)); margin: 4px 0; border-radius: 4px; background: var(--field); overflow: hidden; border: 1px solid var(--edge); }
@@ -308,12 +309,40 @@ kbd { font: inherit; font-size: calc(10px * var(--ui-zoom, 1)); padding: 0 4px; 
 }
 .status-right { margin-left: auto; }
 
-/* Results (inside the right panel) */
-.validity { padding: 4px 0 6px; display: flex; gap: 4px; flex-wrap: wrap; align-items: center; }
+/* Checks panel: one row per winning condition, each opening its results tab */
+table.ck { margin: 2px 0 0; }
+table.ck td { padding: 2px 4px; vertical-align: middle; }
+table.ck td .lim { display: none; }
+table.ck tr { cursor: pointer; }
+table.ck tr:hover td { background: rgba(71, 114, 179, .25); }
+table.ck td.num b { color: var(--text-primary); }
+td.lim { color: var(--text-muted); font-size: calc(10.5px * var(--ui-zoom, 1)); }
+td.st { width: 1%; white-space: nowrap; }
+
+/* Data panel: its pages beside vertical tabs on the outer edge, as Blender's sidebar */
+.dp { display: flex; flex: 1; min-height: 0; }
+.dp-page { padding: 6px 8px 10px; min-width: 0; }
+.dp-h { font-size: calc(14px * var(--ui-zoom, 1)); margin: 2px 0 2px; }
+.lead { font-size: calc(11px * var(--ui-zoom, 1)); margin: 0 0 8px; }
+.fp-b > .lead:first-child { margin: 2px 2px 6px; }
+.vtabs {
+  flex: none; display: flex; width: calc(24px * var(--ui-zoom, 1)); background: var(--header); border-left: 1px solid var(--edge);
+  overflow-y: auto; scrollbar-width: none;
+}
+.vt-in { display: flex; flex-direction: column; gap: 3px; padding: 8px 0; width: 100%; }
+.vtabs button {
+  display: flex; justify-content: center; padding: 10px 0; margin: 0 3px 0 -1px; border: 1px solid var(--edge); border-left: 0;
+  border-radius: 0 5px 5px 0; background: var(--widget); color: var(--text-secondary); font-size: calc(11px * var(--ui-zoom, 1));
+}
+.vtabs button span { writing-mode: vertical-rl; white-space: nowrap; }
+.vtabs button.on { background: var(--panel); color: var(--text-primary); font-weight: 600; box-shadow: inset -2px 0 0 var(--accent); }
+.tab-note { font-size: calc(10.5px * var(--ui-zoom, 1)); color: var(--text-muted); margin: 5px 0 0; }
+
+/* Results (the Data panel's first page) */
 .tabs { display: flex; flex-wrap: wrap; gap: 2px; border-bottom: 1px solid var(--edge); margin: 0 -8px; padding: 0 6px; }
 .tabs button { border: 0; border-radius: 4px 4px 0 0; background: transparent; color: var(--text-secondary); padding: 4px 7px; font-size: calc(11px * var(--ui-zoom, 1)); }
 .tabs button.on { background: var(--field); color: var(--text-primary); font-weight: 600; box-shadow: inset 0 -2px 0 var(--accent); }
-.panel { padding: 8px 0 4px; }
+.panel { padding: 6px 0 4px; }
 
 table { width: 100%; border-collapse: collapse; font-size: calc(11.5px * var(--ui-zoom, 1)); margin: 6px 0 10px; }
 th { text-align: left; font-weight: 600; color: var(--text-muted); font-size: calc(10.5px * var(--ui-zoom, 1)); border-bottom: 1px solid var(--axis); padding: 3px 5px; }
@@ -327,6 +356,13 @@ table.kv td:first-child { color: var(--text-secondary); }
 table.kv td.num { color: var(--text-primary); white-space: normal; }
 table.cmp td, table.cmp th { padding: 3px 4px; }
 table.cmp td:first-child { white-space: normal; }
+tr.grp td, table.kv tr.grp td {
+  padding: 10px 2px 3px; color: var(--text-muted); font-size: calc(10px * var(--ui-zoom, 1)); font-weight: 600; text-transform: uppercase;
+  letter-spacing: .05em; border-bottom: 1px solid var(--axis);
+}
+tr.grp:first-child td { padding-top: 2px; }
+td .lim { display: block; font-size: calc(10px * var(--ui-zoom, 1)); color: var(--text-muted); }
+.ckst .chip { margin: 2px 6px 1px 0; }
 
 .chip { display: inline-flex; align-items: center; gap: 5px; padding: 1px 7px; border-radius: 999px; font-size: calc(10.5px * var(--ui-zoom, 1)); font-weight: 600; background: var(--surface-2); border: 1px solid var(--border); white-space: nowrap; color: var(--text-primary); vertical-align: 1px; }
 .chip i { width: 7px; height: 7px; border-radius: 50%; display: inline-block; flex: none; }
@@ -388,9 +424,20 @@ code { font-size: calc(10.5px * var(--ui-zoom, 1)); background: var(--field); pa
   .dock { position: static; width: auto; margin: 8px 8px 0; order: 3; pointer-events: auto; }
   .dock-right { order: 4; margin-bottom: 8px; position: relative; }
   .explainer { position: fixed; inset: 8px; z-index: 20; }
-  .fp, .outliner { max-height: none; flex: none; }
+  .fp, .outliner, #checks { max-height: none; flex: none; }
   .fp-b { overflow: visible; }
   #model, #data { flex: none; }
+  /* The page scrolls here, not the panel: the Data panel's tabs stay in reach as it goes by. */
+  #data { overflow: visible; }
+  .vtabs { overflow: visible; }
+  .vt-in { position: sticky; top: 0; align-self: flex-start; }
+  /* Checks: the limit goes under the value, so the names keep their width. */
+  table.ck td.lim { display: none; }
+  table.ck td .lim { display: block; }
+  /* Now against year 0 at large text: a value may wrap between its number and unit rather than overflow. */
+  table.cmp td.num, table.cmp th.num { white-space: normal; }
+  table.cmp td, table.cmp th { padding: 3px 2px; }
+  table.cmp td:first-child { overflow-wrap: anywhere; }
   .hud { display: none; }
   .scale-bar { left: 8px; top: 8px; }
   .scale-note { left: 8px; right: 8px; bottom: 50px; max-width: none; min-width: 0; font-size: calc(10px * var(--ui-zoom, 1)); }
@@ -399,4 +446,8 @@ code { font-size: calc(10.5px * var(--ui-zoom, 1)); background: var(--field); pa
   .mark .long { display: none; }
   .mark .short { display: inline; }
   .exps { grid-template-columns: 1fr; }
+}
+/* The smallest phones at large text: long numbers may break rather than run under the Data panel's tabs. */
+@media (max-width: 360px) {
+  .dp-page td.num { overflow-wrap: anywhere; }
 }
