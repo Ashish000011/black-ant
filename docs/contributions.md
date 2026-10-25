@@ -37,7 +37,9 @@ your own words.
   mirror area that brings it back (#23).
 - **Plan S study:** swapping Earth and Mars instead of pushing Mars out (`sim/scenarios/swap.py`) (#23).
 - Q&A and risk register for the swap, night light and where the tow asteroid comes from
-  ([#25](https://github.com/Ashish000011/black-ant/pull/25), in review).
+  ([#25](https://github.com/Ashish000011/black-ant/pull/25)).
+- **The demo video re-rendered** with the new test bench, with each shot framed around the floating panels
+  ([#26](https://github.com/Ashish000011/black-ant/pull/26)).
 
 ## Sushmit Sukla
 
