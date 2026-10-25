@@ -285,3 +285,56 @@ octo_earth:                    # sim/scenarios/octo.py: the brief's reference co
     - {name: "Aramid (Kevlar 49) composite", density: 1380, strength_pa: 1.4e9, e_pa: 7.6e10, source: "DuPont data sheet"}
     - {name: "Carbon nanotube, ideal macroscale (hypothetical)", density: 1300, strength_pa: 6.3e10, e_pa: 1.0e12, source: "Yu et al. 2000, Science 287, 637: 63 GPa, one tube"}
     - {name: "Graphene, ideal macroscale (hypothetical)", density: 2267, strength_pa: 1.3e11, e_pa: 1.0e12, source: "Lee et al. 2008, Science 321, 385: 130 GPa, one sheet"}
+
+small_asteroids:               # sim/scenarios/small_asteroids.py: rocks under 1 km at 2.7 AU (issue #30)
+  # Main-belt size distribution, cumulative N(>D) ~ D^-q, as (low, central, high): JWST's debiased slopes (Burdanov
+  # et al. 2024, Nature, arXiv 2502.01744): q = 0.97 +/- 0.14 above a break at about 100 m, 2.66 +/- 0.60 below it;
+  # (1.2 +/- 0.5) million over 1 km (Tedesco & Desert 2002, as belt_sample). Low rates take every low end at once.
+  break_m: 100
+  slope_above_break: [0.83, 0.97, 1.11]
+  slope_below_break: [2.06, 2.66, 3.26]
+  population_over_1km: [0.7e6, 1.2e6, 1.7e6]
+  sizes_m: [20, 100, 1000]
+  density_kg_m3: [1200, 2000, 3300]   # dark rocks: Bennu and Ryugu (rubble) 1,190; Chelyabinsk's stone 3,300
+  albedo: 0.05
+  # The survey: NEO Surveyor-class infrared telescopes near Earth (50 cm, passively cooled, 6-10 um; 5 sigma in
+  # 3 minutes at 8 um: 110 uJy 120 deg from the Sun, 280 uJy at 45 deg; Kim, Mainzer & Masiero, "From NEOWISE to
+  # NEO Surveyor", ESA NEO conference 2024). Several watch the whole sky; we rate them at the worse figure. Today's
+  # technology: no enabler.
+  survey_wavelength_um: 8
+  survey_limit_jy: 2.8e-4
+  confirm_days: 3              # repeat visits to link the sightings into an orbit before E1 acts
+  # Rock temperatures by NEATM (Harris 1998): beaming eta 1.4 (cool: seen latest), 1.2, 1.0; emissivity 0.9, Bond
+  # albedo 0.39 x albedo; seen at 60 deg phase, dimmed 0.01 mag per degree (Lebofsky et al. 1986).
+  beaming_eta: [1.4, 1.2, 1.0]
+  emissivity: 0.9
+  phase_deg: 60
+  phase_mag_per_deg: 0.01
+  # E1's answer (inside its declared role: "nudges dangerous asteroids aside"). Each rock found is pushed in
+  # push_days by the light it absorbs (P/c: a dark rock reflects little) to miss Earth by miss_capture_radii of
+  # Earth's capture radius, while it is still beyond beam.earth_clearance_km. Conservatively, E1's spot is taken as
+  # wide as the Earth tow's mirror, so only the rock's share of it pushes.
+  push_days: 1
+  miss_capture_radii: 2
+  vaporise_j_per_kg: [1.0e7, 1.5e7, 2.0e7]   # heating and vaporising rock instead, order of magnitude
+  # Wear: Grun et al. 1985 (Icarus 62, 244) interplanetary meteoroid flux at 1 AU, 1e-18 to 100 g, used unscaled
+  # at 2.7 AU (over-counts: dust thins out away from the Sun). Grains of 2,500 kg/m3 punch holes twice their size
+  # through a film hit on both faces; rocks of 1 m and up follow the slopes above.
+  grain_density_kg_m3: 2500
+  hole_over_grain: 2
+  film_um: 5                   # mirror film (LightSail 2's sail: 4.5 um); the model sets no thickness
+  cable_length_over_mirror_radius: 1   # each tow cable one round bundle of its design cross-section; no length is set
+  # Bodies (NASA planetary fact sheets) and the parent each orbits, at orbit_km.
+  bodies:
+    moon:   {radius_km: 1737.4, mass_kg: 7.342e22, around: earth, orbit_km: 384400}
+    mars:   {radius_km: 3389.5, mass_kg: 6.4171e23}
+    phobos: {radius_km: 11.1, mass_kg: 1.0659e16, around: mars, orbit_km: 9376}
+    deimos: {radius_km: 6.2, mass_kg: 1.4762e15, around: mars, orbit_km: 23463}
+  belt_mass_kg: 2.47e21        # Pitjeva & Pitjev 2018: (12.4 +/- 1.0) x 10^-10 solar masses
+  # Breaking a body up: a small moon by Benz & Asphaug 1999 (basalt, 3 km/s; cgs: Q* = q0 (R/cm)^a + b_coeff rho
+  # (R/cm)^b erg/g); the Moon by Stewart & Leinhardt 2009 (Q*_RD = c* (4/5) pi rho1 G R_C1^2, rho1 1,000 kg/m3).
+  benz_asphaug: {q0: 3.5e7, a: -0.38, b_coeff: 0.3, b: 1.36}
+  leinhardt_c_star: 5
+  # Kirkwood gaps (3:1, 5:2, 7:3) against 2.7 AU, from the 20,000 real orbits in belt_sample.orbits_file.
+  kirkwood_au: [2.50, 2.82, 2.95]
+  kirkwood_band_au: 0.01
