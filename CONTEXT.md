@@ -291,3 +291,4 @@ Ideas, not started:
   L1 the ring sits (2.5 g/m2: 48%, only 38% of the light lands; 100 g/m2: 0.9%, 82%). Inside E3: 97.3% of today's
   sunlight, 286 K at T 0.95; 281.7 K at 0.90; freezes at 0.85 (cliff 89.3%). Tow mirrors: 62 rocks >= 20 m over the
   belt years (196 whole tow), beam vaporises a 1 m rock in 3-6 ms, 7.3% spare power. Q&A, register, report, enablers.
+- 25 Oct: Report trimmed to 8 pages (A4, 10.5 pt, references in two columns at 8 pt; 150 words of spare room): Summary states the L1 optics outcome (97%, 286 K); Octo-Earth table cut to four materials; one Sunlight optics paragraph; E3 limit reads sunlight optics; Limits adds the 13-month seasons and that the 1.4% tilt re-aim must come out of E3 with the L1 ring; Ceres leaving in one chaos copy stated.
