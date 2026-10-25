@@ -67,7 +67,8 @@ It is published from `main` by `.github/workflows/pages.yml`.
 ## Setup
 
 **On Windows, double-click `run.bat`**: a menu to set up, open the 3D test bench, run the benchmarks and tests,
-build the report PDF and run the journey (or `run.bat setup`, `run.bat bench`, `run.bat pdf` and so on).
+check everything into one results PDF, build the report PDF and run the journey (or `run.bat setup`, `run.bat bench`,
+`run.bat verify`, `run.bat pdf` and so on).
 
 Otherwise you need [uv](https://docs.astral.sh/uv/) (and Node.js for the test bench). From this folder:
 
@@ -102,7 +103,13 @@ uv run python -m sim.benchmarks    # the ten official benchmarks, measured again
 uv run python -m sim.benchmarks 4 --set e=0.5 --set periods=20   # change a benchmark's inputs, as judges may
 uv run pytest -m "not slow" -v     # quick tests, about a minute (these run on every pull request)
 uv run pytest -v -s                # everything, a few minutes
+uv run python scripts/verify.py    # check everything into one PDF, about 5 minutes (--full adds the slow tests)
 ```
+
+`scripts/verify.py` (or `run.bat verify`) runs the benchmarks, the tests, a fresh 200-year run of the engine
+compared with the official run (same orbits, ledger closed, every safety threshold held), the Moon test, the
+Octo-Earth audit and the two studies re-run against `results/`, and the six winning conditions, and writes
+`out/verify/black-ant-verification.pdf`. It exits 1 if anything fails.
 
 The official benchmarks (participant guide, section 6) are `tests/test_official_benchmarks.py`; our own extra
 checks are X1 to X9 in `tests/test_extra_checks.py` and `tests/test_checks.py`.
@@ -130,7 +137,7 @@ checks are X1 to X9 in `tests/test_extra_checks.py` and `tests/test_checks.py`.
 | `docs/contributions.md` | Who built what: each member's own lines, for the careers offers |
 | `docs/risk-register.md` | Every risk: why it matters, how we check it, the counter, its status, its owner |
 | `media/` | The demo video, and the explainer video (the physics rules, one scene each) with its captions |
-| `run.bat`, `scripts/` | The Windows menu for setting up and running everything; `scripts/report_pdf.py` builds the report PDF |
+| `run.bat`, `scripts/` | The Windows menu for setting up and running everything; `scripts/verify.py` checks everything into one results PDF; `scripts/report_pdf.py` builds the report PDF |
 | `config.yaml` | Every setting and working rule, with sources; change a number and re-run |
 | `results/` | The final run: `summary.json` (every number and flag), `run.json` (one frame per 10 years, what the viewer plays), `end_state.json`, `longterm.json`, `outage.json`, `parking*.json` |
 | `sim/bodies.py` | Bodies and their real starting orbits |

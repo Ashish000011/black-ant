@@ -26,7 +26,7 @@ of each force). Curled over the planet as the company's demo draws it, a 12,000 
 `sim/scenarios/octo.py` (the demo's curled arm, from `config.yaml` `octo_earth`), test X8.
 
 - Repo: `github.com/Ashish000011/black-ant`. Nobody pushes to `main`: branch, PR, Ashish reviews and merges.
-- Team: Ashish Bharti (lead), Madhukar Verma, Akhil Semwal, Sushmit Sukla, Prabhanshu Kerketa. Who did what is in
+- Team: Sushmit Sukla (team leader), Ashish Bharti, Akhil Semwal, Madhukar Verma, Prabhanshu Kerketa. Who did what is in
   `docs/contributions.md`, by the work each actually did.
 
 ## 2. The six winning conditions and where we stand (final run, 24 Oct)
@@ -75,6 +75,7 @@ Commands:
 uv sync                                   # set up
 uv run python -m sim.benchmarks           # ten official benchmarks, ~12 s
 uv run pytest -m "not slow" -v            # quick tests (run on every PR)
+uv run python scripts/verify.py           # everything checked into out/verify/black-ant-verification.pdf, ~5 min
 uv run python -m sim.scenarios.tow --out results   # full journey, about 1.5 hours
 uv run python -m sim.scenarios.swap       # Plan S: Earth-Mars crossing, 12 starts (a few minutes)
 uv run python -m sim.scenarios.small_asteroids   # rocks under 1 km at 2.7 AU (#30), a second
@@ -298,6 +299,7 @@ Ideas, not started:
 - 25 Oct: Report trimmed to 8 pages (A4, 10.5 pt, references in two columns at 8 pt; 150 words of spare room): Summary states the L1 optics outcome (97%, 286 K); Octo-Earth table cut to four materials; one Sunlight optics paragraph; E3 limit reads sunlight optics; Limits adds the 13-month seasons and that the 1.4% tilt re-aim must come out of E3 with the L1 ring; Ceres leaving in one chaos copy stated.
 - 25 Oct: Wrap-up. `run.bat` (Windows menu: setup, test bench, benchmarks, tests, report PDF, viewer data, journey) and `scripts/report_pdf.py` (Chrome or Edge prints docs/report.md to `docs/black-ant-report.pdf`, 8 pages, fails if over); the explainer video and its captions in `media/`; the Moon stress-test answer in the Q&A.
 - 25 Oct: Scale bar in every 3D view (`Stage.drawScale`): a round length in km or AU and the real distance 1 cm on screen spans (96 CSS px per inch), exact in the top view and at the centre of the tilted views; distances are true in both modes. `python -m sim.benchmarks` now ends with "10 of 10 official benchmarks pass" and exits 1 if any fails.
+- 25 Oct: `scripts/verify.py` (`run.bat verify`, menu 8; `--full` adds the slow tests): benchmarks, pytest, a fresh 200-year engine run against the official run (same orbits, ledger, all ten safety thresholds), the Moon test, Octo/small-asteroid/optics re-run against `results/` (numbers to 1e-9 of the largest same-unit quantity beside them, so cancelled-force rounding is not a difference), the six winning conditions; writes `out/verify/black-ant-verification.pdf`, exits 1 on any failure. `scripts/browser.py` shares the Chrome/Edge PDF printing with `report_pdf.py`.
 - 25 Oct: Data panel split (Prabhanshu): the right column is now a Checks panel (eight winning conditions, each
   opening its results tab) and a Data panel with vertical tabs: Results, Now vs year 0 (grouped, pass/fail on the
   seven safety rows, limits from `config.yaml`), Earth at year 0, Constants. Same numbers as before; `bench.panel`
