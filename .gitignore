@@ -9,3 +9,5 @@ viewer/dist/
 viewer/.vite/
 deck/node_modules/
 deck/data.json
+docs/physics/node_modules/
+docs/physics/paper.built.html
