@@ -99,6 +99,51 @@ mirror lights a patch about 1,300 km across. They cannot carry the climate: even
 (9.5 x 10^6 km^2) gives at most 6.6 W/m^2 on the night side, 0.31 K on the global mean. The sunlight mirrors do that
 job. The numbers come from `sim/night.py` and `tests/test_night.py`, not the saved run.
 
+## The asteroid belt
+
+The numbers here come from `sim/scenarios/small_asteroids.py` (`results/small_asteroids.json`), which scales the
+journey's tracked belt passes down in size with JWST's count of small main-belt asteroids (Burdanov et al. 2024).
+Each range takes every low end, or every high end, at once.
+
+**Won't small, dark asteroids hit Earth?**
+Without defence, yes, often. Parked at 2.7 AU, Earth would meet a rock of 20 m or more about 8 times a year (1 to
+40), one of 100 m or more once every 9 years, and one of 1 km once every 87. At 11.6 km/s a 20 m rock carries
+0.13 Mt, a quarter of Chelyabinsk's. A fleet of NEO Surveyor-class infrared telescopes (today's technology) sees a
+dark 20 m rock 2.7 to 3.8 million km out, 10 to 15 days before it would arrive, and a 100 m one 14 to 19 million km
+out, 7 to 10 weeks. E1 then pushes each one aside with the light it absorbs, while it is still beyond 840,000 km, so
+the beam (up to 30 degrees off the Sun line) stays 420,000 km from Earth. A 20 m rock needs 82 m/s: 1.6 x 10^23 W for
+a day, even if E1's spot is as wide as the tow mirror. That is 2% of E1's spare power. It is inside E1's declared
+role (it nudges dangerous asteroids), so nothing new is declared.
+
+**Why not park in a Kirkwood gap?**
+The gaps are gaps in orbit size, not in space. Among 20,000 real orbits, sizes near 2.50 AU are only 4% as common as
+near 2.70 AU, but asteroids on other orbits cross 2.50 AU all the time. Earth parked there would meet 0.75 times as
+many asteroids as at 2.70 AU; at 2.82 AU 1.05 times, and at 2.95 AU 0.77 times. A quarter fewer is not worth
+leaving the brief's 2.7 AU. The gaps are Jupiter's resonances, which is why they are empty. The survey and E1 do the
+job instead.
+
+**What happens to Mars, its moons and our Moon in the belt?**
+Craters only. Scaled by size and gravity focusing at the same encounter speed, the Moon gets 0.9% of Earth's hits (a
+20 m rock once every 14 years, 1 km once every 9,300 years). Mars gets 7%, an upper bound because its outer belt is
+sparser. Phobos and Deimos get almost none. Breaking Phobos up takes a 2.2 km rock (Benz & Asphaug 1999), which comes
+once in 450 million years; Deimos takes a 0.9 km rock, once in 870 million years. Breaking the Moon up takes 20
+times the whole belt's mass hitting it (Stewart & Leinhardt 2009; at least 6 times even if every joule went into
+it), and Mars 360 times.
+
+**Won't all those mirrors make space debris?**
+Some, and it stays small. Dust punches holes in the mirror film: 3.3 x 10^-7 of each face a year. On 8.5 x 10^8 km^2
+of sunlight mirrors (about 85,000 satellites of 100 km x 100 km) that is 570 km^2 of film a year, about 5,700
+tonnes, mostly vapour and droplets. Sunlight blows droplets under 0.57 um out of the solar system. A loose flake of
+5 um film feels sunlight's push at 15% of the Sun's pull, so it drifts off the fleet's orbit rather than staying among
+the mirrors. Thin film does not shatter: a hit, even by one of the 2,600 rocks of 1 m or more that cross the mirrors
+each year, makes a hole, not a cloud of fragments, so there is no chain reaction of collisions (Kessler syndrome).
+What keeps it that way:
+- rip-stop film, as on solar sails, so a hole does not spread;
+- E3 patching and recycling 570 km^2 of film a year (7 x 10^-7 of the fleet), inside its manufacturing role;
+- mirrors placed well away from the orbits today's satellites use;
+- E1 pushing rocks aside whole, never breaking them up;
+- the same infrared survey tracking anything large that breaks loose.
+
 ## Numerics and honesty
 
 **How do you know the result is not tuned?**

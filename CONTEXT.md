@@ -62,7 +62,7 @@ Anything new (e.g. Moon reflectors) must fit inside an existing bound. Moon refl
 | Path | Holds |
 | --- | --- |
 | `config.yaml` | Every setting and limit, with sources. **Numbers live here only.** |
-| `sim/` | Python model (uv, Python 3.12, numpy, rebound, pyyaml). `integrator.py` gravity and steppers; `forces.py` tow and beam; `ledger.py` momentum; `habitability.py` sunlight, mirrors, climate; `night.py` moonlight and Moon reflectors; `checks/` safety and structures every 100 days; `scenarios/` journey (`tow.py`), moon, longterm, parking, outage, crossing, octo, swap (Plan S study); `viewer_data.py` turns `results/` into `viewer/public/data/` |
+| `sim/` | Python model (uv, Python 3.12, numpy, rebound, pyyaml). `integrator.py` gravity and steppers; `forces.py` tow and beam; `ledger.py` momentum; `habitability.py` sunlight, mirrors, climate; `night.py` moonlight and Moon reflectors; `checks/` safety and structures every 100 days; `scenarios/` journey (`tow.py`), moon, longterm, parking, outage, crossing, octo, swap (Plan S study), small_asteroids (rocks under 1 km, #30); `viewer_data.py` turns `results/` into `viewer/public/data/` |
 | `results/` | The final run's outputs. `run.json` has one frame per 10 years with positions of **only Earth, Mars, Jupiter and the Earth tow asteroid** |
 | `viewer/` | 3D test bench (Vite 6, Three.js 0.170, plain JS). **Replays saved runs; the official numbers are not computed in the browser.** Published to GitHub Pages from `main` (`.github/workflows/pages.yml`). `src/main.js` wiring and keys; `src/scene.js` 3D views incl. top view and close-ups, `noStage` fallback without WebGL; `src/studio.js` Blender-style panels (Scene tab, Model, Data, the million-years explainer); `src/estimates.js` values derived from the run (year length, Sun size, tides, light time) and the Moon reflectors (port of `night.py`); `src/bodies.js` positions of every body (run or Kepler); `src/panels.js` the nine results tabs; `src/data.js` loading and interpolation |
 | `viewer/scripts/video.mjs` | Renders the demo video through `?capture` mode and `window.bench` (run, view, tab, time, scale, orbit, caption, frame). **Keep that API working.** |
@@ -77,6 +77,7 @@ uv run python -m sim.benchmarks           # ten official benchmarks, ~12 s
 uv run pytest -m "not slow" -v            # quick tests (run on every PR)
 uv run python -m sim.scenarios.tow --out results   # full journey, about 1.5 hours
 uv run python -m sim.scenarios.swap       # Plan S: Earth-Mars crossing, 12 starts (a few minutes)
+uv run python -m sim.scenarios.small_asteroids   # rocks under 1 km at 2.7 AU (#30), a second
 uv run python -m sim.viewer_data          # results/ -> viewer/public/data/
 cd viewer && npm ci && npm run dev        # test bench locally
 ```
@@ -178,6 +179,9 @@ while Earth goes out to 2.7 AU. Tows modelled as their pull on the planet (G m /
 | 25 Oct | Model panel keeps experiments, time meters, concept and enablers only; reflector numbers stay at fixed defaults (satellites follow the run, Moon reflectors restore today's full Moon) | User: no need for the sliders |
 | 25 Oct | CONTEXT.md is updated for notable changes only, in the same PR; no machine-specific setup in it | Ashish's review: every PR editing it would conflict, and local paths or accounts would mislead other machines |
 | 25 Oct | Octo-Earth drawn and audited as the company's demo draws it (experiment R: 24 jointed segments curling 72° round the globe to a claw 4,600 km up, alternate arms north and south), ring on the equator; its labels give both the curled arm's failure and the standing arm's buckling | Akhil (#27): the demo is what the company expects, "this or closest to it"; the curled arm fails sooner than the standing one buckles |
+| 25 Oct | Rocks under 1 km (#30): rates as low / central / high with JWST's slope errors and the 1 km population's together; a whole-sky fleet of NEO Surveyor-class telescopes rated at 280 uJy; Grün's 1 AU dust flux unscaled; rocks 2,000 kg/m3 (1,200 to 3,300) | Akhil's choices (the recommended options); each errs toward more hits, later sightings and more wear |
+| 25 Oct | E1 answers small rocks by pushing them whole (light they absorb, spot as wide as the tow mirror), never by breaking them | Inside E1's declared role; no fragments, no debris; 2% of its spare power |
+| 25 Oct | Space debris from the mirror fleet handled by thin rip-stop film, E3 recycling and placement away from today's satellites | Akhil asked; hits make holes and vapour, not fragments |
 
 ## 9. Important prompts (condensed)
 
@@ -201,6 +205,9 @@ while Earth goes out to 2.7 AU. Tows modelled as their pull on the planet (G m /
 - **25 Oct, P11 (Akhil, #27):** Make the Octo-Earth view match the company's demo (octo-earth-simulator.vercel.app),
   "this or closest to it"; labels show both the curled and the standing numbers; ring on the equator; report figure
   and a new column in its table.
+- **25 Oct, P12 (Akhil, #30):** Re-render the demo video here, and work on Ashish's new issue: small asteroids at
+  2.7 AU (impacts, infrared survey, E1's response, mirror wear, Mars and the Moons). Also: with so many satellites
+  and mirrors, won't there be space debris, and how is it handled efficiently?
 
 ## 10. What can be delivered next
 
@@ -254,3 +261,9 @@ Ideas, not started:
   safety factor 0.012 at 12,000 km. Test X8 checks the shape, the net force and the curled failure. `scene.js` draws
   the ring band, the jointed arms with collars and three-fingered claws; report figure, table and docs updated.
   Demo video re-rendered (all 3,500 frames) with the new Octo-Earth shot and caption.
+- 25 Oct: Small asteroids at 2.7 AU (#30, Akhil): `sim/scenarios/small_asteroids.py` post-processes the run's belt
+  passes with JWST's size distribution (`config.yaml` `small_asteroids`, sources there). Parked, undefended: 20 m and
+  up about 8 a year (1 to 40), 100 m once per 9 years; seen 10 to 15 days out (20 m) by NEO Surveyor-class telescopes;
+  E1 pushes each with 1.6e23 W for a day (2% of its spare). Wear: E3 replaces 570 km2 of sunlight mirror a year;
+  debris 5,700 t of film a year, mostly vapour. Moon, Mars, Phobos, Deimos: craters only. Kirkwood gaps: 0.75 to 1.05
+  of the encounters at 2.7 AU. Tests in `tests/test_small_asteroids.py`. Stacked on PR #29.
