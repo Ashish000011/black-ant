@@ -1,6 +1,9 @@
 // Needs playwright-core and Chrome: npm i --no-save playwright-core@1.49.1, then node scripts/video.mjs http://localhost:5173/ frames
 // Without Chrome it uses Playwright's own Chromium (npx playwright-core install chromium-headless-shell).
 // Renders the demo video frame by frame from the test bench in ?capture mode: node video.mjs <url> <frames dir>
+// Start the test bench first (cd viewer && npm run dev); about 15 minutes with software WebGL. Then join the frames:
+// ffmpeg -framerate 25 -i frames/%05d.jpg -vf scale=1600:900:flags=lanczos -c:v libx264 -preset slow -crf 29
+//   -pix_fmt yuv420p -movflags +faststart ../media/black-ant-demo.mp4
 import { chromium } from "playwright-core";
 import { mkdirSync } from "node:fs";
 

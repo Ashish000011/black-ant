@@ -2,7 +2,7 @@
 # The rules are our own stand-ins until the organisers publish section 7, the safety appendix
 # and the benchmarks. Each section names the team member who owns it.
 
-run:                       # Member 1 (physics core)
+run:                       # physics core
   years: 10000             # stop after this many years even if not arrived
   dt_days: 1.0             # step size; 1 day matches 0.5 days to within a year of arrival
   check_every_steps: 100   # how often stats, arrival and frames are checked
@@ -86,7 +86,7 @@ arrival_trim:                  # sim/secular.py: Earth arrives with the orbit sh
   s6_arcsec_per_year: -26.3302               # Jupiter-Saturn plane mode (Laskar 1990)
   # Mars's tow does not trim: any weakening of its pull near Jupiter's 2:1 resonance lets the resonance catch it.
 
-moon:                          # Member 1 runs these; Member 2 owns the verdict
+moon:                          # the Moon test (sim/scenarios/moon.py)
   earth_mass_kg: 5.9722e24     # Earth alone (the long run gives Earth the Moon's mass too)
   mass_kg: 7.342e22
   a_km: 384400                 # average distance
@@ -99,7 +99,7 @@ beam:
   earth_clearance_km: 420000   # no beam closer to Earth: beyond the Moon's farthest point (406,700 km)
   route_angles_deg: [0, 5, -5, 10, -10, 15, -15, 20, -20, 30, -30]  # how far off the Sun line light may arrive
 
-enablers:                      # Member 3 (structures and enablers)
+enablers:                      # structures and enablers
   e1_beam_limit_w: 1.0e26
   e2_absorbed_fraction: 1.0e-7
   e2_strength_pa: 1.0e11
@@ -114,13 +114,13 @@ enablers:                      # Member 3 (structures and enablers)
     E2: "Super-mirror material: absorbs 1e-7 of light, 100 GPa strength, up to 1,500 K"
     E3: "Planet-scale space manufacturing: places the asteroids and builds the tow and sunlight mirrors"
 
-structures:                    # Member 3; design sizes the checks test against
+structures:                    # design sizes the checks test against
   # Sized for the most the beam can ever push (2P/c at 1e26 W) with a 1.5 safety factor, so recovery is covered too.
   earth-tow: {cable_cross_section_km2: 10.5, anchor_area_km2: 10500, mirror_radius_km: 2600, asteroid_density_kg_m3: 2500}
   mars-tow:  {cable_cross_section_km2: 4.2,  anchor_area_km2: 4200,  mirror_radius_km: 1650, asteroid_density_kg_m3: 2500}
   rock_strength_pa: 1.0e8
 
-safety:                        # Member 2 (safety and environment)
+safety:                        # safety and environment
   # The ten Earth-safety thresholds of the company's reference demo (octo-earth-simulator.vercel.app, Safety
   # thresholds panel and Earth safety tab), adopted until the rulebook appendix says otherwise:
   temperature_min_k: 263
@@ -146,14 +146,14 @@ safety:                        # Member 2 (safety and environment)
   energy_error_max_of_total: 1.0e-5     # numerical integrity of the ledger
   momentum_error_max: 1.0e-9
 
-habitability:                  # Member 2; sim/habitability.py. Computed along the journey, not assumed
+habitability:                  # sim/habitability.py. Computed along the journey, not assumed
   mirror_batch_years: 25       # E3 builds sunlight mirrors in batches sized for the orbit at each batch's end
   mirror_reflectivity: 0.95
   magnetopause_today_re: 10.0  # the magnetopause sits about 10 Earth radii sunward today
   earth_mass_with_moon_kg: 6.04562e24
   surface_pressure_kpa: 101.325   # nothing in our design removes air; Jeans escape is checked separately
 
-night:                         # Member 2; sim/night.py and the test bench's live estimates (not in the saved run)
+night:                         # sim/night.py and the test bench's live estimates (not in the saved run)
   # The Moon moves with Earth, so full-Moon light falls as 1/r^2 too: 13.7% of today's at 2.7 AU. Moon reflectors
   # (flat mirrors on the near side, built under E3's 1e9 km2 mirror bound) send sunlight to Earth's night side.
   full_moon_lux_today: 0.25    # a full Moon high in a clear sky (commonly quoted 0.05 to 0.3 lux)
@@ -169,7 +169,7 @@ arrival:                       # from the brief, plus our eccentricity limit
   max_eccentricity: 0.05       # Earth's own eccentricity swings from about 0 to 0.07 (NASA Earth Observatory)
   max_years: 10000
 
-longterm:                      # Member 1 runs it; after arrival, tows gone (sim/scenarios/longterm.py)
+longterm:                      # after arrival, tows gone (sim/scenarios/longterm.py)
   years: 1.0e6
   dt_days: 5                   # 1/45 of Venus's year; MERCURIUS switches to small steps in close passes
   sample_years: 100            # how often orbits are recorded

@@ -21,16 +21,19 @@ All of these are required to win:
 | Winning condition | What it means in practice |
 | --- | --- |
 | Earth reaches its target orbit | Within 10,000 simulated years |
-| Earth stays safe | Every threshold in the rulebook appendix holds for the whole run |
+| Earth stays safe | Every threshold in the rulebook appendix holds for the whole run (we use the ten thresholds below) |
 | The structure survives | Every structural safety factor stays at or above 1.5 |
-| The code is validated | Every applicable benchmark passes |
+| The code is validated | Every applicable benchmark passes (the guide's ten official benchmarks) |
 | The physics is honest | Every force booked with its reaction; energy and momentum conserved |
 | No unresolved flags | Only flags caused by your declared hypothetical enablers are allowed |
 
 Teams may declare up to three **hypothetical enablers** (section 7 of the rulebook). Entries that
 honestly show their concept failing are still scored and can win other awards.
 
-## What we have, and what we still lack
+## Where the rules come from
+
+Six winning conditions, above. Two of them are checked by ten items each: "Earth stays safe" by ten safety
+thresholds, and "the code is validated" by ten official benchmarks.
 
 - **The participant guide** (Planetary Propulsion Hackathon, 24 to 26 October): the ten official benchmarks
   (all pass: `uv run python -m sim.benchmarks`), the enabler rules (declared in writing at the mid-point
@@ -38,9 +41,10 @@ honestly show their concept failing are still scored and can win other awards.
 - **Team size:** the guide says 2 to 4; the organisers later allowed 5.
 - **The company's reference demo**, [octo-earth-simulator.vercel.app](https://octo-earth-simulator.vercel.app)
   ("what the company expects"; they call it about 30% successful). Its Safety thresholds panel and Earth safety
-  tab give ten Earth-safety thresholds, which we adopt: global mean temperature 263 to 308 K; liquid water on at
+  tab give ten Earth-safety thresholds, which we adopt (temperature has a lower and an upper limit, so nine checks
+  carry ten numbers): global mean temperature 263 to 308 K; liquid water on at
   least 30% of the surface; absorbed sunlight under the runaway-greenhouse limit (282 W/m2); surface pressure at
   least 50 kPa; N2 kept (Jeans lambda over 30); magnetopause at least 3 Earth radii; day length changed by at
   most 1 s; the Moon inside 0.49 of Earth's Hill radius; thrust under 0.01 of Earth's pull on the Moon.
-- **Still missing:** the rulebook itself. If its appendix differs from the demo's thresholds, the owner changes the
-  number in [`config.yaml`](../config.yaml) and the journey is re-run; nothing else has to change.
+- **The rulebook's appendix** was not published while we built this. If its thresholds differ from the demo's,
+  change the numbers in [`config.yaml`](../config.yaml) and re-run the journey; nothing else has to change.

@@ -46,15 +46,8 @@ thresholds come from the company's reference demo (see the last section).
 | Runnable simulation | The Python model, and the test bench on GitHub Pages (`viewer/`) |
 | Technical report, at most 8 pages | Drafted as a shared document; exported to PDF for submission |
 | Conservation and momentum record | `docs/momentum-record.md` |
-| Demo video, at most 3 minutes | 2 minutes 20 seconds; script in `docs/video-script.md` |
+| Demo video, at most 3 minutes | 2 minutes 20 seconds, `media/black-ant-demo.mp4` |
 | Pitch deck: 7 minutes, then 5 of questions | Deck drafted; answers in `docs/qa.md` |
 
 Judging: physical correctness 30, validation and numerical rigour 20, scientific honesty 15, depth 15,
 visualisation and usability 10, presentation and questions 10, energy bonus up to 10 more.
-
-## Questions for the organisers
-
-1. The rulebook's safety appendix: are its thresholds the ten in the company's demo? If not, which numbers?
-2. Is a team of five confirmed in writing? (The guide says 2 to 4; we were told 5 is allowed.)
-3. Does "access to an asteroid of stated mass" cover two asteroids (one for Earth, one for Mars) under one enabler?
-4. Is a web link to the test bench enough as the runnable simulation, or must we also demo from a laptop?

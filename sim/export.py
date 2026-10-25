@@ -19,6 +19,6 @@ def write_outputs(summary: dict, frames: list[dict], out_dir: Path | str | None 
     if end_state is not None:
         (out / "end_state.json").write_text(json.dumps(end_state), encoding="utf-8")
     viewer = ROOT / "viewer" / "public"
-    if viewer.is_dir():  # once Member 4's viewer exists, keep its copy current
+    if viewer.is_dir():  # keep the test bench's copy current
         (viewer / "run.json").write_text(json.dumps(run), encoding="utf-8")
     return out
